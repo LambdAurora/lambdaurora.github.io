@@ -3,7 +3,7 @@
   <groupId>com.lambdaurora</groupId>
   <artifactId>minelambdapi-forge</artifactId>
   <versioning>
-    <release>1.12.2-1.2.1</release>
+    <release>1.12.2-1.2.2</release>
     <versions>
       <version>1.0.0.112</version>
       <version>1.12.2-1.0.1</version>
@@ -21,7 +21,8 @@
       <version>1.12.2-1.1.7</version>
       <version>1.12.2-1.2.0</version>
       <version>1.12.2-1.2.1</version>
+      <version>1.12.2-1.2.2</version>
     </versions>
-    <lastUpdated>20171118064216</lastUpdated>
+    <lastUpdated>20171118203957</lastUpdated>
   </versioning>
 </metadata>
