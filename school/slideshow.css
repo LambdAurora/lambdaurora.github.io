@@ -1,0 +1,26 @@
+.slideshow {
+  display: none;
+  height: 100vh;
+}
+
+.slideshow-element {
+/*  border-style: solid;
+  border-width: medium;
+  border-radius: 5px;
+  padding: 10px;*/
+  text-indent: 50px;
+  background-color: rgba(225, 225, 225, 10);
+}
+
+.slideshow-video {
+  text-align: center;
+}
+
+.slideshow-title {
+  padding-top: 50px;
+  font-size: 250%;
+}
+
+.slideshow-text {
+  font-size: 150%;
+}
