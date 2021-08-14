@@ -1,0 +1,54 @@
+body {
+    color: #444;
+
+    --peaking_fox_delay: 0s;
+}
+
+/* Fox peaking animations */
+
+@keyframes fox_peak_left {
+    0% {left: -64px; opacity: 100%;}
+    100% {left: 0px; opacity: 100%;}
+}
+
+@keyframes fox_peak_top {
+    0% {top: -64px; opacity: 100%;}
+    100% {top: 0px; opacity: 100%;}
+}
+
+@keyframes fox_peak_right {
+    0% {right: -64px; opacity: 100%;}
+    100% {right: 0px; opacity: 100%;}
+}
+
+@keyframes fox_peak_bottom {
+    0% {bottom: -64px; opacity: 100%;}
+    100% {bottom: 0px; opacity: 100%;}
+}
+
+.peaking_fox_left {
+    position: fixed;
+    opacity: 0;
+    transform: rotate(90deg);
+    animation: fox_peak_left var(--peaking_fox_duration, 5s) ease-in-out var(--peaking_fox_delay, 0s) infinite alternate;
+}
+
+.peaking_fox_top {
+    position: fixed;
+    opacity: 0;
+    transform: rotate(180deg);
+    animation: fox_peak_top var(--peaking_fox_duration, 5s) ease-in-out var(--peaking_fox_delay, 0s) infinite alternate;
+}
+
+.peaking_fox_right {
+    position: fixed;
+    opacity: 0;
+    transform: rotate(270deg);
+    animation: fox_peak_right var(--peaking_fox_duration, 5s) ease-in-out var(--peaking_fox_delay, 0s) infinite alternate;
+}
+
+.peaking_fox_bottom {
+    position: fixed;
+    opacity: 0;
+    animation: fox_peak_bottom var(--peaking_fox_duration, 5s) ease-in-out var(--peaking_fox_delay, 0s) infinite alternate;
+}
