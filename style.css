@@ -1,7 +1,7 @@
 /* Basics */
 
 html {
-    --ls-theme-primary: #ffa000;
+    --ls-theme-primary: #f90;
     --peeking_fox_delay: 0s;
 }
 
@@ -120,7 +120,7 @@ a {
 
 .ls-btn[ls-variant="contained"], .ls-btn[ls-variant="fab"] {
     --ls-ripple-fg-opacity: 0.32;
-    background-color: var(--ls-theme-primary, #ffa000);
+    background-color: var(--ls-theme-primary);
     color: var(--ls-theme-on-primary, #ffffff);
     transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
 }
