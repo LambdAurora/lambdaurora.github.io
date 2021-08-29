@@ -6,7 +6,7 @@ html {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-family: -apple-system, system-ui, sans-serif;
     display: flex;
     min-height: 100vh;
     height: 100%;
