@@ -1,8 +1,19 @@
 /* Basics */
 
-html {
+:root {
     --ls-theme-primary: #f90;
+    --ls-theme-foreground: #444;
+    --ls-theme-background: #fff;
+    --ls-theme-border-color: #777;
+
     --peeking_fox_delay: 0s;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --ls-theme-foreground: #fff;
+        --ls-theme-background: #222;
+    }
 }
 
 body {
@@ -12,14 +23,8 @@ body {
     height: 100%;
     margin: 0;
 
-    color: #444;
-}
-
-@media (prefers-color-scheme: dark) {
-    body {
-        color: #fff;
-        background-color: #222;
-    }
+    color: var(--ls-theme-foreground);
+    background-color: var(--ls-theme-background);
 }
 
 main {
