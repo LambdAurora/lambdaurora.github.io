@@ -23,6 +23,8 @@
 	--ls_theme_background_accentuated: #f8f8f8;
 	--ls_theme_border_color: #777;
 
+	color-scheme: light;
+
 	--peeking_fox_delay: 0s;
 }
 
@@ -33,6 +35,8 @@
 
 		--ls_theme_foreground_accentuated: #bdbdbd;
 		--ls_theme_background_accentuated: #1f1f1f;
+
+		color-scheme: dark;
 	}
 }
 
