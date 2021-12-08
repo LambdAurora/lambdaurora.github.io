@@ -56,7 +56,6 @@ main {
 	margin: 40px auto;
 	padding: 0 10px;
 	max-width: 850px;
-	width: 100%;
 }
 
 a {
@@ -106,6 +105,10 @@ a {
 	height: 1px;
 	overflow: hidden;
 	background-color: #e0e0e0;
+}
+
+.ls_container, .ls_app_footer, .ls_app_footer > .ls_app_footer_license {
+	width: 100%;
 }
 
 /* Images */
@@ -232,7 +235,6 @@ blockquote > .ls_source::before {
 	display: flex;
 	flex-wrap: wrap;
 	align-items: center;
-	width: 100%;
 
 	background-color: var(--ls_theme_background_accentuated);
 	color: #fff;
@@ -241,7 +243,6 @@ blockquote > .ls_source::before {
 .ls_app_footer > .ls_app_footer_license {
 	display: flex;
 	justify-content: space-between;
-	width: 100%;
 	padding: 8px;
 
 	color: var(--ls_theme_foreground_accentuated);
