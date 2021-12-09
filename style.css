@@ -21,6 +21,9 @@
 
 	--ls_theme_foreground_accentuated: #4d4d4d;
 	--ls_theme_background_accentuated: #f8f8f8;
+	--ls_theme_background_highlight: #fff;
+	--ls_theme_background_popover: var(--ls_theme_background_accentuated);
+
 	--ls_theme_border_color: #777;
 
 	color-scheme: light;
@@ -31,10 +34,12 @@
 @media (prefers-color-scheme: dark) {
 	:root {
 		--ls_theme_foreground: #fff;
-		--ls_theme_background: #222;
+		--ls_theme_background: #242424;
 
 		--ls_theme_foreground_accentuated: #bdbdbd;
-		--ls_theme_background_accentuated: #1f1f1f;
+		--ls_theme_background_accentuated: #222;
+		--ls_theme_background_highlight: #282828;
+		--ls_theme_background_popover: #2d2d2d;
 
 		color-scheme: dark;
 	}
