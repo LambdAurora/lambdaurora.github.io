@@ -19,10 +19,18 @@
 		<link rel="stylesheet" type="text/css" href="/style.css">
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/prismjs@1.26.0/themes/prism-tomorrow.min.css" />
 		<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/prismjs@1.26.0/plugins/toolbar/prism-toolbar.min.css" />
+
+		<style>
+			@media (max-width: 850px) {
+				pre {
+					max-width: calc(100vw - 20px - 2em);
+				}
+			}
+		</style>
 	</head>
 	<body>
 		<header class="center">
-			<h1><b>Q</b>uilt <b>I</b>mport <b>U</b>tility</h1>
+			<h1>Quilt Import Utility</h1>
 		</header>
 		<main>
 			<p id="loading_indicator">Loading versions...</p>
