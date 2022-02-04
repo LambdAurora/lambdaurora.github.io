@@ -1,7 +1,7 @@
 /*
  * lambdaurora.dev stylesheet - A simple stylesheet.
  *
- * Written in 2021 by LambdAurora <aurora42lambda@gmail.com>
+ * Written in 2022 by LambdAurora <email@lambdaurora.dev>
  *
  * To the extent possible under law, the author(s) have dedicated
  * all copyright and related and neighboring rights to this software
@@ -13,34 +13,19 @@
 
 /* Basics */
 
+@use "colors_light";
+@use "button";
+
 :root {
-	--ls_theme_primary: #f90;
-	--ls_theme_on_primary: #fff;
-	--ls_theme_foreground: #444;
-	--ls_theme_background: #fff;
-
-	--ls_theme_foreground_accentuated: #4d4d4d;
-	--ls_theme_background_accentuated: #f8f8f8;
-	--ls_theme_background_highlight: #fff;
-	--ls_theme_background_popover: var(--ls_theme_background_accentuated);
-
-	--ls_theme_border_color: #777;
-
 	color-scheme: light;
 
 	--peeking_fox_delay: 0s;
 }
 
 @media (prefers-color-scheme: dark) {
+	@import "colors_dark";
+
 	:root {
-		--ls_theme_foreground: #fff;
-		--ls_theme_background: #242424;
-
-		--ls_theme_foreground_accentuated: #bdbdbd;
-		--ls_theme_background_accentuated: #222;
-		--ls_theme_background_highlight: #282828;
-		--ls_theme_background_popover: #2d2d2d;
-
 		color-scheme: dark;
 	}
 }
@@ -144,98 +129,6 @@ blockquote > .ls_source {
 blockquote > .ls_source::before {
 	content: "\2014 \00A0";
 }
-
-/*
- * Buttons
- */
-
-.ls_btn {
-	display: inline-flex;
-	position: relative;
-	align-items: center;
-	justify-content: center;
-	min-width: 64px;
-	height: 36px;
-	box-sizing: border-box;
-	border: none;
-	border-radius: 4px;
-	overflow: hidden;
-	outline: none;
-
-	font-family: Roboto, sans-serif;
-	font-size: 14px;
-	font-weight: 500;
-	letter-spacing: .05929em;
-	text-decoration: none;
-	text-transform: uppercase;
-	white-space: nowrap;
-	color: var(--ls_theme_primary);
-	background-color: transparent;
-
-	padding: 0 16px;
-	margin: 6px 8px;
-
-	cursor: pointer;
-}
-
-.ls_btn::before {
-	content: '';
-}
-
-.ls_btn::before {
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
-	width: 100%;
-	opacity: 0;
-	transition: opacity .2s ease-out, background-color .2s ease-out;
-}
-
-.ls_btn::after, .ls_btn::before {
-	background-color: var(--ls_theme_primary);
-}
-
-.ls_btn:hover::before {
-	opacity: .04;
-}
-
-/*
- * Button variants
- */
-
-.ls_btn[ls_variant="contained"], .ls_btn[ls_variant="fab"] {
-	--ls_ripple_fg_opacity: 0.32;
-	background-color: var(--ls_theme_primary);
-	color: var(--ls_theme_on_primary);
-	transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
-}
-
-.ls_btn[ls_variant="contained"][disabled], .ls_btn[ls_variant="fab"][disabled] {
-	color: rgba(0, 0, 0, .37);
-	background-color: rgba(0, 0, 0, .12);
-	box-shadow: none !important;
-}
-
-.ls_btn[ls_variant="contained"]::after, .ls_btn[ls_variant="contained"]::before, .ls_btn[ls_variant="fab"]::after, .ls_btn[ls_variant="fab"]::before {
-	background-color: var(--ls_theme_on_primary);
-}
-
-.ls_btn[ls_variant="contained"]:hover:before, .ls_btn[ls_variant="fab"]:hover:before {
-	opacity: .2;
-}
-
-.ls_btn[ls_variant="contained"]:active:before, .ls_btn[ls_variant="fab"]:active:before {
-	opacity: .4;
-}
-
-.ls_btn[disabled] {
-	pointer-events: none;
-	cursor: default;
-	box-shadow: none;
-	color: rgba(0, 0, 0, .37);
-}
-
 
 /*
  * Footer

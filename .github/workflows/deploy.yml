@@ -1,0 +1,30 @@
+name: 'Deploy'
+
+on: [ push ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@master
+      - name: 'Setup Deno'
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: 'Install Dart SASS'
+        run: |
+          npm install -g sass
+
+      - name: 'Build with Deno'
+        run: |
+          ./build.sh
+      - name: 'Deploy Github Pages'
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: rendered
+          folder: build/deploy
