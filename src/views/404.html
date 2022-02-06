@@ -1,0 +1,34 @@
+<html>
+<body style="font-size: large;">
+	<main>
+		<p class="center">
+			There's nothing, but foxes. I think?
+			<br/>
+			🦊
+		</p>
+		<div style="display: flex; justify-content: center; margin: 2em 0;">
+			<a href="/" class="ls_btn" ls_variant="contained">Go Back to Main Page</a>
+		</div>
+	</main>
+
+	<!-- Peeking foxes from every sides of the screen. -->
+	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 2s; top: 80%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_top" aria-hidden="true" style="--peeking_fox_delay: 0s; --peeking_fox_duration: 3s; left: 75%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_bottom" aria-hidden="true" style="--peeking_fox_delay: 15s; left: 30%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 6s; --peeking_fox_duration: 6s; top: 20%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 30s; --peeking_fox_duration: 8s; top: 15%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 40s; --peeking_fox_duration: 4s; top: 65%;" />
+</body>
+
+<script type="module">
+const title = "404 Not Found";
+
+export const page = {
+	title: `LambdAurora - ${title}`,
+	description: "I don't think there's anything there.",
+	embed: {
+		title: title
+	}
+};
+</script>
+</html>
