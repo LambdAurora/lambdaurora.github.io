@@ -92,6 +92,7 @@
 
 		Prism.highlightAll();
 
+		const QUILT_META = "https://meta.quiltmc.org/v3";
 		const QUILT_RELEASE_MAVEN = "https://maven.quiltmc.org/repository/release/";
 		const QUILT_SNAPSHOT_MAVEN = "https://maven.quiltmc.org/repository/snapshot/";
 		const QSL_GROUP = "org.quiltmc.qsl";
@@ -122,6 +123,16 @@
 			return split[0] + "." + split[1];
 		}
 
+		function fetch_json(url) {
+			return fetch(url).then(response => response.json())
+				.catch(error => {
+					console.error(`Failed to fetch ${url}:`);
+					console.error(error);
+					loading_indicator.classList.add("hide");
+					error_indicator.textContent = error;
+				});
+		}
+
 		function fetch_xml(url) {
 			return fetch(url).then(response => response.text())
 				.then(data => {
@@ -138,41 +149,21 @@
 
 		// Load versions, we consider quilt mappings as the authority.
 		async function load_versions() {
-			const versions = [];
+			const versions = (await fetch_json(QUILT_META + "/versions/game"))
+				.map(version => { return { mc: version.version, build: -1 }; });
 
-			await fetch_xml(QUILT_RELEASE_MAVEN + "org/quiltmc/quilt-mappings/maven-metadata.xml")
-				.then(xml => {
-					let xml_versions = xml.querySelector("versions");
-					for (const version of xml_versions.children) {
-						const version_name = version.textContent;
-						const split_data = version_name.split("+");
+			await fetch_json(QUILT_META + "/versions/quilt-mappings")
+				.then(data => {
+					for (const version of versions) {
+						const qm_version = data.find(v => v.gameVersion === version.mc);
 
-						if (split_data.length !== 2) {
-							console.log(`Invalid version: ${version_name}.`);
-							continue;
-						}
-
-						const mc_version = split_data[0];
-						const build = split_data[1];
-
-						let found = false;
-						for (let i = 0; i < versions.length; i++) {
-							if (versions[i].mc === mc_version) {
-								versions[i].build = build;
-								found = true;
-								break;
-							}
-						}
-
-						if (!found) {
-							versions.push({mc: mc_version, build: build});
+						if (qm_version) {
+							version.build = qm_version.build;
 						}
 					}
 				});
 
-			for (let i = versions.length - 1; i >= 0; i--) {
-				const version = versions[i];
-
+			for (const version of versions) {
 				const version_option = document.createElement("option");
 				version_option.setAttribute("value", version.mc);
 				version_option.textContent = version.mc;
@@ -291,7 +282,14 @@
 			const qsl_version = await get_qsl_metadata(version);
 
 			// tl;dr
-			let properties = `minecraft_version=${version.mc}\nquilt_mappings=${version.build.split(".")[1]}\n\n# QSL\n`;
+			let properties = `minecraft_version=${version.mc}\n`;
+			if (version.build != -1) {
+				properties += `quilt_mappings=${version.build}\n`;
+			} else {
+				properties += "# No Quilt Mappings is available for this Minecraft version.\n";
+			}
+			
+			properties += "\n# QSL\n";
 
 			if (!qsl_version) {
 				properties += "# No QSL version is available for this Minecraft version.";
@@ -329,7 +327,7 @@
 			qsl_code_block.innerHTML = Prism.highlight(qsl_code, Prism.languages.groovy, "groovy");
 		}
 
-		apply(versions[versions.length - 1]);
+		apply(versions[0]);
 
 		version_selector.addEventListener("change", e => {
 			apply(versions.find(v => v.mc === e.target.value));
