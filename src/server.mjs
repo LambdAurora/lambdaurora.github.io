@@ -94,41 +94,43 @@ async function handle_404(request, path) {
 }
 
 async function handle_raw_file(path, file, language) {
-	const page = await process_page(path, _ => Deno.readAll(file)
-		.then(source => DECODER.decode(source))
-		.then(source => {
-			return html.create_element("html")
-				.with_child(html.create_element("body")
-					.with_child(html.create_element("pre")
-						.with_attr("class", `language-${language}`)
-						.with_child(html.create_element("code")
+	const page = await process_page(path, {
+		load_view: _ => Deno.readAll(file)
+			.then(source => DECODER.decode(source))
+			.then(source => {
+				return html.create_element("html")
+					.with_child(html.create_element("body")
+						.with_child(html.create_element("pre")
 							.with_attr("class", `language-${language}`)
-							.with_child(new html.Text(source, html.TextMode.TEXT))
+							.with_child(html.create_element("code")
+								.with_attr("class", `language-${language}`)
+								.with_child(new html.Text(source, html.TextMode.TEXT))
+							)
 						)
-					)
-					.with_child(html.create_element("script").with_attr("src", get_prism_url("prism.min.js")))
-					.with_child(html.create_element("script").with_attr("src", get_prism_url("components/prism-css-extras.min.js")))
-					.with_child(html.create_element("script").with_attr("src", get_prism_url("components/prism-" + language + ".min.js")))
-					.with_child(html.create_element("script").with_attr("src", get_prism_url("plugins/inline-color/prism-inline-color.min.js")))
-				).with_child(html.create_element("script")
-					.with_child(new html.Text(`
-					const title = "${path}";
+						.with_child(html.create_element("script").with_attr("src", get_prism_url("prism.min.js")))
+						.with_child(html.create_element("script").with_attr("src", get_prism_url("components/prism-css-extras.min.js")))
+						.with_child(html.create_element("script").with_attr("src", get_prism_url("components/prism-" + language + ".min.js")))
+						.with_child(html.create_element("script").with_attr("src", get_prism_url("plugins/inline-color/prism-inline-color.min.js")))
+					).with_child(html.create_element("script")
+						.with_child(new html.Text(`
+						const title = "${path}";
 
-					export const page = {
-						title: title,
-						description: "${language.toUpperCase()} file ${path}.",
-						embed: {
+						export const page = {
 							title: title,
-						}
-					};
-					export const styles = [
-						"${get_prism_url("themes/prism-tomorrow.min.css")}",
-						"${get_prism_url("plugins/inline-color/prism-inline-color.min.css")}"
-					];`, html.TextMode.RAW))
-				).with_child(html.create_element("style")
-					.with_child(new html.Text(`pre[class*="language-"] { margin: 0; }`, html.TextMode.RAW))
-				);
-		})
+							description: "${language.toUpperCase()} file ${path}.",
+							embed: {
+								title: title,
+							}
+						};
+						export const styles = [
+							"${get_prism_url("themes/prism-tomorrow.min.css")}",
+							"${get_prism_url("plugins/inline-color/prism-inline-color.min.css")}"
+						];`, html.TextMode.RAW))
+					).with_child(html.create_element("style")
+						.with_child(new html.Text(`pre[class*="language-"] { margin: 0; }`, html.TextMode.RAW))
+					);
+			})
+		}
 	);
 
 	const response = new Response(`${page[0].html()}\n${page[1].html()}`);
