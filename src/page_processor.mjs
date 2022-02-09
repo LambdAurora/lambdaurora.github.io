@@ -80,6 +80,15 @@ function process_head(page, style, module) {
 		);
 	}
 
+	if (module.page.icons) {
+		if (module.page.icons.favicon) {
+			head.append_child(html.create_element("link")
+				.with_attr("rel", "shortcut icon")
+				.with_attr("href", module.page.icons.favicon)
+			);
+		}
+	}
+
 	if (module.styles) {
 		module.styles.forEach(style_data => {
 			head.append_child(html.create_element("link")
