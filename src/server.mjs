@@ -1,7 +1,7 @@
 import * as server from "https://deno.land/std/http/server.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std/streams/mod.ts";
-import { html } from "https://lambdaurora.dev/lib.md/lib/index.mjs";
+import { html } from "./libmd.mjs";
 
 import { process_page } from "./page_processor.mjs";
 import { DEPLOY_DIR, DECODER } from "./utils.mjs";

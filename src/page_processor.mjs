@@ -1,4 +1,4 @@
-import { html } from "https://lambdaurora.dev/lib.md/lib/index.mjs";
+import { html, utils } from "./libmd.mjs";
 
 import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory } from "./utils.mjs";
 
@@ -101,13 +101,27 @@ function load_view_file(view_path) {
 		.then(source => html.parse(source));
 }
 
-export async function process_page(path, view_loader = load_view_file) {
+const PROCESS_PAGE_SETTINGS = Object.freeze({
+	load_view: load_view_file,
+	load_page_template: load_page_template
+});
+
+/**
+ * Processes a given page.
+ *
+ * @param path the path to the page
+ * @param settings the processing settings
+ * @returns the processed page
+ */
+export async function process_page(path, settings) {
+	settings = utils.merge_objects(PROCESS_PAGE_SETTINGS, settings);
+
 	const view_path = get_view_path(path);
 	const view_script_path = VIEW_SCRIPTS_ROOT + path + ".mjs";
 
 	const results = await Promise.all([
-		load_page_template(),
-		view_loader(view_path)
+		settings.load_page_template(),
+		settings.load_view(view_path)
 			.then(source => Promise.all([
 				create_parent_directory(VIEW_SCRIPTS_ROOT + path)
 					.then(() => Deno.writeFile(view_script_path, ENCODER.encode(source
