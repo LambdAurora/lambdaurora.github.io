@@ -4,12 +4,12 @@
 		<h1>Quilt Import Utility</h1>
 	</header>
 	<main>
-		<p id="loading_indicator">Loading versions...</p>
 		<div>
 			<label for="version_selector">Minecraft Version: </label>
 			<select id="version_selector" name="version_selector" disabled>
 			</select>
 		</div>
+		<p id="loading_indicator">Loading versions...</p>
 		<div id="error_indicator" style="color: #dd3333"></div>
 
 		<div id="tldr">
@@ -116,7 +116,7 @@
 			const split = version.split(".");
 
 			let index;
-			if ((index = split[1].indexOf("-pre")) !== 1 || (index = split[1].indexOf("-rc")) !== -1) {
+			if ((index = split[1].indexOf("-pre")) !== -1 || (index = split[1].indexOf("-rc")) !== -1) {
 				split[1] = split[1].substr(0, index);
 			}
 
@@ -172,7 +172,6 @@
 			}
 
 			version_selector.removeAttribute("disabled");
-			loading_indicator.classList.add("hide");
 
 			return versions;
 		}
@@ -188,6 +187,8 @@
 		}
 
 		async function get_qsl_metadata(version) {
+			version.short_mc = get_mc_version(version.mc);
+
 			function get_version(raw) {
 				const split = raw.split("+");
 
@@ -197,7 +198,7 @@
 
 				split[1] = split[1].replace("-SNAPSHOT", "");
 
-				if (version.mc === split[1]) {
+				if (version.short_mc === split[1]) {
 					return { base: split[0], complete: raw };
 				}
 
@@ -276,9 +277,11 @@
 		}
 
 		const versions = await load_versions();
+		loading_indicator.textContent = "Loading...";
 		const qm_on_loom_version = await get_last_version(QUILT_RELEASE_MAVEN + "org/quiltmc/quilt-mappings-on-loom/maven-metadata.xml");
 
 		async function apply(version) {
+			loading_indicator.classList.remove("hide");
 			const qsl_version = await get_qsl_metadata(version);
 
 			// tl;dr
@@ -315,6 +318,7 @@
 
 			if (!qsl_version) {
 				qsl_code_block.innerHTML = `<span style="color: #d55">QSL is not available for the requested version.</span>`;
+				loading_indicator.classList.add("hide");
 				return;
 			}
 
@@ -325,6 +329,8 @@
 			qsl_code += `\n\t// QSL Library Example\n\tmodImplementation "${QSL_GROUP}:core:${qsl_version.find(v => v.name === "qsl_core").version.complete}"\n`
 			qsl_code += `\n\t// QSL Module Example\n\tmodImplementation "${QSL_GROUP}.core:resource_loader:${qsl_version.find(v => v.name === "qsl_resource_loader").version.complete}"\n}`
 			qsl_code_block.innerHTML = Prism.highlight(qsl_code, Prism.languages.groovy, "groovy");
+
+			loading_indicator.classList.add("hide");
 		}
 
 		apply(versions[0]);
