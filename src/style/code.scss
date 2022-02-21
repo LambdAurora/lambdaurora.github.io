@@ -21,7 +21,7 @@ a code {
 	color: var(--ls_theme_primary);
 }
 
-:not(pre) code {
+:not(pre) > code {
 	border-radius: 6px;
 	padding: .2em .4em;
 }
