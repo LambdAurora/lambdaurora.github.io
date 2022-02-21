@@ -1,5 +1,7 @@
 # C - Pointer Arithmetic
 
+<!--description:Learn about C pointers and their arithmetic.-->
+
 Currently, computers have multiple kind of memories: RAM, CPU caches, HDDs, SSDs, etc.
 
 Most of those memories can be seen as a contiguous array, where each element of the array represents a byte.

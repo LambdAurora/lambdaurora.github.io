@@ -44,7 +44,9 @@ async function process_tutorial(path) {
 				}
 			}
 
-			md.render_to_html(doc, {
+			let page_description = "A tutorial made by LambdAurora";
+
+			main.children = md.render_to_html(doc, {
 				block_code: {
 					highlighter: (code, language, parent) => {
 						if (Prism.languages[language]) {
@@ -57,6 +59,15 @@ async function process_tutorial(path) {
 					}
 				},
 				parent: main
+			}).children.filter(node => {
+				if (node instanceof html.Comment) {
+					if (node.content.startsWith("description:")) {
+						page_description = node.content.substr("description:".length);
+						return false;
+					}
+				}
+
+				return true;
 			});
 
 			function visit_block_code(element) {
@@ -88,6 +99,7 @@ async function process_tutorial(path) {
 
 				export const page = {
 					title: title,
+					description: "${page_description}",
 					embed: {
 						title: title
 					}
