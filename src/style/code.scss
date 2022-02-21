@@ -11,17 +11,17 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-@use "colors";
-
-:root {
-	--ls_theme_foreground: #444;
-	--ls_theme_background: #fff;
- 
-	--ls_theme_foreground_accentuated: #4d4d4d;
-	--ls_theme_background_accentuated: #f8f8f8;
-	--ls_theme_background_highlight: #fff;
-	--ls_theme_background_popover: var(--ls_theme_background_accentuated);
-
-	--ls_theme_background_code: rgba(175, 184, 193, 0.2);
+code {
+	background-color: var(--ls_theme_background_code);
+	font-family: ui-monospace, monospace;
+	font-size: 85%;
 }
- 
+
+a code {
+	color: var(--ls_theme_primary);
+}
+
+:not(pre) code {
+	border-radius: 6px;
+	padding: .2em .4em;
+}

@@ -92,7 +92,18 @@ async function process_tutorial(path) {
 
 			visit_block_code(main);
 
-			view.append_child(body.with_child(main));
+			view.append_child(body.with_child(main)
+				.with_child(html.parse(`<footer class="ls_app_footer">
+					<div class="ls_app_footer_license">
+						<span>
+							Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
+						</span>
+						<span>
+							Except where otherwise noted: &copy; LambdAurora 2022, under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.
+						</span>
+					</div>
+				</footer>`))
+			);
 			view.append_child(html.create_element("script")
 				.with_child(new html.Text(`
 				const title = "${title}";
