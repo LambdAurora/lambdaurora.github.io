@@ -23,7 +23,7 @@ They can point to anything, any kind of addresses. Those addresses may be the ad
 Though, accessing the content that is pointed by some pointers may be disallowed. Programs are allocated a memory space,
 they are only allowed to access to addresses in this space.
 
-## Quick word on memory
+## A quick word about memory
 
 Every programs can allocate memory, but there's two kinds of memory space: the stack and the heap.
 
