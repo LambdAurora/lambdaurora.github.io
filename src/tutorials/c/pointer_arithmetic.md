@@ -65,7 +65,7 @@ But the size of an `int` isn't a single byte!*
 Indeed, it isn't a single byte, in those cases the pointer will point to the beginning of the memory space occupied.
 Since the type of the pointer is `int*` we tell the [C] compiler that we point to a memory address whose content occupies the size in bytes of `int`.
 
-*Wait, why does the type of argv is `char**`, isn't that a pointer?
+*Wait, why does the type of argv is `char**`, isn't that a pointer?*
 
 Yes! It is a pointer to a pointer of a character.  
 Let's see what it exactly means.
