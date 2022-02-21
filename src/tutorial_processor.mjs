@@ -21,7 +21,7 @@ async function get_or_load_language(language) {
 }
 
 async function process_tutorial(path) {
-	const title = path.split("/").splice(0, 1)
+	const title = path.split("/").splice(1)
 		.map(part => part.split("_")
 			.map(word => word.charAt(0).toUpperCase() + word.slice(1))
 			.join(" ")
