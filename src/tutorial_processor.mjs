@@ -28,11 +28,15 @@ async function process_tutorial(path) {
 		)
 		.join(" / ").replace(/^\//, "").replace(/\.md$/, "");
 
+	let page_description = "A tutorial made by LambdAurora";
+
 	return await process_page("/tutorials" + path.replace(/\.md$/, ".html"), {
 		load_view: async function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
+			const main_wrap = html.create_element("div").with_attr("class", "main_wrap");
 			const main = html.create_element("main");
+			main_wrap.append_child(main);
 
 			const doc = await Deno.readFile(TUTORIALS_ROOT + path)
 				.then(content => DECODER.decode(content))
@@ -43,8 +47,6 @@ async function process_tutorial(path) {
 					await get_or_load_language(block.language);
 				}
 			}
-
-			let page_description = "A tutorial made by LambdAurora";
 
 			main.children = md.render_to_html(doc, {
 				block_code: {
@@ -92,7 +94,7 @@ async function process_tutorial(path) {
 
 			visit_block_code(main);
 
-			view.append_child(body.with_child(main)
+			return view.with_child(body.with_child(main_wrap)
 				.with_child(html.parse(`<footer class="ls_app_footer">
 					<div class="ls_app_footer_license">
 						<span>
@@ -104,25 +106,21 @@ async function process_tutorial(path) {
 					</div>
 				</footer>`))
 			);
-			view.append_child(html.create_element("script")
-				.with_child(new html.Text(`
-				const title = "${title}";
-
-				export const page = {
+		},
+		load_script: _ => {
+			return {
+				page: {
 					title: title,
-					description: "${page_description}",
+					description: page_description,
 					embed: {
 						title: title
 					}
-				};
-				export const styles = [
-					"${get_prism_url("themes/prism-tomorrow.min.css")}",
-					"${get_prism_url("plugins/inline-color/prism-inline-color.min.css")}"
-				];`, html.TextMode.RAW)
-				)
-			);
-
-			return view;
+				},
+				styles: [
+					get_prism_url("themes/prism-tomorrow.min.css"),
+					get_prism_url("plugins/inline-color/prism-inline-color.min.css")
+				]
+			};
 		}
 	});
 }

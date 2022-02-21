@@ -110,9 +110,14 @@ function load_view_file(view_path) {
 		.then(source => html.parse(source));
 }
 
+async function load_script(source) {
+	return (new Function(source.get_element_by_tag_name("script").children[0].content))();
+}
+
 const PROCESS_PAGE_SETTINGS = Object.freeze({
 	load_view: load_view_file,
-	load_page_template: load_page_template
+	load_page_template: load_page_template,
+	load_script: load_script
 });
 
 /**
@@ -126,16 +131,12 @@ export async function process_page(path, settings) {
 	settings = utils.merge_objects(PROCESS_PAGE_SETTINGS, settings);
 
 	const view_path = get_view_path(path);
-	const view_script_path = VIEW_SCRIPTS_ROOT + path + ".mjs";
 
 	const results = await Promise.all([
 		settings.load_page_template(),
 		settings.load_view(view_path)
 			.then(source => Promise.all([
-				create_parent_directory(VIEW_SCRIPTS_ROOT + path)
-					.then(() => Deno.writeFile(view_script_path, ENCODER.encode(source
-						.get_element_by_tag_name("script").children[0].content)))
-					.then(() => import("../" + view_script_path)),
+				settings.load_script(source),
 				source.get_element_by_tag_name("body"),
 				source.get_element_by_tag_name("style")
 			]))

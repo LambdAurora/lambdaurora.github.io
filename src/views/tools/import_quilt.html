@@ -344,22 +344,24 @@
 <script type="module">
 const title = "Quilt Import Utility";
 
-export const page = {
-	title: title,
-	description: "Utilities to import Quilt stuff in your mod projects.",
-	icons: {
-		favicon: "https://quiltmc.org/favicon/favicon.ico"
-	},
-	embed: {
+return {
+	page: {
 		title: title,
-		image: "https://quiltmc.org/assets/img/logo.svg"
+		description: "Utilities to import Quilt stuff in your mod projects.",
+		icons: {
+			favicon: "https://quiltmc.org/favicon/favicon.ico"
+		},
+		embed: {
+			title: title,
+			image: "https://quiltmc.org/assets/img/logo.svg"
+		},
+		keywords: "LambdAurora, Minecraft, Quilt, QuiltMC, modding"
 	},
-	keywords: "LambdAurora, Minecraft, Quilt, QuiltMC, modding"
-};
-export const styles = [
+	styles: [
 	"https://cdn.jsdelivr.net/npm/prismjs@1.26.0/themes/prism-tomorrow.min.css",
 	"https://cdn.jsdelivr.net/npm/prismjs@1.26.0/plugins/toolbar/prism-toolbar.min.css"
-];
+	]
+};
 </script>
 
 <style>
