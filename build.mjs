@@ -3,6 +3,7 @@ import { existsSync, move } from "https://deno.land/std/fs/mod.ts";
 import { parse } from "https://deno.land/std/flags/mod.ts";
 
 import { process_all_pages } from "./src/page_processor.mjs";
+import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { serve } from "./src/server.mjs";
 import { BUILD_DIR, DEPLOY_DIR, DECODER, ENCODER } from "./src/utils.mjs";
 
@@ -27,6 +28,7 @@ async function build() {
 	}
 
 	await process_all_pages();
+	await process_all_tutorials();
 }
 
 async function build_style() {
@@ -117,6 +119,26 @@ if (args.serve) {
 			let last = Date.now();
 
 			for await (const event of views_watcher) {
+				if (event.kind !== "access" && (Date.now() - last) > 500) {
+					last = Date.now();
+					try {
+						await build();
+					} catch (e) {
+						console.error(e);
+					}
+				}
+			}
+
+			resolve();
+		});
+
+		const tutorials_watcher = Deno.watchFs("./src/tutorials", { recursive: true });
+		watchers.push(tutorials_watcher);
+
+		new Promise(async function(resolve, _) {
+			let last = Date.now();
+
+			for await (const event of tutorials_watcher) {
 				if (event.kind !== "access" && (Date.now() - last) > 500) {
 					last = Date.now();
 					try {

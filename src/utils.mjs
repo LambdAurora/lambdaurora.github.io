@@ -13,6 +13,10 @@ export async function create_parent_directory(path) {
 	const parent_dir = path_parts.join("/");
 
 	if (!existsSync(parent_dir)) {
-		await Deno.mkdir(parent_dir);
+		await Deno.mkdir(parent_dir, { recursive: true });
 	}
+}
+
+export function get_prism_url(component) {
+	return "https://cdn.jsdelivr.net/npm/prismjs@1.27/" + component;
 }

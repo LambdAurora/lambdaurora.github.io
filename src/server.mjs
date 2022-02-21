@@ -4,7 +4,7 @@ import { readableStreamFromReader } from "https://deno.land/std/streams/mod.ts";
 import { html } from "./libmd.mjs";
 
 import { process_page } from "./page_processor.mjs";
-import { DEPLOY_DIR, DECODER } from "./utils.mjs";
+import { DEPLOY_DIR, DECODER, get_prism_url } from "./utils.mjs";
 
 export async function serve(args) {
 	const port = parseInt(args.port);
@@ -136,8 +136,4 @@ async function handle_raw_file(path, file, language) {
 	const response = new Response(`${page[0].html()}\n${page[1].html()}`);
 	response.headers.append("Content-Type", "text/html; charset=utf-8");
 	return response;
-}
-
-function get_prism_url(component) {
-	return "https://cdn.jsdelivr.net/npm/prismjs@1.24.1/" + component;
 }

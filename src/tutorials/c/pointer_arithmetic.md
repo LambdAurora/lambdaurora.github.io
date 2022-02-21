@@ -21,7 +21,7 @@ They can point to anything, any kind of addresses. Those addresses may be the ad
 Though, accessing the content that is pointed by some pointers may be disallowed. Programs are allocated a memory space,
 they are only allowed to access to addresses in this space.
 
-## How to use a pointer in [C]?
+## How to use a pointer in C?
 
 Now that we know what is a pointer, let's see how we can use them.
 
@@ -68,7 +68,7 @@ Since the type of the pointer is `int*` we tell the [C] compiler that we point t
 Yes! It is a pointer to a pointer of a character.  
 Let's see what it exactly means.
 
-## Pointers, structure, and [C] arrays
+## Pointers, structure, and C arrays
 
 A [C] array is a type that can hold multiple elements of a type.
 For example the variable `int a[5]` means we have an array of ints whose length is 5.
