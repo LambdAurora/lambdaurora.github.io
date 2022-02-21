@@ -4,7 +4,7 @@
 
 Currently, computers have multiple kind of memories: RAM, CPU caches, HDDs, SSDs, etc.
 
-Most of those memories can be seen as a contiguous array, where each element of the array represents a byte.
+For a programmer, most of those memories can be seen as a contiguous array, where each element of the array represents a byte.
 A memory address can be seen as an index to one of those bytes.
 In reality it's a little bit more complex since a kernel, and other computer parts, will treat those slightly differently,
 either for optimization, or for abstraction.
@@ -23,6 +23,33 @@ They can point to anything, any kind of addresses. Those addresses may be the ad
 Though, accessing the content that is pointed by some pointers may be disallowed. Programs are allocated a memory space,
 they are only allowed to access to addresses in this space.
 
+## Quick word on memory
+
+Every programs can allocate memory, but there's two kinds of memory space: the stack and the heap.
+
+The stack is a memory space where stuff can be pushed, then popped, we can visualize this with scopes.
+Let's take an example:
+
+```c
+{	// We start a scope.
+	int a; // We push a on the stack.
+
+	{	// The stack state is "marked" in this new scope.
+		int b; // We push b on the stack.
+	}	// We exit the scope, we pop the stack to its latest state, a remain but b is popped.
+}	// We exit the outer scope, a is popped.
+```
+
+The heap is more dynamic, you can request a chunk of memory off of it at runtime.
+To do so we call the function `malloc`, this chunk of memory will live until it is freed with the function `free`.
+`malloc` takes as argument the size in bytes to allocate, and returns a pointer to the allocated memory.
+
+This call can fail if the memory is already filled and you request too much memory, which can happen if too many programs are opened at once,
+or if a memory leak is occuring.
+
+Remember to `free` heap-allocated memory as soon as you do not need it anymore.
+Heap memory is also much slower to allocate than the stack due to it being [a system call](https://en.wikipedia.org/wiki/System_call "System call").
+
 ## How to use a pointer in C?
 
 Now that we know what is a pointer, let's see how we can use them.
@@ -33,7 +60,7 @@ First of all, a [C] pointer is recognizable as there's the character `*` next to
 
 [C] has multiple operators to manipulate pointers:
  - `&` to get the pointer of a variable;
- - `*` to access the content pointed by a pointer.
+ - `*` to access the content pointed by a pointer, this operation is called dereferencing.
 
 Now, let's see how those are used:
 ```c
@@ -105,7 +132,7 @@ int main(int argc, char** argv) {
 Ok, now we know how to access elements of an array, and what the relation is between pointers and arrays.
 This means we can quickly come back to `char** argv`.
 
-In [C], strings are arrays of characters: `char*`, they are null-terminated (the last element is the character `\0`).
+In [C][C], strings are arrays of characters: `char*`, they are null-terminated (the last element is the character `\0`).
 In the case of `char** argv` this means we have an array of strings, or an array of array of characters.
 
 Now, in the case of structures it's very similar, but [C] offers syntax sugar to replace the `*` operator and the `.` operator to access to a structure element:
@@ -138,7 +165,8 @@ Ok, what about the fancy notation on the array now, what does *that* mean? *Why 
 Pointers points to a memory address, we can say the *value* of a pointer is a number, which represents that memory address.
 
 This means:
- - we can have a null pointer: `NULL` or `0`, it represents a space of memory that is inaccessible;
+ - we can have a null pointer: `NULL` or `0`, it represents a space of memory that is inaccessible,
+   can be used to represent an invalid return value to tell something bad happened;
  - we can apply mathematical operators to it!
 
 If pointers were already mind-bending for you, then this part will be even more.
@@ -200,8 +228,13 @@ struct b {
 };
 
 int main(int argc, char** argv) {
-	// We allocate a memory space, which holds the header structure, 5 elements of the structure a, and 10 elements of the structure b.
-	struct header* header = (struct header*) malloc(sizeof(struct header) + 5 * sizeof(struct a) + 10 * sizeof(struct b));
+	// We allocate a memory space, which holds the header structure, 
+	// 5 elements of the structure a, and 10 elements of the structure b.
+	struct header* header = (struct header*) malloc(
+		sizeof(struct header)
+		+ 5 * sizeof(struct a)
+		+ 10 * sizeof(struct b)
+	);
 
 	header->len_of_a = 5;
 	header->len_of_b = 10;
@@ -209,7 +242,8 @@ int main(int argc, char** argv) {
 	header->c = 2;
 
 	// Now we want to access to the array of struct a:
-	struct a* a_arr = (struct a*) (header + 1); // We offset right after the header, we have our first element.
+	struct a* a_arr = (struct a*) (header + 1); // We offset right after the header,
+	// we have our first element.
 
 	for (int i = 0; i < header->len_of_a; i++) {
 		a_arr[i].some_number = i; // We set the some_number field on each element with the index.
@@ -218,7 +252,8 @@ int main(int argc, char** argv) {
 	// Now we want to acess to the array of struct b:
 	struct b* b_arr = (struct b*) (a_arr + header->len_of_a);
 	// So, what we did is we took the first array, and we offset right after it.
-	// This means that in bytes we are at: sizeof(struct header) + header->len_of_a * sizeof(struct a)!
+	// This means that in bytes we are at:
+	// sizeof(struct header) + header->len_of_a * sizeof(struct a)!
 
 	for (int i = 0; i < header->len_of_b; i++) {
 		b_arr[i].some_other_number = i * 10;
@@ -241,12 +276,15 @@ we take a file and map it into memory, the program can access its content as if 
 
 When working with pointers and structure, structure alignment may be a really important thing to consider.
 
-Here's a definition [from Wikipedia](https://en.wikipedia.org/wiki/Data_structure_alignment "Data structure alignment"):
+Here's a quick definition:
 
 > The CPU in modern computer hardware performs reads and writes to memory most efficiently when the data is *naturally aligned*,
 > which generally means that the data's memory address is a multiple of the data size.
 > For instance, in a 32-bit architecture, the data may be aligned if the data is stored in four consecutive bytes
 > and the first byte lies on a 4-byte boundary.
+> <div class="ls_source">
+> [Wikipedia](https://en.wikipedia.org/wiki/Data_structure_alignment "Data structure alignment")
+> </div>
 
 This means that whatever you put in structures, it could be misaligned.
 Lucky for us, the compiler saves us and creates padding to re-align structures.
@@ -285,6 +323,7 @@ This is important to consider as it means: `2 * sizeof(char) + 3 * sizeof(int) +
 It's also very important to consider with pointers, as the pointer to a structure is also the pointer to its first element.
 
 There's also a way to tell the compiler to pack the structure to avoid padding, but it's not something to apply in every cases.
+You can reduce paddings by grouping fields by type, from the largest to the smallest.
 
 ## Conclusion
 

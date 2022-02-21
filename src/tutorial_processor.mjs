@@ -72,7 +72,7 @@ async function process_tutorial(path) {
 				return true;
 			});
 
-			function visit_block_code(element) {
+			(function visit_block_code(element) {
 				if (!(element instanceof html.Element)) {
 					return;
 				}
@@ -90,9 +90,19 @@ async function process_tutorial(path) {
 				} else {
 					element.children.forEach(element => visit_block_code(element));
 				}
-			}
+			})(main);
 
-			visit_block_code(main);
+			(function visit_table(element) {
+				if (!(element instanceof html.Element)) {
+					return;
+				}
+
+				if (element.tag.name === "table") {
+					element.with_attr("class", "grid_table");
+				} else {
+					element.children.forEach(element => visit_table(element));
+				}
+			})(main);
 
 			return view.with_child(body.with_child(main_wrap)
 				.with_child(html.parse(`<footer class="ls_app_footer">

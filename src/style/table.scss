@@ -11,14 +11,22 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-@use "colors";
+table.grid_table {
+	table-layout: fixed;
+	border-collapse: collapse;
 
-:root {
-	--ls_theme_foreground: #fff;
-	--ls_theme_background: #242424;
+	td, th {
+		border: 1px solid var(--ls_theme_border_color);
+		padding: 0 0.5em 0.25em 0.5em;
+	}
 
-	--ls_theme_foreground_accentuated: #bdbdbd;
-	--ls_theme_background_accentuated: #222;
-	--ls_theme_background_highlight: #282828;
-	--ls_theme_background_popover: #2d2d2d;
+	th {
+		background-color: #eee;
+	}
+}
+
+@media (prefers-color-scheme: dark) {
+	table.grid_table th {
+		background-color: #333;
+	}
 }
