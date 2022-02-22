@@ -14,7 +14,7 @@ As the name suggests, a pointer points. It points to a memory address in RAM.
 
 [[ToC]]
 
-## What are pointers useful for? What do they point exactly?
+## What are pointers useful for? What do they point to exactly?
 
 [C] pointers allow to point to a place in memory, which allows you to pass data without copying its content.
 This is very useful for mutable data, avoiding copies, passing functions, and more.
@@ -59,7 +59,7 @@ First of all, a [C] pointer is recognizable as there's the character `*` next to
 `void*` is a pointer pointing to an unknown type of data, etc.
 
 [C] has multiple operators to manipulate pointers:
- - `&` to get the pointer of a variable;
+ - `&` to get the address of a variable as a pointer;
  - `*` to access the content pointed by a pointer, this operation is called dereferencing.
 
 Now, let's see how those are used:
@@ -91,6 +91,12 @@ But the size of an `int` isn't a single byte!*
 
 Indeed, it isn't a single byte, in those cases the pointer will point to the beginning of the memory space occupied.
 Since the type of the pointer is `int*` we tell the [C] compiler that we point to a memory address whose content occupies the size in bytes of `int`.
+
+*Can a function return a pointer? Take one as parameter?*
+
+Yes! Well, for the case of a return it's slightly more complex, if it's a stack pointer (one you always get using `&`), no.
+The thing is if you return a stack pointer from the scope of the function, since the scope ends, it is popped.
+Which means the address pointed to is free again, this means it can be overwritten by other stack operations without your control.
 
 *Wait, why does the type of argv is `char**`, isn't that a pointer?*
 
