@@ -1,4 +1,4 @@
-# C - Pointer Arithmetic
+# C - Pointers and their arithmetic
 
 <!--description:Learn about C pointers and their arithmetic.-->
 
@@ -116,6 +116,7 @@ This leads us to talk about how to access the content of an array, with an examp
 ```c
 int main(int argc, char** argv) {
 	int a[5] = { 1, 2, 3, 42, 6 }; // We create an array with 5 elements.
+	// In this case we could get rid of the 5 in the brackets as we already have a definition of the elements.
 	int* as_pointer = a; // The array as a pointer.
 
 	printf("First element: %d\n", a[0]); // We access the first element of the array, arrays are 0-indexed! Prints 1.
@@ -277,6 +278,147 @@ In reality we most likely wouldn't use `malloc` like this and do three separate 
 There might be situations where doing only one call might be better, but this is not the subject of this tutorial.
 The place where you're most likely to see something similar is with [memory mapping](https://en.wikipedia.org/wiki/Mmap):
 we take a file and map it into memory, the program can access its content as if it was in RAM.
+
+## Function pointers
+
+As we have seen, pointers point to a place in memory. Memory can store either data, or executable instructions.
+This means we can point to executable instructions, and in this case it's functions.
+
+The use case of function pointers can be to pass a callback function,
+for example if you want to pass a function to call when a keypress, mouse movement, custom message logging, etc.
+
+### How to use function pointers?
+
+First of all, let's talk about the type. Yes, there's a type for function pointers.
+
+The type of a function pointer is composed of multiple parts:
+ - the return type of the function;
+ - in parenthesis, the `*` symbol followed by the name of the function pointer
+   (can be the parameter name, or the variable name);
+ - the argument types of the function in parenthesis, separated by commas.
+
+For a function that takes an `int` and doesn't return anything, the pointer named `fn_ptr` would be written as `void (*fn_ptr)(int)`.
+
+Some function pointer types may quickly become very difficult to read,
+in that case there is [cdecl](https://cdecl.org/) which translates between [C] syntax and English.
+
+Now that we know how to write the type of a function pointer, let's use them!
+
+For our first example, let's take a function that simply consumes an integer, get a pointer to it,
+then call it with the pointer:
+
+```c
+void consume(int a) {
+	printf("Value of a is %d\n", a);
+}
+
+int main(int argc, char** argv) {
+	void (*fn_ptr)(int); // We declare a function pointer named fn_ptr.
+	fn_ptr = consume; // We make it point to the function consume.
+
+	fn_ptr(42); // We call the function pointed by fn_ptr.
+
+	// At the end of the execution of this program, "Value of a is 42" has been printed.
+
+	return 0;
+}
+```
+
+As you can see, for assignment we can just use the name of the function to point to it,
+if you want the `&` is still valid though.
+And for calling the function, we can just use the pointer as if it was a function,
+the dereferencing operator `*` is also still valid, which would give us `(*fn_ptr)(42)` instead.
+
+For those familiar with lambda functions, I'm sorry to inform you that [C] doesn't have a feature for that.
+You will have to create a separate function to point to.
+
+Now let's see another quick example of what function pointers can do:
+let say we have a quick sort function [`qsort`](http://www.cplusplus.com/reference/cstdlib/qsort/) to sort arrays,
+and we want a single implementation for any data type we can think of.
+As you probably have seen with the external link on `qsort`, the [C] standard library has a function for that!  
+Let's use it:
+
+```c
+#include <stdlib.h>
+
+// Sample comparator function that is used for
+// sorting an integer array in ascending order.
+// The function pointer that qsort takes is
+// int (*compare)(const void*, const void*)
+// const means you are disallowed to change the value pointed by the pointer.
+// void because the sort function itself isn't aware of the type of the array to sort.
+int compare(const void* a, const void* b) {
+	return *((int*) a) - *((int*) b);
+}
+
+int main(int argc, char** argv) {
+	int arr[] = { 12, 6, 24, 96, 256, 128 }; // We declare an array to sort.
+	int n = sizeof(arr) / sizeof(arr[0]); // We can do that since we are in the same scope.
+
+	qsort(arr, n, sizeof(int), compare); // We sort the integer array using compare.
+
+	// We print the sorted array.
+	for (int i = 0; i < n; i++) {
+		printf("%d ", arr[i]);
+	}
+	printf("\n");
+
+	return 0;
+}
+```
+
+The output should be `6 12 24 96 128 256`.
+
+Now you know how to declare function pointers, how to use them, and their use case!
+
+### Function pointers array
+
+Now, let's have a quick word on how to make an array of function pointers.
+
+Say we have a function descriptor that returns nothing, and takes two integers,
+the type of the function pointer would be `void (*fn_ptr_name)(int, int)`.
+
+Now we want an array out of it, as we have seen previously an array is defined by `type name[length]`,
+if we have an array of three function pointers we would then have: `void (*fn_ptr_name[3])(int, int)`.
+
+Let's use it:
+
+```c
+void add(int a, int b) {
+	printf("%d + %d = %d\n", a, b, a + b);
+}
+
+void subtract(int a, int b) {
+	printf("%d - %d = %d\n", a, b, a - b);
+}
+
+void multiply(int a, int b) {
+	printf("%d * %d = %d\n", a, b, a * b);
+}
+
+int main(int argc, char** argv) {
+	// We create an array of the function pointers of operations:
+	void (*operations[])(int, int) = { add, subtract, multiply };
+
+	int a = 4, b = 6;
+
+	// We will call every operations on a and b from the array.
+	for (int i = 0; i < 3; i++) {
+		(*operations[i])(a, b);
+	}
+
+	return 0;
+}
+```
+
+The output will be:
+```
+4 + 6 = 10
+4 - 6 = -2
+4 * 6 = 24
+```
+
+This concludes my talk about function pointers.
 
 ## Structure alignment
 
