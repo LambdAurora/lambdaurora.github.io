@@ -294,7 +294,7 @@ First of all, let's talk about the type. Yes, there's a type for function pointe
 The type of a function pointer is composed of multiple parts:
  - the return type of the function;
  - in parenthesis, the `*` symbol followed by the name of the function pointer
-   (can be the parameter name, or the variable name);
+   (can be the parameter name, the variable name, or the type name for a `typedef`);
  - the argument types of the function in parenthesis, separated by commas.
 
 For a function that takes an `int` and doesn't return anything, the pointer named `fn_ptr` would be written as `void (*fn_ptr)(int)`.
