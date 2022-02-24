@@ -65,7 +65,7 @@ async function process_tutorial(path) {
 				},
 				table: {
 					process: table => {
-						table.with_attr("class", "grid_table");
+						table.with_attr("class", "ls_grid_table");
 					}
 				},
 				parent: article
