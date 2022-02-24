@@ -38,6 +38,9 @@ async function process_tutorial(path) {
 			const main = html.create_element("main");
 			main_wrap.append_child(main);
 
+			const article = html.create_element("article");
+			main.append_child(article);
+
 			const doc = await Deno.readFile(TUTORIALS_ROOT + path)
 				.then(content => DECODER.decode(content))
 				.then(content => md.parser.parse(content, { auto_link: true }));
@@ -48,7 +51,7 @@ async function process_tutorial(path) {
 				}
 			}
 
-			main.children = md.render_to_html(doc, {
+			article.children = md.render_to_html(doc, {
 				block_code: {
 					highlighter: (code, language, parent) => {
 						if (Prism.languages[language]) {
@@ -57,10 +60,15 @@ async function process_tutorial(path) {
 								+ "</code></pre>");
 							parent.children = stuff.get_element_by_tag_name("code").children;
 						} else
-							parent.append_child(new html.Text(code));
+							parent.append_child(new html.Text(code, html.TextMode.RAW));
 					}
 				},
-				parent: main
+				table: {
+					process: table => {
+						table.with_attr("class", "grid_table");
+					}
+				},
+				parent: article
 			}).children.filter(node => {
 				if (node instanceof html.Comment) {
 					if (node.content.startsWith("description:")) {
@@ -90,19 +98,7 @@ async function process_tutorial(path) {
 				} else {
 					element.children.forEach(element => visit_block_code(element));
 				}
-			})(main);
-
-			(function visit_table(element) {
-				if (!(element instanceof html.Element)) {
-					return;
-				}
-
-				if (element.tag.name === "table") {
-					element.with_attr("class", "grid_table");
-				} else {
-					element.children.forEach(element => visit_table(element));
-				}
-			})(main);
+			})(article);
 
 			return view.with_child(body.with_child(main_wrap)
 				.with_child(html.parse(`<footer class="ls_app_footer">

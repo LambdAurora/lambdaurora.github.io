@@ -11,6 +11,15 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
+table {
+	/*
+	 * The table display makes it not respect a lot of essential properties.
+	 * This requires to have a role=table on the relevant tables since this display value
+	 * destroys the accessibility tree.
+	 */
+	display: block;
+}
+
 table.grid_table {
 	table-layout: fixed;
 	border-collapse: collapse;
