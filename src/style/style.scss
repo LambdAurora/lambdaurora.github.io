@@ -153,11 +153,17 @@ blockquote > .ls_source::before {
 
 	color: var(--ls_theme_foreground_accentuated);
 	background-color: rgba(0, 0, 0, 0.1);
+
+	a {
+		color: var(--ls_theme_foreground_accentuated);
+		text-decoration: underline;
+	}
 }
 
-.ls_app_footer > .ls_app_footer_license a {
-	color: var(--ls_theme_foreground_accentuated);
-	text-decoration: underline;
+@media print {
+	.ls_app_footer {
+		display: none;
+	}
 }
 
 /*
