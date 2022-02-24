@@ -2,7 +2,7 @@
 
 <!--description:Learn about C pointers and their arithmetic.-->
 
-Currently, computers have multiple kind of memories: RAM, CPU caches, HDDs, SSDs, etc.
+Currently, computers have multiple kinds of memory: RAM, CPU caches, HDDs, SSDs, etc.
 
 For a programmer, most of those memories can be seen as a contiguous array, where each element of the array represents a byte.
 A memory address can be seen as an index to one of those bytes.
