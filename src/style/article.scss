@@ -12,7 +12,7 @@
  */
 
 article {
-	li + li {
+	li + li, li > ul, li > ol  {
 		margin-top: .25em;
 	}
 
