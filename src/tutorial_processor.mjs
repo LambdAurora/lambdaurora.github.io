@@ -34,9 +34,7 @@ async function process_tutorial(path) {
 		load_view: async function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
-			const main_wrap = html.create_element("div").with_attr("class", "main_wrap");
 			const main = html.create_element("main");
-			main_wrap.append_child(main);
 
 			const article = html.create_element("article");
 			main.append_child(article);
@@ -100,7 +98,7 @@ async function process_tutorial(path) {
 				}
 			})(article);
 
-			return view.with_child(body.with_child(main_wrap)
+			return view.with_child(body.with_child(main)
 				.with_child(html.parse(`<footer class="ls_app_footer">
 					<div class="ls_app_footer_license">
 						<span>
