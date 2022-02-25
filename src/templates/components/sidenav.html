@@ -1,0 +1,15 @@
+<body>
+	<nav id="${name}" class="ls_sidenav">
+		
+	</nav>
+
+	<a class="ls_sidenav_trigger" ls_data_target="${name}"></a>
+</body>
+
+<script>
+	return data => {
+		const id = data.element.attr("id");
+
+		data.replace("name", id);
+	};
+</script>

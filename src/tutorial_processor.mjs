@@ -34,7 +34,11 @@ async function process_tutorial(path) {
 		load_view: async function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
+			/*const nav = html.create_element("nav")
+				.with_attr("class", "ls_sidenav");
+			body.append_child(nav);*/
 			const main = html.create_element("main");
+				//.with_attr("class", "ls_sidenav_neighbor");
 
 			const article = html.create_element("article");
 			main.append_child(article);

@@ -26,6 +26,21 @@ nav.ls_sidenav {
 	scrollbar-color: var(--ls_theme_primary) var(--ls_theme_background_popover);
 }
 
+@media (max-width: 850px) {
+	nav.ls_sidenav {
+		display: none;
+		transform: translateX(-150%);
+
+		width: 100%;
+		max-width: 100%;
+	}
+
+	nav.ls_sidenav[ls_active] {
+		display: block;
+		transform: translateX(0%);
+	}
+}
+
 @media (min-width: 850px) {
 	nav.ls_sidenav {
 		width: 100%;
