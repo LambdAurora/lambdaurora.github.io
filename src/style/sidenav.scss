@@ -11,12 +11,12 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
+$sidenav_size: 16vw;
+
 nav.ls_sidenav {
 	position: fixed;
 	top: 0;
 	margin: 0;
-	width: 20%;
-	max-width: 20%;
 	height: 100%;
 
 	background-color: var(--ls_theme_background_accentuated);
@@ -24,12 +24,57 @@ nav.ls_sidenav {
 	overflow-y: auto;
 	scrollbar-width: thin;
 	scrollbar-color: var(--ls_theme_primary) var(--ls_theme_background_popover);
+
+	ul {
+		padding: 0;
+	}
+
+	li {
+		padding-left: 1em;
+		padding-top: 0.25em;
+		padding-bottom: 0.25em;
+	}
+
+	li.ls_nav_entry {
+		cursor: pointer;
+		list-style: disclosure-closed inside;
+
+		> div {
+			display: inline flex;
+			flex-direction: column;
+			margin: 0.2em 0;
+		}
+	}
+}
+
+.ls_sidenav_trigger::before {
+	display: inline-block;
+	content:'\2630';
+	text-align: center;
+
+	position: fixed;
+	top: .5em;
+	right: .5em;
+
+	width: 2.5em;
+	height: 2.5em;
+	line-height: 2.4em;
+
+	border-radius: 50%;
+
+	background-color: var(--ls_theme_primary);
+	color: var(--ls_theme_on_primary);
+
+	cursor: pointer;
+	z-index: 64;
 }
 
 @media (max-width: 850px) {
 	nav.ls_sidenav {
 		display: none;
 		transform: translateX(-150%);
+
+		transition: transform 500ms ease;
 
 		width: 100%;
 		max-width: 100%;
@@ -44,10 +89,15 @@ nav.ls_sidenav {
 @media (min-width: 850px) {
 	nav.ls_sidenav {
 		width: 100%;
-		max-width: 20%;
+		min-width: $sidenav_size;
+		max-width: $sidenav_size;
 	}
 
 	.ls_sidenav_neighbor {
-		padding-left: 20%;
+		padding-left: $sidenav_size !important;
+	}
+
+	.ls_sidenav_trigger {
+		display: none;
 	}
 }

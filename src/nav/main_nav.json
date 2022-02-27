@@ -1,0 +1,17 @@
+[
+	{
+		"type": "link",
+		"name": "Projects",
+		"link": "https://github.com/LambdAurora?tab=repositories"
+	},
+	{
+		"type": "link",
+		"name": "Tutorials",
+		"link": "/tutorials/c/pointer_arithmetic.html",
+		"description": "Not a lot yet."
+	},
+	{
+		"type": "notice",
+		"name": "And more stuff under construction!"
+	}
+]

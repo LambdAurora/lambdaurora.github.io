@@ -34,11 +34,8 @@ async function process_tutorial(path) {
 		load_view: async function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
-			/*const nav = html.create_element("nav")
-				.with_attr("class", "ls_sidenav");
-			body.append_child(nav);*/
-			const main = html.create_element("main");
-				//.with_attr("class", "ls_sidenav_neighbor");
+			const main = html.create_element("main")
+				.with_attr("class", "ls_sidenav_neighbor");
 
 			const article = html.create_element("article");
 			main.append_child(article);
@@ -102,8 +99,14 @@ async function process_tutorial(path) {
 				}
 			})(article);
 
-			return view.with_child(body.with_child(main)
-				.with_child(html.parse(`<footer class="ls_app_footer">
+			return view.with_child(body
+				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+					<header>
+						<main_nav_banner></main_nav_banner>
+					</header>
+				</sidenav>`))
+				.with_child(main)
+				.with_child(html.parse(`<footer class="ls_app_footer ls_sidenav_neighbor">
 					<div class="ls_app_footer_license">
 						<span>
 							Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
@@ -113,6 +116,7 @@ async function process_tutorial(path) {
 						</span>
 					</div>
 				</footer>`))
+				.with_child(html.create_element("script").with_attr("src", "/script.mjs"))
 			);
 		},
 		load_script: _ => {

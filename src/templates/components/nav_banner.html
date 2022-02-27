@@ -1,0 +1,23 @@
+<body>
+	<a class="ls_nav_banner" href="${path}">
+	</a>
+</body>
+
+<script>
+	data.get_first_element().children = data.element.children;
+
+	let path = data.element.get_attr("path");
+
+	if (path) {
+		path = path.value();
+	} else {
+		path = "/";
+	}
+
+	const style = data.element.get_attr("style");
+	if (style) {
+		data.get_first_element().attr("style", style.value());
+	}
+
+	data.replace("path", path);
+</script>

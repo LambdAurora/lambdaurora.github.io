@@ -18,7 +18,7 @@
 	--ls_theme_background: #242424;
 
 	--ls_theme_foreground_accentuated: #bdbdbd;
-	--ls_theme_background_accentuated: #222;
+	--ls_theme_background_accentuated: var(--ls_dark_theme_background_accentuated);
 	--ls_theme_background_highlight: #282828;
 	--ls_theme_background_popover: #2d2d2d;
 }

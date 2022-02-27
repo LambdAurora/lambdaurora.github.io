@@ -1,5 +1,7 @@
 import { html, utils } from "./libmd.mjs";
 
+import { COMPONENTS } from "./component.mjs";
+import { CONSTANTS } from "./constants.mjs";
 import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory } from "./utils.mjs";
 
 const VIEWS_ROOT = "src/views";
@@ -99,6 +101,15 @@ function process_head(page, style, module) {
 		});
 	}
 
+	if (module.preload) {
+		module.preload.forEach(preload => {
+			head.append_child(html.create_element("link")
+				.with_attr("rel", "preload")
+				.with_attr("href", preload.source)
+				.with_attr("as", preload.type));
+		});
+	}
+
 	if (style) {
 		head.append_child(style);
 	}
@@ -115,6 +126,7 @@ async function load_script(source) {
 }
 
 const PROCESS_PAGE_SETTINGS = Object.freeze({
+	global_context: CONSTANTS,
 	load_view: load_view_file,
 	load_page_template: load_page_template,
 	load_script: load_script
@@ -147,10 +159,36 @@ export async function process_page(path, settings) {
 	const body = results[1][1];
 	const style = results[1][2];
 
-	body.purge_empty_children();
 	page[1].children[1] = body;
 
+	module.global_context = settings.global_context;
 	module.page.path = path.replace(/index.html$/, "");
+
+	await (async function process_nodes(parent, index) {
+		const node = parent.children[index];
+
+		if (node instanceof html.Element) {
+			const component = COMPONENTS.get(node.tag.name);
+
+			if (component) {
+				const nodes = await component.apply(module, node);
+				parent.children.splice(index, 1, ...nodes);
+
+				await process_nodes(parent, index);
+				return;
+			} else {
+				if (node.children.length !== 0) {
+					await process_nodes(node, 0);
+				}
+			}
+		}
+
+		if (index + 1 < parent.children.length) {
+			await process_nodes(parent, index + 1);
+		}
+	})(body, 0);
+
+	body.purge_empty_children();
 
 	process_head(page[1], style, module);
 

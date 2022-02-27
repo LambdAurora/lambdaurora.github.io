@@ -6,6 +6,7 @@ import { process_all_pages } from "./src/page_processor.mjs";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { serve } from "./src/server.mjs";
 import { BUILD_DIR, DEPLOY_DIR, DECODER, ENCODER } from "./src/utils.mjs";
+import { COMPONENTS } from "./src/component.mjs";
 
 const args = parse(Deno.args, { default: { port: 8080 }});
 
@@ -26,6 +27,8 @@ async function build() {
 			Deno.exit(1);
 		}
 	}
+
+	await COMPONENTS.load_all();
 
 	await process_all_pages();
 	await process_all_tutorials();
@@ -106,6 +109,26 @@ if (args.serve) {
 				if (event.kind !== "access" && (Date.now() - last) > 500) {
 					last = Date.now();
 					await build_style();
+				}
+			}
+
+			resolve();
+		});
+
+		const templates_watcher = Deno.watchFs("./src/templates", { recursive: true });
+		watchers.push(templates_watcher);
+
+		new Promise(async function(resolve, _) {
+			let last = Date.now();
+
+			for await (const event of templates_watcher) {
+				if (event.kind !== "access" && (Date.now() - last) > 500) {
+					last = Date.now();
+					try {
+						await build();
+					} catch (e) {
+						console.error(e);
+					}
 				}
 			}
 

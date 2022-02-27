@@ -1,21 +1,21 @@
 <html>
 <body>
-	<header></header>
-	<main class="ls_main_content">
+	<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+		<header>
+			<main_nav_banner></main_nav_banner>
+		</header>
+	</sidenav>
+
+	<main class="ls_main_content ls_sidenav_neighbor">
 		<p>Hello world!</p>
-		<p>There's honestly not a lot here.</p>
-		<p>Just go on my <a href="https://github.com/LambdAurora">GitHub</a> for more. Maybe I'll make a website later.</p>
+		<p>There's honestly not a lot here, you can try to find the different pages of this website.</p>
+		<p>
+			Just go on my <a href="https://github.com/LambdAurora">GitHub</a> for a detailed list of public projects though.
+			This website might get more in the future.
+		</p>
 	</main>
 
-	<!-- Peeking foxes from every sides of the screen. -->
-	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 2s; top: 80%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_top" aria-hidden="true" style="--peeking_fox_delay: 0s; --peeking_fox_duration: 3s; left: 75%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_bottom" aria-hidden="true" style="--peeking_fox_delay: 15s; left: 30%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 6s; --peeking_fox_duration: 6s; top: 20%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 30s; --peeking_fox_duration: 8s; top: 15%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 40s; --peeking_fox_duration: 4s; top: 65%;" />
-
-	<footer class="ls_app_footer">
+	<footer class="ls_app_footer ls_sidenav_neighbor">
 		<div class="ls_app_footer_license">
 			<span>
 				Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
@@ -25,6 +25,16 @@
 			</span>
 		</div>
 	</footer>
+
+	<!-- Peeking foxes from every sides of the screen. -->
+	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 2s; top: 80%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_top" aria-hidden="true" style="--peeking_fox_delay: 0s; --peeking_fox_duration: 3s; left: 75%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_bottom" aria-hidden="true" style="--peeking_fox_delay: 15s; left: 30%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 6s; --peeking_fox_duration: 6s; top: 20%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 30s; --peeking_fox_duration: 8s; top: 15%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 40s; --peeking_fox_duration: 4s; top: 65%;" />
+
+	<script src="/script.mjs"></script>
 </body>
 
 <script type="module">
