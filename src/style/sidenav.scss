@@ -26,6 +26,8 @@ nav.ls_sidenav {
 	scrollbar-width: thin;
 	scrollbar-color: var(--ls_theme_primary) var(--ls_theme_background_popover);
 
+	z-index: 128;
+
 	ul {
 		padding: 0;
 	}
@@ -51,25 +53,28 @@ nav.ls_sidenav {
 	}
 }
 
-.ls_sidenav_trigger::before {
-	display: inline-block;
-	content:'\2630';
-	text-align: center;
+.ls_sidenav_darkened {
+	display: none;
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	z-index: 64;
 
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+.ls_sidenav_trigger {
 	position: fixed;
 	top: .5em;
-	right: .5em;
-
+	left: .5em;
 	width: 2.5em;
 	height: 2.5em;
 	line-height: 2.4em;
+	font-size: initial;
 
-	border-radius: 50%;
-
-	background-color: var(--ls_theme_primary);
-	color: var(--ls_theme_on_primary);
-
-	cursor: pointer;
 	z-index: 64;
 }
 
@@ -87,7 +92,7 @@ nav.ls_sidenav {
 		transition: transform 500ms ease;
 
 		width: 100%;
-		max-width: 100%;
+		max-width: 85%;
 	}
 
 	nav.ls_sidenav[ls_active] {
