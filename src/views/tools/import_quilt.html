@@ -104,25 +104,6 @@
 		const qm_code_block = document.querySelector("#quilt_mappings_code");
 		const qsl_code_block = document.querySelector("#qsl_code");
 
-		function is_minecraft_version_non_release(version) {
-			return version.match(/^\d\dw\d\d[a-z]$/);
-		}
-
-		function get_mc_version(version) {
-			if (is_minecraft_version_non_release(version)) {
-				return version;
-			}
-
-			const split = version.split(".");
-
-			let index;
-			if ((index = split[1].indexOf("-pre")) !== -1 || (index = split[1].indexOf("-rc")) !== -1) {
-				split[1] = split[1].substr(0, index);
-			}
-
-			return split[0] + "." + split[1];
-		}
-
 		function fetch_json(url) {
 			return fetch(url).then(response => response.json())
 				.catch(error => {
@@ -187,7 +168,7 @@
 		}
 
 		async function get_qsl_metadata(version) {
-			version.short_mc = get_mc_version(version.mc);
+			version.short_mc = version.mc;
 
 			function get_version(raw) {
 				const split = raw.split("+");
