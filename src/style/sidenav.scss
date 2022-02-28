@@ -11,7 +11,8 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-$sidenav_size: 16vw;
+$sidenav_large_size: 300px;
+$sidenav_medium_size: 180px;
 
 nav.ls_sidenav {
 	position: fixed;
@@ -72,6 +73,12 @@ nav.ls_sidenav {
 	z-index: 64;
 }
 
+@media print {
+	.ls_sidenav_trigger {
+		display: none;
+	}
+}
+
 @media (max-width: 850px) {
 	nav.ls_sidenav {
 		display: none;
@@ -92,15 +99,40 @@ nav.ls_sidenav {
 @media (min-width: 850px) {
 	nav.ls_sidenav {
 		width: 100%;
-		min-width: $sidenav_size;
-		max-width: $sidenav_size;
+		min-width: $sidenav_medium_size;
+		max-width: $sidenav_medium_size;
+
+		> .ls_nav_banner {
+			flex-direction: column;
+		}
 	}
 
 	.ls_sidenav_neighbor {
-		padding-left: $sidenav_size !important;
+		padding-left: $sidenav_medium_size !important;
 	}
 
 	.ls_sidenav_trigger {
 		display: none;
+	}
+}
+
+@media (min-width: 850px) and (max-width: 1100px) {
+	nav.ls_sidenav > .ls_nav_banner {
+		min-height: $sidenav_medium_size;
+	}
+}
+
+@media (min-width: 1100px) {
+	nav.ls_sidenav {
+		min-width: $sidenav_large_size;
+		max-width: $sidenav_large_size;
+
+		> .ls_nav_banner {
+			flex-direction: row;
+		}
+	}
+
+	.ls_sidenav_neighbor {
+		padding-left: $sidenav_large_size !important;
 	}
 }

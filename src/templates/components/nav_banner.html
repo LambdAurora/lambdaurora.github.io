@@ -19,5 +19,11 @@
 		data.get_first_element().attr("style", style.value());
 	}
 
+	const classes = data.element.get_attr("class");
+	if (classes) {
+		const existing_classes = data.get_first_element().get_attr("class");
+		existing_classes._value = [...existing_classes._value, ...classes._value];
+	}
+
 	data.replace("path", path);
 </script>

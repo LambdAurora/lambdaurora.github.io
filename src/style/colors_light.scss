@@ -22,4 +22,8 @@
 	--ls_theme_background_highlight: #fff;
 	--ls_theme_background_popover: var(--ls_theme_background_accentuated);
 }
+
+.ls_secondary_gradient {
+	background: linear-gradient(-40deg, var(--ls_theme_lightened_secondary) 0%, var(--ls_theme_secondary) 100%);
+}
  
