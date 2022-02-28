@@ -37,13 +37,16 @@ nav.ls_sidenav {
 
 	li.ls_nav_entry {
 		cursor: pointer;
-		list-style: disclosure-closed inside;
 
 		> div {
 			display: inline flex;
 			flex-direction: column;
 			margin: 0.2em 0;
 		}
+	}
+
+	li.ls_nav_dir_entry {
+		list-style: disclosure-closed inside;
 	}
 }
 
