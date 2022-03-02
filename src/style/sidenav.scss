@@ -54,7 +54,8 @@ nav.ls_sidenav {
 }
 
 .ls_sidenav_darkened {
-	display: none;
+	visibility: hidden;
+	opacity: 0;
 	position: fixed;
 	background-color: rgba(0, 0, 0, 0.4);
 	cursor: pointer;
@@ -78,6 +79,10 @@ nav.ls_sidenav {
 	z-index: 64;
 }
 
+.ls_sidenav_internal_trigger {
+	display: none;
+}
+
 @media print {
 	.ls_sidenav_trigger {
 		display: none;
@@ -86,17 +91,24 @@ nav.ls_sidenav {
 
 @media (max-width: 850px) {
 	nav.ls_sidenav {
-		display: none;
+		visibility: hidden;
 		transform: translateX(-150%);
 
-		transition: transform 500ms ease;
+		transition: transform 500ms ease, visibility 500ms ease;
 
 		width: 100%;
 		max-width: 85%;
 	}
 
-	nav.ls_sidenav[ls_active] {
-		display: block;
+	.ls_sidenav_internal_trigger:checked ~ nav.ls_sidenav {
+		visibility: visible;
+		transform: translateX(0%);
+	}
+
+	.ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
+		visibility: visible;
+		opacity: 100%;
+		transition: opacity 500ms ease, visibility 500ms ease;
 		transform: translateX(0%);
 	}
 }

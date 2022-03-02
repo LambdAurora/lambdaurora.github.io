@@ -1,17 +1,20 @@
 <body>
-	<nav id="${name}" class="ls_sidenav">
-		<ul></ul>
-	</nav>
+	<div>
+		<input type="checkbox" id="${name}_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true"></input>
+		<nav id="${name}" class="ls_sidenav">
+			<ul></ul>
+		</nav>
 
-	<a class="ls_sidenav_trigger ls_btn" ls_variant="fab" ls_data_target="${name}"
-		aria-role="menu" aria-label="Menu" aria-description="Open the navigation menu.">
-		☰
-	</a>
-	<div class="ls_sidenav_darkened" ls_data_target="${name}"></div>
+		<label for="${name}_trigger" class="ls_sidenav_trigger ls_btn" ls_variant="fab" ls_data_target="${name}"
+			aria-role="menu" aria-label="Menu" aria-description="Open the navigation menu.">
+			☰
+		</label>
+		<label for="${name}_trigger" class="ls_sidenav_darkened" ls_data_target="${name}"></label>
+	</div>
 </body>
 
 <script>
-	const nav = data.get_first_element();
+	const nav = data.get_first_element().get_element_by_tag_name("nav");
 	const id = data.element.get_attr("id");
 	data.replace("name", id.value());
 

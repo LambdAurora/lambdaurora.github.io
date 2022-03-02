@@ -116,7 +116,6 @@ async function process_tutorial(path) {
 						</span>
 					</div>
 				</footer>`))
-				.with_child(html.create_element("script").with_attr("src", "/script.mjs"))
 			);
 		},
 		load_script: _ => {
