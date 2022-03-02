@@ -240,6 +240,7 @@ blockquote > .ls_source::before {
 .peeking_fox_left, .peeking_fox_top, .peeking_fox_right, .peeking_fox_bottom {
 	position: fixed;
 	opacity: 0;
+	z-index: 256;
 }
 
 .peeking_fox_left {
