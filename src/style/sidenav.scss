@@ -153,3 +153,9 @@ nav.ls_sidenav {
 		padding-left: $sidenav_large_size !important;
 	}
 }
+
+@media (prefers-reduced-motion) {
+	nav.ls_sidenav, .ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
+		transition: none;
+	}
+}

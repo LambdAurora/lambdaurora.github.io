@@ -218,34 +218,46 @@ blockquote > .ls_source::before {
 /* Fox peeking animations */
 
 @keyframes fox_peek_left {
-	0% {left: -64px; opacity: 100%;}
-	100% {left: 0px; opacity: 100%;}
+	0% {left: -64px; visibility: visible;}
+	100% {left: 0px; visibility: visible;}
 }
 
 @keyframes fox_peek_top {
-	0% {top: -64px; opacity: 100%;}
-	100% {top: 0px; opacity: 100%;}
+	0% {top: -64px; visibility: visible;}
+	100% {top: 0px; visibility: visible;}
 }
 
 @keyframes fox_peek_right {
-	0% {right: -64px; opacity: 100%;}
-	100% {right: 0px; opacity: 100%;}
+	0% {right: -64px; visibility: visible;}
+	100% {right: 0px; visibility: visible;}
 }
 
 @keyframes fox_peek_bottom {
-	0% {bottom: -64px; opacity: 100%;}
-	100% {bottom: 0px; opacity: 100%;}
+	0% {bottom: -64px; visibility: visible;}
+	100% {bottom: 0px; visibility: visible;}
 }
 
 .peeking_fox_left, .peeking_fox_top, .peeking_fox_right, .peeking_fox_bottom {
 	position: fixed;
-	opacity: 0;
-	z-index: 256;
+	z-index: 32;
+	visibility: hidden;
 }
 
 .peeking_fox_left {
 	transform: rotate(90deg);
 	animation: fox_peek_left var(--peeking_fox_duration, 5s) ease-in-out var(--peeking_fox_delay, 0s) infinite alternate;
+}
+
+@media (min-width: 850px) {
+	.ls_sidenav_wrapper ~ .peeking_fox_left {
+		transform: translateX(180px) rotate(90deg);
+	}
+}
+
+@media (min-width: 1100px) {
+	.ls_sidenav_wrapper ~ .peeking_fox_left {
+		transform: translateX(300px) rotate(90deg);
+	}
 }
 
 .peeking_fox_top {
@@ -254,12 +266,36 @@ blockquote > .ls_source::before {
 }
 
 .peeking_fox_right {
+	right: 0;
 	transform: rotate(270deg);
 	animation: fox_peek_right var(--peeking_fox_duration, 5s) ease-in-out var(--peeking_fox_delay, 0s) infinite alternate;
 }
 
 .peeking_fox_bottom {
 	animation: fox_peek_bottom var(--peeking_fox_duration, 5s) ease-in-out var(--peeking_fox_delay, 0s) infinite alternate;
+}
+
+@media print {
+	.peeking_fox_left, .peeking_fox_top, .peeking_fox_right, .peeking_fox_bottom {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion) {
+	.peeking_fox_left:not([ls_display_reduced_motion]),
+	.peeking_fox_top:not([ls_display_reduced_motion]),
+	.peeking_fox_right:not([ls_display_reduced_motion]),
+	.peeking_fox_bottom:not([ls_display_reduced_motion]) {
+		display: none;
+	}
+
+	.peeking_fox_left[ls_display_reduced_motion],
+	.peeking_fox_top[ls_display_reduced_motion],
+	.peeking_fox_right[ls_display_reduced_motion],
+	.peeking_fox_bottom[ls_display_reduced_motion] {
+		animation: none;
+		visibility: visible;
+	}
 }
 
 /*
