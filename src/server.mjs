@@ -19,7 +19,17 @@ async function handle_http(request) {
 	const url = new URL(request.url);
 	const file_path = decodeURIComponent(url.pathname);
 
-	console.log(`\u001b[32;1m${request.method} ${file_path}\u001b[0m from: "${request.headers.get("user-agent")}"`);
+	function log(return_code = 200) {
+		let color = "\u001b[32;1m";
+
+		if (return_code === 500) {
+			color = "\u001b[31;1m";
+		} else if (return_code !== 200) {
+			color = "\u001b[33;1m";
+		}
+
+		console.log(`\u001b[32;1m${request.method} ${file_path}\u001b[0m from: "${request.headers.get("user-agent")}" => ${color}${return_code}\u001b[0m`);
+	}
 
 	let response;
 	try {
@@ -53,22 +63,26 @@ async function handle_http(request) {
 			// Build and send the response.
 			response = new Response(readable_stream);
 		}
+
+		log();
 	} catch (e) {
 		const err = e instanceof Error ? e : new Error("[non-error thrown]");
 
 		if (!(err instanceof Deno.errors.NotFound)) {
+			log(500);
 			console.error(`\u001b[31;1m${err.message}\u001b[0m`);
 			console.error(err);
 		}
 
-		response = await handle_fallback(request, file_path, err);
+		response = await handle_fallback(request, file_path, err, log);
 	}
 
 	return response;
 }
 
-async function handle_fallback(request, path, err) {
+async function handle_fallback(request, path, err, log) {
 	if (err instanceof Deno.errors.NotFound) {
+		log(404);
 		return handle_404(request, path);
 	} else {
 		return new Response("Internal Server Error\n" + err.message, { status: 500 });
@@ -133,7 +147,7 @@ async function handle_raw_file(path, file, language) {
 		}
 	);
 
-	const response = new Response(`${page[0].html()}\n${page[1].html()}`);
+	const response = new Response(`${page.html()}`);
 	response.headers.append("Content-Type", "text/html; charset=utf-8");
 	return response;
 }

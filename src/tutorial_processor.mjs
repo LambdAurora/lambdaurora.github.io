@@ -28,7 +28,7 @@ async function process_tutorial(path) {
 		)
 		.join(" / ").replace(/^\//, "").replace(/\.md$/, "");
 
-	let page_description = "A tutorial made by LambdAurora";
+	let page_description = "A tutorial made by LambdAurora.";
 
 	return await process_page("/tutorials" + path.replace(/\.md$/, ".html"), {
 		load_view: async function(_) {
@@ -146,7 +146,7 @@ export async function process_all_tutorials(directory = "") {
 				.then(async function(page) {
 					const deploy_path = DEPLOY_DIR + "/tutorials" + path.replace(/\.md$/, ".html");
 					await create_parent_directory(deploy_path);
-					await Deno.writeFile(deploy_path, ENCODER.encode(`${page[0].html()}\n${page[1].html()}`));
+					await Deno.writeFile(deploy_path, ENCODER.encode(`${page.html()}`));
 				});
 		}
 	}
