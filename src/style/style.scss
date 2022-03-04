@@ -17,8 +17,8 @@
 @use "button";
 @use "code";
 @use "color_ship";
+@use "nav";
 @use "table";
-@use "sidenav";
 @use "article";
 
 :root {
@@ -59,6 +59,7 @@ main {
 	margin: 40px auto;
 	padding: 0 10px;
 	max-width: 60em;
+	width: 100%;
 	box-sizing: border-box;
 }
 

@@ -1,0 +1,42 @@
+/*
+ * lambdaurora.dev stylesheet - A simple stylesheet.
+ *
+ * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ *
+ * To the extent possible under law, the author(s) have dedicated
+ * all copyright and related and neighboring rights to this software
+ * to the public domain worldwide.
+ * This software is distributed without any warranty.
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ */
+
+@use "sidenav";
+
+nav {
+	ul {
+		padding: 0;
+	}
+
+	li {
+		padding-left: 1em;
+		padding-top: 0.25em;
+		padding-bottom: 0.25em;
+	}
+
+	li.ls_nav_entry {
+		> div {
+			display: inline flex;
+			flex-direction: column;
+			margin: 0.2em 0;
+		}
+	}
+
+	li.ls_nav_dir_entry {
+		list-style: none inside;
+
+		> details > summary {
+			cursor: pointer;
+		}
+	}
+}

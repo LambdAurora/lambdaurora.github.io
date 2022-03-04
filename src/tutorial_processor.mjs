@@ -150,6 +150,53 @@ async function process_tutorial_index(entry) {
 
 			article.append_child(html.create_element("h1").with_child(new html.Text(title)));
 
+			const nav = html.create_element("nav");
+			article.append_child(nav);
+
+			(function process_entry(e, p) {
+				if (e.children.size === 0)
+					return;
+
+				const ul = html.create_element("ul");
+				p.append_child(ul);
+
+				e.children.forEach(child => {
+					const li = html.create_element("li")
+						.with_attr("class", "ls_nav_entry");
+
+					if (child.dir) {
+						if (child.children.length === 0) return;
+
+						const details = html.create_element("details");
+						details.append_child(html.create_element("summary")
+							.with_child(new html.Text(child.name))
+						);
+						li.with_attr("class", "ls_nav_dir_entry")
+							.append_child(details);
+
+						if (child.children.filter(c => c.dir).length === 0 && child.children.length < 10) {
+							details.with_attr("open");
+						}
+
+						process_entry(child, details);
+					} else {
+						const h1 = child.tutorial.content[1].find_element_by_tag_name("h1");
+						const link = html.create_element("a")
+							.with_attr("href", child.path);
+						
+						if (h1) {
+							link.children = h1.children;
+						} else {
+							link.with_child(child.tutorial.metadata.page.title);
+						}
+
+						li.append_child(link);
+					}
+
+					ul.append_child(li);
+				});
+			})(entry, nav);
+
 			return view.with_child(body
 				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
 					<header>
@@ -186,11 +233,14 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 			await process_all_tutorials(new_entry);
 		} else {
 			const path = directory + "/" + dir_entry.name;
+			const html_path = "/tutorials" + path.replace(/\.md$/, ".html");
 			await process_tutorial(path)
 				.then(async function(page) {
-					const deploy_path = DEPLOY_DIR + "/tutorials" + path.replace(/\.md$/, ".html");
+					const deploy_path = DEPLOY_DIR + html_path;
 					await create_parent_directory(deploy_path);
 					await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
+
+					entry.children.push({ path: html_path, tutorial: page });
 				});
 		}
 	}

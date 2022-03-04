@@ -27,30 +27,6 @@ nav.ls_sidenav {
 	scrollbar-color: var(--ls_theme_primary) var(--ls_theme_background_popover);
 
 	z-index: 128;
-
-	ul {
-		padding: 0;
-	}
-
-	li {
-		padding-left: 1em;
-		padding-top: 0.25em;
-		padding-bottom: 0.25em;
-	}
-
-	li.ls_nav_entry {
-		cursor: pointer;
-
-		> div {
-			display: inline flex;
-			flex-direction: column;
-			margin: 0.2em 0;
-		}
-	}
-
-	li.ls_nav_dir_entry {
-		list-style: disclosure-closed inside;
-	}
 }
 
 .ls_sidenav_darkened {
