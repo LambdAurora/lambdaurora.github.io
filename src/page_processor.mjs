@@ -211,7 +211,7 @@ export async function process_all_pages(directory = "") {
 				.then(async function(page) {
 					const deploy_path = DEPLOY_DIR + path;
 					await create_parent_directory(deploy_path);
-					await Deno.writeFile(deploy_path, ENCODER.encode(`${page.html()}`));
+					await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
 				});
 		}
 	}

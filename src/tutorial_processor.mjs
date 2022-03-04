@@ -20,13 +20,17 @@ async function get_or_load_language(language) {
 	}
 }
 
-async function process_tutorial(path) {
-	const title = path.split("/").splice(1)
+function get_pretty_path(path) {
+	return path.split("/").splice(1)
 		.map(part => part.split("_")
 			.map(word => word.charAt(0).toUpperCase() + word.slice(1))
 			.join(" ")
 		)
 		.join(" / ").replace(/^\//, "").replace(/\.md$/, "");
+}
+
+async function process_tutorial(path) {
+	const title = get_pretty_path(path);
 
 	let page_description = "A tutorial made by LambdAurora.";
 
@@ -106,16 +110,7 @@ async function process_tutorial(path) {
 					</header>
 				</sidenav>`))
 				.with_child(main)
-				.with_child(html.parse(`<footer class="ls_app_footer ls_sidenav_neighbor">
-					<div class="ls_app_footer_license">
-						<span>
-							Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
-						</span>
-						<span>
-							Except where otherwise noted: &copy; LambdAurora 2022, under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.
-						</span>
-					</div>
-				</footer>`))
+				.with_child(html.parse(`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
 			);
 		},
 		load_script: _ => {
@@ -136,18 +131,76 @@ async function process_tutorial(path) {
 	});
 }
 
-export async function process_all_tutorials(directory = "") {
+async function process_tutorial_index(entry) {
+	let index_name = "";
+	if (entry.dir !== "") index_name = ` (${entry.name})`;
+
+	const title = `Tutorials Index${index_name}`;
+
+	return await process_page("/tutorials/" + entry.dir, {
+		load_view: async function(_) {
+			const view = html.create_element("html");
+			const body = html.create_element("body");
+			const main = html.create_element("main")
+				.with_attr("class", "ls_main_content ls_sidenav_neighbor");
+
+			const article = html.create_element("article");
+			article.style("margin-top", "0");
+			main.append_child(article);
+
+			article.append_child(html.create_element("h1").with_child(new html.Text(title)));
+
+			return view.with_child(body
+				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+					<header>
+						<main_nav_banner></main_nav_banner>
+					</header>
+				</sidenav>`))
+				.with_child(main)
+				.with_child(html.parse(`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
+			);
+		},
+		load_script: _ => {
+			return {
+				page: {
+					title: title,
+					description: `Index of tutorials${index_name} by LambdAurora`,
+					embed: {
+						title: title
+					}
+				}
+			};
+		}
+	});
+}
+
+export async function process_all_tutorials(entry = { dir: "", children: [] }) {
+	const directory = entry.dir;
+
 	for await (const dir_entry of Deno.readDir(TUTORIALS_ROOT + directory)) {
 		if (dir_entry.isDirectory) {
-			await process_all_tutorials("/" + dir_entry.name);
+			const path = "/" + dir_entry.name;
+			const new_entry = { dir: path, name: get_pretty_path(path), children: [] };
+			entry.children.push(new_entry);
+
+			await process_all_tutorials(new_entry);
 		} else {
 			const path = directory + "/" + dir_entry.name;
 			await process_tutorial(path)
 				.then(async function(page) {
 					const deploy_path = DEPLOY_DIR + "/tutorials" + path.replace(/\.md$/, ".html");
 					await create_parent_directory(deploy_path);
-					await Deno.writeFile(deploy_path, ENCODER.encode(`${page.html()}`));
+					await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
 				});
 		}
+	}
+
+	if (entry.dir === "") {
+		await process_tutorial_index(entry)
+			.then(async function (page) {
+				const deploy_path = DEPLOY_DIR + "/tutorials" + directory + "/index.html";
+				await create_parent_directory(deploy_path); // Shouldn't be needed.
+				await Deno.writeFile(deploy_path, ENCODER.encode(page.html()))
+			});
 	}
 }
