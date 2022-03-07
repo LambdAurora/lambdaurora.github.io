@@ -18,7 +18,11 @@ A lot of websites continue to use Javascript while not necessarily needing it fo
 To come back the the navigation part: this website uses a side navigation, on desktop it's fine.
 Though, on mobile it has some issues, it needs to be hidden away *(collapsed)*.
 
-I found the solution after visiting Wikipedia, which uses the same trick.
+HTML 5 offers us the element `<details>`, which allows to hide stuff away with a trigger to open and see its content.
+You can specify a summary, which is always displayed and acts as a trigger.
+The main issue with it is it only allows one and only one trigger, in the case of this website's side navigation it needs at least 2 triggers.
+
+But there's another trick, which I found the solution after visiting Wikipedia, which I am describing here.
 
 [[ToC]]
 
@@ -282,9 +286,9 @@ Now you too have the knowledge of Javascript-less collapsible containers!
 
 I hope it will help you some way, but there are more things to note:
 
-Some of the basic examples I've shown could be replaced with the `<details>` HTML element,
-it has the same purpose and fulfills it better semantically.  
-The way it works is you define a `<details>` container, with a `<summary>` child element,
+As mentioned in the introduction, the `<details>` HTML element can replace some of the basic examples I've shown,
+it has the same purpose and fulfills it better semantically. This means stuff like reader view will support it much better.  
+For those who don't know, the way it works is you define a `<details>` container, with a `<summary>` child element,
 which contains elements that are always displayed and serves as a trigger, the other child elements are the content.
 
 For example:
