@@ -147,7 +147,7 @@ and a different CSS stylesheet:
 **Warning:** you cannot use dimension transitions with percentage values for some reason.
 It's one of the very frustrating things as using absolute values is quite bad.
 
-#### Result
+#### Animated Result
 
 ---
 
@@ -252,7 +252,7 @@ Then the content takes a whole side of the screen.
 }
 ```
 
-#### Result
+#### Sidenav Result
 
 And voilà!
 
