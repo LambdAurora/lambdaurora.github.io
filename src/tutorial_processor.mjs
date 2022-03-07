@@ -7,6 +7,7 @@ import "https://cdn.jsdelivr.net/npm/prismjs@1.27/prism.min.js"
 const PRISM_LANGS = {};
 
 const TUTORIALS_ROOT = "src/tutorials";
+const DIRECTORY_METADATA_FILE = "dir.json";
 
 async function get_or_load_language(language) {
 	if (PRISM_LANGS[language]) {
@@ -20,7 +21,25 @@ async function get_or_load_language(language) {
 	}
 }
 
-function get_pretty_path(path) {
+async function get_pretty_path(path, parent = "") {
+	try {
+		const file_info = await Deno.stat(TUTORIALS_ROOT + parent + path);
+
+		if (file_info.isDirectory) {
+			const json = await Deno.readFile(TUTORIALS_ROOT + parent + path + "/" + DIRECTORY_METADATA_FILE)
+				.then(content => DECODER.decode(content))
+				.then(content => JSON.parse(content));
+
+			if (json.name) {
+				return json.name;
+			}
+		}
+	} catch (error) {
+		if (!(error instanceof Deno.errors.NotFound)) {
+			throw error;
+		}
+	}
+
 	return path.split("/").splice(1)
 		.map(part => part.split("_")
 			.map(word => word.charAt(0).toUpperCase() + word.slice(1))
@@ -30,7 +49,7 @@ function get_pretty_path(path) {
 }
 
 async function process_tutorial(path) {
-	const title = get_pretty_path(path);
+	let title = await get_pretty_path(path);
 
 	let page_description = "A tutorial made by LambdAurora.";
 
@@ -50,13 +69,21 @@ async function process_tutorial(path) {
 
 			for (const block of doc.blocks) {
 				if (block instanceof md.BlockCode && block.has_language()) {
-					await get_or_load_language(block.language);
+					await get_or_load_language(block.language.replace(/:apply$/, ""));
 				}
 			}
+
+			let style_source = "";
 
 			article.children = md.render_to_html(doc, {
 				block_code: {
 					highlighter: (code, language, parent) => {
+						if (language === "css:apply") {
+							language = "css";
+
+							style_source += code + "\n";
+						}
+
 						if (Prism.languages[language]) {
 							const stuff = html.parse("<pre><code>"
 								+ Prism.highlight(code, Prism.languages[language], language)
@@ -73,7 +100,9 @@ async function process_tutorial(path) {
 				},
 				parent: article
 			}).children.filter(node => {
-				if (node instanceof html.Comment) {
+				if (node instanceof html.Element && node.tag.name === "h1") {
+					title = node.inner_html();
+				} else if (node instanceof html.Comment) {
 					if (node.content.startsWith("description:")) {
 						page_description = node.content.substr("description:".length);
 						return false;
@@ -102,6 +131,10 @@ async function process_tutorial(path) {
 					element.children.forEach(element => visit_block_code(element));
 				}
 			})(article);
+
+			if (style_source.length !== 0) {
+				view.with_child(html.create_element("style").with_child(new html.Text(style_source, html.TextMode.RAW)));
+			}
 
 			return view.with_child(body
 				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
@@ -174,7 +207,8 @@ async function process_tutorial_index(entry) {
 						li.with_attr("class", "ls_nav_dir_entry")
 							.append_child(details);
 
-						if (child.children.filter(c => c.dir).length === 0 && child.children.length < 10) {
+						if (child.children.filter(c => c.dir).length === 0 && child.children.length < 10
+							|| !child.children.find(c => c.tutorial)) {
 							details.with_attr("open");
 						}
 
@@ -227,11 +261,15 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 	for await (const dir_entry of Deno.readDir(TUTORIALS_ROOT + directory)) {
 		if (dir_entry.isDirectory) {
 			const path = "/" + dir_entry.name;
-			const new_entry = { dir: path, name: get_pretty_path(path), children: [] };
+			const new_entry = { dir: directory + path, name: await get_pretty_path(path, directory), children: [] };
 			entry.children.push(new_entry);
 
 			await process_all_tutorials(new_entry);
 		} else {
+			if (dir_entry.name === DIRECTORY_METADATA_FILE || !dir_entry.name.includes(".md")) {
+				continue;
+			}
+
 			const path = directory + "/" + dir_entry.name;
 			const html_path = "/tutorials" + path.replace(/\.md$/, ".html");
 			await process_tutorial(path)
