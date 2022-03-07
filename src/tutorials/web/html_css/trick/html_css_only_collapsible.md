@@ -183,7 +183,11 @@ Then the content takes a whole side of the screen.
 		</p>
 	</div>
 	<label for="example_nav_trigger" class="ls_btn" ls_variant="fab" aria-role="menu" aria-label="Menu" aria-description="Open the example navigation menu.">
-		☰
+		<svg width="40" height="40" viewBox="0 0 40 40" stroke="var(--ls_theme_on_primary)" stroke-width="2px" shape-rendering="crispedges">
+			<line x1="12" y1="14" x2="28" y2="14"></line>
+			<line x1="12" y1="20" x2="28" y2="20"></line>
+			<line x1="12" y1="26" x2="28" y2="26"></line>
+		</svg>
 	</label>
 	<label for="example_nav_trigger" class="example_sidenav_darkened"></label>
 </div>
@@ -263,7 +267,11 @@ Here's a collapsible side navigation which opens from the right:
 		</p>
 	</div>
 	<label for="example_nav_trigger" class="ls_btn" ls_variant="fab" aria-role="menu" aria-label="Menu" aria-description="Open the example navigation menu." style="align-self: center">
-		☰
+		<svg width="40" height="40" viewBox="0 0 40 40" stroke="var(--ls_theme_on_primary)" stroke-width="2px" shape-rendering="crispedges">
+			<line x1="12" y1="14" x2="28" y2="14"></line>
+			<line x1="12" y1="20" x2="28" y2="20"></line>
+			<line x1="12" y1="26" x2="28" y2="26"></line>
+		</svg>
 	</label>
 	<label for="example_nav_trigger" class="example_sidenav_darkened"></label>
 </div>
