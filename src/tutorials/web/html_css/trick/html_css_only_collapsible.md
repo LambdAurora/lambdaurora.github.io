@@ -254,7 +254,7 @@ And voilà!
 
 Here's a collapsible side navigation which opens from the right:
 
-<div class="ls_sidenav_wrapper">
+<div class="ls_sidenav_wrapper" style="display: flex; flex-direction: column;">
 	<input type="checkbox" id="example_nav_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true">
 	<div id="example_nav" class="example_sidenav">
 		Hello world!
@@ -262,7 +262,7 @@ Here's a collapsible side navigation which opens from the right:
 			To close this sidenav, please click on the darkened area!
 		</p>
 	</div>
-	<label for="example_nav_trigger" class="ls_btn" ls_variant="fab" aria-role="menu" aria-label="Menu" aria-description="Open the example navigation menu.">
+	<label for="example_nav_trigger" class="ls_btn" ls_variant="fab" aria-role="menu" aria-label="Menu" aria-description="Open the example navigation menu." style="align-self: center">
 		☰
 	</label>
 	<label for="example_nav_trigger" class="example_sidenav_darkened"></label>
