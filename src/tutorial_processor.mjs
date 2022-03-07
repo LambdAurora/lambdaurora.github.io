@@ -101,7 +101,7 @@ async function process_tutorial(path) {
 				parent: article
 			}).children.filter(node => {
 				if (node instanceof html.Element && node.tag.name === "h1") {
-					title = node.inner_html();
+					title = node.text();
 				} else if (node instanceof html.Comment) {
 					if (node.content.startsWith("description:")) {
 						page_description = node.content.substr("description:".length);
@@ -193,6 +193,8 @@ async function process_tutorial_index(entry) {
 				const ul = html.create_element("ul");
 				p.append_child(ul);
 
+				e.children = e.children.sort((a, b) => a.name.localeCompare(b.name));
+
 				e.children.forEach(child => {
 					const li = html.create_element("li")
 						.with_attr("class", "ls_nav_entry");
@@ -278,7 +280,14 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 					await create_parent_directory(deploy_path);
 					await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
 
-					entry.children.push({ path: html_path, tutorial: page });
+					const h1 = page.content[1].find_element_by_tag_name("h1");
+					let name = await get_pretty_path(path);
+
+					if (h1) {
+						name = h1.text();
+					}
+
+					entry.children.push({ path: html_path, name: name, tutorial: page });
 				});
 		}
 	}

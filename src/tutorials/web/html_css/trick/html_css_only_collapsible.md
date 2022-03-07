@@ -44,9 +44,9 @@ Let's see how we can do it in HTML, first we can enclose the entire thing in a `
 Then we will have 3 elements: the hidden checkbox, the content to display, and a trigger.
 
 ```html
-
 <div class="collapsible_wrapper">
-	<input type="checkbox" id="first_collapsible_trigger" class="collapsible_internal_trigger" aria-hidden="true"></input>
+	<input type="checkbox" id="first_collapsible_trigger" class="collapsible_internal_trigger"
+		aria-hidden="true">
 
 	<label for="first_collapsible_trigger" class="collapsible_trigger">
 		Click here!
@@ -98,7 +98,7 @@ The goal is to always hide the checkbox, and to hide the content depending on th
 ---
 
 <div class="collapsible_wrapper">
-	<input type="checkbox" id="first_collapsible_trigger" class="collapsible_internal_trigger" aria-hidden="true"></input>
+	<input type="checkbox" id="first_collapsible_trigger" class="collapsible_internal_trigger" aria-hidden="true">
 
 	<label for="first_collapsible_trigger" class="collapsible_trigger">
 		Click here!
@@ -174,7 +174,8 @@ Then the content takes a whole side of the screen.
 
 ```html
 <div class="ls_sidenav_wrapper">
-	<input type="checkbox" id="example_nav_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true">
+	<input type="checkbox" id="example_nav_trigger" class="ls_sidenav_internal_trigger" 
+		aria-hidden="true">
 	<div id="example_nav" class="example_sidenav">
 		Hello world!
 		<p>
@@ -273,7 +274,7 @@ Now you too have the knowledge of Javascript-less collapsible containers!
 
 I hope it will help you some way, but there are more things to note:
 
-Some of the basic examples I've shown could be replace with the `<details>` HTML element,
+Some of the basic examples I've shown could be replaced with the `<details>` HTML element,
 it has the same purpose and fulfills it better semantically.  
 The way it works is you define a `<details>` container, with a `<summary>` child element,
 which contains elements that are always displayed and serves as a trigger, the other child elements are the content.
