@@ -44,8 +44,8 @@
 				div.append_child(html.create_element("span").with_child(entry.description));
 			}
 
-			if (data.context.page.path !== "/" && entry.link.includes(data.context.page.path)) {
-				li.style("background-color", "rgba(0, 0, 0, 0.1)");
+			if (data.context.page.path !== "/" && data.context.page.path.startsWith(entry.link)) {
+				li.style("background-color", "rgba(0, 0, 0, 0.2)");
 			}
 		} else if (entry.type === "notice") {
 			li.append_child(entry.name);
