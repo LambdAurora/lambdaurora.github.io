@@ -98,6 +98,10 @@ nav.ls_sidenav {
 		> .ls_nav_banner {
 			flex-direction: column;
 		}
+
+		> .ls_nav_banner[ls_small_reverse] {
+			flex-direction: column-reverse;
+		}
 	}
 
 	.ls_sidenav_neighbor {
@@ -121,7 +125,7 @@ nav.ls_sidenav {
 		max-width: $sidenav_large_size;
 
 		> .ls_nav_banner {
-			flex-direction: row;
+			flex-direction: row !important;
 		}
 	}
 

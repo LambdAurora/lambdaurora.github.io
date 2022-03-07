@@ -221,6 +221,10 @@ blockquote > .ls_source::before {
 	float: right !important;
 }
 
+.ls_sky_background {
+	background: repeat-x url("/images/background/sky_gradient.png");
+}
+
 /* Fox peeking animations */
 
 @keyframes fox_peek_left {
