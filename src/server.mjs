@@ -2,6 +2,7 @@ import * as server from "https://deno.land/std/http/server.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std/streams/mod.ts";
 import { html } from "./libmd.mjs";
+import "./prismjs.mjs";
 
 import { process_page } from "./page_processor.mjs";
 import { DEPLOY_DIR, DECODER, get_prism_url } from "./utils.mjs";
@@ -111,20 +112,28 @@ async function handle_raw_file(path, file, language) {
 	const page = await process_page(path, {
 		load_view: _ => Deno.readAll(file)
 			.then(source => DECODER.decode(source))
-			.then(source => {
+			.then(async source => {
+				try {
+					await import(get_prism_url("components/prism-" + language + ".min.js"));
+				} catch (e) {}
+
+				const code = html.create_element("code")
+					.with_attr("class", `language-${language}`);
+
+				if (Prism.languages[language]) {
+					const stuff = html.parse("<pre><code>"
+						+ Prism.highlight(source, Prism.languages[language], language)
+						+ "</code></pre>");
+					code.children = stuff.get_element_by_tag_name("code").children;
+				} else
+					code.append_child(new html.Text(source, html.TextMode.RAW));
+
 				return html.create_element("html")
 					.with_child(html.create_element("body")
 						.with_child(html.create_element("pre")
 							.with_attr("class", `language-${language}`)
-							.with_child(html.create_element("code")
-								.with_attr("class", `language-${language}`)
-								.with_child(new html.Text(source, html.TextMode.TEXT))
-							)
+							.with_child(code)
 						)
-						.with_child(html.create_element("script").with_attr("src", get_prism_url("prism.min.js")))
-						.with_child(html.create_element("script").with_attr("src", get_prism_url("components/prism-css-extras.min.js")))
-						.with_child(html.create_element("script").with_attr("src", get_prism_url("components/prism-" + language + ".min.js")))
-						.with_child(html.create_element("script").with_attr("src", get_prism_url("plugins/inline-color/prism-inline-color.min.js")))
 					).with_child(html.create_element("style")
 						.with_child(new html.Text(`pre[class*="language-"] { margin: 0; }`, html.TextMode.RAW))
 					);
@@ -137,11 +146,7 @@ async function handle_raw_file(path, file, language) {
 						embed: {
 							title: path
 						}
-					},
-					styles: [
-						get_prism_url("themes/prism-tomorrow.min.css"),
-						get_prism_url("plugins/inline-color/prism-inline-color.min.css")
-					]
+					}
 				}
 			}
 		}

@@ -1,8 +1,7 @@
-import { md, html } from "./libmd.mjs";
 import { process_page } from "./page_processor.mjs";
 import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, get_prism_url } from "./utils.mjs";
-
-import "https://cdn.jsdelivr.net/npm/prismjs@1.27/prism.min.js"
+import { md, html } from "./libmd.mjs";
+import "./prismjs.mjs";
 
 const PRISM_LANGS = {};
 
@@ -156,7 +155,6 @@ async function process_tutorial(path) {
 					}
 				},
 				styles: [
-					get_prism_url("themes/prism-tomorrow.min.css"),
 					get_prism_url("plugins/inline-color/prism-inline-color.min.css")
 				]
 			};
