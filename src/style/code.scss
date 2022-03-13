@@ -160,3 +160,15 @@ pre[class*=language-] {
 .token.inserted {
 	color:green;
 }
+
+@media print {
+	pre {
+		white-space: pre-wrap !important;
+		word-break: break-word;
+		word-wrap: break-word;
+	}
+
+	pre[class*=language-] {
+		overflow: unset !important;
+	}
+}

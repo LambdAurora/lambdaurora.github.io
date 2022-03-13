@@ -50,13 +50,17 @@ async function handle_http(request) {
 			throw new Deno.errors.NotFound();
 		}
 
-		if (file_path.endsWith(".css") && request.headers.get("accept").includes("text/html")
-			&& !request.headers.get("accept").includes("text/css")) {
-			response = await handle_raw_file(file_path, file, "css");
-		} else if (file_path.endsWith(".scss") && request.headers.get("accept").includes("text/html")
-			&& !request.headers.get("accept").includes("text/scss")) {
-			response = await handle_raw_file(file_path, file, "scss");
-		} else {
+		let accept_header = request.headers.get("accept");
+
+		if (accept_header) {
+			if (file_path.endsWith(".css") && accept_header.includes("text/html") && !accept_header.includes("text/css")) {
+				response = await handle_raw_file(file_path, file, "css");
+			} else if (file_path.endsWith(".scss") && accept_header.includes("text/html") && !accept_header.includes("text/scss")) {
+				response = await handle_raw_file(file_path, file, "scss");
+			}
+		}
+
+		if (!response) {
 			// Build a readable stream so the file doesn't have to be fully loaded into
 			// memory while we send it.
 			const readable_stream = readableStreamFromReader(file);

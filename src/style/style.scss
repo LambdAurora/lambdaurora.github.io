@@ -48,6 +48,7 @@ body {
 }
 
 main {
+	flex: 1 1 auto;
 	box-sizing: border-box;
 }
 
@@ -158,6 +159,8 @@ hr {
 blockquote {
 	border-left: solid var(--ls_theme_primary);
 	padding-left: 1em;
+	page-break-before: auto;
+	page-break-inside: avoid;
 }
 
 blockquote > .ls_source {
@@ -199,6 +202,12 @@ blockquote > .ls_source::before {
 @media print {
 	.ls_app_footer {
 		display: none;
+	}
+
+	.ls_main_content, article {
+		display: block;
+		margin: 0;
+		max-width: unset;
 	}
 }
 

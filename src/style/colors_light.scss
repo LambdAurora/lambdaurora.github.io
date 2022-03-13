@@ -26,4 +26,10 @@
 .ls_secondary_gradient {
 	background: linear-gradient(-40deg, var(--ls_theme_secondary) 0%, var(--ls_theme_secondary_darkened) 100%);
 }
- 
+
+@media print {
+	:root {
+		--ls_theme_foreground: #000;
+		--ls_theme_background: #fff;
+	}
+}

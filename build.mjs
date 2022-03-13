@@ -50,7 +50,7 @@ async function build_style() {
 				"sass",
 				`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
 				`${deployed_style_dir}:${deployed_style_dir}`,
-				"--style=compressed"
+				args.debug ? "--style=expanded" : "--style=compressed"
 			] 
 		}
 	).status();

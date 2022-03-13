@@ -11,21 +11,41 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
+$theme_primary: #f90;
+$theme_primary_lightened: lighten($theme_primary, 6%);
+$theme_primary_lightly_darkened: darken($theme_primary, 3.5%);
+$theme_primary_lightly_darkened_1: darken($theme_primary, 8.5%);
+$theme_primary_lightly_darkened_2: darken($theme_primary, 12.75%);
+$theme_primary_darkened: darken($theme_primary, 17.75%);
+$theme_primary_darkened_1: darken($theme_primary, 26.95%);
+$theme_primary_darkened_2: darken($theme_primary, 37%);
+$theme_primary_darkened_3: darken($theme_primary, 42.5%);
+
 $theme_secondary: #9c73cc;
-$theme_secondary_darkened: darken($theme_secondary, 37%);
+$theme_secondary_darkened_2: darken($theme_secondary, 37%);
 
 :root {
-	--ls_theme_primary: #f90;
+	--ls_theme_primary: #{$theme_primary};
 	--ls_theme_on_primary: #333;
+
+	--ls_theme_primary_lightened: #{$theme_primary_lightened};
+	--ls_theme_primary_lightly_darkened: #{$theme_primary_lightly_darkened};
+	--ls_theme_primary_lightly_darkened_1: #{$theme_primary_lightly_darkened_1};
+	--ls_theme_primary_lightly_darkened_2: #{$theme_primary_lightly_darkened_2};
+	--ls_theme_primary_darkened: #{$theme_primary_darkened};
+	--ls_theme_primary_darkened_1: #{$theme_primary_darkened_1};
+	--ls_theme_primary_darkened_2: #{$theme_primary_darkened_2};
+	--ls_theme_primary_darkened_3: #{$theme_primary_darkened_3};
+
 
 	--ls_theme_secondary: #{$theme_secondary};
 	--ls_theme_on_secondary: #333;
-	--ls_theme_secondary_darkened: #{$theme_secondary_darkened};
+	--ls_theme_secondary_darkened: #{$theme_secondary_darkened_2};
 	--ls_theme_on_secondary_darkened: #eee;
 	--ls_theme_secondary_lightened: #cea2ff;
 	--ls_theme_on_secondary_lightened: var(--ls_theme_on_secondary);
 
-	--ls_theme_background_active: #{rgba($theme_secondary_darkened, .9)};
+	--ls_theme_background_active: #{rgba($theme_secondary_darkened_2, .9)};
 
 	--ls_theme_border_color: #777;
 	--ls_theme_background_code: #77778022;
