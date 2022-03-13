@@ -31,6 +31,7 @@ nav.ls_sidenav {
 
 .ls_sidenav_darkened {
 	visibility: hidden;
+	display: none;
 	opacity: 0;
 	position: fixed;
 	background-color: rgba(0, 0, 0, 0.4);
@@ -79,6 +80,10 @@ nav.ls_sidenav {
 	.ls_sidenav_internal_trigger:checked ~ nav.ls_sidenav {
 		visibility: visible;
 		transform: translateX(0%);
+	}
+
+	.ls_sidenav_darkened {
+		display: block;
 	}
 
 	.ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
