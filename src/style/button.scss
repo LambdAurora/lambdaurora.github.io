@@ -86,7 +86,8 @@
 	background-color: var(--ls_theme_on_primary);
 }
 
-.ls_btn[ls_variant="contained"]:hover:before, .ls_btn[ls_variant="fab"]:hover:before {
+.ls_btn[ls_variant="contained"]:hover:before, .ls_btn[ls_variant="fab"]:hover:before,
+.ls_btn[ls_variant="contained"]:focus:before, .ls_btn[ls_variant="fab"]:focus:before {
 	opacity: .2;
 }
 

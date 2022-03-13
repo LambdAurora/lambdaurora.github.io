@@ -11,13 +11,21 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
+$theme_secondary: #9c73cc;
+$theme_secondary_darkened: darken($theme_secondary, 37%);
+
 :root {
 	--ls_theme_primary: #f90;
 	--ls_theme_on_primary: #333;
 
-	--ls_theme_secondary: #9c73cc;
-	--ls_theme_darkened_secondary: #3f2360;
-	--ls_theme_lightened_secondary: #cea2ff;
+	--ls_theme_secondary: #{$theme_secondary};
+	--ls_theme_on_secondary: #333;
+	--ls_theme_secondary_darkened: #{$theme_secondary_darkened};
+	--ls_theme_on_secondary_darkened: #eee;
+	--ls_theme_secondary_lightened: #cea2ff;
+	--ls_theme_on_secondary_lightened: var(--ls_theme_on_secondary);
+
+	--ls_theme_background_active: #{rgba($theme_secondary_darkened, .9)};
 
 	--ls_theme_border_color: #777;
 	--ls_theme_background_code: #77778022;
