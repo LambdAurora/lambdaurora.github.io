@@ -12,13 +12,13 @@
  */
 
 $theme_primary: #f90;
-$theme_primary_lightened: lighten($theme_primary, 12%);
-$theme_primary_lightened_1: lighten($theme_primary, 15.75%);
-$theme_primary_lightened_2: lighten($theme_primary, 20.75%);
-$theme_primary_lightened_3: lighten($theme_primary, 27.75%);
-$theme_primary_lightened_4: lighten($theme_primary, 33.95%);
-$theme_primary_lightened_5: lighten($theme_primary, 40%);
-$theme_primary_lightened_6: lighten($theme_primary, 45.5%);
+$theme_primary_lightened: lighten($theme_primary, 9%);
+$theme_primary_lightened_1: lighten($theme_primary, 12.75%);
+$theme_primary_lightened_2: lighten($theme_primary, 17.75%);
+$theme_primary_lightened_3: lighten($theme_primary, 24.75%);
+$theme_primary_lightened_4: lighten($theme_primary, 30.95%);
+$theme_primary_lightened_5: lighten($theme_primary, 37%);
+$theme_primary_lightened_6: lighten($theme_primary, 42.5%);
 $theme_primary_lightly_darkened: darken($theme_primary, 3.5%);
 $theme_primary_lightly_darkened_1: darken($theme_primary, 8.5%);
 $theme_primary_lightly_darkened_2: darken($theme_primary, 12.75%);
