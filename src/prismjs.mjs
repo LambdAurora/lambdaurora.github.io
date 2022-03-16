@@ -108,6 +108,7 @@ const VALID_COLORS = [
 	"green",
 	"kahki",
 	"magenta",
+	"navajowhite",
 	"orange",
 	"red"
 ];
