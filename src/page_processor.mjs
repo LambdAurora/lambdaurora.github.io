@@ -36,7 +36,7 @@ async function load_page_template() {
 }
 
 function process_string(string, module) {
-	return string.replace(/\$\{([a-zA-Z0-9_.]+)\}/, (_, name) => {
+	return string.replace(/\$\{([a-zA-Z0-9_.]+)\}/g, (_, name) => {
 		const name_parts = name.split(".");
 		let variable = module;
 
@@ -68,12 +68,18 @@ function process_head(page, style, module) {
 	const head = page.children[0];
 	process_element(head, page, module);
 
-	if (module.page.embed && module.page.embed.image) {
-		head.append_child(html.create_element("meta")
-			.with_attr("property", "og:image")
-			.with_attr("content", module.page.embed.image)
-		);
+	if (!module.page.embed) {
+		module.page.embed = {};
 	}
+
+	if (!module.page.embed.image) {
+		module.page.embed.image = CONSTANTS.get_url(CONSTANTS.site_logo);
+	}
+
+	head.append_child(html.create_element("meta")
+		.with_attr("property", "og:image")
+		.with_attr("content", module.page.embed.image)
+	);
 
 	if (module.page.keywords) {
 		head.append_child(html.create_element("meta")
