@@ -17,6 +17,7 @@
 @use "button";
 @use "code";
 @use "color_ship";
+@use "image";
 @use "nav";
 @use "table";
 @use "article";
@@ -145,13 +146,6 @@ hr {
 	font-size: 1.5em;
 	align-items: center;
 	text-shadow: 2px 2px 6px black;
-}
-
-/* Images */
-
-.ls_responsive_img {
-	width: 100%;
-	height: auto;
 }
 
 /* Quotes */
