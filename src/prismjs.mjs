@@ -110,7 +110,8 @@ const VALID_COLORS = [
 	"magenta",
 	"navajowhite",
 	"orange",
-	"red"
+	"red",
+	"white"
 ];
 
 /**

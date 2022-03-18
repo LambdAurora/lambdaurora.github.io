@@ -28,7 +28,20 @@ $theme_primary_darkened_2: darken($theme_primary, 37%);
 $theme_primary_darkened_3: darken($theme_primary, 42.5%);
 
 $theme_secondary: #9c73cc;
+$theme_secondary_lightened: lighten($theme_secondary, 6%);
+$theme_secondary_lightened_1: lighten($theme_secondary, 9.75%);
+$theme_secondary_lightened_2: lighten($theme_secondary, 14.75%);
+$theme_secondary_lightened_3: lighten($theme_secondary, 21.75%);
+$theme_secondary_lightened_4: lighten($theme_secondary, 27.95%);
+$theme_secondary_lightened_5: lighten($theme_secondary, 34%);
+$theme_secondary_lightened_6: lighten($theme_secondary, 39.5%);
+$theme_secondary_lightly_darkened: darken($theme_secondary, 3.5%);
+$theme_secondary_lightly_darkened_1: darken($theme_secondary, 8.5%);
+$theme_secondary_lightly_darkened_2: darken($theme_secondary, 12.75%);
+$theme_secondary_darkened: darken($theme_secondary, 17.75%);
+$theme_secondary_darkened_1: darken($theme_secondary, 26.95%);
 $theme_secondary_darkened_2: darken($theme_secondary, 37%);
+$theme_secondary_darkened_3: darken($theme_secondary, 42.5%);
 
 :root {
 	--ls_theme_primary: #{$theme_primary};
@@ -52,10 +65,24 @@ $theme_secondary_darkened_2: darken($theme_secondary, 37%);
 
 	--ls_theme_secondary: #{$theme_secondary};
 	--ls_theme_on_secondary: #333;
-	--ls_theme_secondary_darkened: #{$theme_secondary_darkened_2};
-	--ls_theme_on_secondary_darkened: #eee;
-	--ls_theme_secondary_lightened: #cea2ff;
+
+	--ls_theme_secondary_lightened: #{$theme_secondary_lightened};
 	--ls_theme_on_secondary_lightened: var(--ls_theme_on_secondary);
+	--ls_theme_secondary_lightened_1: #cea2ff;
+	--ls_theme_secondary_lightened_2: #{$theme_secondary_lightened_2};
+	--ls_theme_secondary_lightened_3: #{$theme_secondary_lightened_3};
+	--ls_theme_secondary_lightened_4: #{$theme_secondary_lightened_4};
+	--ls_theme_secondary_lightened_5: #{$theme_secondary_lightened_5};
+	--ls_theme_secondary_lightened_6: #{$theme_secondary_lightened_6};
+	--ls_theme_secondary_lightly_darkened: #{$theme_secondary_lightly_darkened};
+	--ls_theme_secondary_lightly_darkened_1: #{$theme_secondary_lightly_darkened_1};
+	--ls_theme_secondary_lightly_darkened_2: #{$theme_secondary_lightly_darkened_2};
+	--ls_theme_on_secondary_darkened: #eee;
+	--ls_theme_secondary_darkened: #{$theme_secondary_darkened};
+	--ls_theme_secondary_darkened_1: #{$theme_secondary_darkened_1};
+	--ls_theme_secondary_darkened_2: #{$theme_secondary_darkened_2};
+	--ls_theme_secondary_darkened_3: #{$theme_secondary_darkened_3};
+
 
 	--ls_theme_background_active: #{rgba($theme_secondary_darkened_2, .9)};
 
