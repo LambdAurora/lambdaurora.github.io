@@ -16,7 +16,3 @@ export async function create_parent_directory(path) {
 		await Deno.mkdir(parent_dir, { recursive: true });
 	}
 }
-
-export function get_prism_url(component) {
-	return "https://cdn.jsdelivr.net/npm/prismjs@1.27/" + component;
-}

@@ -1,4 +1,4 @@
-export * from "https://cdn.jsdelivr.net/npm/prismjs@1.27/prism.min.js";
+export * from "./script/prismjs_importer.mjs";
 import "https://cdn.jsdelivr.net/npm/prismjs@1.27/components/prism-css.min.js";
 import "https://cdn.jsdelivr.net/npm/prismjs@1.27/components/prism-css-extras.min.js";
 

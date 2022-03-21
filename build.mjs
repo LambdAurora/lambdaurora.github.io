@@ -18,6 +18,7 @@ async function build() {
 		await Deno.remove(BUILD_DIR, {recursive: true});
 
 	await Deno.mkdir(BUILD_DIR).then(() => copy("./public", DEPLOY_DIR)).then(() => console.log("Copied static resources."));
+	await copy("./src/script", DEPLOY_DIR + "/script");
 
 	/* Style stuff */
 	if (!await build_style()) {

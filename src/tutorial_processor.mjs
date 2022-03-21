@@ -1,24 +1,10 @@
 import { process_page } from "./page_processor.mjs";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, get_prism_url } from "./utils.mjs";
+import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory } from "./utils.mjs";
 import { md, html } from "./libmd.mjs";
-import "./prismjs.mjs";
-
-const PRISM_LANGS = {};
+import * as PRISM from "./prismjs.mjs";
 
 const TUTORIALS_ROOT = "src/tutorials";
 const DIRECTORY_METADATA_FILE = "dir.json";
-
-async function get_or_load_language(language) {
-	if (PRISM_LANGS[language]) {
-		return PRISM_LANGS[language];
-	} else {
-		try {
-			return PRISM_LANGS[language] = await import(get_prism_url(`components/prism-${language}.min.js`));
-		} catch (e) {
-			return null;
-		}
-	}
-}
 
 async function get_pretty_path(path, parent = "") {
 	try {
@@ -68,7 +54,7 @@ async function process_tutorial(path) {
 
 			for (const block of doc.blocks) {
 				if (block instanceof md.BlockCode && block.has_language()) {
-					await get_or_load_language(block.language.replace(/:apply$/, ""));
+					await PRISM.get_or_load_language(block.language.replace(/:apply$/, ""));
 				}
 			}
 
@@ -155,7 +141,7 @@ async function process_tutorial(path) {
 					}
 				},
 				styles: [
-					get_prism_url("plugins/inline-color/prism-inline-color.min.css")
+					PRISM.get_prism_url("plugins/inline-color/prism-inline-color.min.css")
 				]
 			};
 		}

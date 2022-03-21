@@ -2,10 +2,10 @@ import * as server from "https://deno.land/std/http/server.ts";
 import * as path from "https://deno.land/std/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std/streams/mod.ts";
 import { html } from "./libmd.mjs";
-import "./prismjs.mjs";
+import * as PRISM from "./prismjs.mjs";
 
 import { process_page } from "./page_processor.mjs";
-import { DEPLOY_DIR, DECODER, get_prism_url } from "./utils.mjs";
+import { DEPLOY_DIR, DECODER } from "./utils.mjs";
 
 export async function serve(args) {
 	const port = parseInt(args.port);
@@ -13,6 +13,15 @@ export async function serve(args) {
 	console.log("HTTP web server running.");
 	console.log(`Access it at: \u001b[35;1mhttp://localhost:${port}/\u001b[0m`);
 	await server.serve(handle_http, { port });
+}
+
+function create_base_headers() {
+	const headers = new Headers();
+	headers.set("server", "lambdaurora's custom webserver");
+	// Set "accept-ranges" so that the client knows it can make range requests on future requests.
+	headers.set("accept-ranges", "bytes");
+	headers.set("date", new Date().toUTCString());
+	return headers;
 }
 
 async function handle_http(request) {
@@ -64,9 +73,14 @@ async function handle_http(request) {
 			// Build a readable stream so the file doesn't have to be fully loaded into
 			// memory while we send it.
 			const readable_stream = readableStreamFromReader(file);
+			const headers = create_base_headers();
+
+			if (file_path.match(/.+?\.m?js$/)) {
+				headers.set("content-type", "text/javascript");
+			}
 
 			// Build and send the response.
-			response = new Response(readable_stream);
+			response = new Response(readable_stream, { status: 200, headers });
 		}
 
 		log();
@@ -118,7 +132,7 @@ async function handle_raw_file(path, file, language) {
 			.then(source => DECODER.decode(source))
 			.then(async source => {
 				try {
-					await import(get_prism_url("components/prism-" + language + ".min.js"));
+					await import(PRISM.get_prism_url("components/prism-" + language + ".min.js"));
 				} catch (e) {}
 
 				const code = html.create_element("code")

@@ -210,7 +210,7 @@ export async function process_page(path, settings) {
 export async function process_all_pages(directory = "") {
 	for await (const dir_entry of Deno.readDir(VIEWS_ROOT + directory)) {
 		if (dir_entry.isDirectory) {
-			await process_all_pages("/" + dir_entry.name);
+			await process_all_pages(directory + "/" + dir_entry.name);
 		} else {
 			const path = directory + "/" + dir_entry.name;
 			await process_page(path)
