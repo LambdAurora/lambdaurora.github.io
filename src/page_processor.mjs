@@ -212,6 +212,8 @@ export async function process_all_pages(directory = "") {
 		if (dir_entry.isDirectory) {
 			await process_all_pages(directory + "/" + dir_entry.name);
 		} else {
+			if (!dir_entry.name.endsWith(".html")) continue;
+
 			const path = directory + "/" + dir_entry.name;
 			await process_page(path)
 				.then(async function(page) {
