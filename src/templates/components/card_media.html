@@ -1,0 +1,16 @@
+<body>
+	<div class="ls_card_content ls_card_media${additional_classes}">
+		<img src="${img}" class="ls_responsive_img" />
+	</div>
+</body>
+
+<script>
+	for (const child of data.element.children) {
+		data.get_first_element().append_child(child);
+	}
+
+	data.apply_additional_classes();
+
+	data.copy_attr("ls_size");
+	data.replace("img", data.element.get_attr("img").value());
+</script>

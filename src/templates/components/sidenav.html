@@ -1,5 +1,5 @@
 <body>
-	<div class="ls_sidenav_wrapper">
+	<div class="ls_sidenav_wrapper${additional_classes}">
 		<input type="checkbox" id="${name}_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true"></input>
 		<nav id="${name}" class="ls_sidenav">
 			<ul></ul>
@@ -18,6 +18,8 @@
 </body>
 
 <script>
+	data.apply_additional_classes();
+
 	const nav = data.get_first_element().get_element_by_tag_name("nav");
 	const id = data.element.get_attr("id");
 	data.replace("name", id.value());
