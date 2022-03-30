@@ -12,10 +12,5 @@
 </body>
 
 <script>
-	const classes = data.element.get_attr("class");
-	if (classes) {
-		data.replace("additional_classes", " " + classes.value());
-	} else {
-		data.replace("additional_classes", "");
-	}
+	data.apply_additional_classes();
 </script>
