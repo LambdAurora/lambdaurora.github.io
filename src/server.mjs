@@ -160,7 +160,7 @@ async function handle_raw_file(path, file, language) {
 				return {
 					page: {
 						title: path,
-						description: `${language.toUpperCase} file ${path}.`,
+						description: `${language.toUpperCase()} file ${path}.`,
 						embed: {
 							title: path
 						}
