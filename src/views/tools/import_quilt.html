@@ -38,8 +38,21 @@
 
 			<p><code>build.gradle</code></p>
 			<pre><code class="language-groovy">plugins {
-	id 'io.github.juuxel.loom-quiltflower' version '1.6.0' // For loom 0.8-0.9, 0.11+
-	id 'io.github.juuxel.loom-quiltflower-mini' version '1.2.1' // For loom 0.10
+	id 'io.github.juuxel.loom-quiltflower' version '1.7.+' // For loom 0.8-0.9, 0.11+
+	id 'io.github.juuxel.loom-quiltflower-mini' version '1.3.+' // For loom 0.10
+}</code></pre>
+		</div>
+
+		<div id="loader">
+			<h2><a href="https://github.com/QuiltMC/quilt-loader">Quilt Loader</a></h2>
+			<p>Here are the main buildscript changes required:</p>
+
+			<pre><code id="loader_code" class="language-groovy">plugins {
+	id 'org.quiltmc.loom' version '0.12.+' // Required for the loader to work.
+}
+
+dependencies {
+	modImplementation "org.quiltmc:quilt-loader:${project.loader_version}"
 }</code></pre>
 		</div>
 
@@ -255,7 +268,12 @@
 
 		async function apply(version) {
 			loading_indicator.classList.remove("hide");
-			const qsl_version = await get_qsl_metadata(version);
+			const tool_versions = await Promise.all([
+				get_qsl_metadata(version),
+				fetch_json(QUILT_META + "/versions/loader").then(json => json[0].version)
+			]);
+
+			const qsl_version = tool_versions[0];
 
 			// tl;dr
 			let properties = `minecraft_version=${version.mc}\n`;
@@ -264,6 +282,8 @@
 			} else {
 				properties += "# No Quilt Mappings is available for this Minecraft version.\n";
 			}
+
+			properties += `\nloader_version=${tool_versions[1]}\n`;
 			
 			properties += "\n# QSL\n";
 
