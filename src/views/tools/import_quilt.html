@@ -62,24 +62,18 @@ dependencies {
 			<p>Here are the main buildscript changes required:</p>
 
 			<pre><code id="qsl_code" class="language-groovy">Loading...</code></pre>
+
+			<p>And here's a complete list of the QSL modules by libraries:</p>
+
+			<ul id="qsl_modules"></ul>
 		</div>
 
 		<div id="repositories">
 			<h2>Repositories</h2>
-			<p style="color: #dd5555">Warning! The Quilt snapshot repository hosts experimental packages!</p>
 			<pre><code class="language-groovy">repositories {
 	maven {
 		name 'Quilt'
 		url 'https://maven.quiltmc.org/repository/release'
-	}
-
-	maven {
-		name 'QuiltSnapshot'
-		url 'https://maven.quiltmc.org/repository/snapshot'
-		content {
-			includeGroup 'org.quiltmc.fabric_api_qsl'
-			includeGroupByRegex 'org\\.quiltmc\\.qsl(?:\\.[a-z_]+)?'
-		}
 	}
 }</code></pre>
 		</div>
@@ -108,6 +102,7 @@ dependencies {
 		const tldr_code_block = document.querySelector("#tldr_code");
 		const qm_code_block = document.querySelector("#quilt_mappings_code");
 		const qsl_code_block = document.querySelector("#qsl_code");
+		const qsl_modules_list = document.querySelector("#qsl_modules");
 
 		function fetch_json(url) {
 			return fetch(url).then(response => response.json())
@@ -192,38 +187,35 @@ dependencies {
 			}
 
 			// Gets the current QSL version for this Minecraft version.
-			const qsl_version = await fetch_xml(QUILT_SNAPSHOT_MAVEN + "org/quiltmc/qsl/qsl/maven-metadata.xml")
+			const qsl_version = await fetch_xml(QUILT_RELEASE_MAVEN + "org/quiltmc/qsl/maven-metadata.xml")
 				.then(xml => {
 					const xml_versions = xml.querySelector("versions");
+					let result = null;
+
 					for (const candidate of xml_versions.children) {
-						const result = get_version(candidate.textContent);
-						if (result) return result;
+						result = get_version(candidate.textContent);
 					}
 
-					return null;
+					return result;
 				});
 
 			if (!qsl_version) {
 				return null;
 			}
 
-			const qsl_versions = [ { name: "qsl", version: qsl_version, group: QSL_GROUP } ];
+			const qsl_versions = [ { name: "qsl", version: qsl_version, group: "org.quiltmc" } ];
 
-			async function fetch_snapshot_pom(group, artifact, base_version) {
-				const full_version = await fetch_xml(QUILT_SNAPSHOT_MAVEN + `org/quiltmc/qsl/${group}${artifact}/${base_version.complete}/maven-metadata.xml`)
-					.then(xml => {
-						const snapshot = xml.querySelector("snapshot");
-						return base_version.complete.replace("SNAPSHOT", "")
-							+ snapshot.querySelector("timestamp").textContent + "-"
-							+ snapshot.querySelector("buildNumber").textContent;
-					});
-				return fetch_xml(QUILT_SNAPSHOT_MAVEN + `org/quiltmc/qsl/${group}${artifact}/${base_version.complete}/${artifact}-${full_version}.pom`);
+			async function fetch_pom(group, artifact, base_version) {
+				let path = group + artifact + "/";
+				if (artifact === "qsl")
+					path = "";
+				return fetch_xml(QUILT_RELEASE_MAVEN + `org/quiltmc/qsl/${path}${base_version.complete}/${artifact}-${base_version.complete}.pom`);
 			}
 
 			// Load all QSL libraries
 			qsl_versions.push({ comment: "\n## QSL Libraries" });
 
-			const libraries = await fetch_snapshot_pom("", "qsl", qsl_version)
+			const libraries = await fetch_pom("", "qsl", qsl_version)
 				.then(xml => {
 					const libraries = [];
 
@@ -235,7 +227,7 @@ dependencies {
 						const library = dependency.querySelector("artifactId").textContent;
 						const library_version = get_version(dependency.querySelector("version").textContent);
 
-						qsl_versions.push({ name: "qsl_" + library, version: library_version });
+						qsl_versions.push({ name: library, version: library_version, type: "library" });
 						libraries.push({ name: library, version: library_version, group: QSL_GROUP });
 					}
 
@@ -244,7 +236,7 @@ dependencies {
 
 			// Go through all libraries and add their modules.
 			for (const library of libraries) {
-				await fetch_snapshot_pom("", library.name, library.version)
+				await fetch_pom("", library.name, library.version)
 					.then(xml => {
 						qsl_versions.push({ comment: "\n## QSL Modules (" + library.name + ")" });
 						for (const dependency of xml.querySelectorAll("dependency")) {
@@ -254,7 +246,7 @@ dependencies {
 							const module = dependency.querySelector("artifactId").textContent;
 							const module_version = get_version(dependency.querySelector("version").textContent);
 
-							qsl_versions.push({ name: "qsl_" + module, version: module_version, group: `${QSL_GROUP}.${library.name}` });
+							qsl_versions.push({ name: module, version: module_version, group: `${QSL_GROUP}.${library.name}`, library: library.name });
 						}
 					});
 			}
@@ -289,16 +281,40 @@ dependencies {
 
 			if (!qsl_version) {
 				properties += "# No QSL version is available for this Minecraft version.";
-			} else {
-				for (let i = 0; i < qsl_version.length; i++) {
-					const entry = qsl_version[i];
 
-					if (entry.comment) {
-						properties += entry.comment + "\n";
-					} else {
-						properties += `${entry.name}_version = ${entry.version.base}\n`;
-					}
-				}
+				qsl_modules_list.innerHTML = "No modules are available for this version.";
+			} else {
+				const entry = qsl_version[0];
+				properties += "# QSL version number is shared between all the modules.\n";
+				properties += `${entry.name}_version = ${entry.version.base}\n`;
+
+				qsl_modules_list.innerHTML = "";
+
+				qsl_version.filter(v => v.type === "library").forEach(v => {
+					const item = document.createElement("li");
+					const name = document.createElement("code");
+					name.textContent = v.name;
+
+					item.appendChild(name);
+					item.appendChild(document.createElement("br"));
+
+					const modules_list = document.createElement("ul");
+					item.appendChild(modules_list);
+
+					qsl_version.filter(m_v => m_v.library === v.name).forEach(m_v => {
+						const m_item = document.createElement("li");
+						const m_name = document.createElement("code");
+						m_name.textContent = m_v.name;
+
+						m_item.appendChild(m_name);
+						modules_list.appendChild(m_item);
+					});
+
+
+					qsl_modules_list.appendChild(item);
+				});
+
+				console.log(qsl_version);
 			}
 
 			tldr_code_block.innerHTML = Prism.highlight(properties, Prism.languages.properties, "properties");
@@ -317,16 +333,19 @@ dependencies {
 
 			// QSL
 			let qsl_code = "dependencies {\n";
-			qsl_code += `\tmodImplementation "${QSL_GROUP}:qsl:${qsl_version[0].version.complete}"\n\t// or, for a more generic version using gradle.properties:\n`;
-			qsl_code += `\tmodImplementation "${QSL_GROUP}:qsl:\${qsl_version}+\${minecraft_version}${qsl_version[0].version.complete.endsWith("-SNAPSHOT") ? "-SNAPSHOT" : ""}"\n`;
-			qsl_code += `\n\t// QSL Library Example\n\tmodImplementation "${QSL_GROUP}:core:${qsl_version.find(v => v.name === "qsl_core").version.complete}"\n`
-			qsl_code += `\n\t// QSL Module Example\n\tmodImplementation "${QSL_GROUP}.core:resource_loader:${qsl_version.find(v => v.name === "qsl_resource_loader").version.complete}"\n}`
+			qsl_code += `\tmodImplementation "org.quiltmc:qsl:${qsl_version[0].version.complete}"\n\t// or, for a more generic version using gradle.properties:\n`;
+			qsl_code += `\tmodImplementation "org.quiltmc:qsl:\${qsl_version}+\${minecraft_version}${qsl_version[0].version.complete.endsWith("-SNAPSHOT") ? "-SNAPSHOT" : ""}"\n`;
+			qsl_code += `\n\t// QSL Library Example\n\tmodImplementation "${QSL_GROUP}:core:${qsl_version.find(v => v.name === "core").version.complete}"\n`
+			qsl_code += `\n\t// QSL Module Example\n\tmodImplementation "${QSL_GROUP}.core:resource_loader:${qsl_version.find(v => v.name === "resource_loader").version.complete}"\n}`
 			qsl_code_block.innerHTML = Prism.highlight(qsl_code, Prism.languages.groovy, "groovy");
 
 			loading_indicator.classList.add("hide");
 		}
 
-		apply(versions[0]);
+		let version_candidate = versions.find(v => v.mc.match(/^\d+\.\d+\.\d+$/));
+		if (!version_candidate) version_candidate = versions[0];
+		version_selector.value = version_candidate.mc;
+		apply(version_candidate);
 
 		version_selector.addEventListener("change", e => {
 			apply(versions.find(v => v.mc === e.target.value));
