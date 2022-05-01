@@ -2,18 +2,18 @@
 
 <!--description:Learn how to make a collapsible container with only HTML and CSS.-->
 
-While making this website, I decided to reduce to the absolute minimum the usage of Javascript.
+While making this website, I decided to challenge myself and reduce to the absolute minimum the usage of Javascript.
 This implied that the navigation on this website **had** to work without Javascript.
 
 Why?
 
 Well, Javascript is a powerful tool! It can store data and do some processing entirely client-side,
 which is really useful for some client-side web applications.  
-The issue is: some of its applications can be questionable: 
-some will use it to do some tracking on users, which is why some people will choose to disable it.
-It also requires more processing than purely HTML & CSS.
-Since, HTML 5 and CSS 3 got released, with always more features: animations, better selectors, and more.
-A lot of websites continue to use Javascript while not necessarily needing it for every part.
+There's some issues though, some of its applications can be questionable as
+some will use it to do some tracking on users, which is why some people choose to disable it.
+It also requires more processing than pure HTML & CSS.
+Since, HTML 5 and CSS 3 got released, with a ton of new features like animations, better selectors, and more stuff.
+A lot of websites continue to use Javascript while not necessarily having a need for it it in every parts.
 
 To come back the the navigation part: this website uses a side navigation, on desktop it's fine.
 Though, on mobile it has some issues, it needs to be hidden away *(collapsed)*.
@@ -287,7 +287,7 @@ Now you too have the knowledge of Javascript-less collapsible containers!
 I hope it will help you some way, but there are more things to note:
 
 As mentioned in the introduction, the `<details>` HTML element can replace some of the basic examples I've shown,
-it has the same purpose and fulfills it better semantically. This means stuff like reader view will support it much better.  
+it has the same purpose and fulfills it better semantically. This means stuff like screen readers will support it much better.  
 For those who don't know, the way it works is you define a `<details>` container, with a `<summary>` child element,
 which contains elements that are always displayed and serves as a trigger, the other child elements are the content.
 

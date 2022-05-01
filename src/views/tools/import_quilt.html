@@ -28,14 +28,6 @@
 			<h2><a href="https://github.com/QuiltMC/quiltflower">QuiltFlower Decompiler</a></h2>
 			<p>Here are the main buildscript changes required to use quiltflower in loom-based projects:</p>
 
-			<p><code>settings.gradle</code></p>
-			<pre><code class="language-groovy">repositories {
-	maven {
-		name 'Cotton'
-		url 'https://server.bbkr.space/artifactory/libs-release/'
-	}
-}</code></pre>
-
 			<p><code>build.gradle</code></p>
 			<pre><code class="language-groovy">plugins {
 	id 'io.github.juuxel.loom-quiltflower' version '1.7.+' // For loom 0.8-0.9, 0.11+
