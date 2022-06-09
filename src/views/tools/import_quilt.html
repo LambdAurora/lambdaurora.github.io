@@ -160,18 +160,17 @@ dependencies {
 		}
 
 		async function get_qsl_metadata(version) {
-			version.short_mc = version.mc;
-
 			function get_version(raw) {
 				const split = raw.split("+");
 
 				if (split.length !== 2) {
+					console.error(`Failed to parse version: ${raw}`)
 					return null;
 				}
 
 				split[1] = split[1].replace("-SNAPSHOT", "");
 
-				if (version.short_mc === split[1]) {
+				if (version.mc === split[1]) {
 					return { base: split[0], complete: raw };
 				}
 
@@ -182,16 +181,19 @@ dependencies {
 			const qsl_version = await fetch_xml(QUILT_RELEASE_MAVEN + "org/quiltmc/qsl/maven-metadata.xml")
 				.then(xml => {
 					const xml_versions = xml.querySelector("versions");
-					let result = null;
+					let found = null;
 
 					for (const candidate of xml_versions.children) {
-						result = get_version(candidate.textContent);
+						const result = get_version(candidate.textContent);
+
+						if (result) found = result;
 					}
 
-					return result;
+					return found;
 				});
 
 			if (!qsl_version) {
+				console.error("Failed to locate QSL version.");
 				return null;
 			}
 
@@ -246,6 +248,43 @@ dependencies {
 			return qsl_versions;
 		}
 
+		async function get_quilted_fapi_version(version) {
+			function get_version(raw) {
+				const split = raw.replace("-SNAPSHOT", "").split("-");
+				if (split.length == 0) return null;
+
+				const mc_version = split.pop();
+
+				if (version.mc === mc_version) {
+					return { base: split.join("-"), complete: raw };
+				}
+
+				return null;
+			}
+
+			// Gets the current Quilted Fabric API version for this Minecraft version.
+			const quilted_fapi = await fetch_xml(QUILT_RELEASE_MAVEN + "org/quiltmc/quilted-fabric-api/quilted-fabric-api/maven-metadata.xml")
+				.then(xml => {
+					const xml_versions = xml.querySelector("versions");
+					let found = null;
+
+					for (const candidate of xml_versions.children) {
+						const result = get_version(candidate.textContent);
+
+						if (result) found = result;
+					}
+
+					return found;
+				});
+
+			if (!quilted_fapi) {
+				console.error("Failed to locate Quilted Fabric API version.");
+				return null;
+			}
+
+			return quilted_fapi;
+		}
+
 		const versions = await load_versions();
 		loading_indicator.textContent = "Loading...";
 		const qm_on_loom_version = await get_last_version(QUILT_RELEASE_MAVEN + "org/quiltmc/quilt-mappings-on-loom/maven-metadata.xml");
@@ -254,10 +293,12 @@ dependencies {
 			loading_indicator.classList.remove("hide");
 			const tool_versions = await Promise.all([
 				get_qsl_metadata(version),
-				fetch_json(QUILT_META + "/versions/loader").then(json => json[0].version)
+				fetch_json(QUILT_META + "/versions/loader").then(json => json[0].version),
+				get_quilted_fapi_version(version)
 			]);
 
 			const qsl_version = tool_versions[0];
+			const quilted_fapi_version = tool_versions[2];
 
 			// tl;dr
 			let properties = `minecraft_version=${version.mc}\n`;
@@ -272,7 +313,7 @@ dependencies {
 			properties += "\n# QSL\n";
 
 			if (!qsl_version) {
-				properties += "# No QSL version is available for this Minecraft version.";
+				properties += "# No QSL version is available for this Minecraft version.\n";
 
 				qsl_modules_list.innerHTML = "No modules are available for this version.";
 			} else {
@@ -309,6 +350,14 @@ dependencies {
 				console.log(qsl_version);
 			}
 
+			properties += "\n# Quilted Fabric API\n";
+
+			if (!quilted_fapi_version) {
+				properties += "# No Quilted Fabric API version is available for this Minecraft version.";
+			} else {
+				properties += `quilted_fabric_api_version = ${quilted_fapi_version.base}`
+			}
+
 			tldr_code_block.innerHTML = Prism.highlight(properties, Prism.languages.properties, "properties");
 
 			// QM
@@ -328,13 +377,18 @@ dependencies {
 			qsl_code += `\tmodImplementation "org.quiltmc:qsl:${qsl_version[0].version.complete}"\n\t// or, for a more generic version using gradle.properties:\n`;
 			qsl_code += `\tmodImplementation "org.quiltmc:qsl:\${qsl_version}+\${minecraft_version}${qsl_version[0].version.complete.endsWith("-SNAPSHOT") ? "-SNAPSHOT" : ""}"\n`;
 			qsl_code += `\n\t// QSL Library Example\n\tmodImplementation "${QSL_GROUP}:core:${qsl_version.find(v => v.name === "core").version.complete}"\n`
-			qsl_code += `\n\t// QSL Module Example\n\tmodImplementation "${QSL_GROUP}.core:resource_loader:${qsl_version.find(v => v.name === "resource_loader").version.complete}"\n}`
+			qsl_code += `\n\t// QSL Module Example\n\tmodImplementation "${QSL_GROUP}.core:resource_loader:${qsl_version.find(v => v.name === "resource_loader").version.complete}"\n`
+			if (quilted_fapi_version) {
+				qsl_code += `\n\t// Quilted Fabric API Example\n\tmodImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:${quilted_fapi_version.complete}"\n`;
+				qsl_code += `\t// Or\n\tmodImplementation "org.quiltmc.quilted-fabric-api:quilted-fabric-api:\${quilted_fabric_api_version}-\${minecraft_version}"\n`;
+			}
+			qsl_code += "}";
 			qsl_code_block.innerHTML = Prism.highlight(qsl_code, Prism.languages.groovy, "groovy");
 
 			loading_indicator.classList.add("hide");
 		}
 
-		let version_candidate = versions.find(v => v.mc.match(/^\d+\.\d+\.\d+$/));
+		let version_candidate = versions.find(v => v.mc.match(/^\d+\.\d+(\.\d+)?$/));
 		if (!version_candidate) version_candidate = versions[0];
 		version_selector.value = version_candidate.mc;
 		apply(version_candidate);
