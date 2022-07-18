@@ -204,6 +204,10 @@ blockquote > .ls_source::before {
 		margin: 0;
 		max-width: unset;
 	}
+
+	a {
+		color: revert;
+	}
 }
 
 /*

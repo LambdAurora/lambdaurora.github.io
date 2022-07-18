@@ -1,0 +1,125 @@
+<html>
+<body>
+	<article id="markdown_content">
+
+	</article>
+	<script type="module">
+		import { default as md, html } from "https://lambdaurora.dev/lib.md/lib/index.mjs";
+		import * as PRISM from "/script/prismjs_importer.mjs";
+		import katex from "https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.mjs"; // For inline LaTeX rendering
+		import "https://cdn.jsdelivr.net/npm/emoji-js@3.6.0/lib/emoji.min.js";
+
+		const url = (new URLSearchParams(window.location.search)).get("source");
+		const MARKDOWN_CONTAINER = document.getElementById("markdown_content");
+
+		const LOG_OUTPUT = document.createElement("p");
+
+		(async function main() {
+			if (!url) {
+				LOG_OUTPUT.textContent = "No markdown source specified.";
+				LOG_OUTPUT.style.color = "red";
+				MARKDOWN_CONTAINER.appendChild(LOG_OUTPUT);
+				return;
+			}
+
+			LOG_OUTPUT.textContent = "Loading " + url + "...\n";
+			LOG_OUTPUT.innerHTML += "<br/>"
+
+			const source_promise = fetch(url)
+				.then(response => { if (response.ok) return response.text(); else return null; })
+				.catch(response => {
+					LOG_OUTPUT.innerHTML += "Failed to load markdown source.<br/>";
+					LOG_OUTPUT.innerHTML += response;
+					LOG_OUTPUT.style.color = "red";
+					MARKDOWN_CONTAINER.appendChild(LOG_OUTPUT);
+				});
+
+			const emoji = new EmojiConvertor();
+			emoji.img_set = "twitter";
+			// Hi, let's use Twemoji for the demo (https://twemoji.twitter.com/).
+			emoji.img_sets.twitter.path = "https://twemoji.maxcdn.com/v/latest/72x72/";
+			// Fix the heart emoji.
+			emoji.data["2764"] = emoji.data["2764-fe0f"];
+			delete emoji.data["2764-fe0f"];
+			emoji.init_colons();
+
+			let parser_options = {
+				auto_link: true,
+				emoji: {
+					dictionary: Object.keys(emoji.map.colons)
+				},
+				latex: true,
+				newline_as_linebreaks: false
+			};
+			let render_options = {
+				emoji: node => {
+					return html.parse(emoji.replace_colons(node.toString()));
+				},
+				image: { class_name: "ls_responsive_img" },
+				latex: {
+					katex: katex
+				},
+				spoiler: { enable: true },
+				block_code: {
+					highlighter: (code, language, parent) => {
+						if (Prism.languages[language]) {
+							const stuff = html.parse("<pre><code>"
+								+ Prism.highlight(code, Prism.languages[language], language)
+								+ "</code></pre>");
+							parent.children = stuff.get_element_by_tag_name("code").children;
+						} else
+							parent.append_child(new html.Text(code, html.TextMode.RAW));
+					}
+				},
+				parent: MARKDOWN_CONTAINER
+			};
+
+			const content = await source_promise;
+
+			if (!content) return;
+
+			const doc = md.parser.parse(content, parser_options);
+
+			for (const block of doc.blocks) {
+				if (block instanceof md.BlockCode && block.has_language()) {
+					await PRISM.get_or_load_language(block.language.replace(/:apply$/, ""));
+				}
+			}
+
+			const url_split = url.split("/");
+			for (const ref of doc.references) {
+				if (ref.ref.url.startsWith("./")) {
+					url_split[url_split.length - 1] = ref.ref.url.split("/").slice(1).join("/");
+
+					let new_url = new URL(window.location.href);
+					new_url.search = "?source=" + url_split.join("/");
+					ref.ref.url = new_url.href;
+				}
+			}
+
+			md.render(doc, MARKDOWN_CONTAINER, render_options);
+		})();
+	</script>
+</body>
+
+<script>
+	const title = "Yet Another Markdown Viewer";
+
+	return {
+		page: {
+			title: title,
+			description: "A simple markdown viewer from a given source, using lib.md.",
+			embed: {
+				title: title
+			},
+			keywords: "LambdAurora, Markdown, lib.md"
+		}
+	};
+</script>
+
+<style>
+	.underline {
+		text-decoration: underline;
+	}
+</style>
+</html>

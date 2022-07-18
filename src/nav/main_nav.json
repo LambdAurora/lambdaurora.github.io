@@ -2,7 +2,7 @@
 	{
 		"type": "link",
 		"name": "Projects",
-		"link": "https://github.com/LambdAurora?tab=repositories"
+		"link": "/projects"
 	},
 	{
 		"type": "link",

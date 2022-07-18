@@ -1,0 +1,72 @@
+<html>
+<body>
+	<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+		<header>
+			<main_nav_banner></main_nav_banner>
+		</header>
+	</sidenav>
+
+	<main class="ls_sidenav_neighbor">
+		<div class="ls_main_content" style="margin-top: 4em;">
+			<h1>Projects</h1>
+
+			<p>
+				This page is definitely not finished, so this might be a bit rough for now.
+				<br />
+				tl;dr those are projects that I either created or participated in.
+				<br />
+				If you want to see a rather complete list of the open-source projects I worked on
+				you can visit <a href="https://github.com/LambdAurora?tab=repositories">my GitHub profile</a>.
+			</p>
+
+			<h3>Quick Tools</h3>
+			<p>
+				This is a quick list of tools I worked on that can be used directly in the browser.
+
+				<ul>
+					<li><a href="/tools/import_quilt.html">Import Quilt Utility</a> - a very quick checker for the Quilt project,
+						pending to be moved to the <a href="https://quiltmc.org">Quilt website</a>.</li>
+					<li><a href="/tools/markdown_viewer">Yet Another Markdown Viewer</a> - a very quick Markdown viewer to see documents as a HTML page.</li>
+				</ul>
+			</p>
+
+			<h3 id="mc_mods">Minecraft Mods</h3>
+			<ul>
+				<li><a href="/AurorasDecorations">Aurora's Decorations</a></li>
+				<li><a href="https://github.com/LambdAurora/fuck_namemc">Fuck NameMC</a></li>
+				<li><a href="https://modrinth.com/mod/inspecio">Inspecio</a></li>
+				<li><a href="https://modrinth.com/mod/lambdabettergrass">LambdaBetterGrass</a></li>
+				<li><a href="https://modrinth.com/mod/lambdynamiclights">LambDynamicLights</a></li>
+				<li><a href="https://modrinth.com/mod/lovely_snails">Lovely Snails</a></li>
+				<li><a href="https://github.com/LambdAurora/SpruceUI">SpruceUI</a></li>
+			</ul>
+			<p>
+				I am also part of the development team of <a href="https://quiltmc.org">QuiltMC</a>.
+			</p>
+
+			<h3>Other</h3>
+			<ul>
+				<li><a href="https://github.com/LambdAurora/lib.md">lib.md</a> - a Markdown parser and renderer written in JavaScript.</li>
+			</ul>
+		</div>
+	</main>
+
+	<app_footer class="ls_sidenav_neighbor">
+	</app_footer>
+</body>
+
+<script>
+	const title = "Projects";
+
+	return {
+		page: {
+			title: `LambdAurora - ${title}`,
+			description: "A list of some of my projects.",
+			embed: {
+				title: title
+			},
+			keywords: "LambdAurora"
+		}
+	};
+</script>
+</html>
