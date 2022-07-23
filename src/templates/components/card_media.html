@@ -1,5 +1,5 @@
 <body>
-	<div class="ls_card_content ls_card_media${additional_classes}">
+	<div class="ls_card_section ls_card_media${additional_classes}">
 		<img src="${img}" class="ls_responsive_img" />
 	</div>
 </body>
@@ -13,4 +13,8 @@
 
 	data.copy_attr("ls_size");
 	data.replace("img", data.element.get_attr("img").value());
+
+	data.do_with_attr("darken", _ => {
+		data.get_first_element().children.splice(1, 0, html.create_element("div").with_attr("class", "ls_card_media_darken"))
+	});
 </script>

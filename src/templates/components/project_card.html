@@ -1,0 +1,63 @@
+<body>
+	<div class="ls_card project_card${additional_classes}">
+		<content>
+		</content>
+		<card_actions>
+
+		</card_actions>
+	</div>
+</body>
+
+<script>
+	const card = data.get_first_element();
+
+	// Look up a thumbnail property.
+	const thumbnail = data.element.get_attr("thumbnail");
+	const logo = data.element.get_attr("logo");
+	let content_element;
+
+	card.children = card.children.map(child => {
+		if (child.tag.name === "content") {
+			if (thumbnail) {
+				// If there's a thumbnail we use the card media with content component.
+				content_element = html.create_element("card_media_with_content").with_attr("img", thumbnail.value());
+
+				if (data.element.get_attr("thumbnail_darken")) {
+					content_element.attr("darken", "");
+				}
+			} else if (logo) {
+				// If there's a logo we use the normal card section to add in the logo.
+				const img = html.create_element("img")
+					.with_attr("src", logo.value())
+					.with_attr("class", "project_logo_img");
+
+				if (data.element.get_attr("logo_pixelated")) {
+					img.get_attr("class").add("ls_pixelated");
+				}
+
+				return html.create_element("card_section")
+					.with_child(img)
+					.with_child(content_element = html.create_element("div").with_attr("class", "ls_card_content"));
+			} else {
+				// Otherwise we use a simple card content component.
+				content_element = html.create_element("card_content");
+			}
+
+			return content_element;
+		}
+
+		return child;
+	});
+
+	content_element.children = data.element.children;
+
+	const actions = card.find_element_by_tag_name("card_actions");
+	data.do_with_attr("page", attr => {
+		actions.append_child(html.create_element("a").with_attr("href", attr.value()).with_attr("class", "ls_btn").with_child("View Page"));
+	});
+	data.do_with_attr("source", attr => {
+		actions.append_child(html.create_element("a").with_attr("href", attr.value()).with_attr("class", "ls_btn").with_child("View Source"));
+	});
+
+	data.apply_additional_classes();
+</script>

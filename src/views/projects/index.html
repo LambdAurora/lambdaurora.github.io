@@ -31,15 +31,55 @@
 			</p>
 
 			<h3 id="mc_mods">Minecraft Mods</h3>
-			<ul>
-				<li><a href="/AurorasDecorations">Aurora's Decorations</a></li>
-				<li><a href="https://github.com/LambdAurora/fuck_namemc">Fuck NameMC</a></li>
-				<li><a href="https://modrinth.com/mod/inspecio">Inspecio</a></li>
-				<li><a href="https://modrinth.com/mod/lambdabettergrass">LambdaBetterGrass</a></li>
-				<li><a href="https://modrinth.com/mod/lambdynamiclights">LambDynamicLights</a></li>
-				<li><a href="https://modrinth.com/mod/lovely_snails">Lovely Snails</a></li>
-				<li><a href="https://github.com/LambdAurora/SpruceUI">SpruceUI</a></li>
-			</ul>
+			<!-- TODO: don't use a style property? -->
+			<div style="display: flex; flex-flow: row wrap; justify-content: space-between; gap: 10px;">
+				<project_card
+					page="/AurorasDecorations"
+					source="https://github.com/LambdAurora/AurorasDecorations"
+					logo="https://lambdaurora.dev/AurorasDecorations/icon.png" logo_pixelated>
+					<h3><a href="/AurorasDecorations">AurorasDecorations</a></h3>
+					A decorations-focused Minecraft mod, and tries to have a twist for its different features.
+				</project_card>
+				<project_card
+					source="https://github.com/LambdAurora/fuck_namemc">
+					<h3><a href="https://github.com/LambdAurora/fuck_namemc">Fuck NameMC</a></h3>
+					A Minecraft mod to block NameMC indexing on servers.
+				</project_card>
+				<project_card
+					page="https://modrinth.com/mod/inspecio"
+					source="https://github.com/Queerbric/Inspecio"
+					logo="https://cdn.modrinth.com/data/a93H3mKU/icon.png" logo_pixelated>
+					<h3><a href="https://modrinth.com/mod/inspecio">Inspecio</a></h3>
+					A Minecraft mod which adds more detailed tooltips. 
+				</project_card>
+				<project_card
+					page="https://modrinth.com/mod/lambdabettergrass"
+					source="https://github.com/LambdAurora/LambdaBetterGrass"
+					thumbnail="https://raw.githubusercontent.com/LambdAurora/LambdaBetterGrass/1.19/images/pack.png" thumbnail_darken>
+					<h3><a href="https://modrinth.com/mod/lambdabettergrass">LambdaBetterGrass</a></h3>
+					A Minecraft mod which adds better grass and snow to the game.
+				</project_card>
+				<project_card
+					page="https://modrinth.com/mod/lambdynamiclights"
+					source="https://github.com/LambdAurora/LambDynamicLights"
+					thumbnail="https://media.forgecdn.net/attachments/301/21/2020-07-04_22.png" thumbnail_darken>
+					<h3><a href="https://modrinth.com/mod/lambdynamiclights">LambDynamicLights</a></h3>
+					A Minecraft mod which adds dynamic lighting.
+				</project_card>
+				<project_card
+					page="https://modrinth.com/mod/lovely_snails"
+					source="https://github.com/LambdAurora/lovely_snails"
+					thumbnail="https://raw.githubusercontent.com/LambdAurora/lovely_snails/1.17/images/small_snails.png">
+					<h3><a href="https://modrinth.com/mod/lovely_snails">Lovely Snails</a></h3>
+					A Minecraft mod which adds some very cute snails.
+				</project_card>
+				<project_card
+					source="https://github.com/LambdAurora/SpruceUI">
+					<h3><a href="https://github.com/LambdAurora/SpruceUI">SpruceUI</a></h3>
+					A Minecraft library mod which adds a new abstraction to create GUI interfaces.
+					Still close to the Vanilla design code-wise.
+				</project_card>
+			</div>
 			<p>
 				I am also part of the development team of <a href="https://quiltmc.org">QuiltMC</a>.
 			</p>
@@ -54,6 +94,27 @@
 	<app_footer class="ls_sidenav_neighbor">
 	</app_footer>
 </body>
+
+<style>
+	.project_card {
+		--project_card_logo_size: 128px;
+
+		flex: 1 1 48%;
+	}
+
+	.project_card > .ls_card_section > img.project_logo_img {
+		width: var(--project_card_logo_size);
+		height: var(--project_card_logo_size);
+	}
+
+	@media screen and (max-width: 850px) {
+		.project_card {
+			--project_card_logo_size: 64px;
+
+			flex: revert;
+		}
+	}
+</style>
 
 <script>
 	const title = "Projects";

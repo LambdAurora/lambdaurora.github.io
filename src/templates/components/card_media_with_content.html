@@ -1,0 +1,19 @@
+<body>
+	<card_media>
+		<div class="ls_card_content"></div>
+	</card_media>
+</body>
+
+<script>
+	const content_el = data.get_first_element().children[0];
+	for (const child of data.element.children) {
+		content_el.append_child(child);
+	}
+
+	data.apply_additional_classes();
+
+	data.copy_attr("darken");
+	data.copy_attr("class");
+	data.copy_attr("img");
+	data.copy_attr("ls_size");
+</script>

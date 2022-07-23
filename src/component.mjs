@@ -39,12 +39,15 @@ export class Component {
 			get_first_element() {
 				return this.nodes.find(node => node instanceof html.Element);
 			},
-			copy_attr(attr) {
+			do_with_attr(attr, callback) {
 				const value = this.element.get_attr(attr);
 
 				if (value) {
-					this.get_first_element().attr(attr, value.value());
+					callback(value);
 				}
+			},
+			copy_attr(attr) {
+				this.do_with_attr(attr, value => this.get_first_element().attr(attr, value.value()));
 			},
 			apply_additional_classes() {
 				const classes = this.element.get_attr("class");
