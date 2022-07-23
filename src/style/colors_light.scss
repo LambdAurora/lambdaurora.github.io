@@ -14,7 +14,7 @@
 @use "colors";
 
 :root {
-	--ls_theme_foreground: #444;
+	--ls_theme_foreground: var(--ls_theme_foreground_on_light);
 	--ls_theme_background: #f4f4f4;
 
 	--ls_theme_foreground_accentuated: #4d4d4d;

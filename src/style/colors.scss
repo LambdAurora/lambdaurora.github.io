@@ -89,5 +89,8 @@ $theme_secondary_darkened_3: darken($theme_secondary, 42.5%);
 	--ls_theme_border_color: #777;
 	--ls_theme_background_code: #77778022;
 
+	--ls_theme_foreground_on_dark: #eee;
+	--ls_theme_foreground_on_light: #444;
+
 	--ls_dark_theme_background_accentuated: #222;
 }

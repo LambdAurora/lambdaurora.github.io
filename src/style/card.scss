@@ -67,8 +67,12 @@
 
 		> div.ls_card_content {
 			position: absolute;
-			bottom: 0;
+			display: flex;
+			flex-direction: column;
+			justify-content: end;
 			left: 0;
+			right: 0;
+			bottom: 0;
 			max-width: 100%;
 			padding: 24px;
 		}
@@ -90,16 +94,30 @@
 		}
 	}
 
-	.ls_card_section.ls_card_media > div.ls_card_media_darken {
-		background-color: rgba(0, 0, 0, 0.5);
-		position: absolute;
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
+	.ls_card_section.ls_card_media.ls_card_media_darkened {
+		color: var(--ls_theme_foreground_on_dark);
 
-		border-top-left-radius: inherit;
-		border-top-right-radius: inherit;
+		> div.ls_card_media_darkener {
+			background-color: rgba(0, 0, 0, 0.5);
+			pointer-events: none;
+
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+
+			border-top-left-radius: inherit;
+			border-top-right-radius: inherit;
+		}
+
+		> div.ls_card_media_darkener[darken_intensity="25"] {
+			background-color: rgba(0, 0, 0, 0.25);
+		}
+
+		> div.ls_card_media_darkener[darken_intensity="10"] {
+			background-color: rgba(0, 0, 0, 0.10);
+		}
 	}
 
 	.ls_card_actions {

@@ -22,9 +22,9 @@
 				// If there's a thumbnail we use the card media with content component.
 				content_element = html.create_element("card_media_with_content").with_attr("img", thumbnail.value());
 
-				if (data.element.get_attr("thumbnail_darken")) {
-					content_element.attr("darken", "");
-				}
+				data.do_with_attr("thumbnail_darken", attr => {
+					content_element.attr("darken", attr.value());
+				});
 			} else if (logo) {
 				// If there's a logo we use the normal card section to add in the logo.
 				const img = html.create_element("img")
