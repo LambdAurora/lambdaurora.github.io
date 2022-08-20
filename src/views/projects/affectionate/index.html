@@ -36,6 +36,20 @@
 		});
 	}
 
+	function filter_badge_classes(nodes) {
+		nodes.forEach(node => {
+			if (node instanceof html.Image) {
+				node.remove_attr("class");
+			}
+
+			if (node.children) {
+				filter_badge_classes(node.children);
+			}
+
+			return node;
+		});
+	}
+
 	return {
 		page: {
 			title: `LambdAurora - ${title}`,
@@ -55,7 +69,17 @@
 				.then(text => md.parser.parse(text));
 
 			readme.blocks = remove_comments(readme.blocks);
-			readme.blocks.splice(1, 1);
+
+			readme.blocks[1].nodes = readme.blocks[1].nodes.filter(node => {
+				if (node instanceof md.Image) {
+					if (node.ref.url.startsWith("https://img.shields.io/badge/language-")
+						|| node.ref.url.startsWith("https://img.shields.io/github/v/tag")) {
+						return false;
+					}
+				}
+
+				return true;
+			});
 
 			div.children = [];
 
@@ -71,7 +95,8 @@
 				parent: div
 			});
 
-			console.log(div.children);
+			const first_p = div.find_element_by_tag_name("p");
+			filter_badge_classes(first_p.children);
 		}
 	};
 </script>
