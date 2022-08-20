@@ -3,7 +3,6 @@ name: 'Deploy'
 on:
   push:
     branches: [ "main" ]
-
   # Allows to run this workflow manually.
   workflow_dispatch:
 
@@ -42,7 +41,7 @@ jobs:
         run: |
           ./build.sh
 
-      - name: Upload artifact
+      - name: 'Upload artifact'
         uses: actions/upload-pages-artifact@v1
         with:
           path: ./build/deploy
