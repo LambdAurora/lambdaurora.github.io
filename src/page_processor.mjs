@@ -128,7 +128,7 @@ function load_view_file(view_path) {
 }
 
 async function load_script(source) {
-	return (new Function(source.get_element_by_tag_name("script").children[0].content))();
+	return (new Function("CONSTANTS", source.get_element_by_tag_name("script").children[0].content))(CONSTANTS);
 }
 
 const PROCESS_PAGE_SETTINGS = Object.freeze({
