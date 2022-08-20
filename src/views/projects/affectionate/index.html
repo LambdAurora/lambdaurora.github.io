@@ -11,7 +11,7 @@
 			<h1>Affectionate</h1>
 
 			<p>
-				Please come back later once I have setup the thing that will automatically set the content here. &lt;3
+				Oops, something went wrong! Don't worry, you can find the mod on <a href="https://modrinth.com/mod/affectionate">Modrinth</a> in the meantime.
 			</p>
 		</div>
 	</main>
@@ -22,6 +22,19 @@
 
 <script>
 	const title = "Affectionate";
+	const AFFECTIONATE_README = "https://raw.githubusercontent.com/LambdAurora/affectionate/1.19/README.md";
+
+	function remove_comments(nodes) {
+		return nodes.filter(node => {
+			return !(node instanceof md.Comment);
+		}).map(node => {
+			if (node.nodes && node.nodes.length !== 0) {
+				node.nodes = remove_comments(node.nodes);
+			}
+
+			return node;
+		});
+	}
 
 	return {
 		page: {
@@ -32,6 +45,33 @@
 				image: CONSTANTS.get_url("/images/projects/affectionate/affectionate.png")
 			},
 			keywords: "LambdAurora, Affectionate, Minecraft Mod"
+		},
+		async post_process(page) {
+			const main = page.find_element_by_tag_name("main");
+			const div = main.get_element_by_tag_name("div");
+
+			let readme = await fetch(AFFECTIONATE_README)
+				.then(response => response.text())
+				.then(text => md.parser.parse(text));
+
+			readme.blocks = remove_comments(readme.blocks);
+			readme.blocks.splice(1, 1);
+
+			div.children = [];
+
+			md.render_to_html(readme, {
+				image: {
+					class_name: "ls_responsive_img"
+				},
+				table: {
+					process: table => {
+						table.with_attr("class", "ls_grid_table");
+					}
+				},
+				parent: div
+			});
+
+			console.log(div.children);
 		}
 	};
 </script>

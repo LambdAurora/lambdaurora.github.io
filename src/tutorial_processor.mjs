@@ -78,6 +78,9 @@ async function process_tutorial(path) {
 							parent.append_child(new html.Text(code, html.TextMode.RAW));
 					}
 				},
+				image: {
+					class_name: "ls_responsive_img"
+				},
 				table: {
 					process: table => {
 						table.with_attr("class", "ls_grid_table");

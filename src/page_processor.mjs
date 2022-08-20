@@ -1,4 +1,4 @@
-import { html, utils } from "./libmd.mjs";
+import { html, md, utils } from "./libmd.mjs";
 
 import { COMPONENTS } from "./component.mjs";
 import { CONSTANTS } from "./constants.mjs";
@@ -128,7 +128,10 @@ function load_view_file(view_path) {
 }
 
 async function load_script(source) {
-	return (new Function("CONSTANTS", source.get_element_by_tag_name("script").children[0].content))(CONSTANTS);
+	const func = new Function("CONSTANTS", "html", "md",
+		source.get_element_by_tag_name("script").children[0].content
+	);
+	return func(CONSTANTS, html, md);
 }
 
 const PROCESS_PAGE_SETTINGS = Object.freeze({
@@ -197,6 +200,10 @@ export async function process_page(path, settings) {
 	body.purge_empty_children();
 
 	process_head(page[1], style, module);
+
+	if (module.post_process) {
+		await module.post_process(page[1]);
+	}
 
 	return {
 		content: page,
