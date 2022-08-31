@@ -162,10 +162,10 @@ async function process_tutorial_index(entry) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
 			const main = html.create_element("main")
-				.with_attr("class", "ls_main_content ls_sidenav_neighbor");
+				.with_attr("class", "ls_sidenav_neighbor");
 
-			const article = html.create_element("article");
-			article.style("margin-top", "0");
+			const article = html.create_element("article")
+				.with_attr("class", "ls_main_content");
 			main.append_child(article);
 
 			article.append_child(html.create_element("h1").with_child(new html.Text(title)));
