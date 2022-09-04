@@ -88,7 +88,7 @@ This goal had constraints:
 
 And that's how another [Deno][deno]-based project started.
 
-Solving the comments issue was a bit hard. I had heard [uterrances](https://utteranc.es/), a script to execute on the page to make the comments of a GitHub issue show up as the comments of the page. This was neat but had issues: it would require me to get an issue opened for discussion and not actual issues, it has the same issue as Gist comments which is replying has bad UI.
+Solving the comments issue was a bit hard. I had heard of [uterrances](https://utteranc.es/), a script to execute on the page to make the comments of a GitHub issue show up as the comments of the page. This was neat but had issues: it would require me to get an issue opened for discussion and not actual issues, it has the same issue as Gist comments which is replying has bad UI.
 
 After searching for a long time I settled on [giscus](https://giscus.app/). Absolutely the same principle, *but* it's using GitHub discussion instead, which solve every issues I had, great!
 
