@@ -6,6 +6,11 @@
 	},
 	{
 		"type": "link",
+		"name": "Blog",
+		"link": "/blog"
+	},
+	{
+		"type": "link",
 		"name": "Tutorials",
 		"link": "/tutorials",
 		"description": "Not a lot yet."

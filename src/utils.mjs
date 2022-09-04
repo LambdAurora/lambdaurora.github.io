@@ -1,4 +1,5 @@
 import { existsSync } from "https://deno.land/std/fs/mod.ts";
+import { html } from "./libmd.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
 export const BUILD_DIR = "./build";
@@ -15,4 +16,18 @@ export async function create_parent_directory(path) {
 	if (!existsSync(parent_dir)) {
 		await Deno.mkdir(parent_dir, { recursive: true });
 	}
+}
+
+export function process_property_from_html(html_tree, property, callback) {
+	const token = property + ':';
+
+	html_tree.children = html_tree.children.filter(node => {
+		if (node instanceof html.Comment && node.content.startsWith(token)) {
+			const value = node.content.substr(token.length).trim();
+			callback(value);
+			return false;
+		}
+
+		return true;
+	});
 }

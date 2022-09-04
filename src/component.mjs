@@ -1,4 +1,4 @@
-import { html, utils } from "./libmd.mjs";
+import { html } from "./libmd.mjs";
 import { DECODER } from "./utils.mjs";
 
 const COMPONENTS_ROOT = "src/templates/components";
@@ -113,6 +113,7 @@ export class Component {
 }
 
 export const COMPONENTS = {
+	root: COMPONENTS_ROOT,
 	values: {},
 	/**
 	 * Gets a component by its name.
@@ -126,7 +127,7 @@ export const COMPONENTS = {
 	load: async function(path) {
 		const name = path.replace(/\.html$/, "").split("/").filter(part => part !== "").join("_");
 
-		const nodes = await Deno.readFile(COMPONENTS_ROOT + path)
+		const nodes = await Deno.readFile(this.root + path)
 			.then(content => DECODER.decode(content))
 			.then(content => html.parse_nodes(content));
 
@@ -142,7 +143,7 @@ export const COMPONENTS = {
 
 		const to_load = [];
 
-		for await (const dir_entry of Deno.readDir(COMPONENTS_ROOT + directory)) {
+		for await (const dir_entry of Deno.readDir(this.root + directory)) {
 			if (dir_entry.isDirectory) {
 				await this.load_all("/" + dir_entry.name);
 			} else {

@@ -1,5 +1,5 @@
 import { process_page } from "./page_processor.mjs";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory } from "./utils.mjs";
+import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.mjs";
 import { md, html } from "./libmd.mjs";
 import * as PRISM from "./prismjs.mjs";
 
@@ -90,15 +90,11 @@ async function process_tutorial(path) {
 			}).children.filter(node => {
 				if (node instanceof html.Element && node.tag.name === "h1") {
 					title = node.text();
-				} else if (node instanceof html.Comment) {
-					if (node.content.startsWith("description:")) {
-						page_description = node.content.substr("description:".length);
-						return false;
-					}
 				}
 
 				return true;
 			});
+			process_property_from_html(article, "description", value => page_description = value);
 
 			(function visit_block_code(element) {
 				if (!(element instanceof html.Element)) {
