@@ -100,7 +100,7 @@ async function process_blog_entry(path, year, month, context) {
 			.then(date => new ShortDate(date.getFullYear(), date.getMonth() + 1, date.getDate()))
 	};
 
-	return await process_page(`/blog/${year}/${month}/${path.replace(/\.md$/, ".html")}`, {
+	return await process_page(`/blog/${path.replace(/\.md$/, ".html")}`, {
 		load_view: async function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
