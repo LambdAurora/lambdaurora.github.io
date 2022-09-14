@@ -1,0 +1,75 @@
+<html>
+<body>
+	<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+		<header>
+			<main_nav_banner></main_nav_banner>
+		</header>
+	</sidenav>
+
+	<main class="ls_sidenav_neighbor">
+		<div class="ls_main_content" style="margin-top: 4em;">
+			<h1>Yet Another Markdown Viewer</h1>
+
+			<p>
+				A slightly dirty but very quick Markdown viewer.
+				<br />
+				Simply feed it an URL to a markdown document and it'll display it as a full page.
+			</p>
+
+			<h3>Features</h3>
+			<ul>
+				<li>Renders a Markdown document to HTML from an URL.</li>
+				<li>Supports printing using the web browser's printing feature.</li>
+				<li>Is simple.</li>
+			</ul>
+
+			<h3>Let me use it!</h3>
+
+			<div style="display: flex; flex-direction: row;">
+				<div class="ls_col" style="display: flex; flex-direction: column; flex: 2 1 auto;">
+					<label for="markdown_url">Markdown document's URL to render:</label>
+					<input type="text" name="markdown_url" id="markdown_url_input" />
+				</div>
+				<button id="markdown_render_btn" class="ls_btn" ls_variant="contained" style="flex: 1 1 auto;">Render</button>
+			</div>
+		</div>
+	</main>
+
+	<app_footer class="ls_sidenav_neighbor">
+	</app_footer>
+
+	<script type="module">
+		const url_input = document.getElementById("markdown_url_input");
+
+		document.getElementById("markdown_render_btn").addEventListener("click", e => {
+			if (url_input.value === "") {
+				url_input.style.border = "1px solid red";
+				return;
+			}
+
+			url_input.style.border = "";
+
+			const href = window.location.href.replace(/\/(index\.html)?$/, "");
+
+			const target = href + "/viewer.html?source=" + encodeURI(url_input.value);
+
+			window.open(target, "_blank").focus();
+		});
+	</script>
+</body>
+
+<script>
+	const title = "Yet Another Markdown Viewer";
+
+	return {
+		page: {
+			title: title,
+			description: "A simple markdown viewer from a given source, using lib.md.",
+			embed: {
+				title: title
+			},
+			keywords: "LambdAurora, Markdown, lib.md"
+		}
+	};
+</script>
+</html>

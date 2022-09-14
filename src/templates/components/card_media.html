@@ -1,0 +1,28 @@
+<body>
+	<div class="ls_card_section ls_card_media${additional_classes}">
+		<img src="${img}" class="ls_responsive_img" />
+	</div>
+</body>
+
+<script>
+	const card_section = data.get_first_element();
+
+	for (const child of data.element.children) {
+		card_section.append_child(child);
+	}
+
+	data.apply_additional_classes();
+
+	data.copy_attr("ls_size");
+	data.replace("img", data.element.get_attr("img").value());
+
+	data.do_with_attr("darken", intensity => {
+		card_section.get_attr("class").add("ls_card_media_darkened");
+
+		if (intensity.value() !== "none") {
+			const darkener = html.create_element("div").with_attr("class", "ls_card_media_darkener");
+			if (intensity.value() !== "") { darkener.with_attr("darken_intensity", intensity.value()); }
+			card_section.children.splice(1, 0, darkener);
+		}
+	});
+</script>

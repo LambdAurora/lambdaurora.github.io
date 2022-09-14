@@ -1,0 +1,146 @@
+/*
+ * lambdaurora.dev stylesheet - A simple stylesheet.
+ *
+ * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ *
+ * To the extent possible under law, the author(s) have dedicated
+ * all copyright and related and neighboring rights to this software
+ * to the public domain worldwide.
+ * This software is distributed without any warranty.
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ */
+
+$sidenav_large_size: 300px;
+$sidenav_medium_size: 180px;
+
+nav.ls_sidenav {
+	position: fixed;
+	top: 0;
+	margin: 0;
+	height: 100%;
+
+	min-width: $sidenav_large_size;
+	max-width: $sidenav_large_size;
+	width: 100%;
+
+	background-color: var(--ls_theme_background_accentuated);
+	box-shadow: 3px 0 2px -2px rgba(0, 0, 0, .2), 2px 0 3px 0 rgba(0, 0, 0, .14), 1px 0 6px 1px rgba(0, 0, 0, .12);
+
+	overflow-y: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--ls_theme_primary) var(--ls_theme_background_popover);
+
+	z-index: 128;
+
+	> .ls_nav_banner {
+		flex-direction: row;
+	}
+}
+
+.ls_sidenav_darkened {
+	visibility: hidden;
+	display: none;
+	opacity: 0;
+	position: fixed;
+	background-color: rgba(0, 0, 0, 0.4);
+	cursor: pointer;
+	z-index: 64;
+
+	top: 0;
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+.ls_sidenav_trigger {
+	display: none;
+	position: fixed;
+	top: .5em;
+	left: .5em;
+	width: 2.5em;
+	height: 2.5em;
+	line-height: 2.4em;
+	font-size: initial;
+
+	z-index: 64;
+}
+
+.ls_sidenav_internal_trigger {
+	display: none;
+}
+
+.ls_sidenav_neighbor {
+	padding-left: $sidenav_large_size;
+}
+
+@media print {
+	nav.ls_sidenav {
+		display: none;
+	}
+
+	.ls_sidenav_neighbor {
+		padding-left: 0 !important;
+	}
+}
+
+@media screen and (min-width: 851px) and (max-width: 1101px) {
+	nav.ls_sidenav {
+		min-width: $sidenav_medium_size;
+		max-width: $sidenav_medium_size;
+
+		> .ls_nav_banner {
+			min-height: $sidenav_medium_size;
+			flex-direction: column;
+		}
+
+		> .ls_nav_banner[ls_small_reverse] {
+			flex-direction: column-reverse;
+		}
+	}
+
+	.ls_sidenav_neighbor {
+		padding-left: $sidenav_medium_size !important;
+	}
+}
+
+@media screen and (max-width: 850px) {
+	nav.ls_sidenav {
+		visibility: hidden;
+		transform: translateX(-150%);
+
+		transition: transform 500ms ease, visibility 500ms ease;
+
+		max-width: 80%;
+	}
+
+	.ls_sidenav_trigger {
+		display: block;
+	}
+
+	.ls_sidenav_internal_trigger:checked ~ nav.ls_sidenav {
+		visibility: visible;
+		transform: translateX(0%);
+	}
+
+	.ls_sidenav_darkened {
+		display: block;
+	}
+
+	.ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
+		visibility: visible;
+		opacity: 100%;
+		transition: opacity 500ms ease, visibility 500ms ease;
+		transform: translateX(0%);
+	}
+
+	.ls_sidenav_neighbor {
+		padding-left: 0px !important;
+	}
+}
+
+@media (prefers-reduced-motion) {
+	nav.ls_sidenav, .ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
+		transition: none;
+	}
+}

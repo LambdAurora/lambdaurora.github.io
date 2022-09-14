@@ -1,0 +1,131 @@
+/*
+ * lambdaurora.dev stylesheet - A simple stylesheet.
+ *
+ * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ *
+ * To the extent possible under law, the author(s) have dedicated
+ * all copyright and related and neighboring rights to this software
+ * to the public domain worldwide.
+ * This software is distributed without any warranty.
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ */
+
+.ls_card {
+	display: flex;
+	flex-direction: column;
+	border-radius: 4px;
+	box-shadow: 0 3px 1px -2px #0003, 0 2px 2px 0 #00000024, 0 1px 5px 0 #0000001f;
+	box-sizing: border-box;
+
+	background-color: var(--ls_theme_background_popover);
+
+	> :first-child:not(.ls_btn) {
+		border-top-left-radius: inherit;
+		border-top-right-radius: inherit;
+	}
+
+	> :last-child:not(.ls_btn) {
+		border-bottom-left-radius: inherit;
+		border-bottom-right-radius: inherit;
+	}
+
+	> :not(:first-child) {
+		border-top: 1px solid var(--ls_theme_border_color);
+	}
+
+	.ls_card_section {
+		display: flex;
+		flex-direction: row;
+
+		flex: 1;
+
+		> div.ls_card_content {
+			flex: 1 1 auto;
+			padding: 1em;
+
+			> h1, > h2, > h3, > h4, > h5, > h6 {
+				margin-block-start: 0em;
+			}
+		}
+	}
+
+	.ls_card_section.ls_card_media:not([ls_size="small"]) {
+		position: relative;
+
+		> img {
+			display: block;
+			border-top-left-radius: inherit;
+			border-top-right-radius: inherit;
+			position: relative;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			width: 100%;
+		}
+
+		> div.ls_card_content {
+			position: absolute;
+			display: flex;
+			flex-direction: column;
+			justify-content: end;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			max-width: 100%;
+			padding: 24px;
+		}
+	}
+
+	.ls_card_section.ls_card_media[ls_size="small"] {
+		flex-direction: row;
+
+		> img {
+			display: block;
+			border-top-left-radius: inherit;
+			position: relative;
+			width: 100%;
+		}
+
+		> div.ls_card_content {
+			flex: 1 1 auto;
+			padding: 1em;
+		}
+	}
+
+	.ls_card_section.ls_card_media.ls_card_media_darkened {
+		color: var(--ls_theme_foreground_on_dark);
+
+		> div.ls_card_media_darkener {
+			background-color: rgba(0, 0, 0, 0.5);
+			pointer-events: none;
+
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+
+			border-top-left-radius: inherit;
+			border-top-right-radius: inherit;
+		}
+
+		> div.ls_card_media_darkener[darken_intensity="25"] {
+			background-color: rgba(0, 0, 0, 0.25);
+		}
+
+		> div.ls_card_media_darkener[darken_intensity="10"] {
+			background-color: rgba(0, 0, 0, 0.10);
+		}
+	}
+
+	.ls_card_actions {
+		padding: 8px;
+	}
+}
+
+.ls_card[ls_flat] {
+	border-radius: 0;
+	box-shadow: none;
+}

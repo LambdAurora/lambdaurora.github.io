@@ -1,0 +1,192 @@
+/*
+ * lambdaurora.dev stylesheet - A simple stylesheet.
+ *
+ * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ *
+ * To the extent possible under law, the author(s) have dedicated
+ * all copyright and related and neighboring rights to this software
+ * to the public domain worldwide.
+ * This software is distributed without any warranty.
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ */
+
+code {
+	font-family: ui-monospace, monospace;
+	font-size: 85%;
+
+	--ls_theme_code_comment: #007c00;
+	--ls_theme_code_function_name: #5977aa;
+	--ls_theme_code_keyword: #774c94;
+	--ls_theme_code_literal: #df5b47;
+	--ls_theme_code_punctuation: #0e6e75;
+	--ls_theme_code_string: #648a2f;
+	--ls_theme_code_tag: #e63935;
+	--ls_theme_code_type: #c47c12;
+}
+
+kbd {
+	background-color: var(--ls_theme_background_code);
+	border-radius: 3px;
+	border: 1px solid var(--ls_theme_border_color);
+	box-shadow: 0 1px 1px rgba(0, 0, 0, .2), 0 2px 0 0 rgba(255, 255, 255, .7) inset;
+	color: var(--ls_theme_foreground);
+	display: inline-block;
+	font-size: .90em;
+	font-weight: 800;
+	line-height: 1.1em;
+	padding: 2px 4px;
+	white-space: nowrap;
+}
+
+@media (prefers-color-scheme: dark) {
+	code {
+		--ls_theme_code_comment: #699854;
+		--ls_theme_code_function_name: #82a9f0;
+		--ls_theme_code_keyword: #c792e6;
+		--ls_theme_code_literal: #f78b65;
+		--ls_theme_code_punctuation: #89ddff;
+		--ls_theme_code_string: #c3e88c;
+		--ls_theme_code_tag: #e2777a;
+		--ls_theme_code_type: #ffcb6b;
+	}
+
+	kbd {
+		box-shadow: 0 2px 0 0 rgba(0, 0, 0, .2) inset, 0 1px 1px rgba(255, 255, 255, .7);
+	}
+}
+
+a code {
+	color: var(--ls_theme_primary);
+}
+
+:not(pre) > code {
+	background-color: var(--ls_theme_background_code);
+	border-radius: 6px;
+	padding: .2em .4em;
+}
+
+.block_code > pre {
+	border-radius: 6px;
+	padding: .2em .4em;
+}
+
+pre[class*="language-"] {
+	background-color: var(--ls_theme_background_code);
+}
+
+code[class*=language-],
+pre[class*=language-] {
+	--ls_tab_size: 4;
+	color: var(--ls_theme_foreground);
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+	-o-tab-size: var(--ls_tab_size);
+	tab-size: var(--ls_tab_size);
+	-webkit-hyphens: none;
+	hyphens: none;
+}
+
+pre[class*=language-] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+.token.block-comment,
+.token.cdata,
+.token.comment,
+.token.doctype,
+.token.prolog {
+	color: var(--ls_theme_code_comment);
+}
+
+.token.operator,
+.token.punctuation {
+	color: var(--ls_theme_code_punctuation);
+}
+
+.token.attr-name,
+.token.namespace,
+.token.tag {
+	color: var(--ls_theme_code_tag);
+}
+
+.token.function,
+.token.function-name {
+	color: var(--ls_theme_code_function_name);
+}
+
+.token.boolean,
+.token.number {
+	color: var(--ls_theme_code_literal);
+}
+
+.token.class-name,
+.token.constant,
+.token.property,
+.token.symbol {
+	color: var(--ls_theme_code_type);
+}
+
+.token.atrule,
+.token.builtin,
+.token.important,
+.token.keyword,
+.token.selector {
+	color: var(--ls_theme_code_keyword);
+}
+
+.token.attr-value,
+.token.char,
+.token.regex,
+.token.string,
+.token.url,
+.token.variable {
+	color: var(--ls_theme_code_string);
+}
+
+.token.url {
+	text-decoration: underline;
+}
+
+.token.entity {
+	color: #67cdcc
+}
+
+.token.bold,
+.token.important {
+	font-weight: 700;
+}
+
+.token.italic {
+	font-style: italic;
+}
+
+.token.entity {
+	cursor: help;
+}
+
+.token.deleted {
+	color: crimson;
+}
+.token.inserted {
+	color:green;
+}
+
+@media print {
+	pre {
+		white-space: pre-wrap !important;
+		word-break: break-word;
+		word-wrap: break-word;
+	}
+
+	pre[class*=language-] {
+		overflow: unset !important;
+	}
+}

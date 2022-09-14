@@ -1,0 +1,78 @@
+<body>
+	<div class="ls_sidenav_wrapper${additional_classes}">
+		<input type="checkbox" id="${name}_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true"></input>
+		<nav id="${name}" class="ls_sidenav">
+			<ul></ul>
+		</nav>
+
+		<label for="${name}_trigger" class="ls_sidenav_trigger ls_btn" ls_variant="fab"
+			aria-role="menu" aria-label="Menu" aria-description="Open the navigation menu.">
+			<svg width="40" height="40" viewBox="0 0 40 40" stroke="var(--ls_theme_on_primary)" stroke-width="2px" shape-rendering="crispedges">
+				<line x1="12" y1="14" x2="28" y2="14"></line>
+				<line x1="12" y1="20" x2="28" y2="20"></line>
+				<line x1="12" y1="26" x2="28" y2="26"></line>
+			</svg>
+		</label>
+		<label for="${name}_trigger" class="ls_sidenav_darkened"></label>
+	</div>
+</body>
+
+<script>
+	data.apply_additional_classes();
+
+	const nav = data.get_first_element().get_element_by_tag_name("nav");
+	const id = data.element.get_attr("id");
+	data.replace("name", id.value());
+
+	const nav_data_attr = data.element.get_attr("navigation_data");
+	if (!nav_data_attr) throw new Error(`Missing navigation data in ${data.context.page.path}.`);
+
+	const nav_data = await Deno.readFile(nav_data_attr.value())
+		.then(data => new TextDecoder("utf8").decode(data))
+		.then(data => JSON.parse(data));
+
+	const ul = nav.get_element_by_tag_name("ul");
+	for (const entry of nav_data) {
+		const li = html.create_element("li");
+
+		ul.append_child(li);
+
+		if (entry.type === "link") {
+			const div = html.create_element("div");
+			li.with_attr("class", "ls_nav_entry")
+				.append_child(div);
+
+			div.append_child(html.create_element("a")
+				.with_attr("href", entry.link)
+				.with_child(entry.name));
+
+			if (entry.description) {
+				div.append_child(html.create_element("span").with_child(entry.description));
+			}
+
+			if (data.context.page.path !== "/" && data.context.page.path.startsWith(entry.link)) {
+				li.style("background-color", "var(--ls_theme_background_active)");
+				li.style("color", "var(--ls_theme_on_secondary_darkened)");
+			}
+		} else if (entry.type === "notice") {
+			li.append_child(entry.name);
+		}
+	}
+
+	const header = data.element.get_element_by_tag_name("header");
+
+	if (header) {
+		nav.children = header.children.concat(nav.children);
+	}
+
+	const footer = data.element.get_element_by_tag_name("footer");
+
+	if (footer) {
+		nav.children = nav.children.concat(footer.children);
+	}
+
+	const style = data.element.get_attr("style");
+	if (style) {
+		data.get_first_element().attr("style", style.value());
+	}
+</script>

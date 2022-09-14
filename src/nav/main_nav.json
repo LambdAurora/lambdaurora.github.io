@@ -1,0 +1,22 @@
+[
+	{
+		"type": "link",
+		"name": "Projects",
+		"link": "/projects"
+	},
+	{
+		"type": "link",
+		"name": "Blog",
+		"link": "/blog"
+	},
+	{
+		"type": "link",
+		"name": "Tutorials",
+		"link": "/tutorials",
+		"description": "Not a lot yet."
+	},
+	{
+		"type": "notice",
+		"name": "And more stuff under construction!"
+	}
+]

@@ -1,0 +1,332 @@
+/*
+ * lambdaurora.dev stylesheet - A simple stylesheet.
+ *
+ * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ *
+ * To the extent possible under law, the author(s) have dedicated
+ * all copyright and related and neighboring rights to this software
+ * to the public domain worldwide.
+ * This software is distributed without any warranty.
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ */
+
+/* Basics */
+
+@use "colors_light";
+@use "button";
+@use "card";
+@use "code";
+@use "color_ship";
+@use "image";
+@use "nav";
+@use "table";
+@use "article";
+
+:root {
+	color-scheme: light;
+
+	--peeking_fox_delay: 0s;
+}
+
+@media (prefers-color-scheme: dark) {
+	@import "colors_dark";
+
+	:root {
+		color-scheme: dark;
+	}
+}
+
+body {
+	font-family: -apple-system, system-ui, sans-serif;
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	height: 100%;
+	margin: 0;
+
+	color: var(--ls_theme_foreground);
+	background-color: var(--ls_theme_background);
+}
+
+main {
+	flex: 1 1 auto;
+	box-sizing: border-box;
+}
+
+.ls_main_content, article {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+
+	margin: 40px auto;
+	padding: 0 10px;
+	max-width: 60em;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+a {
+	color: var(--ls_theme_primary);
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+}
+
+/*
+ * Depth
+ */
+
+.ls_elevation_2, .ls_btn[ls_variant="contained"] {
+	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2),
+	0 2px 2px 0 rgba(0, 0, 0, .14),
+	0 1px 5px 0 rgba(0, 0, 0, .12);
+}
+
+.ls_elevation_4, .ls_btn[ls_variant="contained"]:hover, .ls_btn[ls_variant="contained"]:focus {
+	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2),
+	0 4px 5px 0 rgba(0, 0, 0, .14),
+	0 1px 10px 0 rgba(0, 0, 0, .12);
+}
+
+.ls_elevation_8, .ls_btn[ls_variant="contained"]:active {
+	box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
+	0 8px 10px 1px rgba(0, 0, 0, .14),
+	0 3px 14px 2px rgba(0, 0, 0, .12);
+}
+
+/*
+ * Typography
+ */
+
+.ls_subtitle2, .ls_app_footer_license {
+	font-size: .857rem;
+	line-height: 1.375rem;
+	font-weight: 500;
+	letter-spacing: .0071428571em;
+}
+
+hr {
+	width: 100%;
+	color: var(--ls_theme_secondary);
+}
+
+/*
+ * Layout
+ */
+
+.ls_divider {
+	height: 1px;
+	overflow: hidden;
+	background-color: #e0e0e0;
+}
+
+.ls_container, .ls_app_footer, .ls_app_footer > .ls_app_footer_license {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.ls_nav_banner {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.ls_nav_banner > img {
+	width: 128px;
+	height: 128px;
+}
+
+.ls_nav_banner > span {
+	flex: 1 1 auto;
+	display: flex;
+	justify-content: center;
+	max-width: 100%;
+	word-wrap: break-word;
+	text-align: center;
+	font-size: 1.5em;
+	align-items: center;
+	text-shadow: 2px 2px 6px black;
+}
+
+/* Quotes */
+
+blockquote {
+	border-left: solid var(--ls_theme_primary);
+	padding-left: 1em;
+	page-break-before: auto;
+	page-break-inside: avoid;
+}
+
+blockquote > .ls_source {
+	font-size: 80%;
+	color: var(--ls_theme_foreground_accentuated);
+}
+
+blockquote > .ls_source::before {
+	content: "\2014 \00A0";
+}
+
+/*
+ * Footer
+ */
+
+.ls_app_footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+
+	background-color: var(--ls_theme_background_accentuated);
+	color: #fff;
+}
+
+.ls_app_footer > .ls_app_footer_license {
+	display: flex;
+	justify-content: space-between;
+	padding: 8px;
+
+	color: var(--ls_theme_foreground_accentuated);
+	background-color: rgba(0, 0, 0, 0.1);
+
+	a {
+		color: var(--ls_theme_foreground_accentuated);
+		text-decoration: underline;
+	}
+}
+
+@media print {
+	.ls_app_footer {
+		display: none;
+	}
+
+	.ls_main_content, article {
+		display: block;
+		margin: 0;
+		max-width: unset;
+	}
+
+	a {
+		color: revert;
+	}
+}
+
+/*
+ * Utilities
+ */
+
+.hide {
+	display: none !important;
+}
+
+.center {
+	text-align: center;
+}
+
+.left {
+	float: left !important;
+}
+
+.right {
+	float: right !important;
+}
+
+.ls_sky_background {
+	background: repeat-x url("/images/background/sky_gradient.png");
+}
+
+/* Fox peeking animations */
+
+@keyframes fox_peek_left {
+	0% {left: -64px; visibility: visible;}
+	100% {left: 0px; visibility: visible;}
+}
+
+@keyframes fox_peek_top {
+	0% {top: -64px; visibility: visible;}
+	100% {top: 0px; visibility: visible;}
+}
+
+@keyframes fox_peek_right {
+	0% {right: -64px; visibility: visible;}
+	100% {right: 0px; visibility: visible;}
+}
+
+@keyframes fox_peek_bottom {
+	0% {bottom: -64px; visibility: visible;}
+	100% {bottom: 0px; visibility: visible;}
+}
+
+.peeking_fox_left, .peeking_fox_top, .peeking_fox_right, .peeking_fox_bottom {
+	position: fixed;
+	z-index: 32;
+	visibility: hidden;
+}
+
+.peeking_fox_left {
+	transform: rotate(90deg);
+	animation: fox_peek_left var(--peeking_fox_duration, 5s) ease-in-out var(--peeking_fox_delay, 0s) infinite alternate;
+}
+
+@media (min-width: 850px) {
+	.ls_sidenav_wrapper ~ .peeking_fox_left {
+		transform: translateX(180px) rotate(90deg);
+	}
+}
+
+@media (min-width: 1100px) {
+	.ls_sidenav_wrapper ~ .peeking_fox_left {
+		transform: translateX(300px) rotate(90deg);
+	}
+}
+
+.peeking_fox_top {
+	transform: rotate(180deg);
+	animation: fox_peek_top var(--peeking_fox_duration, 5s) ease-in-out var(--peeking_fox_delay, 0s) infinite alternate;
+}
+
+.peeking_fox_right {
+	right: 0;
+	transform: rotate(270deg);
+	animation: fox_peek_right var(--peeking_fox_duration, 5s) ease-in-out var(--peeking_fox_delay, 0s) infinite alternate;
+}
+
+.peeking_fox_bottom {
+	animation: fox_peek_bottom var(--peeking_fox_duration, 5s) ease-in-out var(--peeking_fox_delay, 0s) infinite alternate;
+}
+
+@media print {
+	.peeking_fox_left, .peeking_fox_top, .peeking_fox_right, .peeking_fox_bottom {
+		display: none;
+	}
+}
+
+@media (prefers-reduced-motion) {
+	.peeking_fox_left:not([ls_display_reduced_motion]),
+	.peeking_fox_top:not([ls_display_reduced_motion]),
+	.peeking_fox_right:not([ls_display_reduced_motion]),
+	.peeking_fox_bottom:not([ls_display_reduced_motion]) {
+		display: none;
+	}
+
+	.peeking_fox_left[ls_display_reduced_motion],
+	.peeking_fox_top[ls_display_reduced_motion],
+	.peeking_fox_right[ls_display_reduced_motion],
+	.peeking_fox_bottom[ls_display_reduced_motion] {
+		animation: none;
+		visibility: visible;
+	}
+}
+
+/*
+ * Mobile
+ */
+
+@media (max-width: 850px) {
+	.ls_app_footer_license {
+		flex-direction: column;
+	}
+
+	.ls_app_footer > .ls_app_footer_license > * {
+		text-align: center;
+	}
+}

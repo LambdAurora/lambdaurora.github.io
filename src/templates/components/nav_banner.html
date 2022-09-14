@@ -1,0 +1,30 @@
+<body>
+	<a class="ls_nav_banner${additional_classes}" href="${path}">
+	</a>
+</body>
+
+<script>
+	data.get_first_element().children = data.element.children;
+
+	let path = data.element.get_attr("path");
+
+	if (path) {
+		path = path.value();
+	} else {
+		path = "/";
+	}
+
+	const style = data.element.get_attr("style");
+	if (style) {
+		data.get_first_element().attr("style", style.value());
+	}
+
+	data.apply_additional_classes();
+
+	const reverse_prop = data.element.get_attr("ls_small_reverse");
+	if (reverse_prop) {
+		data.get_first_element().attr("ls_small_reverse", reverse_prop.value());
+	}
+
+	data.replace("path", path);
+</script>
