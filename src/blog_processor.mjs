@@ -87,12 +87,13 @@ function get_metadata_html(authors, times) {
 	return metadata_div;
 }
 
-async function process_blog_entry(path, year, month, context) {
+async function process_blog_entry(path, context) {
 	let title = await get_pretty_path(path);
 
 	let page_description = null;
 	const authors = [];
 	const tags = [];
+	const cws = [];
 	const times = {
 		creation_time: null,
 		modification_time: await Deno.stat(`${context.root}/${path}`)
@@ -161,6 +162,10 @@ async function process_blog_entry(path, year, month, context) {
 				const tag_values = value.split(",");
 				tag_values.map(v => v.trim().toLowerCase()).forEach(v => tags.push(v));
 			});
+			process_property_from_html(article, "cw", value => {
+				const cw_values = value.split(",");
+				cw_values.map(v => v.trim()).forEach(v => cws.push(v));
+			})
 			process_property_from_html(article, "date", value => {
 				const date = value.split('-');
 				times.creation_time = new ShortDate(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]));
@@ -311,7 +316,7 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 							const path = `${month_path}/${entry.name}`;
 							const html_path = `/blog/${path.replace(/\.md$/, ".html")}`;
 
-							await process_blog_entry(path, year, month, context)
+							await process_blog_entry(path, context)
 								.then(async function (page) {
 									const deploy_path = DEPLOY_DIR + html_path;
 									await create_parent_directory(deploy_path);

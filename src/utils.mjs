@@ -1,4 +1,4 @@
-import { existsSync } from "https://deno.land/std/fs/mod.ts";
+import { existsSync } from "https://deno.land/std@0.155.0/fs/mod.ts";
 import { html } from "./libmd.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
@@ -23,7 +23,7 @@ export function process_property_from_html(html_tree, property, callback) {
 
 	html_tree.children = html_tree.children.filter(node => {
 		if (node instanceof html.Comment && node.content.startsWith(token)) {
-			const value = node.content.substr(token.length).trim();
+			const value = node.content.substring(token.length).trim();
 			callback(value);
 			return false;
 		}
