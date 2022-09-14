@@ -78,7 +78,7 @@ function get_metadata_html(authors, times) {
 
 	times_div.append_child(`Created ${times.creation_time.toString()}`);
 	if (!times.creation_time.equals(times.modification_time)) {
-		times_div.append_child(html.create_element("em").with_child(`&nbsp;(Modified ${times.modification_time.toString()})`));
+		times_div.append_child(html.create_element("em").with_child(/*html*/`&nbsp;(Modified ${times.modification_time.toString()})`));
 	}
 
 	metadata_div.append_child(author_div);
@@ -207,13 +207,13 @@ async function process_blog_entry(path, context) {
 
 			main.append_child(article);
 			return view.with_child(body
-				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+				.with_child(html.parse(/*html*/`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
 					<header>
 						<main_nav_banner></main_nav_banner>
 					</header>
 				</sidenav>`))
 				.with_child(main)
-				.with_child(html.parse(`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
+				.with_child(html.parse(/*html*/`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
 			);
 		},
 		load_script: _ => {
