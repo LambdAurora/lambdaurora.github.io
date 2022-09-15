@@ -24,13 +24,13 @@ To make a website, you honestly have a fair amount of frameworks available, and 
 Though, web technologies and me are not the best friends in the world.
 I have some... *strong opinions* about them.
 
-At the time of finally actually creating the website, I had written [lib.md](https://github.com/LambdAurora/lib.md), a Markdown parser/renderer written in JavaScript. Turns out I also made it capable of parsing and writing HTML since I tried to make it work with [Deno](https://deno.land/)... which doesn't have a working DOM.
+At the time of finally actually creating the website, I had written [lib.md](https://github.com/LambdAurora/lib.md), a Markdown parser/renderer written in JavaScript. Turns out I also made it capable of parsing and writing HTML since I tried to make it work with [Deno]... which doesn't have a working DOM.
 
 I knew that I wanted to kind of use Markdown for some of the content I would write, and I knew that I didn't want to use Vue.js after my last venture.
 I also knew that I wanted something that wouldn't require webpack to get everything working, I didn't want any magic tooling, I wanted to know how everything worked for once.
 
 That... reduces *a lot* my choices.  
-I ended up choosing making my own tooling, and using [Deno][deno].  
+I ended up choosing making my own tooling, and using [Deno].  
 **This was risky** (and still is), making your own tooling exposes you to potential weird bugs that you would have to worry about yourself! And proof that it bites me back regularly, I tried to use the `[Deno]: https://deno.land/` syntax for linking the Deno pages on this blog post and for some reason the `[Deno]` syntax wasn't reconigizing the correct reference, as it's case-sensitive and somehow the reference got lower-cased...
 
 Despite that it gave me some freedom, if I wanted a custom Markdown extension, I could just *make it*!
@@ -47,7 +47,7 @@ And lately, I finally wrote the blog processor.
 
 #### JavaScript is frustrating
 
-Since I chose [Deno][deno]... I chose JavaScript.
+Since I chose [Deno]... I chose JavaScript.
 
 This was both a blessing and a curse.
 
