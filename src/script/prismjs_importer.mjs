@@ -16,7 +16,7 @@ export async function get_or_load_language(language) {
 	} else {
 		try {
 			return PRISM_LANGS[language] = await import(get_prism_url(`components/prism-${language}.min.js`));
-		} catch (e) {
+		} catch (_e) {
 			return null;
 		}
 	}

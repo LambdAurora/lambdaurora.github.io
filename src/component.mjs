@@ -1,5 +1,5 @@
-import { html } from "./libmd.mjs";
-import { DECODER } from "./utils.mjs";
+import { html } from "./libmd.ts";
+import { DECODER } from "./utils.ts";
 
 const COMPONENTS_ROOT = "src/templates/components";
 const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;

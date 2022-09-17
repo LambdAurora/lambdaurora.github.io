@@ -38,7 +38,7 @@ function parseHexColor(hex) {
 	// normalized RGBA channels
 	const channels = [];
 	for (let i = 0; i < channelCount; i++) {
-		const int = parseInt(hex.substr(i * channelWidth, channelWidth), 16);
+		const int = parseInt(hex.substring(i * channelWidth, i * channelWidth + channelWidth), 16);
 		channels.push(int * scale);
 	}
 	if (channelCount == 3) {
@@ -159,7 +159,7 @@ Prism.hooks.add('wrap', env => {
 			return;
 		}
 
-		const previewElement = '<span class="ls_color_ship"><span style="background-color:' + color + ';"></span></span>';
+		const previewElement = /*html*/`<span class="ls_color_ship"><span style="background-color:${color};"></span></span>`;
 		env.content = previewElement + content;
 	}
 });

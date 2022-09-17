@@ -5,8 +5,8 @@ import { parse } from "https://deno.land/std@0.155.0/flags/mod.ts";
 import { process_all_pages } from "./src/page_processor.mjs";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { process_all_blog_entries } from "./src/blog_processor.mjs";
-import { serve } from "./src/server.mjs";
-import { BUILD_DIR, DEPLOY_DIR, DECODER, ENCODER } from "./src/utils.mjs";
+import { serve } from "./src/server.ts";
+import { BUILD_DIR, DEPLOY_DIR, DECODER, ENCODER } from "./src/utils.ts";
 import { COMPONENTS } from "./src/component.mjs";
 
 const args = parse(Deno.args, { default: { port: 8080 }});

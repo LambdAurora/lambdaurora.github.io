@@ -1,8 +1,8 @@
-import { html, md, utils } from "./libmd.mjs";
+import { html, md, utils } from "./libmd.ts";
 
 import { COMPONENTS } from "./component.mjs";
-import { CONSTANTS } from "./constants.mjs";
-import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory } from "./utils.mjs";
+import { CONSTANTS } from "./constants.ts";
+import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory } from "./utils.ts";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";

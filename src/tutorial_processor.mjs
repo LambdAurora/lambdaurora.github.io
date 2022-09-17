@@ -1,6 +1,6 @@
 import { process_page } from "./page_processor.mjs";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.mjs";
-import { md, html } from "./libmd.mjs";
+import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.ts";
+import { md, html } from "./libmd.ts";
 import * as PRISM from "./prismjs.mjs";
 
 const TUTORIALS_ROOT = "src/tutorials";

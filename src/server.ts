@@ -1,13 +1,18 @@
-import * as server from "https://deno.land/std/http/server.ts";
-import * as path from "https://deno.land/std/path/mod.ts";
-import { readableStreamFromReader } from "https://deno.land/std/streams/mod.ts";
-import { html } from "./libmd.mjs";
+// deno-lint-ignore-file no-explicit-any
+import * as server from "https://deno.land/std@0.155.0/http/server.ts";
+import * as path from "https://deno.land/std@0.155.0/path/mod.ts";
+import { readableStreamFromReader } from "https://deno.land/std@0.155.0/streams/mod.ts";
+import { readAll } from "https://deno.land/std@0.155.0/streams/conversion.ts";
+import { html } from "./libmd.ts";
 import * as PRISM from "./prismjs.mjs";
 
 import { process_page } from "./page_processor.mjs";
-import { DEPLOY_DIR, DECODER } from "./utils.mjs";
+import { DEPLOY_DIR, DECODER } from "./utils.ts";
 
-export async function serve(args) {
+export async function serve(args: {
+	[x: string]: any;
+	_: (string | number)[];
+}) {
 	const port = parseInt(args.port);
 
 	console.log("HTTP web server running.");
@@ -24,7 +29,7 @@ function create_base_headers() {
 	return headers;
 }
 
-async function handle_http(request) {
+async function handle_http(request: Request) {
 	// Use the request pathname as filepath.
 	const url = new URL(request.url);
 	const file_path = decodeURIComponent(url.pathname);
@@ -44,7 +49,7 @@ async function handle_http(request) {
 	let response;
 	try {
 		// Try opening the file.
-		let file;
+		let file: Deno.FsFile;
 		try {
 			file = await Deno.open(DEPLOY_DIR + file_path, { read: true });
 			const stat = await file.stat();
@@ -59,7 +64,7 @@ async function handle_http(request) {
 			throw new Deno.errors.NotFound();
 		}
 
-		let accept_header = request.headers.get("accept");
+		const accept_header = request.headers.get("accept");
 
 		if (accept_header) {
 			if (file_path.endsWith(".css") && accept_header.includes("text/html") && !accept_header.includes("text/css")) {
@@ -75,7 +80,9 @@ async function handle_http(request) {
 			const readable_stream = readableStreamFromReader(file);
 			const headers = create_base_headers();
 
-			if (file_path.match(/.+?\.m?js$/)) {
+			if (file_path.match(/\.css$/)) {
+				headers.set("content-type", "text/css");
+			} else if (file_path.match(/.+?\.m?js$/)) {
 				headers.set("content-type", "text/javascript");
 			}
 
@@ -93,22 +100,22 @@ async function handle_http(request) {
 			console.error(err);
 		}
 
-		response = await handle_fallback(request, file_path, err, log);
+		response = await handle_fallback(err, log);
 	}
 
 	return response;
 }
 
-async function handle_fallback(request, path, err, log) {
+async function handle_fallback(err: Error, log: (return_code: number) => void) {
 	if (err instanceof Deno.errors.NotFound) {
 		log(404);
-		return handle_404(request, path);
+		return await handle_404();
 	} else {
 		return new Response("Internal Server Error\n" + err.message, { status: 500 });
 	}
 }
 
-async function handle_404(request, path) {
+async function handle_404() {
 	// Try opening the file.
 	let file;
 	try {
@@ -126,14 +133,14 @@ async function handle_404(request, path) {
 	return new Response(readable_stream, { status: 404 });
 }
 
-async function handle_raw_file(path, file, language) {
+async function handle_raw_file(path: string, file: Deno.FsFile, language: string) {
 	const page = await process_page(path, {
-		load_view: _ => Deno.readAll(file)
+		load_view: (_: string) => readAll(file)
 			.then(source => DECODER.decode(source))
 			.then(async source => {
 				try {
 					await import(PRISM.get_prism_url("components/prism-" + language + ".min.js"));
-				} catch (e) {}
+				} catch (_e) { /* Ignored */ }
 
 				const code = html.create_element("code")
 					.with_attr("class", `language-${language}`);
@@ -141,8 +148,8 @@ async function handle_raw_file(path, file, language) {
 				if (Prism.languages[language]) {
 					const stuff = html.parse("<pre><code>"
 						+ Prism.highlight(source, Prism.languages[language], language)
-						+ "</code></pre>");
-					code.children = stuff.get_element_by_tag_name("code").children;
+						+ "</code></pre>") as html.Element;
+					code.children = stuff.get_element_by_tag_name("code")?.children;
 				} else
 					code.append_child(new html.Text(source, html.TextMode.RAW));
 
@@ -156,7 +163,7 @@ async function handle_raw_file(path, file, language) {
 						.with_child(new html.Text(`pre[class*="language-"] { margin: 0; }`, html.TextMode.RAW))
 					);
 			}),
-			load_script: _ => {
+			load_script: (_: html.Element) => {
 				return {
 					page: {
 						title: path,
