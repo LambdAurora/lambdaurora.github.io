@@ -25,14 +25,14 @@ The feature allows a player to right-click a player who is currently sitting (wi
 
 ![Sitting on someone's laps.](/images/projects/affectionate/lap_sitting.png)
 
-While sat on the laps the player only can do rotations, no translations. Same for the player who shares their laps.
+While sat on the laps the player can only do rotations, no translations. Same for the player who shares their laps.
 
-The reason this feature exists is I saw some people ask for it, and it genuinely sounded nice.
-In my culture it's a rather cute gesture that can be found either in couples or in close friend groups.
+The reason this feature exists is that I had seen some people ask for it, and it genuinely sounded nice.
+In my culture it's a rather cute gesture which may be done by couples and close friend groups.
 
-It's also something you could encounter around the Christmas season with the "sit on Santa's Claus laps to tell him what you wish to be gifted" thing.
+It's also something you would see during the Christmas season with the tradition of sitting on Santa Claus' lap to tell him what you wished as gifts.
 
-Now that hopefully this feature is in our minds, and with proper cultural context, let's see what's all the fuss about.
+Now with this feature explained and proper cultural context in mind, let's see what's all the fuss about.
 
 ## CurseForge rejection
 
@@ -65,7 +65,7 @@ With a good friend we went and wrote an appeal ticket.
 
 The ticket mentioned that a large number of people whom none had any issue with it and instead being supportive of the mod, that I feared that the moderation could be acting on their own culture only and disregarding other cultures. It also had some anonymous quotes from some debates, and a question on why this mod was more inappropriate than some mods that are already being hosted.
 
-The ticket system tells support requesters that they can expect an answer in 3 business days, it being a little longer I can accept. Though I had to wait 2 weeks to get an answer, which I only got after publicly complaining in the CurseForge dev Discord guild. This was honestly quite demotivating.
+The support service announces an estimated 3 business days for a submitted request/ticker, it being a little longer I can accept. Though I had to wait 2 weeks to get an answer, which I only got after publicly complaining in the CurseForge dev Discord guild. This was honestly quite demotivating.
 
 And all of that to get answered that:
 
@@ -87,7 +87,7 @@ To this day, I am still unsure how users may use my mod in a lewd or inappropria
 
 Meanwhile, you can create lewder scenes in the Vanilla game, simply with two players and a bed: a player rapidly sneaking on top of the bed would make this rather obvious. But this is fine since it's in the base game I guess. ¯\\\_(ツ)\_/¯
 
-And like, as I said, there's other approved projects that are worse in terms of lewdness / inappropriateness. Here's a few examples, be mindful of the content warnings:
+And like, as I said, there are other hosted projects that are much lewder and less appropriate than simply lap sitting. Here's a few examples, be mindful of the content warnings:
 
 <ul>
 	<li>
@@ -128,13 +128,15 @@ I have several issues with CurseForge, ranging from extremely bad UI, having dis
 But moderation on that website is a whole can of worms.
 
 Let's start with the first thing to notice: inconsistency.  
-The moderation is very inconsistent, some authors can upload multiple mods that might be extensions which means said mods will have similar descriptions but adapted for the proper context, but some of them might require modification after review due to "summary isn't fitting" or "description is too short/non-descriptive", while in all of these cases the summary or descriptions were literally saying what the mod did.
+The moderation is very inconsistent, some authors can upload multiple mods that might be extensions which means said mods will have similar descriptions but adapted for the proper context,
+but some of them might require modification after review, because the "summary isn't fitting", or the "description is too short/non-descriptive",
+while in all of these cases the summary or descriptions were literally saying what the mod did.
 
 And as you can see here with my little list of mods, it's also not consistent: why is my mod inappropriate but those are not?
 I can understand that a different moderation team was in place before and had different rules. Though, I've heard that CurseForge has a tendency to not request modifications after a project got approved, that's kind of a recipe for inconsistent moderation and unfairness.
 
 Second issue, reporting is a black box.  
-CurseForge has a way to report projects and comments directly on the website, which is neat, until you see the dialog and you realize you will never get a notification on whether the report has been reviewed or not. It's basically a game of luck.  
+CurseForge has a way to report projects and comments directly on the website, which is neat, until you see the dialog and you realize you will never get a notification on whether the report has been reviewed or not. It's basically hit or miss.  
 It's even more frustrating when the comment in question is on your own project: if you delete the comment you have to report the account, but how am I guaranteed the context will be found and consequences will happen? Reporting then deleting the comment apparently internally resolve the report too.  
 So the best way to know if a comment has been actioned upon due to a report is to simply not delete it and report it.  
 *So far a transphobic comment on the page of my mod [Aurora's Decorations](https://www.curseforge.com/minecraft/mc-mods/aurorasdecorations) is still up (16/09/2022), I do understand that CurseForge is a bit behind on report processing, but not being able to delete the comment to make sure the report will be actioned upon with a proof for so long is not good.*
@@ -146,8 +148,8 @@ If you agree that this mod should be on CurseForge, I guess you can try to make 
 You also can look into [Modrinth] which so far has proven to be more friendly and efficient moderation-wise.  
 And if you disagree with me, then I at least hope you enjoyed the read.
 
-For me? Well, as you can see I wrote this post, to hopefully not get this ignored and make people aware of CurseForge's actions and my general disappointment.
-I don't think I will take the offer of the demo mod uploading, like, lap sitting is the part I took the most time to develop and was genuinely proud of it, and being told to just discard it hurts my feelings. It's also genuinely a pain to maintain, there's chances for that mod's `curseforge` build task to remain forever disabled.
+For me? Well, as you can see I wrote this post, to hopefully not let this go on ignored and make people aware of CurseForge's actions and my general disappointment.
+I don't think I will take the offer to upload a demo mod. Lap sitting is the part I took the most time to develop and was genuinely proud of it, and being told to just discard it hurts my feelings. It's also genuinely a pain to maintain, there's chances for that mod's `curseforge` build task to remain forever disabled.
 
 To conclude, this *has not been a fun* journey.  
 I hoped this ModFest would have gone smoothly and be able to share some much needed love, turns out not.
