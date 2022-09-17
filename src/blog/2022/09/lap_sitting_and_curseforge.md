@@ -149,7 +149,7 @@ You also can look into [Modrinth] which so far has proven to be more friendly an
 And if you disagree with me, then I at least hope you enjoyed the read.
 
 For me? Well, as you can see I wrote this post, to hopefully not let this go on ignored and make people aware of CurseForge's actions and my general disappointment.
-I don't think I will take the offer to upload a demo mod. Lap sitting is the part I took the most time to develop and was genuinely proud of it, and being told to just discard it hurts my feelings. It's also genuinely a pain to maintain, there's chances for that mod's `curseforge` build task to remain forever disabled.
+I don't think I will take the offer to upload a demo mod. Lap sitting is the part I took the most time to develop and I was genuinely proud of it, and being told to just discard it hurts my feelings. It's also genuinely a pain to maintain, there's chances for that mod's `curseforge` build task to remain forever disabled.
 
 To conclude, this *has not been a fun* journey.  
 I hoped this ModFest would have gone smoothly and be able to share some much needed love, turns out not.
