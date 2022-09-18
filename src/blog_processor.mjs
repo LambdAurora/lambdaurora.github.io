@@ -1,6 +1,7 @@
 import { process_page } from "./page_processor.mjs";
 import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.ts";
 import { md, html } from "./libmd.ts";
+import { CONSTANTS } from "./constants.ts";
 import * as PRISM from "./prismjs.mjs";
 
 const BLOG_ROOT = "src/blog";
@@ -91,6 +92,7 @@ async function process_blog_entry(path, context) {
 	let title = await get_pretty_path(path);
 
 	let page_description = null;
+	let embed_image = undefined;
 	const authors = [];
 	const tags = [];
 	const cws = [];
@@ -150,6 +152,10 @@ async function process_blog_entry(path, context) {
 				return true;
 			});
 			process_property_from_html(article, "description", value => page_description = value);
+			process_property_from_html(article, "embed_image", value => {
+				if (!value.startsWith("http")) value = CONSTANTS.get_url(value);
+				embed_image = value;
+			});
 			process_property_from_html(article, "author", value => {
 				const author = context.authors[value];
 				if (!author) {
@@ -225,7 +231,8 @@ async function process_blog_entry(path, context) {
 					title: title,
 					description: page_description,
 					embed: {
-						title: title
+						title: title,
+						image: embed_image
 					},
 					keywords: keywords
 				},
