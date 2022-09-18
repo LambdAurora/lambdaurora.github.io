@@ -1,6 +1,6 @@
 # Lap Sitting And CurseForge
 
-<!--description: My ModFest: Singularity mod Affectionate got rejected from CurseForge, and I really don't appreciate the reason. -->
+<!--description: My ModFest: Singularity mod Affectionate got rejected from CurseForge, and I don't like the reason. Let's talk about it. -->
 <!--embed_image: /images/memes/curseforge_no_lap_sitting.png -->
 <!--author: lambdaurora -->
 <!--tag: blog -->
