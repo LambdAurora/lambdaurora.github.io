@@ -2,7 +2,7 @@ import { copy } from "https://deno.land/std@0.155.0/fs/copy.ts";
 import { move } from "https://deno.land/std@0.155.0/fs/mod.ts";
 import { parse } from "https://deno.land/std@0.155.0/flags/mod.ts";
 
-import { process_all_pages } from "./src/page_processor.mjs";
+import { process_all_pages } from "./src/page_processor.ts";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { process_all_blog_entries } from "./src/blog_processor.mjs";
 import { serve } from "./src/server.ts";

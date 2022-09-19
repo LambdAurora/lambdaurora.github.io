@@ -1,15 +1,28 @@
+// deno-lint-ignore-file no-explicit-any
 import { html, md, utils } from "./libmd.ts";
 
 import { COMPONENTS } from "./component.mjs";
 import { CONSTANTS } from "./constants.ts";
-import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory } from "./utils.ts";
+import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, AsyncFunction } from "./utils.ts";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
 const PAGE_TEMPLATE_PATH = TEMPLATES_ROOT + "page.html";
 const VIEW_SCRIPTS_ROOT = BUILD_DIR + "/view_scripts";
 
-function get_relative_path(path) {
+interface PreloadSpec {
+	source: string;
+	type: string;
+}
+
+interface HtmlConvertible {
+	html: () => string;
+}
+
+type HtmlNode = html.Node & HtmlConvertible;
+type PageModule = { [x: string]: any };
+
+function get_relative_path(path: string) {
 	if (path === "/404") {
 		return path + ".html";
 	} else if (path.endsWith(".html")) {
@@ -19,7 +32,7 @@ function get_relative_path(path) {
 	}
 }
 
-function get_view_path(path) {
+function get_view_path(path: string) {
 	return VIEWS_ROOT + get_relative_path(path);
 }
 
@@ -35,8 +48,8 @@ async function load_page_template() {
 		});
 }
 
-function process_string(string, module) {
-	return string.replace(/\$\{([a-zA-Z0-9_.]+)\}/g, (_, name) => {
+function process_string(string: string, module: PageModule) {
+	return string.replace(/\$\{([a-zA-Z0-9_.]+)\}/g, (_, name: string) => {
 		const name_parts = name.split(".");
 		let variable = module;
 
@@ -44,13 +57,13 @@ function process_string(string, module) {
 			variable = variable[name];
 		}
 
-		return variable;
+		return variable as unknown as string;
 	});
 }
 
-function process_element(element, parent, module) {
+function process_element(element: html.Node, parent: html.Element, module: PageModule) {
 	if (element instanceof html.Text && parent.tag.escape_inside) {
-		element.content = process_string(element.content, module);
+		element.content = process_string((element as html.Text).content as string, module);
 	} else if (element instanceof html.Element) {
 		element.attributes = element.attributes.map(attr => html.create_attribute(attr.name, process_string(attr.value(), module)));
 
@@ -61,10 +74,10 @@ function process_element(element, parent, module) {
 /**
  * Processes the head HTML element from a page.
  *
- * @param {html.Element[]} page the content of the page
- * @param {Module} module the module of the page
+ * @param {html.Element} page the content of the page
+ * @param {PageModule} module the module of the page
  */
-function process_head(page, style, module) {
+ function process_head(page: html.Element, style: html.Element | undefined, module: PageModule) {
 	const head = page.children[0];
 	process_element(head, page, module);
 
@@ -98,7 +111,7 @@ function process_head(page, style, module) {
 	}
 
 	if (module.styles) {
-		module.styles.forEach(style_data => {
+		module.styles.forEach((style_data: string) => {
 			head.append_child(html.create_element("link")
 				.with_attr("rel", "stylesheet")
 				.with_attr("type", "text/css")
@@ -108,7 +121,7 @@ function process_head(page, style, module) {
 	}
 
 	if (module.preload) {
-		module.preload.forEach(preload => {
+		module.preload.forEach((preload: PreloadSpec) => {
 			head.append_child(html.create_element("link")
 				.with_attr("rel", "preload")
 				.with_attr("href", preload.source)
@@ -121,17 +134,30 @@ function process_head(page, style, module) {
 	}
 }
 
-function load_view_file(view_path) {
+function load_view_file(view_path: string) {
 	return Deno.readFile(view_path)
 		.then(source => DECODER.decode(source))
-		.then(source => html.parse(source));
+		.then(source => html.parse(source) as html.Element);
 }
 
-async function load_script(source) {
-	const func = new Function("CONSTANTS", "html", "md",
-		source.get_element_by_tag_name("script").children[0].content
+async function load_script(page_source: html.Element) {
+	const func: (CONSTANTS: any, html: any, md: any) => Promise<PageModule> = new AsyncFunction("CONSTANTS", "html", "md",
+		page_source.get_element_by_tag_name("script")?.children[0].content
 	);
-	return func(CONSTANTS, html, md);
+	return await func(CONSTANTS, html, md);
+}
+
+interface PageProcessingSettings {
+	load_view?: (view_path: string) => Promise<html.Node>;
+	load_page_template?: () => Promise<html.Node[]>;
+	load_script?: (page_source: html.Element) => (Promise<PageModule> | PageModule);
+}
+
+interface PageProcessingContext {
+	global_context: any;
+	load_view: (view_path: string) => Promise<html.Element>;
+	load_page_template: () => Promise<html.Node[]>;
+	load_script: (page_source: html.Element) => Promise<PageModule>;
 }
 
 const PROCESS_PAGE_SETTINGS = Object.freeze({
@@ -148,29 +174,29 @@ const PROCESS_PAGE_SETTINGS = Object.freeze({
  * @param settings the processing settings
  * @returns the processed page
  */
-export async function process_page(path, settings) {
-	settings = utils.merge_objects(PROCESS_PAGE_SETTINGS, settings);
+ export async function process_page(path: string, settings?: PageProcessingSettings) {
+	const context = utils.merge_objects(PROCESS_PAGE_SETTINGS, settings as Record<string, unknown>) as PageProcessingContext;
 
 	const view_path = get_view_path(path);
 
 	const results = await Promise.all([
-		settings.load_page_template(),
-		settings.load_view(view_path)
-			.then(source => Promise.all([
-				settings.load_script(source),
+		context.load_page_template(),
+		context.load_view(view_path)
+			.then((source: html.Element) => Promise.all([
+				context.load_script(source),
 				source.get_element_by_tag_name("body"),
 				source.get_element_by_tag_name("style")
 			]))
 	]);
 
-	const page = results[0];
-	const module = results[1][0];
-	const body = results[1][1];
+	const page = results[0] as HtmlNode[];
+	const module = results[1][0] as PageModule;
+	const body = results[1][1] as html.Element;
 	const style = results[1][2];
 
-	page[1].children[1] = body;
+	(page[1] as html.Element).children[1] = body;
 
-	module.global_context = settings.global_context;
+	module.global_context = context.global_context;
 	module.page.path = path.replace(/index.html$/, "");
 
 	await (async function process_nodes(parent, index) {
@@ -199,7 +225,7 @@ export async function process_page(path, settings) {
 
 	body.purge_empty_children();
 
-	process_head(page[1], style, module);
+	process_head(page[1] as html.Element, style, module);
 
 	if (module.post_process) {
 		await module.post_process(page[1]);

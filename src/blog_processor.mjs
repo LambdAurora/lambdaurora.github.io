@@ -1,4 +1,4 @@
-import { process_page } from "./page_processor.mjs";
+import { process_page } from "./page_processor.ts";
 import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.ts";
 import { md, html } from "./libmd.ts";
 import { CONSTANTS } from "./constants.ts";
@@ -78,7 +78,7 @@ function get_metadata_html(authors, times) {
 	const times_div = html.create_element("div").with_attr("class", "ls_article_times");
 
 	times_div.append_child(`Created ${times.creation_time.toString()}`);
-	if (!times.creation_time.equals(times.modification_time)) {
+	if (times.modification_time && !times.creation_time.equals(times.modification_time)) {
 		times_div.append_child(html.create_element("em").with_child(/*html*/`&nbsp;(Modified ${times.modification_time.toString()})`));
 	}
 
@@ -98,9 +98,7 @@ async function process_blog_entry(path, context) {
 	const cws = [];
 	const times = {
 		creation_time: null,
-		modification_time: await Deno.stat(`${context.root}/${path}`)
-			.then(file => file.mtime)
-			.then(date => new ShortDate(date.getFullYear(), date.getMonth() + 1, date.getDate()))
+		modification_time: null
 	};
 
 	return await process_page(`/blog/${path.replace(/\.md$/, ".html")}`, {
@@ -176,6 +174,10 @@ async function process_blog_entry(path, context) {
 				const date = value.split('-');
 				times.creation_time = new ShortDate(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]));
 			});
+			process_property_from_html(article, "modified", value => {
+				const date = value.split('-');
+				times.modification_time = new ShortDate(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]));
+			});
 
 			if (!page_description) {
 				throw new Error("Missing blog entry description, please add a comment starting with \"description:\".");
@@ -248,7 +250,7 @@ async function process_blog_index(entries) {
 	const title = `Blog Posts Index`;
 
 	return await process_page("/blog", {
-		load_view: async function(_) {
+		load_view: function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
 			const main = html.create_element("main")
@@ -275,7 +277,7 @@ async function process_blog_index(entries) {
 				ul.append_child(li);
 			});
 
-			return view.with_child(body
+			return new Promise((resolver) => resolver(view.with_child(body
 				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
 					<header>
 						<main_nav_banner></main_nav_banner>
@@ -283,7 +285,7 @@ async function process_blog_index(entries) {
 				</sidenav>`))
 				.with_child(main)
 				.with_child(html.parse(`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
-			);
+			)));
 		},
 		load_script: _ => {
 			return {

@@ -6,7 +6,7 @@ import { readAll } from "https://deno.land/std@0.155.0/streams/conversion.ts";
 import { html } from "./libmd.ts";
 import * as PRISM from "./prismjs.mjs";
 
-import { process_page } from "./page_processor.mjs";
+import { process_page } from "./page_processor.ts";
 import { DEPLOY_DIR, DECODER } from "./utils.ts";
 
 export async function serve(args: {

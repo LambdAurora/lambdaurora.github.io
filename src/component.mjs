@@ -1,8 +1,7 @@
 import { html } from "./libmd.ts";
-import { DECODER } from "./utils.ts";
+import { DECODER, AsyncFunction } from "./utils.ts";
 
 const COMPONENTS_ROOT = "src/templates/components";
-const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
 export class Component {
 	constructor(name, component_nodes) {

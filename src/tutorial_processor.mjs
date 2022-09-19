@@ -1,4 +1,4 @@
-import { process_page } from "./page_processor.mjs";
+import { process_page } from "./page_processor.ts";
 import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.ts";
 import { md, html } from "./libmd.ts";
 import * as PRISM from "./prismjs.mjs";
@@ -154,7 +154,7 @@ async function process_tutorial_index(entry) {
 	const title = `Tutorials Index${index_name}`;
 
 	return await process_page("/tutorials/" + entry.dir, {
-		load_view: async function(_) {
+		load_view: function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
 			const main = html.create_element("main")
@@ -216,7 +216,7 @@ async function process_tutorial_index(entry) {
 				});
 			})(entry, nav);
 
-			return view.with_child(body
+			return new Promise((resolver) => resolver(view.with_child(body
 				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
 					<header>
 						<main_nav_banner></main_nav_banner>
@@ -224,7 +224,7 @@ async function process_tutorial_index(entry) {
 				</sidenav>`))
 				.with_child(main)
 				.with_child(html.parse(`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
-			);
+			)));
 		},
 		load_script: _ => {
 			return {
