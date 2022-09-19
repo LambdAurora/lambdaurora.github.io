@@ -1,13 +1,78 @@
 // deno-lint-ignore-file no-explicit-any
 import { html } from "./libmd.ts";
-import { DECODER, AsyncFunction } from "./utils.ts";
+import { DECODER, AsyncFunction, is_escaped } from "./utils.ts";
 
 const COMPONENTS_ROOT = "src/templates/components";
+
+type ExpressionContext = { [x: string]: any }
+
+class ExpressionError extends Error {
+	constructor(file: string, cause: Error) {
+		super(file + ": " + cause.message);
+		this.cause = cause;
+	}
+}
+
+async function process_expressions(file: string, text: string, context: ExpressionContext) {
+	const executor = (source: string) => new AsyncFunction(...Object.keys(context),
+		!source.includes(';') ? `return ${source};` : source
+	);
+	let i = 0;
+
+	async function parse_expression(start: number) {
+		let blocks = 0;
+		let is_in_string = null;
+
+		for (let j = start; j < text.length; j++) {
+			if (text[j] === '{' && !is_in_string && !is_escaped(text, j)) {
+				blocks++;
+			} else if (text[j] === '}' && !is_in_string && !is_escaped(text, j)) {
+				blocks--;
+
+				if (blocks < 0) {
+					const source = text.substring(start, j);
+					try {
+						const value = await executor(source)(...Object.values(context));
+						return { end: j + 1, value: value };
+					} catch (e) {
+						throw new ExpressionError(file, e);
+					}
+				}
+			} else if ((text[j] === '"' || text[j] === "'" || text[j] === '`') && !is_escaped(text, j)) {
+				if (!is_in_string) {
+					is_in_string = text[j];
+				} else if (is_in_string === text[j]) {
+					is_in_string = null;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	while (i < text.length) {
+		if (text[i] === '$' && text[i + 1] === '{' && !is_escaped(text, i)) {
+			const result = await parse_expression(i + 2);
+
+			if (result) {
+				const begin = text.substring(0, i);
+				const end = text.substring(result.end, text.length);
+				text = begin + result.value + end;
+				i = result.end;
+				continue;
+			}
+		}
+
+		i++;
+	}
+
+	return text;
+}
 
 export class Component {
 	name: string;
 	body: html.Element;
-	processor: (html: any, data: any) => Promise<void>;
+	processor: (html: any, data: any) => Promise<any>;
 
 	constructor(name: string, component_nodes: html.Node[]) {
 		this.name = name;
@@ -66,7 +131,31 @@ export class Component {
 		}
 		await process_nodes(element.children, 0);
 
-		await this.processor(html, data);
+		const extra_data = await this.processor(html, data);
+		const classes = element.get_attr("class");
+		const additional_classes = classes ? " " + classes.value() : "";
+		const eval_context = {
+			data: data,
+			processed: extra_data,
+			additional_classes: additional_classes
+		};
+
+		await (async function visit_expressions(nodes: html.Node[]) {
+			for (const node of nodes) {
+				if (node instanceof html.Element) {
+					for (let i = 0; i < node.attributes.length; i++) {
+						const attr = node.attributes[i];
+						node.attributes[i] = html.create_attribute(attr.name,
+							await process_expressions(data.name, attr.value(), eval_context)
+						);
+					}
+
+					await visit_expressions(node.children);
+				} else if (node instanceof html.Text) {
+					node.content = await process_expressions(data.name, node.content as string, eval_context);
+				}
+			}
+		})(data.nodes);
 
 		await process_nodes(data.nodes, 0);
 
@@ -103,16 +192,6 @@ class ComponentData {
 		this.do_with_attr(attr, value => this.get_first_element()?.attr(attr, value?.value()));
 	}
 
-	apply_additional_classes() {
-		const classes = this.element.get_attr("class");
-
-		if (classes) {
-			this.replace("additional_classes", " " + classes.value());
-		} else {
-			this.replace("additional_classes", "");
-		}
-	}
-
 	replace(name: string, value: string) {
 		function replace_visit(node: html.Node, replacer: (text: string) => string) {
 			if (node instanceof html.Element) {
@@ -127,7 +206,7 @@ class ComponentData {
 		}
 
 		name = name.replace(/(\{|\}|\||\(|\)|\[|\])/, "\\$1");
-		const regex = new RegExp(`\\$\\{${name}\\}`);
+		const regex = new RegExp(`\\$\\[${name}\\]`);
 
 		const replacer = (text: string) => text.replace(regex, value);
 		this.nodes.forEach(child => replace_visit(child, replacer));

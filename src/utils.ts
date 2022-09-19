@@ -30,3 +30,17 @@ export function process_property_from_html(html_tree: html.Element, property: st
 		return true;
 	});
 }
+
+export function is_escaped(text: string, char_pos: number) {
+	let backslash = 0;
+
+	for (let i = char_pos - 1; i >= 0; i--) {
+		if (text[i] === '\\') {
+			backslash++;
+		} else {
+			break;
+		}
+	}
+
+	return backslash % 2 !== 0;
+}

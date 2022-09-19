@@ -1,11 +1,11 @@
 <body>
 	<div class="ls_sidenav_wrapper${additional_classes}">
-		<input type="checkbox" id="${name}_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true"></input>
-		<nav id="${name}" class="ls_sidenav">
+		<input type="checkbox" id="${processed.name}_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true"></input>
+		<nav id="${processed.name}" class="ls_sidenav">
 			<ul></ul>
 		</nav>
 
-		<label for="${name}_trigger" class="ls_sidenav_trigger ls_btn" ls_variant="fab"
+		<label for="${processed.name}_trigger" class="ls_sidenav_trigger ls_btn" ls_variant="fab"
 			aria-role="menu" aria-label="Menu" aria-description="Open the navigation menu.">
 			<svg width="40" height="40" viewBox="0 0 40 40" stroke="var(--ls_theme_on_primary)" stroke-width="2px" shape-rendering="crispedges">
 				<line x1="12" y1="14" x2="28" y2="14"></line>
@@ -13,16 +13,13 @@
 				<line x1="12" y1="26" x2="28" y2="26"></line>
 			</svg>
 		</label>
-		<label for="${name}_trigger" class="ls_sidenav_darkened"></label>
+		<label for="${processed.name}_trigger" class="ls_sidenav_darkened"></label>
 	</div>
 </body>
 
 <script>
-	data.apply_additional_classes();
-
 	const nav = data.get_first_element().get_element_by_tag_name("nav");
 	const id = data.element.get_attr("id");
-	data.replace("name", id.value());
 
 	const nav_data_attr = data.element.get_attr("navigation_data");
 	if (!nav_data_attr) throw new Error(`Missing navigation data in ${data.context.page.path}.`);
@@ -75,4 +72,8 @@
 	if (style) {
 		data.get_first_element().attr("style", style.value());
 	}
+
+	return {
+		name: id.value()
+	};
 </script>

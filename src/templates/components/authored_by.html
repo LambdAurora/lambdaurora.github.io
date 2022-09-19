@@ -1,6 +1,6 @@
 <body>
 	<span class="ls_author_chip${additional_classes}">
-		<span>${author.name}</span>
+		<span>${processed.name}</span>
 	</span>
 </body>
 
@@ -8,7 +8,6 @@
 	const nodes = data.nodes[0].children;
 
 	const author_name = data.element.get_attr("author_name").value();
-	data.replace("author.name", author_name);
 
 	const author_picture = data.element.get_attr("author_picture");
 	if (author_picture) {
@@ -25,5 +24,7 @@
 		data.nodes[0].with_attr("href", author_url.value());
 	}
 
-	data.apply_additional_classes();
+	return {
+		name: author_name
+	};
 </script>

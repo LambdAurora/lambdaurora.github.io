@@ -1,5 +1,5 @@
 <body>
-	<a class="ls_nav_banner${additional_classes}" href="${path}">
+	<a class="ls_nav_banner${additional_classes}" href="${processed.path}">
 	</a>
 </body>
 
@@ -19,12 +19,12 @@
 		data.get_first_element().attr("style", style.value());
 	}
 
-	data.apply_additional_classes();
-
 	const reverse_prop = data.element.get_attr("ls_small_reverse");
 	if (reverse_prop) {
 		data.get_first_element().attr("ls_small_reverse", reverse_prop.value());
 	}
 
-	data.replace("path", path);
+	return {
+		path: path
+	};
 </script>
