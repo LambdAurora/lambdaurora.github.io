@@ -1,65 +1,48 @@
+// deno-lint-ignore-file no-explicit-any
 import { html } from "./libmd.ts";
 import { DECODER, AsyncFunction } from "./utils.ts";
 
 const COMPONENTS_ROOT = "src/templates/components";
 
 export class Component {
-	constructor(name, component_nodes) {
+	name: string;
+	body: html.Element;
+	processor: (html: any, data: any) => Promise<void>;
+
+	constructor(name: string, component_nodes: html.Node[]) {
 		this.name = name;
+		let body = null;
+		let processor = null;
 
 		for (const component_node of component_nodes) {
 			if (!(component_node instanceof html.Element))
 				continue;
 
 			if (component_node.tag.name === "body") {
-				this.body = component_node;
+				body = component_node;
 			} else if (component_node.tag.name === "script") {
-				this.processor = new AsyncFunction("html", "data", component_node.children[0].content);
+				processor = new AsyncFunction("html", "data", component_node.children[0].content);
 			}
 		}
 
-		if (!this.body) {
+		if (!body) {
 			throw new Error("Missing body in component " + name + ".");
 		}
 
+		this.body = body;
 		this.body.purge_empty_children();
 
-		if (!this.processor) {
+		if (!processor) {
 			throw new Error(`Missing script in component ${name}.`);
 		}
+
+		this.processor = processor;
 	}
 
-	async apply(page, element) {
-		const data = {
-			name: this.name,
-			element: element,
-			context: page,
-			nodes: this.body.clone_children(),
-			get_first_element() {
-				return this.nodes.find(node => node instanceof html.Element);
-			},
-			do_with_attr(attr, callback) {
-				const value = this.element.get_attr(attr);
+	async apply(page: any, element: html.Element) {
+		const data = new ComponentData(this.name, element, page, this.body.clone_children());
 
-				if (value) {
-					callback(value);
-				}
-			},
-			copy_attr(attr) {
-				this.do_with_attr(attr, value => this.get_first_element().attr(attr, value.value()));
-			},
-			apply_additional_classes() {
-				const classes = this.element.get_attr("class");
-
-				if (classes) {
-					this.replace("additional_classes", " " + classes.value());
-				} else {
-					this.replace("additional_classes", "");
-				}
-			}
-		};
-
-		async function process_nodes(parent, index) {
+		async function process_nodes(parent: html.Node[], index: number) {
 			const node = parent[index];
 	
 			if (node instanceof html.Element) {
@@ -83,26 +66,6 @@ export class Component {
 		}
 		await process_nodes(element.children, 0);
 
-		function replace_visit(node, replacer) {
-			if (node instanceof html.Element) {
-				node.attributes = node.attributes.map(attr => {
-					return html.create_attribute(replacer(attr.name), replacer(attr.value()))
-				});
-
-				node.children.forEach(child => replace_visit(child, replacer));
-			} else if (node instanceof html.Text) {
-				node.content = replacer(node.content);
-			}
-		}
-
-		data.replace = (name, value) => {
-			name = name.replace(/(\{|\}|\||\(|\)|\[|\])/, "\\$1");
-			const regex = new RegExp(`\\$\\{${name}\\}`);
-
-			const replacer = text => text.replace(regex, value);
-			data.nodes.forEach(child => replace_visit(child, replacer));
-		};
-
 		await this.processor(html, data);
 
 		await process_nodes(data.nodes, 0);
@@ -111,19 +74,79 @@ export class Component {
 	}
 }
 
+class ComponentData {
+	name: string;
+	element: html.Element;
+	context: any;
+	nodes: html.Node[];
+
+	constructor(name: string, element: html.Element, context: any, nodes: html.Node[]) {
+		this.name = name;
+		this.element = element;
+		this.context = context;
+		this.nodes = nodes;
+	}
+
+	get_first_element() {
+		return this.nodes.find(node => node instanceof html.Element) as html.Element | undefined;
+	}
+
+	do_with_attr(attr: string, callback: (value: html.Attribute | undefined) => void) {
+		const value = this.element.get_attr(attr);
+
+		if (value) {
+			callback(value);
+		}
+	}
+
+	copy_attr(attr: string) {
+		this.do_with_attr(attr, value => this.get_first_element()?.attr(attr, value?.value()));
+	}
+
+	apply_additional_classes() {
+		const classes = this.element.get_attr("class");
+
+		if (classes) {
+			this.replace("additional_classes", " " + classes.value());
+		} else {
+			this.replace("additional_classes", "");
+		}
+	}
+
+	replace(name: string, value: string) {
+		function replace_visit(node: html.Node, replacer: (text: string) => string) {
+			if (node instanceof html.Element) {
+				node.attributes = node.attributes.map(attr => {
+					return html.create_attribute(replacer(attr.name), replacer(attr.value()))
+				});
+
+				node.children.forEach(child => replace_visit(child, replacer));
+			} else if (node instanceof html.Text) {
+				node.content = replacer(node.content as string);
+			}
+		}
+
+		name = name.replace(/(\{|\}|\||\(|\)|\[|\])/, "\\$1");
+		const regex = new RegExp(`\\$\\{${name}\\}`);
+
+		const replacer = (text: string) => text.replace(regex, value);
+		this.nodes.forEach(child => replace_visit(child, replacer));
+	}
+}
+
 export const COMPONENTS = {
 	root: COMPONENTS_ROOT,
-	values: {},
+	values: {} as { [x: string]: any },
 	/**
 	 * Gets a component by its name.
 	 *
 	 * @param {string} name the name of the component
 	 * @return {Component|undefined} the component if it exists, otherwise {@code undefined}
 	 */
-	get: function(name) {
+	get(name: string): Component | undefined {
 		return this.values[name];
 	},
-	load: async function(path) {
+	load: async function(path: string) {
 		const name = path.replace(/\.html$/, "").split("/").filter(part => part !== "").join("_");
 
 		const nodes = await Deno.readFile(this.root + path)

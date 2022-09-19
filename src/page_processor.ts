@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { html, md, utils } from "./libmd.ts";
 
-import { COMPONENTS } from "./component.mjs";
+import { COMPONENTS } from "./component.ts";
 import { CONSTANTS } from "./constants.ts";
 import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, AsyncFunction } from "./utils.ts";
 
