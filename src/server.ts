@@ -3,21 +3,58 @@ import * as server from "https://deno.land/std@0.155.0/http/server.ts";
 import * as path from "https://deno.land/std@0.155.0/path/mod.ts";
 import { readableStreamFromReader } from "https://deno.land/std@0.155.0/streams/mod.ts";
 import { readAll } from "https://deno.land/std@0.155.0/streams/conversion.ts";
+import { Lock } from "https://deno.land/x/async@v1.1.5/lock.ts";
 import { html } from "./libmd.ts";
 import * as PRISM from "./prismjs.mjs";
 
 import { process_page } from "./page_processor.ts";
 import { DEPLOY_DIR, DECODER } from "./utils.ts";
 
+const debug_web_socket_lock = new Lock();
+const debug_web_socket_clients: DebugWebSocketAcceptedClient[] = [];
+
+class DebugWebSocketAcceptedClient {
+	web_socket: WebSocket;
+
+	constructor(sock: WebSocket) {
+		this.web_socket = sock;
+		this.web_socket.onopen = _ => {
+			console.log("\u001b[35;1mDebug WebSocket connected.\u001b[0m");
+		};
+		this.web_socket.onclose = () => {
+			debug_web_socket_lock.acquire()
+				.then(() => {
+					const index = debug_web_socket_clients.indexOf(this);
+					debug_web_socket_clients.splice(index, 1);
+					debug_web_socket_lock.release();
+					console.log("\u001b[35;1mDebug WebSocket disconnected.\u001b[0m");
+				});
+		};
+	}
+}
+
 export async function serve(args: {
 	[x: string]: any;
 	_: (string | number)[];
-}) {
+}, waiter: { lock: Promise<void>, on_rebuild: () => void }) {
 	const port = parseInt(args.port);
 
 	console.log("HTTP web server running.");
-	console.log(`Access it at: \u001b[35;1mhttp://localhost:${port}/\u001b[0m`);
-	await server.serve(handle_http, { port });
+	await server.serve(async request => await handle_http(request, { waiter: waiter, debug: args.debug }),
+		{
+			port: port,
+			onListen: (params: { hostname: string, port: number }) => {
+				waiter.on_rebuild = async () => {
+					await debug_web_socket_lock.acquire();
+					debug_web_socket_clients.forEach(client => {
+						client.web_socket.send("reload");
+					});
+					debug_web_socket_lock.release();
+				};
+				console.log(`Access it at: \u001b[35;1mhttp://${params.hostname === "0.0.0.0" ? "localhost" : params.hostname}:${port}/\u001b[0m`);
+			}
+		}
+	);
 }
 
 function create_base_headers() {
@@ -29,7 +66,7 @@ function create_base_headers() {
 	return headers;
 }
 
-async function handle_http(request: Request) {
+async function handle_http(request: Request, context: { waiter: { lock: Promise<void> }, debug: boolean }) {
 	// Use the request pathname as filepath.
 	const url = new URL(request.url);
 	const file_path = decodeURIComponent(url.pathname);
@@ -44,6 +81,19 @@ async function handle_http(request: Request) {
 		}
 
 		console.log(`\u001b[32;1m${request.method} ${file_path}\u001b[0m from: "${request.headers.get("user-agent")}" => ${color}${return_code}\u001b[0m`);
+	}
+
+	if (context.debug && file_path === "/debug/hotreloader") {
+		const { socket, response } = Deno.upgradeWebSocket(request);
+
+		await debug_web_socket_lock.acquire();
+		debug_web_socket_clients.push(new DebugWebSocketAcceptedClient(socket));
+		debug_web_socket_lock.release();
+
+		return response;
+	} else if (context.debug) {
+		// Wait for the debug reload to complete.
+		await context.waiter.lock;
 	}
 
 	let response;

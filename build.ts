@@ -2,7 +2,7 @@ import { copy } from "https://deno.land/std@0.155.0/fs/copy.ts";
 import { move } from "https://deno.land/std@0.155.0/fs/mod.ts";
 import { parse } from "https://deno.land/std@0.155.0/flags/mod.ts";
 
-import { process_all_pages } from "./src/page_processor.ts";
+import { process_all_pages, enable_debug_pages } from "./src/page_processor.ts";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { process_all_blog_entries } from "./src/blog_processor.mjs";
 import { serve } from "./src/server.ts";
@@ -10,6 +10,8 @@ import { BUILD_DIR, DEPLOY_DIR, DECODER, ENCODER } from "./src/utils.ts";
 import { COMPONENTS } from "./src/component.ts";
 
 const args = parse(Deno.args, { default: { port: 8080 }});
+
+if (args.debug) enable_debug_pages();
 
 interface BuildStepContext {
 	add_file: (file: string, recursive?: boolean) => void
@@ -168,7 +170,7 @@ await build();
 
 const watchers: Deno.FsWatcher[] = [];
 
-function start_watching(build_func: () => void, ...directories: string[]) {
+function start_watching(waiter: { lock: Promise<void>, on_rebuild: () => Promise<void> }, build_func: () => Promise<unknown>, ...directories: string[]) {
 	for (const directory of directories) {
 		const watcher = Deno.watchFs(directory, { recursive: true });
 		watchers.push(watcher);
@@ -180,7 +182,9 @@ function start_watching(build_func: () => void, ...directories: string[]) {
 			for await (const event of watcher) {
 				if (event.kind !== "access" && (Date.now() - last) > 500) {
 					last = Date.now();
-					await build_func();
+					const promise = build_func().then(async _ => { await waiter.on_rebuild(); });
+					waiter.lock = promise;
+					await promise;
 				}
 			}
 		})();
@@ -192,10 +196,12 @@ function stop_watching() {
 }
 
 if (args.serve) {
+	const waiter = { lock: new Promise<void>(resolved => resolved()), on_rebuild: async () => {} };
+
 	if (args.debug) {
-		start_watching(async () => await public_step.execute(), "./public");
-		start_watching(async () => await style_step.execute(), "./src/style/");
-		start_watching(async () => {
+		start_watching(waiter, async () => await public_step.execute(), "./public");
+		start_watching(waiter, async () => await style_step.execute(), "./src/style/");
+		start_watching(waiter, async () => {
 			try {
 				await build();
 			} catch (e) {
@@ -204,7 +210,7 @@ if (args.serve) {
 		}, "./src/templates", "./src/views", "./src/tutorials", "./src/blog");
 	}
 
-	await serve(args);
+	await serve(args, waiter);
 
 	stop_watching();
 }

@@ -9,6 +9,7 @@ const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
 const PAGE_TEMPLATE_PATH = TEMPLATES_ROOT + "page.html";
 const VIEW_SCRIPTS_ROOT = BUILD_DIR + "/view_scripts";
+let debug = false;
 
 interface PreloadSpec {
 	source: string;
@@ -42,6 +43,20 @@ async function load_page_template() {
 		).filter(node => {
 			if (node instanceof html.Element) {
 				node.purge_empty_children();
+
+				if (node.tag.name === "html" && debug) {
+					node.append_child(html.parse(/*html*/`<script type="module">
+		const protocol = window.location.protocol === "http:" ? "ws:" : "wss:";
+		const ws = new WebSocket(protocol + window.location.host + "/debug/hotreloader");
+		ws.addEventListener("open", e => console.log("Debug websocket connected."));
+		ws.addEventListener("message", e => {
+			if (e.data === "reload") {
+				window.location.reload();
+			}
+		});
+</script>`));
+				}
+
 				return true;
 			}
 			return false;
@@ -256,4 +271,8 @@ export async function process_all_pages(directory = "") {
 				});
 		}
 	}
+}
+
+export function enable_debug_pages() {
+	debug = true;
 }
