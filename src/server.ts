@@ -1,8 +1,8 @@
 // deno-lint-ignore-file no-explicit-any
-import * as server from "https://deno.land/std@0.155.0/http/server.ts";
-import * as path from "https://deno.land/std@0.155.0/path/mod.ts";
-import { readableStreamFromReader } from "https://deno.land/std@0.155.0/streams/mod.ts";
-import { readAll } from "https://deno.land/std@0.155.0/streams/conversion.ts";
+import * as server from "deno/http/server.ts";
+import * as path from "deno/path/mod.ts";
+import { readableStreamFromReader } from "deno/streams/mod.ts";
+import { readAll } from "deno/streams/conversion.ts";
 import { Lock } from "https://deno.land/x/async@v1.1.5/lock.ts";
 import { html } from "./libmd.ts";
 import * as PRISM from "./prismjs.mjs";

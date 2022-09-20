@@ -1,6 +1,6 @@
 export * from "./script/prismjs_importer.mjs";
-import "https://cdn.jsdelivr.net/npm/prismjs@1.27/components/prism-css.min.js";
-import "https://cdn.jsdelivr.net/npm/prismjs@1.27/components/prism-css-extras.min.js";
+import "prism.js/components/prism-css.min.js";
+import "prism.js/components/prism-css-extras.min.js";
 
 //startregion FROM: https://cdn.jsdelivr.net/npm/prismjs@1.27/plugins/inline-color/prism-inline-color.js
 // Copied from the markup language definition

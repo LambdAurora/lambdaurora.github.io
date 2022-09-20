@@ -1,6 +1,6 @@
-import { copy } from "https://deno.land/std@0.155.0/fs/copy.ts";
-import { move } from "https://deno.land/std@0.155.0/fs/mod.ts";
-import { parse } from "https://deno.land/std@0.155.0/flags/mod.ts";
+import { copy } from "deno/fs/copy.ts";
+import { move } from "deno/fs/mod.ts";
+import { parse } from "deno/flags/mod.ts";
 
 import { process_all_pages, enable_debug_pages } from "./src/page_processor.ts";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
