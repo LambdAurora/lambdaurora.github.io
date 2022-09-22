@@ -5,6 +5,7 @@
 <!--author: lambdaurora -->
 <!--tag: blog -->
 <!--date: 2022-09-18 -->
+<!--modified: 2022-09-22 -->
 
 [[ToC]]
 
@@ -140,7 +141,8 @@ Second issue, reporting is a black box.
 CurseForge has a way to report projects and comments directly on the website, which is neat, until you see the dialog and you realize you will never get a notification on whether the report has been reviewed or not. It's basically hit or miss.  
 It's even more frustrating when the comment in question is on your own project: if you delete the comment you have to report the account, but how am I guaranteed the context will be found and consequences will happen? Reporting then deleting the comment apparently internally resolve the report too.  
 So the best way to know if a comment has been actioned upon due to a report is to simply not delete it and report it.  
-*So far a transphobic comment on the page of my mod [Aurora's Decorations](https://www.curseforge.com/minecraft/mc-mods/aurorasdecorations) is still up (16/09/2022), I do understand that CurseForge is a bit behind on report processing, but not being able to delete the comment to make sure the report will be actioned upon with a proof for so long is not good.*
+*So far a transphobic comment on the page of my mod [Aurora's Decorations](https://www.curseforge.com/minecraft/mc-mods/aurorasdecorations) has been up since the 16/09/2022 to the 22/09/2022, which represents almost a week of up time. I do understand that CurseForge is a bit behind on report processing, but not being able to delete the comment to make sure the report will be actioned upon with a proof for so long is not good.
+I really hope that future website updates will take time to improve this system.*
 
 ## What Now?
 
