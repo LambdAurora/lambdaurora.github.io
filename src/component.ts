@@ -86,7 +86,7 @@ export class Component {
 			if (component_node.tag.name === "body") {
 				body = component_node;
 			} else if (component_node.tag.name === "script") {
-				processor = new AsyncFunction("html", "data", component_node.children[0].content);
+				processor = new AsyncFunction("html", "data", (component_node.children[0] as html.Text).content);
 			}
 		}
 
@@ -131,7 +131,10 @@ export class Component {
 		}
 		await process_nodes(element.children, 0);
 
-		const extra_data = await this.processor(html, data);
+		const extra_data = await this.processor(html, data).catch(e => {
+			console.error(`Failed to execute processor for component ${this.name}.`);
+			throw e;
+		});
 		const classes = element.get_attr("class");
 		const additional_classes = classes ? " " + classes.value() : "";
 		const eval_context = {

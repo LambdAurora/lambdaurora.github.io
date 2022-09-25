@@ -1,6 +1,6 @@
 {
 	"imports": {
-		"deno/": "https://deno.land/std@0.156.0/",
+		"deno/": "https://deno.land/std@0.157.0/",
 		"lib.md/": "https://lambdaurora.dev/lib.md/lib/",
 		"prism.js/": "https://cdn.jsdelivr.net/npm/prismjs@1.27/"
 	}

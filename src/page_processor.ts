@@ -93,7 +93,7 @@ function process_element(element: html.Node, parent: html.Element, module: PageM
  * @param {PageModule} module the module of the page
  */
  function process_head(page: html.Element, style: html.Element | undefined, module: PageModule) {
-	const head = page.children[0];
+	const head = page.children[0] as html.Element;
 	process_element(head, page, module);
 
 	if (!module.page.embed) {
@@ -157,7 +157,7 @@ function load_view_file(view_path: string) {
 
 async function load_script(page_source: html.Element) {
 	const func: (CONSTANTS: any, html: any, md: any) => Promise<PageModule> = new AsyncFunction("CONSTANTS", "html", "md",
-		page_source.get_element_by_tag_name("script")?.children[0].content
+		(page_source.get_element_by_tag_name("script")?.children[0] as html.Text).content
 	);
 	return await func(CONSTANTS, html, md);
 }
