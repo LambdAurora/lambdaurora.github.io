@@ -1,0 +1,30 @@
+/*
+ * lambdaurora.dev stylesheet - A simple stylesheet.
+ *
+ * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ *
+ * To the extent possible under law, the author(s) have dedicated
+ * all copyright and related and neighboring rights to this software
+ * to the public domain worldwide.
+ * This software is distributed without any warranty.
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ */
+
+ .ls_tag_ship {
+	display: inline-block;
+	line-height: 1;
+	margin: 0 4px 2px 0;
+	vertical-align: middle;
+	border-radius: 4px;
+}
+
+.ls_tag_ship > span {
+	display: inline-block;
+	padding: 2px;
+	width: 100%;
+	height: 100%;
+	border-radius: 3px;
+	border: 1px solid #0000004d;
+	box-sizing: border-box;
+}

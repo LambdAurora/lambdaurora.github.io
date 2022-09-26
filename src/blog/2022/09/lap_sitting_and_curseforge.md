@@ -3,7 +3,7 @@
 <!--description: My ModFest: Singularity mod Affectionate got rejected from CurseForge, and I don't like the reason. Let's talk about it. -->
 <!--embed_image: /images/memes/curseforge_no_lap_sitting.png -->
 <!--author: lambdaurora -->
-<!--tag: blog -->
+<!--tag: affectionate, curseforge, minecraft modding -->
 <!--date: 2022-09-18 -->
 <!--modified: 2022-09-22 -->
 

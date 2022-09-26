@@ -47,13 +47,20 @@ async function load_page_template() {
 				if (node.tag.name === "html" && debug) {
 					node.append_child(html.parse(/*html*/`<script type="module">
 		const protocol = window.location.protocol === "http:" ? "ws:" : "wss:";
-		const ws = new WebSocket(protocol + window.location.host + "/debug/hotreloader");
-		ws.addEventListener("open", e => console.log("Debug websocket connected."));
-		ws.addEventListener("message", e => {
-			if (e.data === "reload") {
-				window.location.reload();
-			}
-		});
+		function initiate_connection() {
+			const ws = new WebSocket(protocol + window.location.host + "/debug/hotreloader");
+			ws.addEventListener("open", e => console.log("Debug websocket connected."));
+			ws.addEventListener("message", e => {
+				if (e.data === "reload") {
+					window.location.reload();
+				}
+			});
+			ws.addEventListener("close", e => {
+				setTimeout(1000, () => {
+					initiate_connection();
+				})
+			})
+		}
 </script>`));
 				}
 
