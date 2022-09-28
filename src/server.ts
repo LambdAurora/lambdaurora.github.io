@@ -51,7 +51,9 @@ export async function serve(args: {
 					});
 					debug_web_socket_lock.release();
 				};
-				console.log(`Access it at: \u001b[35;1mhttp://${params.hostname === "0.0.0.0" ? "localhost" : params.hostname}:${port}/\u001b[0m`);
+				console.log(`Access it at: \u001b[35;1mhttp://${params.hostname === "0.0.0.0"
+					? "localhost" : params.hostname}:${port}/\u001b[0m`
+				);
 			}
 		}
 	);

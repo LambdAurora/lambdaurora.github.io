@@ -132,7 +132,7 @@ export class Component {
 		await process_nodes(element.children, 0);
 
 		const extra_data = await this.processor(html, data).catch(e => {
-			console.error(`Failed to execute processor for component ${this.name}.`);
+			console.error(`Failed to execute processor for component ${this.name} at ${COMPONENTS_ROOT + '/' + this.name}.`);
 			throw e;
 		});
 		const classes = element.get_attr("class");

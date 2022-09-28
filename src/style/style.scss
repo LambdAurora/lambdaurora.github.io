@@ -21,6 +21,7 @@
 @use "image";
 @use "nav";
 @use "table";
+@use "tag_ship";
 @use "article";
 
 :root {
@@ -82,13 +83,15 @@ a {
 	0 1px 5px 0 rgba(0, 0, 0, .12);
 }
 
-.ls_elevation_4, .ls_btn[ls_variant="contained"]:hover, .ls_btn[ls_variant="contained"]:focus {
+.ls_elevation_4,
+.ls_btn[ls_variant="contained"]:hover, .ls_btn[ls_variant="contained"]:focus,
+.ls_card[ls_clickable]:hover, .ls_card[ls_clickable]:focus {
 	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2),
 	0 4px 5px 0 rgba(0, 0, 0, .14),
 	0 1px 10px 0 rgba(0, 0, 0, .12);
 }
 
-.ls_elevation_8, .ls_btn[ls_variant="contained"]:active {
+.ls_elevation_8, .ls_btn[ls_variant="contained"]:active, .ls_card[ls_clickable] {
 	box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
 	0 8px 10px 1px rgba(0, 0, 0, .14),
 	0 3px 14px 2px rgba(0, 0, 0, .12);

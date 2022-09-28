@@ -129,3 +129,13 @@
 	border-radius: 0;
 	box-shadow: none;
 }
+
+.ls_card[ls_clickable] {
+	transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+
+	color: var(--ls_theme_foreground);
+
+	h1, h2, h3, h4, h5, h6 {
+		color: var(--ls_theme_primary);
+	}
+}

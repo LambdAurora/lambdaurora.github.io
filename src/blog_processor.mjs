@@ -88,6 +88,20 @@ function get_metadata_html(authors, times) {
 	return metadata_div;
 }
 
+function get_tags_html(keywords) {
+	if (keywords.length === 0) return "";
+	const metadata_div = html.create_element("div").with_attr("class", "ls_article_metadata").style("margin-top", "0.2em");
+	keywords.forEach(keyword => metadata_div.append_child(
+		html.create_element("span")
+			.with_attr("class", "ls_tag_ship")
+			.style("background-color", "var(--ls_theme_primary)")
+			.style("color", "var(--ls_theme_foreground_on_primary)")
+			.with_child(html.create_element("span").with_child(keyword))
+		)
+	);
+	return metadata_div.html();
+}
+
 async function process_blog_entry(path, context) {
 	let title = await get_pretty_path(path);
 
@@ -124,9 +138,9 @@ async function process_blog_entry(path, context) {
 				block_code: {
 					highlighter: (code, language, parent) => {
 						if (Prism.languages[language]) {
-							const stuff = html.parse("<pre><code>"
-								+ Prism.highlight(code, Prism.languages[language], language)
-								+ "</code></pre>");
+							const stuff = html.parse(
+								/*html*/`<pre><code>${Prism.highlight(code, Prism.languages[language], language)}</code></pre>`
+							);
 							parent.children = stuff.get_element_by_tag_name("code").children;
 						} else
 							parent.append_child(new html.Text(code, html.TextMode.RAW));
@@ -236,7 +250,12 @@ async function process_blog_entry(path, context) {
 						title: title,
 						image: embed_image
 					},
-					keywords: keywords
+					keywords: keywords,
+					custom: {
+						authors: authors,
+						times: times,
+						tags: tags
+					}
 				},
 				styles: [
 					PRISM.get_prism_url("plugins/inline-color/prism-inline-color.min.css")
@@ -263,28 +282,32 @@ async function process_blog_index(entries) {
 			article.append_child(html.create_element("h1").with_child(new html.Text(title)));
 
 			const nav = html.create_element("nav");
+			nav.style("display", "flex");
+			nav.style("flex-direction", "column");
 			article.append_child(nav);
 
-			const ul = html.create_element("ul");
-			nav.append_child(ul);
-
 			entries.forEach(post => {
-				const li = html.create_element("li")
-					.with_child(html.create_element("a")
-						.with_attr("href", post.path)
-						.with_child(post.name)
-					);
-				ul.append_child(li);
+				const metadata = post.page.metadata;
+				const card = html.parse(/*html*/`<card href="${post.path}"
+						style="margin-top: 1em; margin-bottom: 1em;" tags="${metadata.page.custom.tags.join(", ")}">
+						<card_content>
+							<h2>${post.name}</h2>
+							${get_metadata_html(metadata.page.custom.authors, metadata.page.custom.times).html()}
+							${get_tags_html(metadata.page.custom.tags)}
+							<p>${metadata.page.description}</p>
+						</card_content>
+					</card>`);
+				nav.append_child(card);
 			});
 
 			return new Promise((resolver) => resolver(view.with_child(body
-				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+				.with_child(html.parse(/*html*/`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
 					<header>
 						<main_nav_banner></main_nav_banner>
 					</header>
 				</sidenav>`))
 				.with_child(main)
-				.with_child(html.parse(`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
+				.with_child(html.parse(/*html*/`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
 			)));
 		},
 		load_script: _ => {
