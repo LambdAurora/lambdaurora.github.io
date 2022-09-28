@@ -208,7 +208,7 @@ class ComponentData {
 			}
 		}
 
-		name = name.replace(/(\{|\}|\||\(|\)|\[|\])/, "\\$1");
+		name = name.replace(/([{}|()\[\]])/, "\\$1");
 		const regex = new RegExp(`\\$\\[${name}\\]`);
 
 		const replacer = (text: string) => text.replace(regex, value);

@@ -1,0 +1,101 @@
+<html>
+<body>
+<canvas id="bouncy_pride" style="width: 100%; height: 100%; image-rendering: crisp-edges" width="116" height="28"></canvas>
+
+<script type="module">
+	const canvas = document.getElementById("bouncy_pride");
+	const ctx = canvas.getContext("2d");
+
+	const COLORS = [
+		["#00bfff", "#ff69b4", "#fff", "#ff69b4", "#00bfff"],
+		["#ef7627", "#ff9a56", "#fff", "#d162a4", "#a30262"]
+	];
+
+	let ball_pos = {x: 0, y: 0};
+	let ball_vector = {x: 1, y: 1};
+	let current_color = 0;
+
+	const space_width = 116;
+	const space_height = 28;
+	const wait = async time => new Promise(resolve => setTimeout(resolve, time));
+
+	function on_bounce() {
+		current_color++;
+		if (!COLORS[current_color]) {
+			current_color = 0;
+		}
+	}
+
+	function render_ball() {
+		const shape = [
+			" XXX ",
+			"XXXXX",
+			"XXXXX",
+			"XXXXX",
+			" XXX "
+		];
+
+		let offset = (shape.length - 1) / 2;
+		for (let i = 0; i < shape.length; i++) {
+			const y = ball_pos.y + (i - offset);
+
+			for (let j = 0; j < shape[i].length; j++) {
+				const x = ball_pos.x + (j - offset);
+
+				switch (shape[i][j]) {
+					case ' ':
+						ctx.fillStyle = "#242424";
+						break;
+					case 'X':
+						ctx.fillStyle = COLORS[current_color][i];
+						break;
+				}
+
+				ctx.fillRect(x , y , 1, 1);
+			}
+		}
+	}
+
+	new Promise(async () => {
+		while (true) {
+			const next_ball_pos = {x: ball_pos.x + ball_vector.x, y: ball_pos.y + ball_vector.y};
+			let bounced = false;
+
+			if (next_ball_pos.x < 0 || next_ball_pos.x > space_width) {
+				next_ball_pos.x = ball_pos.x;
+				ball_vector.x = -ball_vector.x;
+				bounced = true;
+			}
+
+			if (next_ball_pos.y < 0 || next_ball_pos.y > space_height) {
+				next_ball_pos.y = ball_pos.y;
+				ball_vector.y = -ball_vector.y;
+				bounced = true;
+			}
+
+			if (bounced) on_bounce();
+
+			ball_pos = next_ball_pos;
+
+			render_ball();
+
+			await wait(30);
+		}
+	});
+</script>
+</body>
+
+<script>
+	const title = "Bouncing Pride";
+
+	return {
+		page: {
+			title: title,
+			description: "It bounces.",
+			embed: {
+				title: title
+			}
+		}
+	};
+</script>
+</html>

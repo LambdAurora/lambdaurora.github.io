@@ -64,7 +64,7 @@ async function load_page_template() {
 }
 
 function process_string(string: string, module: PageModule) {
-	return string.replace(/\$\{([a-zA-Z0-9_.]+)\}/g, (_, name: string) => {
+	return string.replace(/\$\{([a-zA-Z\d_.]+)\}/g, (_, name: string) => {
 		const name_parts = name.split(".");
 		let variable = module;
 
@@ -89,8 +89,9 @@ function process_element(element: html.Node, parent: html.Element, module: PageM
 /**
  * Processes the head HTML element from a page.
  *
- * @param {html.Element} page the content of the page
- * @param {PageModule} module the module of the page
+ * @param page the content of the page
+ * @param style the style element of the page if present
+ * @param module the module of the page
  */
  function process_head(page: html.Element, style: html.Element | undefined, module: PageModule) {
 	const head = page.children[0] as html.Element;
