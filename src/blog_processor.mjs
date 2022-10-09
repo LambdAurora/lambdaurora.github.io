@@ -95,7 +95,7 @@ function get_tags_html(keywords) {
 		html.create_element("span")
 			.with_attr("class", "ls_tag_ship")
 			.style("background-color", "var(--ls_theme_primary)")
-			.style("color", "var(--ls_theme_foreground_on_primary)")
+			.style("color", "var(--ls_theme_on_primary)")
 			.with_child(html.create_element("span").with_child(keyword))
 		)
 	);
