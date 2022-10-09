@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { html, md, utils } from "./libmd.ts";
+import { html, md, merge_objects } from "@lib.md/mod.mjs";
 
 import { COMPONENTS } from "./component.ts";
 import { CONSTANTS } from "./constants.ts";
@@ -198,7 +198,7 @@ const PROCESS_PAGE_SETTINGS = Object.freeze({
  * @returns the processed page
  */
  export async function process_page(path: string, settings?: PageProcessingSettings) {
-	const context = utils.merge_objects(PROCESS_PAGE_SETTINGS, settings as Record<string, unknown>) as PageProcessingContext;
+	const context = merge_objects(PROCESS_PAGE_SETTINGS, settings as Record<string, unknown>) as PageProcessingContext;
 
 	const view_path = get_view_path(path);
 

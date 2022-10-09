@@ -1,4 +1,4 @@
-import { html } from "./libmd.ts";
+import { html } from "@lib.md/mod.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
 export const BUILD_DIR = "./build";

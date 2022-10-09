@@ -1,7 +1,7 @@
 {
 	"imports": {
-		"deno/": "https://deno.land/std@0.157.0/",
-		"lib.md/": "https://lambdaurora.dev/lib.md/lib/",
-		"prism.js/": "https://cdn.jsdelivr.net/npm/prismjs@1.27/"
+		"@std/": "https://deno.land/std@0.157.0/",
+		"@lib.md/": "https://deno.land/x/libmd@v1.7.0/",
+		"@prism.js/": "https://cdn.jsdelivr.net/npm/prismjs@1.27/"
 	}
 }

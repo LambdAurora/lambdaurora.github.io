@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { html } from "./libmd.ts";
+import { html } from "@lib.md/mod.mjs";
 import { DECODER, AsyncFunction, is_escaped } from "./utils.ts";
 
 const COMPONENTS_ROOT = "src/templates/components";
