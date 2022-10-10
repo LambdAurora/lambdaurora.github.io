@@ -4,7 +4,7 @@
 <!--embed_image: /images/memes/curseforge_no_lap_sitting.png -->
 <!--author: lambdaurora -->
 <!--tag: affectionate, curseforge, minecraft modding -->
-<!--date: 2022-09-18 -->
+<!--date: 2022-09-18 23:21:19 GMT+0200 -->
 <!--modified: 2022-09-22 -->
 
 [[ToC]]

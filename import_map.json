@@ -1,7 +1,7 @@
 {
 	"imports": {
 		"@std/": "https://deno.land/std@0.157.0/",
-		"@lib.md/": "https://deno.land/x/libmd@v1.7.0/",
+		"@lib.md/": "https://deno.land/x/libmd@v1.7.1/",
 		"@prism.js/": "https://cdn.jsdelivr.net/npm/prismjs@1.27/"
 	}
 }

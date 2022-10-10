@@ -3,7 +3,7 @@
 <!--description: Welcome to this new blog! After some time I decided to finally get a blog so I can talk of various stuff whenever I want. -->
 <!--author: lambdaurora -->
 <!--tag: blog -->
-<!--date: 2022-09-04 -->
+<!--date: 2022-09-04 17:57:06 GMT+0200 -->
 <!--modified: 2022-09-16 -->
 
 Welcome!

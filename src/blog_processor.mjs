@@ -6,24 +6,10 @@ import * as PRISM from "./prismjs.mjs";
 
 const BLOG_ROOT = "src/blog";
 
-class ShortDate {
-	constructor(year, month, day) {
-		this.year = year;
-		this.month = month;
-		this.day = day;
-	}
-
-	toString() {
-		return `${this.year}-${String(this.month).padStart(2, '0')}-${String(this.day).padStart(2, '0')}`;
-	}
-
-	equals(other) {
-		if (other instanceof ShortDate) {
-			return this.year === other.year && this.month === other.month && this.day === other.day;
-		}
-
-		return false;
-	}
+function get_date_string(date) {
+	return date.getFullYear()
+		+ "-" + String(date.getMonth() + 1).padStart(2, '0')
+		+ "-" + String(date.getDate()).padStart(2, '0');
 }
 
 async function get_pretty_path(path, parent = "") {
@@ -77,9 +63,9 @@ function get_metadata_html(authors, times) {
 
 	const times_div = html.create_element("div").with_attr("class", "ls_article_times");
 
-	times_div.append_child(`Created ${times.creation_time.toString()}`);
-	if (times.modification_time && !times.creation_time.equals(times.modification_time)) {
-		times_div.append_child(html.create_element("em").with_child(/*html*/`&nbsp;(Modified ${times.modification_time.toString()})`));
+	times_div.append_child(`Created ${get_date_string(times.creation_time)}`);
+	if (times.modification_time && times.creation_time !== times.modification_time) {
+		times_div.append_child(html.create_element("em").with_child(/*html*/`&nbsp;(Modified ${get_date_string(times.modification_time)})`));
 	}
 
 	metadata_div.append_child(author_div);
@@ -185,12 +171,10 @@ async function process_blog_entry(path, context) {
 				cw_values.map(v => v.trim()).forEach(v => cws.push(v));
 			})
 			process_property_from_html(article, "date", value => {
-				const date = value.split('-');
-				times.creation_time = new ShortDate(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]));
+				times.creation_time = new Date(Date.parse(value));
 			});
 			process_property_from_html(article, "modified", value => {
-				const date = value.split('-');
-				times.modification_time = new ShortDate(parseInt(date[0]), parseInt(date[1]), parseInt(date[2]));
+				times.modification_time = new Date(Date.parse(value));
 			});
 
 			if (!page_description) {
@@ -279,7 +263,8 @@ async function process_blog_index(entries) {
 				.with_attr("class", "ls_main_content");
 			main.append_child(article);
 
-			article.append_child(html.create_element("h1").with_child(new html.Text(title)));
+			html.parse(/*html*/`<h1>${title}</h1>
+			<p><a href="/blog/feed.xml">RSS feed</a></p>`, article);
 
 			const nav = html.create_element("nav");
 			nav.style("display", "flex");
@@ -324,11 +309,86 @@ async function process_blog_index(entries) {
 	});
 }
 
+const rss_tag = {
+	name: "rss",
+	required_attributes: Object.freeze(["version"]),
+	self_closing: false,
+	parse_inside: true,
+	escape_inside: true,
+	preserve_format: false,
+	inline: false,
+	create: function() {
+		return new html.Element(this);
+	}
+};
+const channel_tag = {
+	name: "channel",
+	required_attributes: Object.freeze([]),
+	self_closing: false,
+	parse_inside: true,
+	escape_inside: true,
+	preserve_format: false,
+	inline: false,
+	create: function() {
+		return new html.Element(this);
+	}
+};
+const item_tag = {
+	name: "item",
+	required_attributes: Object.freeze([]),
+	self_closing: false,
+	parse_inside: true,
+	escape_inside: true,
+	preserve_format: false,
+	inline: false,
+	create: function() {
+		return new html.Element(this);
+	}
+};
+
+async function generate_rss_feed(entries) {
+	const channel = channel_tag.create();
+	const rss = rss_tag.create()
+		.with_attr("version", "2.0")
+		.with_child(channel);
+
+	const link_tag = {
+		name: "link",
+		required_attributes: Object.freeze([]),
+		self_closing: false,
+		parse_inside: true,
+		escape_inside: true,
+		preserve_format: false,
+		inline: true,
+		create: function() {
+			return new html.Element(this);
+		}
+	};
+
+	channel.with_child(html.create_element("title").with_child("LambdAurora's Blog"))
+		.with_child(html.create_element("description").with_child("A personal and random blog!"))
+		.with_child(link_tag.create().with_child(CONSTANTS.get_url("/blog")))
+		.with_child(html.create_element("language").with_child("en-us"))
+		.with_child(html.create_element("pubDate").with_child(entries[0].page.metadata.page.custom.times.creation_time.toUTCString()))
+
+	entries.forEach(post => {
+		channel.append_child(item_tag.create()
+			.with_child(html.create_element("title").with_child(post.name))
+			.with_child(html.create_element("guid").with_child(post.path))
+			.with_child(link_tag.create().with_child(CONSTANTS.get_url(post.path)))
+			.with_child(html.create_element("description").with_child(post.page.metadata.page.description))
+			.with_child(html.create_element("pubDate").with_child(post.page.metadata.page.custom.times.creation_time.toUTCString()))
+		);
+	});
+
+	await Deno.writeFile(DEPLOY_DIR + "/blog/feed.xml", ENCODER.encode(rss.html()));
+}
+
 export async function process_all_blog_entries(root = BLOG_ROOT) {
 	const context = {
 		root: root
 	};
-	const blog_entries = [];
+	let blog_entries = [];
 
 	context.authors = await Deno.readFile(`${root}/authors.json`)
 		.then(content => DECODER.decode(content))
@@ -353,15 +413,21 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 									const deploy_path = DEPLOY_DIR + html_path;
 									await create_parent_directory(deploy_path);
 									await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
-				
+
 									const h1 = page.content[1].find_element_by_tag_name("h1");
 									let name = await get_pretty_path(path);
-				
+
 									if (h1) {
 										name = h1.text();
 									}
-				
-									blog_entries.push({ path: html_path, name: name, year: year, month: month, page: page });
+
+									const metadata = page.metadata;
+									blog_entries.push({
+										path: html_path,
+										name: name,
+										time: metadata.page.custom.times.creation_time,
+										page: page
+									});
 								});
 						}
 					}
@@ -370,19 +436,18 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 		}
 	}
 
-	blog_entries.sort((a, b) => {
-		if (a.year < b.year) return -1;
-		else if (a.year > b.year) return 1;
-		else if (a.month < b.month) return -1;
-		else if (a.month > b.month) return 1;
+	blog_entries = blog_entries.sort((a, b) => {
+		if (a < b) return -1;
+		else if (a > b) return 1;
 		else return 0;
-	});
+	}).reverse();
 
-	await process_blog_index(blog_entries.reverse())
+	await process_blog_index(blog_entries)
 		.then(async function (page) {
 			const deploy_path = DEPLOY_DIR + "/blog/index.html";
 			await create_parent_directory(deploy_path); // Shouldn't be needed.
 			await Deno.writeFile(deploy_path, ENCODER.encode(page.html()))
 		});
+	await generate_rss_feed(blog_entries);
 }
 
