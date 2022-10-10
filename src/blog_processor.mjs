@@ -374,7 +374,7 @@ async function generate_rss_feed(entries) {
 	entries.forEach(post => {
 		channel.append_child(item_tag.create()
 			.with_child(html.create_element("title").with_child(post.name))
-			.with_child(html.create_element("guid").with_child(post.path))
+			.with_child(html.create_element("guid").with_child(CONSTANTS.get_url(post.path)))
 			.with_child(link_tag.create().with_child(CONSTANTS.get_url(post.path)))
 			.with_child(html.create_element("description").with_child(post.page.metadata.page.description))
 			.with_child(html.create_element("pubDate").with_child(post.page.metadata.page.custom.times.creation_time.toUTCString()))
@@ -436,11 +436,11 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 		}
 	}
 
-	blog_entries = blog_entries.sort((a, b) => {
-		if (a < b) return -1;
-		else if (a > b) return 1;
+	blog_entries.sort((a, b) => {
+		if (a.time > b.time) return -1;
+		else if (a.time < b.time) return 1;
 		else return 0;
-	}).reverse();
+	});
 
 	await process_blog_index(blog_entries)
 		.then(async function (page) {
