@@ -61,6 +61,7 @@ async function load_page_template() {
 				})
 			})
 		}
+		initiate_connection();
 </script>`));
 				}
 
