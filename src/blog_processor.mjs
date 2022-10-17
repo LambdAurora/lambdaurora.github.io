@@ -45,7 +45,7 @@ function get_metadata_html(authors, times) {
 
 	author_div.append_child(html.create_element("span").with_child("Authored by:"));
 
-	for (const i in authors) {
+	for (let i = 0; i < authors.length; i++) {
 		const author = authors[i];
 		const a = html.create_element("authored_by")
 			.with_attr("author_name", author.name);
