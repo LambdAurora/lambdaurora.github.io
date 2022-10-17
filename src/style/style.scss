@@ -14,6 +14,7 @@
 /* Basics */
 
 @use "colors_light";
+@use "typography";
 @use "button";
 @use "card";
 @use "code";
@@ -106,11 +107,6 @@ a {
 	line-height: 1.375rem;
 	font-weight: 500;
 	letter-spacing: .0071428571em;
-}
-
-hr {
-	width: 100%;
-	color: var(--ls_theme_secondary);
 }
 
 /*

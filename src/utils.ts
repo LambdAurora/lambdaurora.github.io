@@ -1,4 +1,4 @@
-import { html } from "@lib.md/mod.mjs";
+import { html, merge_objects } from "@lib.md/mod.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
 export const BUILD_DIR = "./build";
@@ -43,4 +43,37 @@ export function is_escaped(text: string, char_pos: number) {
 	}
 
 	return backslash % 2 !== 0;
+}
+
+export function create_common_markdown_parser_opts(options?: Object) {
+	if (!options) {
+		options = {};
+	}
+
+	return merge_objects(options, {
+		auto_link: true
+	});
+}
+
+export function create_common_markdown_render_opts(options?: Object) {
+	if (!options) {
+		options = {};
+	}
+
+	return merge_objects(options, {
+		image: {
+			class_name: "ls_responsive_img"
+		},
+		strikethrough: {
+			class_name: "ls_strikethrough"
+		},
+		table: {
+			process: (table: html.Element) => {
+				table.with_attr("class", "ls_grid_table");
+			}
+		},
+		underline: {
+			class_name: "ls_underline"
+		}
+	});
 }

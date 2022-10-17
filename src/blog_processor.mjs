@@ -1,5 +1,5 @@
 import { process_page } from "./page_processor.ts";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.ts";
+import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts, create_common_markdown_render_opts } from "./utils.ts";
 import { md, html } from "@lib.md/mod.mjs";
 import { CONSTANTS } from "./constants.ts";
 import * as PRISM from "./prismjs.mjs";
@@ -112,7 +112,7 @@ async function process_blog_entry(path, context) {
 
 			const doc = await Deno.readFile(`${context.root}/${path}`)
 				.then(content => DECODER.decode(content))
-				.then(content => md.parser.parse(content, { auto_link: true }));
+				.then(content => md.parser.parse(content, create_common_markdown_parser_opts()));
 
 			for (const block of doc.blocks) {
 				if (block instanceof md.BlockCode && block.has_language()) {
@@ -120,7 +120,7 @@ async function process_blog_entry(path, context) {
 				}
 			}
 
-			article.children = md.render_to_html(doc, {
+			article.children = md.render_to_html(doc, create_common_markdown_render_opts({
 				block_code: {
 					highlighter: (code, language, parent) => {
 						if (Prism.languages[language]) {
@@ -132,16 +132,8 @@ async function process_blog_entry(path, context) {
 							parent.append_child(new html.Text(code, html.TextMode.RAW));
 					}
 				},
-				image: {
-					class_name: "ls_responsive_img"
-				},
-				table: {
-					process: table => {
-						table.with_attr("class", "ls_grid_table");
-					}
-				},
 				parent: article
-			}).children.filter(node => {
+			})).children.filter(node => {
 				if (node instanceof html.Element && node.tag.name === "h1") {
 					title = node.text();
 					return false;
