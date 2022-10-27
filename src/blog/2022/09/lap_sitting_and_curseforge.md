@@ -5,7 +5,7 @@
 <!--author: lambdaurora -->
 <!--tag: affectionate, curseforge, minecraft modding -->
 <!--date: 2022-09-18 23:21:19 GMT+0200 -->
-<!--modified: 2022-09-22 -->
+<!--modified: 2022-10-27 -->
 
 [[ToC]]
 
@@ -117,7 +117,8 @@ And like, as I said, there are other hosted projects that are much lewder and le
 		[Wildfire's Female Gender Mod](https://www.curseforge.com/minecraft/mc-mods/female-gender-fabric) - a mod that adds what it says: female player models. This is not inherently an issue, but what weirds me out is the over-the-top animated bouncing breasts to player models. Without the animtation it's totally fine.
 	</li>
 	<li>
-		[Asian Expansion](https://www.curseforge.com/minecraft/mc-mods/asian-expansion) - an overtly racist mod which adds straw hats, rice crops and straw-hatted rice-farming villagers, as well as edible bats and dogs, and racist iconography in the form of the mod icon (which was removed from the page due to a previous report, but is still present in the mod itself).
+		~~[Asian Expansion](https://www.curseforge.com/minecraft/mc-mods/asian-expansion) - an overtly racist mod which adds straw hats, rice crops and straw-hatted rice-farming villagers, as well as edible bats and dogs, and racist iconography in the form of the mod icon (which was removed from the page due to a previous report, but is still present in the mod itself).~~  
+		*Update: the mod has finally been removed! [Here's an archive of the page for posterity.](https://archive.ph/edXZe)*
 	</li>
 </ul>
 
