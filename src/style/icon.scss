@@ -20,7 +20,7 @@
 	line-height: 1;
 }
 
-.ls_btn:not([ls-variant*="icon"]) {
+.ls_btn:not([ls_variant*="icon"]) {
 	> .ls_icon:first_child {
 		margin-right: .15em;
 	}
