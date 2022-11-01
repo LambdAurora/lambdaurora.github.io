@@ -66,13 +66,11 @@ a code {
 	padding: .2em .4em;
 }
 
-.block_code > pre {
-	border-radius: 6px;
-	padding: .2em .4em;
-}
-
-pre[class*="language-"] {
+pre[class*="language-"], .ls_code_block > pre {
 	background-color: var(--ls_theme_background_code);
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
 }
 
 code[class*=language-],
@@ -90,12 +88,6 @@ pre[class*=language-] {
 	tab-size: var(--ls_tab_size);
 	-webkit-hyphens: none;
 	hyphens: none;
-}
-
-pre[class*=language-] {
-	padding: 1em;
-	margin: .5em 0;
-	overflow: auto;
 }
 
 .token.block-comment,
