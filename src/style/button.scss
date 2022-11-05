@@ -77,8 +77,8 @@
 }
 
 .ls_btn[ls_variant="contained"][disabled], .ls_btn[ls_variant="fab"][disabled] {
-	color: rgba(0, 0, 0, .37);
-	background-color: rgba(0, 0, 0, .12);
+	color: var(--ls_theme_disabled_button_foreground, rgba(0, 0, 0, .37));
+	background-color: var(--ls_theme_disabled_button_background, rgba(0, 0, 0, .12));
 	box-shadow: none !important;
 }
 
@@ -113,5 +113,5 @@
 	pointer-events: none;
 	cursor: default;
 	box-shadow: none;
-	color: rgba(0, 0, 0, .37);
+	color: var(--ls_theme_disabled_button_foreground, rgba(0, 0, 0, .37));
 }
