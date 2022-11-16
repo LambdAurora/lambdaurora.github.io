@@ -1,5 +1,5 @@
 import { process_page } from "./page_processor.ts";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html } from "./utils.ts";
+import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts } from "./utils.ts";
 import { md, html } from "@lib.md/mod.mjs";
 import * as PRISM from "./prismjs.mjs";
 
@@ -50,7 +50,7 @@ async function process_tutorial(path) {
 
 			const doc = await Deno.readFile(TUTORIALS_ROOT + path)
 				.then(content => DECODER.decode(content))
-				.then(content => md.parser.parse(content, { auto_link: true }));
+				.then(content => md.parser.parse(content, create_common_markdown_parser_opts()));
 
 			for (const block of doc.blocks) {
 				if (block instanceof md.BlockCode && block.has_language()) {

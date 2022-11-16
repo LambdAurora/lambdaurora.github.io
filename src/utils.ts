@@ -1,4 +1,4 @@
-import { html, merge_objects } from "@lib.md/mod.mjs";
+import { html, md, merge_objects } from "@lib.md/mod.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
 export const BUILD_DIR = "./build";
@@ -45,13 +45,15 @@ export function is_escaped(text: string, char_pos: number) {
 	return backslash % 2 !== 0;
 }
 
-export function create_common_markdown_parser_opts(options?: Object) {
+export function create_common_markdown_parser_opts(options?: md.ParserOptions) {
 	if (!options) {
 		options = {};
 	}
 
 	return merge_objects(options, {
-		auto_link: true
+		link: {
+			auto_link: true
+		}
 	});
 }
 
