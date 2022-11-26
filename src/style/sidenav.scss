@@ -14,7 +14,7 @@
 $sidenav_large_size: 300px;
 $sidenav_medium_size: 180px;
 
-nav.ls_sidenav {
+.ls_sidenav {
 	position: fixed;
 	top: 0;
 	margin: 0;
@@ -75,7 +75,7 @@ nav.ls_sidenav {
 }
 
 @media print {
-	nav.ls_sidenav {
+	.ls_sidenav {
 		display: none;
 	}
 
@@ -85,7 +85,7 @@ nav.ls_sidenav {
 }
 
 @media screen and (min-width: 851px) and (max-width: 1101px) {
-	nav.ls_sidenav {
+	.ls_sidenav {
 		min-width: $sidenav_medium_size;
 		max-width: $sidenav_medium_size;
 
@@ -105,7 +105,7 @@ nav.ls_sidenav {
 }
 
 @media screen and (max-width: 850px) {
-	nav.ls_sidenav {
+	.ls_sidenav {
 		visibility: hidden;
 		transform: translateX(-150%);
 
@@ -140,7 +140,7 @@ nav.ls_sidenav {
 }
 
 @media (prefers-reduced-motion) {
-	nav.ls_sidenav, .ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
+	.ls_sidenav, .ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
 		transition: none;
 	}
 }
