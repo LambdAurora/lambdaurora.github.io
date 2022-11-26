@@ -118,7 +118,7 @@ $sidenav_medium_size: 180px;
 		display: block;
 	}
 
-	.ls_sidenav_internal_trigger:checked ~ nav.ls_sidenav {
+	.ls_sidenav_internal_trigger:checked ~ .ls_sidenav {
 		visibility: visible;
 		transform: translateX(0%);
 	}
