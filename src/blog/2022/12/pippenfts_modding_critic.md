@@ -2,7 +2,7 @@
 
 <!--description: A critical response to PippenFTS' "Modding Just Broke in Minecraft" video. -->
 <!--author: lambdaurora -->
-<!--tag: critical response, curseforge, minecraft modding -->
+<!--tag: critical response, minecraft modding, mod compatibility -->
 <!--date: 2022-12-28 23:57:00 GMT+0200 -->
 
 ## Introduction
