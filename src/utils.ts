@@ -1,4 +1,5 @@
 import { html, md, merge_objects } from "@lib.md/mod.mjs";
+import katex from "@katex/katex.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
 export const BUILD_DIR = "./build";
@@ -51,6 +52,7 @@ export function create_common_markdown_parser_opts(options?: md.ParserOptions) {
 	}
 
 	return merge_objects(options, {
+		latex: true,
 		link: {
 			auto_link: true
 		}
@@ -65,6 +67,9 @@ export function create_common_markdown_render_opts(options?: Object) {
 	return merge_objects(options, {
 		image: {
 			class_name: "ls_responsive_img"
+		},
+		latex: {
+			katex: katex
 		},
 		strikethrough: {
 			class_name: "ls_strikethrough"

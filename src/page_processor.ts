@@ -4,6 +4,7 @@ import { html, md, merge_objects } from "@lib.md/mod.mjs";
 import { COMPONENTS } from "./component.ts";
 import { CONSTANTS } from "./constants.ts";
 import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, AsyncFunction } from "./utils.ts";
+import st from "https://ga.jspm.io/npm:@jspm/core@2.0.0-beta.10/nodelibs/browser/assert.js";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
@@ -15,6 +16,14 @@ interface PreloadSpec {
 	source: string;
 	type: string;
 }
+
+interface StyleSpec {
+	source: string;
+	hash?: string;
+	cross_origin?: string;
+}
+
+type StyleSpecEntry = string | StyleSpec;
 
 interface HtmlConvertible {
 	html: () => string;
@@ -135,12 +144,25 @@ function process_element(element: html.Node, parent: html.Element, module: PageM
 	}
 
 	if (module.styles) {
-		module.styles.forEach((style_data: string) => {
-			head.append_child(html.create_element("link")
+		module.styles.forEach((style_data: StyleSpecEntry) => {
+			if (typeof style_data === "string") {
+				style_data = {
+					source: style_data
+				};
+			}
+
+			const link_el = html.create_element("link")
 				.with_attr("rel", "stylesheet")
 				.with_attr("type", "text/css")
-				.with_attr("href", style_data)
-			);
+				.with_attr("href", style_data.source);
+			head.append_child(link_el);
+
+			if (style_data.hash) {
+				link_el.attr("integrity", style_data.hash);
+			}
+			if (style_data.cross_origin) {
+				link_el.attr("crossorigin", style_data.cross_origin);
+			}
 		});
 	}
 
