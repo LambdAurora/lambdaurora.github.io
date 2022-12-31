@@ -230,6 +230,10 @@ blockquote > .ls_source::before {
 	float: right !important;
 }
 
+.ls_responsive_iframe {
+	max-width: 100%;
+}
+
 .ls_sky_background {
 	background: repeat-x url("/images/background/sky_gradient.png");
 }

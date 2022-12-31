@@ -88,6 +88,14 @@ function get_tags_html(keywords) {
 	return metadata_div.html();
 }
 
+function visit_html_tree(node, callback) {
+	callback(node);
+
+	if (node instanceof html.Element) {
+		node.children.forEach(child => visit_html_tree(child, callback));
+	}
+}
+
 async function process_blog_entry(path, context) {
 	let title = await get_pretty_path(path);
 
@@ -181,6 +189,12 @@ async function process_blog_entry(path, context) {
 			} else if (!times.creation_time) {
 				throw new Error("Missing blog entry creation time, please add a comment starting with \"date:\".");
 			}
+
+			visit_html_tree(article, node => {
+				if (node instanceof html.Element && node.tag.name === "iframe") {
+					node.attr("class", "ls_responsive_iframe");
+				}
+			});
 
 			const article_metadata = html.create_element("div");
 
