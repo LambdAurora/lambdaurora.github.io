@@ -291,7 +291,7 @@ What pushed me into writing this blog post was when apparently people gave the i
 While I don't like current Fabric for other reasons, I also don't like it when it's talked badly about for the wrong reasons. Any mod loader can be criticized, even Quilt,
 but you need the good reasons.
 
-I almost gave the benefit of the doubt, hoping the video was a "Forge good, Fabric bad" because it was coated into some kind of problem, but the truth is different.
+I almost gave the benefit of the doubt, hoping the video wasn't a "Forge good, Fabric bad" rant because it was coated into some kind of other problem, but the reality is different.
 
 ## Conclusion
 
