@@ -95,8 +95,8 @@ I think you can see where the issue is with running Forge mods on Fabric/Quilt,
 you would need to patch the mods (preferably at runtime to lessen need for manual interaction from the user),
 and you need the Forge API reimplemented in some ways, so it doesn't use patches or that guarantees incompatibilities with Fabric/Quilt mods.
 
-This is also why Patchwork is waiting on Quilt since it has an interesting project: Chasm (Collision Handling ASM, [ASM](https://asm.ow2.io/) being the library used for bytecode modification).
-This leads us directly into the next chapter.
+This is also why Patchwork is waiting on Quilt since it has an interesting project: [Chasm](https://github.com/QuiltMC/chasm/)
+(Collision Handling ASM, [ASM](https://asm.ow2.io/) being the library used for bytecode modification). This leads us directly into the next chapter.
 
 ## Bytecode Modification or "But Mixin Can Cause Incompatibilities"
 
@@ -138,9 +138,10 @@ So, yes, Mixin can cause incompatibilities when not used properly, but this is t
 and the cherry on top of the cake is Forge gained Mixin support, so the difference here may only boil down to how the feature is communicated.
 
 Now to quickly come back to Chasm, it is a backend, it's not designed to be used by modders directly, but it's designed to replace what's "behind Mixin", this means to a modder they could continue
-using Mixin, it just handle things differently at the back. It also allows new APIs to be used by modders that interact with Chasm, and the great thing is it will be faster and more
-compatible (hence the name Collision-Handling ASM). [This is a stemming from the thoughts of one of Fabric's founder about replacing mixin](https://github.com/FabricMC/fabric-loader/issues/244),
-and it's finally coming to reality.
+using Mixin, it just handles things differently at the back. It also allows new APIs to be used by modders that interact with Chasm, and the great thing is it will probably be faster
+after a first launch since this new design allows to cache transformations (though first launch has a decent chance to be slower, it's a decent trade-off in my opinion),
+and it will be more compatible (hence the name Collision-Handling ASM).  
+[This is a stemming from the thoughts of one of Fabric's founder about replacing mixin](https://github.com/FabricMC/fabric-loader/issues/244), and it's finally coming to reality.
 
 This is important for a project like Patchwork as it will allow to take Forge patches, and hopefully convert them to Chasm code, allowing much easier maintenance of the project and
 the framework being much more powerful (and safe) means it'll also be easier to patch mods and make everything fit.
