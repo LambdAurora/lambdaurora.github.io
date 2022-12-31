@@ -4,6 +4,7 @@
 <!--author: lambdaurora -->
 <!--tag: critical response, minecraft modding, mod compatibility -->
 <!--date: 2022-12-28 23:57:00 GMT+0200 -->
+<!--modified: 2022-12-31 -->
 
 ## Introduction
 
@@ -18,6 +19,11 @@ Before diving into this, watch the video first, then let's look at what's wrong!
 <iframe width="560" height="315" src="https://www.youtube.com/embed/r0M1xMt9MT0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
 </div>
+
+> **UPDATE:** as you may see, the video is now taken down [with this community post as explanation](https://www.youtube.com/post/UgkxDbiWd1J6PjcVYSISnLjF4YsmmWgKsNhr).
+> If you still wish to watch it, [you can through the power of archiving](https://web.archive.org/web/20221226145228/https://www.youtube.com/watch?v=r0M1xMt9MT0).  
+> Though, the video still has been removed for a reason so don't go after the guy. However, I wish to keep the article up as I believe it still has a fair share of information
+> that could be used in further debates if those happen.
 
 Though, I have to admit, writing a blog post criticizing a video is a bit hard since such thing is easier when you can easily quote specific parts of a video.
 
