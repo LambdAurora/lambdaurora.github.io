@@ -14,14 +14,18 @@
 $sidenav_large_size: 300px;
 $sidenav_medium_size: 180px;
 
+:root {
+	--ls_sidenav_size: #{$sidenav_large_size};
+}
+
 .ls_sidenav {
 	position: fixed;
 	top: 0;
 	margin: 0;
 	height: 100%;
 
-	min-width: $sidenav_large_size;
-	max-width: $sidenav_large_size;
+	min-width: var(--ls_sidenav_size);
+	max-width: var(--ls_sidenav_size);
 	width: 100%;
 
 	background-color: var(--ls_theme_background_accentuated);
@@ -71,7 +75,7 @@ $sidenav_medium_size: 180px;
 }
 
 .ls_sidenav_neighbor {
-	padding-left: $sidenav_large_size;
+	padding-left: var(--ls_sidenav_size);
 }
 
 @media print {
@@ -85,10 +89,11 @@ $sidenav_medium_size: 180px;
 }
 
 @media screen and (min-width: 851px) and (max-width: 1101px) {
-	.ls_sidenav {
-		min-width: $sidenav_medium_size;
-		max-width: $sidenav_medium_size;
+	:root {
+		--ls_sidenav_size: #{$sidenav_medium_size};
+	}
 
+	.ls_sidenav {
 		> .ls_nav_banner {
 			min-height: $sidenav_medium_size;
 			flex-direction: column;
@@ -97,10 +102,6 @@ $sidenav_medium_size: 180px;
 		> .ls_nav_banner[ls_small_reverse] {
 			flex-direction: column-reverse;
 		}
-	}
-
-	.ls_sidenav_neighbor {
-		padding-left: $sidenav_medium_size !important;
 	}
 }
 
