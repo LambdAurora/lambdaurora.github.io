@@ -1,6 +1,6 @@
 <body>
 	<div class="ls_card_section ls_card_media${additional_classes}">
-		<img src="$[img]" class="ls_responsive_img" />
+		<img src="$[img]" alt="$[alt]" class="ls_responsive_img" />
 	</div>
 </body>
 
@@ -13,6 +13,7 @@
 
 	data.copy_attr("ls_size");
 	data.replace("img", data.element.get_attr("img").value());
+	data.replace("alt", data.element.get_attr("alt").value());
 
 	data.do_with_attr("darken", intensity => {
 		card_section.get_attr("class").add("ls_card_media_darkened");

@@ -1,11 +1,11 @@
 <body>
-	<div class="ls_card project_card${additional_classes}">
-		<content>
-		</content>
-		<card_actions>
+<div class="ls_card project_card${additional_classes}">
+	<content>
+	</content>
+	<card_actions>
 
-		</card_actions>
-	</div>
+	</card_actions>
+</div>
 </body>
 
 <script>
@@ -16,11 +16,27 @@
 	const logo = data.element.get_attr("logo");
 	let content_element;
 
+	const title_el = data.element.find_element_by_tag_name("h3");
+
+	function create_alt(description) {
+		let title = title_el.text();
+
+		if (title.endsWith("s")) {
+			title += "' ";
+		} else {
+			title += "'s ";
+		}
+
+		return title + description;
+	}
+
 	card.children = card.children.map(child => {
 		if (child.tag.name === "content") {
 			if (thumbnail) {
 				// If there's a thumbnail we use the card media with content component.
-				content_element = html.create_element("card_media_with_content").with_attr("img", thumbnail.value());
+				content_element = html.create_element("card_media_with_content")
+								.with_attr("img", thumbnail.value())
+								.with_attr("alt", create_alt("thumbnail"));
 
 				data.do_with_attr("thumbnail_darken", attr => {
 					content_element.attr("darken", attr.value());
@@ -28,16 +44,17 @@
 			} else if (logo) {
 				// If there's a logo we use the normal card section to add in the logo.
 				const img = html.create_element("img")
-					.with_attr("src", logo.value())
-					.with_attr("class", "project_logo_img");
+								.with_attr("src", logo.value())
+								.with_attr("alt", create_alt("logo"))
+								.with_attr("class", "project_logo_img");
 
 				if (data.element.get_attr("logo_pixelated")) {
 					img.get_attr("class").add("ls_pixelated");
 				}
 
 				return html.create_element("card_section")
-					.with_child(img)
-					.with_child(content_element = html.create_element("div").with_attr("class", "ls_card_content"));
+								.with_child(img)
+								.with_child(content_element = html.create_element("div").with_attr("class", "ls_card_content"));
 			} else {
 				// Otherwise we use a simple card content component.
 				content_element = html.create_element("card_content");
