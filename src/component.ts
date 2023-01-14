@@ -183,6 +183,22 @@ class ComponentData {
 		return this.nodes.find(node => node instanceof html.Element) as html.Element | undefined;
 	}
 
+	get_element_by_index(index: number) {
+		let found = -1;
+
+		for (let i = 0; i < this.nodes.length; i++) {
+			if (this.nodes[i] instanceof html.Element) {
+				found++;
+
+				if (found === index) {
+					return this.nodes[i] as html.Element;
+				}
+			}
+		}
+
+		return null;
+	}
+
 	do_with_attr(attr: string, callback: (value: html.Attribute | undefined) => void) {
 		const value = this.element.get_attr(attr);
 

@@ -11,20 +11,13 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-.ls_tag_ship {
-	display: inline-block;
-	line-height: 1;
-	margin: 0 4px 2px 0;
-	vertical-align: middle;
-	border-radius: 4px;
+.ls_fixed {
+	position: fixed;
+	z-index: 42;
 
-	> span {
-		display: inline-block;
-		padding: 2px;
-		width: 100%;
-		height: 100%;
-		border-radius: 3px;
-		border: 1px solid #0000004d;
-		box-sizing: border-box;
+	&[ls_side="top"] {
+		top: 0;
+		right: 0;
+		left: 0;
 	}
 }

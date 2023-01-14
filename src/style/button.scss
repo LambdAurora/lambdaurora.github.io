@@ -1,7 +1,7 @@
 /*
  * lambdaurora.dev stylesheet - A simple stylesheet.
  *
- * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ * Written in 2023 by LambdAurora <email@lambdaurora.dev>
  *
  * To the extent possible under law, the author(s) have dedicated
  * all copyright and related and neighboring rights to this software
@@ -16,6 +16,9 @@
  */
 
 .ls_btn {
+	--ls_btn_hover_shade_color: var(--ls_theme_primary);
+	--ls_round_size: 40px;
+
 	display: inline-flex;
 	position: relative;
 	align-items: center;
@@ -54,7 +57,7 @@
 	}
 
 	&::after, &::before {
-		background-color: var(--ls_theme_primary);
+		background-color: var(--ls_btn_hover_shade_color);
 	}
 
 	&:hover::before {
@@ -81,6 +84,7 @@
 	 */
 
 	&[ls_variant="contained"], &[ls_variant="fab"] {
+		--ls_btn_hover_shade_color: var(--ls_theme_on_primary);
 		--ls_ripple_fg_opacity: 0.32;
 		background-color: var(--ls_theme_primary);
 		color: var(--ls_theme_on_primary);
@@ -90,10 +94,6 @@
 			color: var(--ls_theme_disabled_button_foreground, rgba(0, 0, 0, .37));
 			background-color: var(--ls_theme_disabled_button_background, rgba(0, 0, 0, .12));
 			box-shadow: none !important;
-		}
-
-		&::after, &::before {
-			background-color: var(--ls_theme_on_primary);
 		}
 
 		&:hover:before, &:focus:before {
@@ -107,15 +107,13 @@
 
 	&[ls_variant*="icon"], &[ls_variant="fab"] {
 		min-width: unset;
-		width: 36px;
-		height: 36px;
+		width: var(--ls_round_size);
+		height: var(--ls_round_size);
 		padding: 0;
 		border-radius: 50%;
 	}
 
 	&[ls_variant="fab"] {
-		width: 40px;
-		height: 40px;
 		box-shadow: 0px 3px 5px -1px #0003, 0px 6px 10px 0px #00000024, 0px 1px 18px 0px #0000001f;
 	}
 

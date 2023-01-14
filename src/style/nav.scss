@@ -1,7 +1,7 @@
 /*
  * lambdaurora.dev stylesheet - A simple stylesheet.
  *
- * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ * Written in 2023 by LambdAurora <email@lambdaurora.dev>
  *
  * To the extent possible under law, the author(s) have dedicated
  * all copyright and related and neighboring rights to this software
@@ -11,6 +11,7 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
+@use "navbar";
 @use "sidenav";
 
 nav {
@@ -39,4 +40,28 @@ nav {
 			cursor: pointer;
 		}
 	}
+}
+
+.ls_nav_banner {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.ls_nav_banner > img {
+	width: 128px;
+	height: 128px;
+}
+
+.ls_nav_banner > span {
+	flex: 1 1 auto;
+	display: flex;
+	justify-content: center;
+	max-width: 100%;
+	word-wrap: break-word;
+	text-align: center;
+	font-size: 1.5em;
+	align-items: center;
+	text-shadow: 2px 2px 6px black;
 }

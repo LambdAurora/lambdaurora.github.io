@@ -1,7 +1,7 @@
 /*
  * lambdaurora.dev stylesheet - A simple stylesheet.
  *
- * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ * Written in 2023 by LambdAurora <email@lambdaurora.dev>
  *
  * To the extent possible under law, the author(s) have dedicated
  * all copyright and related and neighboring rights to this software
@@ -42,11 +42,7 @@ article {
 }
 
 .ls_article_metadata {
-	font-size: 80%;
-
-	display: flex;
-	align-items: left;
-	flex-direction: column;
+	font-size: 85%;
 
 	.ls_article_authors {
 		flex: 1 1 auto;
@@ -56,11 +52,11 @@ article {
 		> span:not([class*="ls_author_chip"]) {
 			margin-right: 0.5em;
 		}
-	
+
 		.ls_author_chip {
 			font-size: unset;
 		}
-	
+
 		> .ls_author_chip > img {
 			margin-left: 0.5em;
 		}

@@ -1,10 +1,9 @@
 // deno-lint-ignore-file no-explicit-any
-import { html, md, merge_objects } from "@lib.md/mod.mjs";
+import {html, md, merge_objects} from "@lib.md/mod.mjs";
 
-import { COMPONENTS } from "./component.ts";
-import { CONSTANTS } from "./constants.ts";
-import { BUILD_DIR, DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, AsyncFunction } from "./utils.ts";
-import st from "https://ga.jspm.io/npm:@jspm/core@2.0.0-beta.10/nodelibs/browser/assert.js";
+import {COMPONENTS} from "./component.ts";
+import {CONSTANTS} from "./constants.ts";
+import {AsyncFunction, BUILD_DIR, create_common_markdown_parser_opts, create_common_markdown_render_opts, create_parent_directory, DECODER, DEPLOY_DIR, ENCODER} from "./utils.ts";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
@@ -48,13 +47,13 @@ function get_view_path(path: string) {
 
 async function load_page_template() {
 	return html.parse_nodes(await Deno.readFile(PAGE_TEMPLATE_PATH)
-			.then(source => DECODER.decode(source))
-		).filter(node => {
-			if (node instanceof html.Element) {
-				node.purge_empty_children();
+		.then(source => DECODER.decode(source))
+	).filter(node => {
+		if (node instanceof html.Element) {
+			node.purge_empty_children();
 
-				if (node.tag.name === "html" && debug) {
-					node.append_child(html.parse(/*html*/`<script type="module">
+			if (node.tag.name === "html" && debug) {
+				node.append_child(html.parse(/*html*/`<script type="module">
 		const protocol = window.location.protocol === "http:" ? "ws:" : "wss:";
 		function initiate_connection() {
 			const ws = new WebSocket(protocol + window.location.host + "/debug/hotreloader");
@@ -72,12 +71,12 @@ async function load_page_template() {
 		}
 		initiate_connection();
 </script>`));
-				}
-
-				return true;
 			}
-			return false;
-		});
+
+			return true;
+		}
+		return false;
+	});
 }
 
 function process_string(string: string, module: PageModule) {
@@ -110,7 +109,7 @@ function process_element(element: html.Node, parent: html.Element, module: PageM
  * @param style the style element of the page if present
  * @param module the module of the page
  */
- function process_head(page: html.Element, style: html.Element | undefined, module: PageModule) {
+function process_head(page: html.Element, style: html.Element | undefined, module: PageModule) {
 	const head = page.children[0] as html.Element;
 	process_element(head, page, module);
 
@@ -134,14 +133,12 @@ function process_element(element: html.Node, parent: html.Element, module: PageM
 		);
 	}
 
-	if (module.page.icons) {
-		if (module.page.icons.favicon) {
-			head.append_child(html.create_element("link")
-				.with_attr("rel", "shortcut icon")
-				.with_attr("href", module.page.icons.favicon)
-			);
-		}
-	}
+	let favicon = module.page?.icons?.favicon;
+	if (!favicon) favicon = "/images/art/avatar_2022_02_no_bg.png";
+	head.append_child(html.create_element("link")
+		.with_attr("rel", "shortcut icon")
+		.with_attr("href", favicon)
+	);
 
 	if (module.styles) {
 		module.styles.forEach((style_data: StyleSpecEntry) => {
@@ -187,10 +184,11 @@ function load_view_file(view_path: string) {
 }
 
 async function load_script(page_source: html.Element) {
-	const func: (CONSTANTS: any, html: any, md: any) => Promise<PageModule> = new AsyncFunction("CONSTANTS", "html", "md",
+	const func: (...args: any[]) => Promise<PageModule> = new AsyncFunction(
+		"CONSTANTS", "html", "md", "create_common_markdown_parser_opts", "create_common_markdown_render_opts",
 		(page_source.get_element_by_tag_name("script")?.children[0] as html.Text).content
 	);
-	return await func(CONSTANTS, html, md);
+	return await func(CONSTANTS, html, md, create_common_markdown_parser_opts, create_common_markdown_render_opts);
 }
 
 interface PageProcessingSettings {
@@ -220,7 +218,7 @@ const PROCESS_PAGE_SETTINGS = Object.freeze({
  * @param settings the processing settings
  * @returns the processed page
  */
- export async function process_page(path: string, settings?: PageProcessingSettings) {
+export async function process_page(path: string, settings?: PageProcessingSettings) {
 	const context = merge_objects(PROCESS_PAGE_SETTINGS, settings as Record<string, unknown>) as PageProcessingContext;
 
 	const view_path = get_view_path(path);
@@ -280,7 +278,7 @@ const PROCESS_PAGE_SETTINGS = Object.freeze({
 	return {
 		content: page,
 		metadata: module,
-		html: function() {
+		html: function () {
 			return this.content.map(e => e.html()).join("\n");
 		}
 	};
@@ -295,7 +293,7 @@ export async function process_all_pages(directory = "") {
 
 			const path = directory + "/" + dir_entry.name;
 			await process_page(path)
-				.then(async function(page) {
+				.then(async function (page) {
 					const deploy_path = DEPLOY_DIR + path;
 					await create_parent_directory(deploy_path);
 					await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));

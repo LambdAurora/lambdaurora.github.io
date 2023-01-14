@@ -69,7 +69,7 @@
 
 			let readme = await fetch(AFFECTIONATE_README)
 				.then(response => response.text())
-				.then(text => md.parser.parse(text));
+				.then(text => md.parser.parse(text, create_common_markdown_parser_opts()));
 
 			readme.blocks = remove_comments(readme.blocks);
 
@@ -86,17 +86,9 @@
 
 			div.children = [];
 
-			md.render_to_html(readme, {
-				image: {
-					class_name: "ls_responsive_img"
-				},
-				table: {
-					process: table => {
-						table.with_attr("class", "ls_grid_table");
-					}
-				},
+			md.render_to_html(readme, create_common_markdown_render_opts({
 				parent: div
-			});
+			}));
 
 			const first_p = div.find_element_by_tag_name("p");
 			filter_badge_classes(first_p.children);

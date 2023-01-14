@@ -1,4 +1,4 @@
-import { html, md, merge_objects } from "@lib.md/mod.mjs";
+import {html, HTML_TAGS_TO_PURGE_SUGGESTION, md, merge_objects} from "@lib.md/mod.mjs";
 import katex from "@katex/katex.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
@@ -52,6 +52,9 @@ export function create_common_markdown_parser_opts(options?: md.ParserOptions) {
 	}
 
 	return merge_objects(options, {
+		inline_html: {
+			disallowed_tags: HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe" && tag !== "svg")
+		},
 		latex: true,
 		link: {
 			auto_link: true
@@ -67,6 +70,9 @@ export function create_common_markdown_render_opts(options?: Object) {
 	return merge_objects(options, {
 		image: {
 			class_name: "ls_responsive_img"
+		},
+		inline_html: {
+			disallowed_tags: HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe" && tag !== "svg")
 		},
 		latex: {
 			katex: katex

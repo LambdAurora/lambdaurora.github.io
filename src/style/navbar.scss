@@ -1,0 +1,44 @@
+/*
+ * lambdaurora.dev stylesheet - A simple stylesheet.
+ *
+ * Written in 2023 by LambdAurora <email@lambdaurora.dev>
+ *
+ * To the extent possible under law, the author(s) have dedicated
+ * all copyright and related and neighboring rights to this software
+ * to the public domain worldwide.
+ * This software is distributed without any warranty.
+ *
+ * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ */
+
+.ls_navbar {
+	--ls_navbar_background: var(--ls_theme_primary);
+	--ls_navbar_foreground: var(--ls_theme_on_primary);
+
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.5rem 0;
+	background-color: var(--ls_navbar_background);
+	color: var(--ls_navbar_foreground);
+	box-shadow: 0 2px 4px -1px #0003, 0 4px 5px 0 #00000024, 0 1px 10px 0 #0000001f;
+
+	.ls_nav_trigger_btn_wrapper {
+		position: relative;
+		height: 40px;
+
+		.ls_nav_trigger_btn {
+			--ls_btn_hover_shade_color: var(--ls_navbar_foreground);
+			position: absolute;
+			margin-top: 0;
+			margin-bottom: 0;
+		}
+	}
+
+	.ls_navbar_title {
+		flex: 1 1 auto;
+		text-align: center;
+		font-weight: bold;
+	}
+}

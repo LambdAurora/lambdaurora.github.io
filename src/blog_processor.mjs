@@ -63,9 +63,14 @@ function get_metadata_html(authors, times) {
 
 	const times_div = html.create_element("div").with_attr("class", "ls_article_times");
 
-	times_div.append_child(`Created ${get_date_string(times.creation_time)}`);
+	times_div.append_child("Created ");
+	times_div.append_child(html.create_element("time").with_attr("datetime", times.creation_time.toISOString()).with_child(get_date_string(times.creation_time)));
 	if (times.modification_time && times.creation_time !== times.modification_time) {
-		times_div.append_child(html.create_element("em").with_child(/*html*/`&nbsp;(Modified ${get_date_string(times.modification_time)})`));
+		times_div.append_child(html.create_element("em")
+			.with_child("&nbsp;(Modified ")
+			.with_child(html.create_element("time").with_attr("datetime", times.modification_time.toISOString()).with_child(get_date_string(times.modification_time)))
+			.with_child(")")
+		);
 	}
 
 	metadata_div.append_child(author_div);
@@ -120,11 +125,7 @@ async function process_blog_entry(path, context) {
 
 			const doc = await Deno.readFile(`${context.root}/${path}`)
 				.then(content => DECODER.decode(content))
-				.then(content => md.parser.parse(content, create_common_markdown_parser_opts({
-					inline_html: {
-						disallowed_tags: HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe")
-					}
-				})));
+				.then(content => md.parser.parse(content, create_common_markdown_parser_opts()));
 
 			for (const block of doc.blocks) {
 				if (block instanceof md.BlockCode && block.has_language()) {
@@ -143,9 +144,6 @@ async function process_blog_entry(path, context) {
 						} else
 							parent.append_child(new html.Text(code, html.TextMode.RAW));
 					}
-				},
-				inline_html: {
-					disallowed_tags: HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe")
 				},
 				parent: article
 			})).children.filter(node => {
