@@ -33,13 +33,13 @@ jobs:
         with:
           node-version: '14'
 
-      - name: 'Install Dart SASS'
+      - name: 'Install SASS'
         run: |
           npm install -g sass
 
       - name: 'Build with Deno'
         run: |
-          ./build.sh
+          deno task build
 
       - name: 'Upload artifact'
         uses: actions/upload-pages-artifact@v1
