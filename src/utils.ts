@@ -46,7 +46,7 @@ export function is_escaped(text: string, char_pos: number) {
 	return backslash % 2 !== 0;
 }
 
-export function create_common_markdown_parser_opts(options?: md.ParserOptions) {
+export function create_common_markdown_parser_opts(options?: md.parser.ParserOptions) {
 	if (!options) {
 		options = {};
 	}

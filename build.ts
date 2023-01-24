@@ -4,8 +4,8 @@ import { parse } from "@std/flags/mod.ts";
 
 import { process_all_pages, enable_debug_pages } from "./src/page_processor.ts";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
-import { process_all_blog_entries } from "./src/blog_processor.mjs";
-import { serve } from "./src/server.ts";
+import { process_all_blog_entries } from "./src/blog/processor.mjs";
+import { serve } from "./src/server/server.ts";
 import { BUILD_DIR, DEPLOY_DIR, DECODER, ENCODER } from "./src/utils.ts";
 import { COMPONENTS } from "./src/component.ts";
 

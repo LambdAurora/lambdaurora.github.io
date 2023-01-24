@@ -11,6 +11,12 @@ const PAGE_TEMPLATE_PATH = TEMPLATES_ROOT + "page.html";
 const VIEW_SCRIPTS_ROOT = BUILD_DIR + "/view_scripts";
 let debug = false;
 
+export class PageProcessError extends Error {
+	constructor(path: string, message: string) {
+		super(`Error at ${path}: ${message}`);
+	}
+}
+
 interface PreloadSpec {
 	source: string;
 	type: string;

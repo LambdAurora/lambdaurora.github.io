@@ -12,7 +12,7 @@
  */
 
 article {
-	li + li, li > ul, li > ol  {
+	li + li, li > ul, li > ol {
 		margin-top: .25em;
 	}
 
@@ -20,6 +20,10 @@ article {
 		width: max-content;
 		max-width: 100%;
 		overflow-x: auto;
+	}
+
+	> .ls_img {
+		align-self: center;
 	}
 }
 
@@ -48,7 +52,7 @@ article {
 		flex: 1 1 auto;
 		display: flex;
 		align-items: center;
-	
+
 		> span:not([class*="ls_author_chip"]) {
 			margin-right: 0.5em;
 		}

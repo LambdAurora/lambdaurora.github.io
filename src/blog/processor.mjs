@@ -1,8 +1,8 @@
-import { process_page } from "./page_processor.ts";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts, create_common_markdown_render_opts } from "./utils.ts";
-import { md, html, HTML_TAGS_TO_PURGE_SUGGESTION } from "https://deno.land/x/libmd@v1.9.0/mod.mjs";
-import { CONSTANTS } from "./constants.ts";
-import * as PRISM from "./prismjs.mjs";
+import {PageProcessError, process_page} from "../page_processor.ts";
+import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../utils.ts";
+import { md, html } from "@lib.md/mod.mjs";
+import { CONSTANTS } from "../constants.ts";
+import * as PRISM from "../prismjs.mjs";
 
 const BLOG_ROOT = "src/blog";
 
@@ -162,7 +162,7 @@ async function process_blog_entry(path, context) {
 			process_property_from_html(article, "author", value => {
 				const author = context.authors[value];
 				if (!author) {
-					throw new Error(`Could not find author "${value}"`);
+					throw new PageProcessError(path, `Could not find author "${value}"`);
 				}
 
 				authors.push(author);
@@ -183,9 +183,9 @@ async function process_blog_entry(path, context) {
 			});
 
 			if (!page_description) {
-				throw new Error("Missing blog entry description, please add a comment starting with \"description:\".");
+				throw new PageProcessError(path, "Missing blog entry description, please add a comment starting with \"description:\".");
 			} else if (!times.creation_time) {
-				throw new Error("Missing blog entry creation time, please add a comment starting with \"date:\".");
+				throw new PageProcessError(path, "Missing blog entry creation time, please add a comment starting with \"date:\".");
 			}
 
 			visit_html_tree(article, node => {
