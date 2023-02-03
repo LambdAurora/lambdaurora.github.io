@@ -1,7 +1,7 @@
 /*
  * lambdaurora.dev stylesheet - A simple stylesheet.
  *
- * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ * Written in 2023 by LambdAurora <email@lambdaurora.dev>
  *
  * To the extent possible under law, the author(s) have dedicated
  * all copyright and related and neighboring rights to this software
@@ -11,80 +11,150 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>.
  */
 
-$theme_primary: #f90;
-$theme_primary_lightened: lighten($theme_primary, 12%);
-$theme_primary_lightened_1: lighten($theme_primary, 15.75%);
-$theme_primary_lightened_2: lighten($theme_primary, 20.75%);
-$theme_primary_lightened_3: lighten($theme_primary, 27.75%);
-$theme_primary_lightened_4: lighten($theme_primary, 33.95%);
-$theme_primary_lightened_5: lighten($theme_primary, 40%);
-$theme_primary_lightened_6: lighten($theme_primary, 45.5%);
-$theme_primary_lightly_darkened: darken($theme_primary, 3.5%);
-$theme_primary_lightly_darkened_1: darken($theme_primary, 8.5%);
-$theme_primary_lightly_darkened_2: darken($theme_primary, 12.75%);
-$theme_primary_darkened: darken($theme_primary, 17.75%);
-$theme_primary_darkened_1: darken($theme_primary, 26.95%);
-$theme_primary_darkened_2: darken($theme_primary, 37%);
-$theme_primary_darkened_3: darken($theme_primary, 42.5%);
+$theme_aurora_primary: #f90;
+$theme_aurora_primary_lightened: lighten($theme_aurora_primary, 12%);
+$theme_aurora_primary_lightened_1: lighten($theme_aurora_primary, 15.75%);
+$theme_aurora_primary_lightened_2: lighten($theme_aurora_primary, 20.75%);
+$theme_aurora_primary_lightened_3: lighten($theme_aurora_primary, 27.75%);
+$theme_aurora_primary_lightened_4: lighten($theme_aurora_primary, 33.95%);
+$theme_aurora_primary_lightened_5: lighten($theme_aurora_primary, 40%);
+$theme_aurora_primary_lightened_6: lighten($theme_aurora_primary, 45.5%);
+$theme_aurora_primary_lightly_darkened: darken($theme_aurora_primary, 3.5%);
+$theme_aurora_primary_lightly_darkened_1: darken($theme_aurora_primary, 8.5%);
+$theme_aurora_primary_lightly_darkened_2: darken($theme_aurora_primary, 12.75%);
+$theme_aurora_primary_darkened: darken($theme_aurora_primary, 17.75%);
+$theme_aurora_primary_darkened_1: darken($theme_aurora_primary, 26.95%);
+$theme_aurora_primary_darkened_2: darken($theme_aurora_primary, 37%);
+$theme_aurora_primary_darkened_3: darken($theme_aurora_primary, 42.5%);
 
-$theme_secondary: #9c73cc;
-$theme_secondary_lightened: lighten($theme_secondary, 6%);
-$theme_secondary_lightened_1: lighten($theme_secondary, 9.75%);
-$theme_secondary_lightened_2: lighten($theme_secondary, 14.75%);
-$theme_secondary_lightened_3: lighten($theme_secondary, 21.75%);
-$theme_secondary_lightened_4: lighten($theme_secondary, 27.95%);
-$theme_secondary_lightened_5: lighten($theme_secondary, 34%);
-$theme_secondary_lightened_6: lighten($theme_secondary, 39.5%);
-$theme_secondary_lightly_darkened: darken($theme_secondary, 3.5%);
-$theme_secondary_lightly_darkened_1: darken($theme_secondary, 8.5%);
-$theme_secondary_lightly_darkened_2: darken($theme_secondary, 12.75%);
-$theme_secondary_darkened: darken($theme_secondary, 17.75%);
-$theme_secondary_darkened_1: darken($theme_secondary, 26.95%);
-$theme_secondary_darkened_2: darken($theme_secondary, 37%);
-$theme_secondary_darkened_3: darken($theme_secondary, 42.5%);
+$theme_aurora_secondary: #9c73cc;
+$theme_aurora_secondary_lightened: lighten($theme_aurora_secondary, 6%);
+$theme_aurora_secondary_lightened_1: lighten($theme_aurora_secondary, 9.75%);
+$theme_aurora_secondary_lightened_2: lighten($theme_aurora_secondary, 14.75%);
+$theme_aurora_secondary_lightened_3: lighten($theme_aurora_secondary, 21.75%);
+$theme_aurora_secondary_lightened_4: lighten($theme_aurora_secondary, 27.95%);
+$theme_aurora_secondary_lightened_5: lighten($theme_aurora_secondary, 34%);
+$theme_aurora_secondary_lightened_6: lighten($theme_aurora_secondary, 39.5%);
+$theme_aurora_secondary_lightly_darkened: darken($theme_aurora_secondary, 3.5%);
+$theme_aurora_secondary_lightly_darkened_1: darken($theme_aurora_secondary, 8.5%);
+$theme_aurora_secondary_lightly_darkened_2: darken($theme_aurora_secondary, 12.75%);
+$theme_aurora_secondary_darkened: darken($theme_aurora_secondary, 17.75%);
+$theme_aurora_secondary_darkened_1: darken($theme_aurora_secondary, 26.95%);
+$theme_aurora_secondary_darkened_2: darken($theme_aurora_secondary, 37%);
+$theme_aurora_secondary_darkened_3: darken($theme_aurora_secondary, 42.5%);
+
+$theme_lavender_primary: #90f;
+$theme_lavender_primary_lightened: lighten($theme_lavender_primary, 12%);
+$theme_lavender_primary_lightened_1: lighten($theme_lavender_primary, 15.75%);
+$theme_lavender_primary_lightened_2: lighten($theme_lavender_primary, 20.75%);
+$theme_lavender_primary_lightened_3: lighten($theme_lavender_primary, 27.75%);
+$theme_lavender_primary_lightened_4: lighten($theme_lavender_primary, 33.95%);
+$theme_lavender_primary_lightened_5: lighten($theme_lavender_primary, 40%);
+$theme_lavender_primary_lightened_6: lighten($theme_lavender_primary, 45.5%);
+$theme_lavender_primary_lightly_darkened: darken($theme_lavender_primary, 3.5%);
+$theme_lavender_primary_lightly_darkened_1: darken($theme_lavender_primary, 8.5%);
+$theme_lavender_primary_lightly_darkened_2: darken($theme_lavender_primary, 12.75%);
+$theme_lavender_primary_darkened: darken($theme_lavender_primary, 17.75%);
+$theme_lavender_primary_darkened_1: darken($theme_lavender_primary, 26.95%);
+$theme_lavender_primary_darkened_2: darken($theme_lavender_primary, 37%);
+$theme_lavender_primary_darkened_3: darken($theme_lavender_primary, 42.5%);
+
+$theme_lavender_secondary: #41c13e;
+$theme_lavender_secondary_lightened: lighten($theme_lavender_secondary, 6%);
+$theme_lavender_secondary_lightened_1: lighten($theme_lavender_secondary, 9.75%);
+$theme_lavender_secondary_lightened_2: lighten($theme_lavender_secondary, 14.75%);
+$theme_lavender_secondary_lightened_3: lighten($theme_lavender_secondary, 21.75%);
+$theme_lavender_secondary_lightened_4: lighten($theme_lavender_secondary, 27.95%);
+$theme_lavender_secondary_lightened_5: lighten($theme_lavender_secondary, 34%);
+$theme_lavender_secondary_lightened_6: lighten($theme_lavender_secondary, 39.5%);
+$theme_lavender_secondary_lightly_darkened: darken($theme_lavender_secondary, 3.5%);
+$theme_lavender_secondary_lightly_darkened_1: darken($theme_lavender_secondary, 8.5%);
+$theme_lavender_secondary_lightly_darkened_2: darken($theme_lavender_secondary, 12.75%);
+$theme_lavender_secondary_darkened: darken($theme_lavender_secondary, 17.75%);
+$theme_lavender_secondary_darkened_1: darken($theme_lavender_secondary, 26.95%);
+$theme_lavender_secondary_darkened_2: darken($theme_lavender_secondary, 37%);
+$theme_lavender_secondary_darkened_3: darken($theme_lavender_secondary, 42.5%);
 
 :root {
-	--ls_theme_primary: #{$theme_primary};
-	--ls_theme_on_primary: #333;
+	--ls_theme_aurora_primary: #{$theme_aurora_primary};
+	--ls_theme_aurora_on_primary: #333;
+	--ls_theme_lavender_primary: #{$theme_lavender_primary};
+	--ls_theme_lavender_on_primary: #eee;
 
-	--ls_theme_primary_lightened: #{$theme_primary_lightened};
-	--ls_theme_primary_lightened_1: #{$theme_primary_lightened_1};
-	--ls_theme_primary_lightened_2: #{$theme_primary_lightened_2};
-	--ls_theme_primary_lightened_3: #{$theme_primary_lightened_3};
-	--ls_theme_primary_lightened_4: #{$theme_primary_lightened_4};
-	--ls_theme_primary_lightened_5: #{$theme_primary_lightened_5};
-	--ls_theme_primary_lightened_6: #{$theme_primary_lightened_6};
-	--ls_theme_primary_lightly_darkened: #{$theme_primary_lightly_darkened};
-	--ls_theme_primary_lightly_darkened_1: #{$theme_primary_lightly_darkened_1};
-	--ls_theme_primary_lightly_darkened_2: #{$theme_primary_lightly_darkened_2};
-	--ls_theme_primary_darkened: #{$theme_primary_darkened};
-	--ls_theme_primary_darkened_1: #{$theme_primary_darkened_1};
-	--ls_theme_primary_darkened_2: #{$theme_primary_darkened_2};
-	--ls_theme_primary_darkened_3: #{$theme_primary_darkened_3};
+	--ls_theme_aurora_primary_lightened: #{$theme_aurora_primary_lightened};
+	--ls_theme_aurora_primary_lightened_1: #{$theme_aurora_primary_lightened_1};
+	--ls_theme_aurora_primary_lightened_2: #{$theme_aurora_primary_lightened_2};
+	--ls_theme_aurora_primary_lightened_3: #{$theme_aurora_primary_lightened_3};
+	--ls_theme_aurora_primary_lightened_4: #{$theme_aurora_primary_lightened_4};
+	--ls_theme_aurora_primary_lightened_5: #{$theme_aurora_primary_lightened_5};
+	--ls_theme_aurora_primary_lightened_6: #{$theme_aurora_primary_lightened_6};
+	--ls_theme_aurora_primary_lightly_darkened: #{$theme_aurora_primary_lightly_darkened};
+	--ls_theme_aurora_primary_lightly_darkened_1: #{$theme_aurora_primary_lightly_darkened_1};
+	--ls_theme_aurora_primary_lightly_darkened_2: #{$theme_aurora_primary_lightly_darkened_2};
+	--ls_theme_aurora_primary_darkened: #{$theme_aurora_primary_darkened};
+	--ls_theme_aurora_primary_darkened_1: #{$theme_aurora_primary_darkened_1};
+	--ls_theme_aurora_primary_darkened_2: #{$theme_aurora_primary_darkened_2};
+	--ls_theme_aurora_primary_darkened_3: #{$theme_aurora_primary_darkened_3};
 
-
-	--ls_theme_secondary: #{$theme_secondary};
-	--ls_theme_on_secondary: #333;
-
-	--ls_theme_secondary_lightened: #{$theme_secondary_lightened};
-	--ls_theme_on_secondary_lightened: var(--ls_theme_on_secondary);
-	--ls_theme_secondary_lightened_1: #cea2ff;
-	--ls_theme_secondary_lightened_2: #{$theme_secondary_lightened_2};
-	--ls_theme_secondary_lightened_3: #{$theme_secondary_lightened_3};
-	--ls_theme_secondary_lightened_4: #{$theme_secondary_lightened_4};
-	--ls_theme_secondary_lightened_5: #{$theme_secondary_lightened_5};
-	--ls_theme_secondary_lightened_6: #{$theme_secondary_lightened_6};
-	--ls_theme_secondary_lightly_darkened: #{$theme_secondary_lightly_darkened};
-	--ls_theme_secondary_lightly_darkened_1: #{$theme_secondary_lightly_darkened_1};
-	--ls_theme_secondary_lightly_darkened_2: #{$theme_secondary_lightly_darkened_2};
-	--ls_theme_on_secondary_darkened: #eee;
-	--ls_theme_secondary_darkened: #{$theme_secondary_darkened};
-	--ls_theme_secondary_darkened_1: #{$theme_secondary_darkened_1};
-	--ls_theme_secondary_darkened_2: #{$theme_secondary_darkened_2};
-	--ls_theme_secondary_darkened_3: #{$theme_secondary_darkened_3};
+	--ls_theme_lavender_primary_lightened: #{$theme_lavender_primary_lightened};
+	--ls_theme_lavender_primary_lightened_1: #{$theme_lavender_primary_lightened_1};
+	--ls_theme_lavender_primary_lightened_2: #{$theme_lavender_primary_lightened_2};
+	--ls_theme_lavender_primary_lightened_3: #{$theme_lavender_primary_lightened_3};
+	--ls_theme_lavender_primary_lightened_4: #{$theme_lavender_primary_lightened_4};
+	--ls_theme_lavender_primary_lightened_5: #{$theme_lavender_primary_lightened_5};
+	--ls_theme_lavender_primary_lightened_6: #{$theme_lavender_primary_lightened_6};
+	--ls_theme_lavender_primary_lightly_darkened: #{$theme_lavender_primary_lightly_darkened};
+	--ls_theme_lavender_primary_lightly_darkened_1: #{$theme_lavender_primary_lightly_darkened_1};
+	--ls_theme_lavender_primary_lightly_darkened_2: #{$theme_lavender_primary_lightly_darkened_2};
+	--ls_theme_lavender_primary_darkened: #{$theme_lavender_primary_darkened};
+	--ls_theme_lavender_primary_darkened_1: #{$theme_lavender_primary_darkened_1};
+	--ls_theme_lavender_primary_darkened_2: #{$theme_lavender_primary_darkened_2};
+	--ls_theme_lavender_primary_darkened_3: #{$theme_lavender_primary_darkened_3};
 
 
-	--ls_theme_background_active: #{rgba($theme_secondary_darkened_2, .9)};
+	--ls_theme_aurora_secondary: #{$theme_aurora_secondary};
+	--ls_theme_aurora_on_secondary: #333;
+
+	--ls_theme_aurora_secondary_lightened: #{$theme_aurora_secondary_lightened};
+	--ls_theme_aurora_on_secondary_lightened: var(--ls_theme_aurora_on_secondary);
+	--ls_theme_aurora_secondary_lightened_1: #cea2ff;
+	--ls_theme_aurora_secondary_lightened_2: #{$theme_aurora_secondary_lightened_2};
+	--ls_theme_aurora_secondary_lightened_3: #{$theme_aurora_secondary_lightened_3};
+	--ls_theme_aurora_secondary_lightened_4: #{$theme_aurora_secondary_lightened_4};
+	--ls_theme_aurora_secondary_lightened_5: #{$theme_aurora_secondary_lightened_5};
+	--ls_theme_aurora_secondary_lightened_6: #{$theme_aurora_secondary_lightened_6};
+	--ls_theme_aurora_secondary_lightly_darkened: #{$theme_aurora_secondary_lightly_darkened};
+	--ls_theme_aurora_secondary_lightly_darkened_1: #{$theme_aurora_secondary_lightly_darkened_1};
+	--ls_theme_aurora_secondary_lightly_darkened_2: #{$theme_aurora_secondary_lightly_darkened_2};
+	--ls_theme_aurora_on_secondary_darkened: #eee;
+	--ls_theme_aurora_secondary_darkened: #{$theme_aurora_secondary_darkened};
+	--ls_theme_aurora_secondary_darkened_1: #{$theme_aurora_secondary_darkened_1};
+	--ls_theme_aurora_secondary_darkened_2: #{$theme_aurora_secondary_darkened_2};
+	--ls_theme_aurora_secondary_darkened_3: #{$theme_aurora_secondary_darkened_3};
+
+	--ls_theme_lavender_secondary: #{$theme_lavender_secondary};
+	--ls_theme_lavender_on_secondary: #333;
+
+	--ls_theme_lavender_secondary_lightened: #{$theme_lavender_secondary_lightened};
+	--ls_theme_lavender_on_secondary_lightened: var(--ls_theme_lavender_on_secondary);
+	--ls_theme_lavender_secondary_lightened_1: #{$theme_lavender_secondary_lightened_1};
+	--ls_theme_lavender_secondary_lightened_2: #{$theme_lavender_secondary_lightened_2};
+	--ls_theme_lavender_secondary_lightened_3: #{$theme_lavender_secondary_lightened_3};
+	--ls_theme_lavender_secondary_lightened_4: #{$theme_lavender_secondary_lightened_4};
+	--ls_theme_lavender_secondary_lightened_5: #{$theme_lavender_secondary_lightened_5};
+	--ls_theme_lavender_secondary_lightened_6: #{$theme_lavender_secondary_lightened_6};
+	--ls_theme_lavender_secondary_lightly_darkened: #{$theme_lavender_secondary_lightly_darkened};
+	--ls_theme_lavender_secondary_lightly_darkened_1: #{$theme_lavender_secondary_lightly_darkened_1};
+	--ls_theme_lavender_secondary_lightly_darkened_2: #{$theme_lavender_secondary_lightly_darkened_2};
+	--ls_theme_lavender_on_secondary_darkened: #eee;
+	--ls_theme_lavender_secondary_darkened: #{$theme_lavender_secondary_darkened};
+	--ls_theme_lavender_secondary_darkened_1: #{$theme_lavender_secondary_darkened_1};
+	--ls_theme_lavender_secondary_darkened_2: #{$theme_lavender_secondary_darkened_2};
+	--ls_theme_lavender_secondary_darkened_3: #{$theme_lavender_secondary_darkened_3};
+
+
+	--ls_theme_aurora_background_active: #{rgba($theme_aurora_secondary_darkened_2, .9)};
+	--ls_theme_lavender_background_active: #{rgba($theme_lavender_secondary_lightened_5, .9)};
 
 	--ls_theme_background_code: #77778022;
 	--ls_theme_border_color: #777;

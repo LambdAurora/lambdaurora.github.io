@@ -156,6 +156,7 @@ blockquote > .ls_source::before {
 
 .ls_sky_background {
 	background: repeat-x url("/images/background/sky_gradient.png");
+	color: var(--ls_theme_aurora_primary);
 }
 
 /* Fox peeking animations */

@@ -112,6 +112,7 @@
 	.project_card > .ls_card_section > img.project_logo_img {
 		width: var(--project_card_logo_size);
 		height: var(--project_card_logo_size);
+		border-radius: 4px;
 	}
 
 	@media screen and (max-width: 850px) {
@@ -119,6 +120,14 @@
 			--project_card_logo_size: 64px;
 
 			flex: revert;
+		}
+	}
+
+	@media screen and (prefers-color-scheme: light) {
+		.project_card > .ls_card_section > .ls_card_content > h3 > * {
+			padding: 4px;
+			background-color: rgba(255, 255, 255, 0.5);
+			border-radius: 4px;
 		}
 	}
 </style>

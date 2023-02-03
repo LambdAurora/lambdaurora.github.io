@@ -1,7 +1,7 @@
 /*
  * lambdaurora.dev stylesheet - A simple stylesheet.
  *
- * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ * Written in 2023 by LambdAurora <email@lambdaurora.dev>
  *
  * To the extent possible under law, the author(s) have dedicated
  * all copyright and related and neighboring rights to this software
@@ -14,6 +14,44 @@
 @use "colors";
 
 :root {
+	--ls_theme_primary: var(--ls_theme_aurora_primary);
+	--ls_theme_on_primary: var(--ls_theme_aurora_on_primary);
+
+	--ls_theme_primary_lightened: var(--ls_theme_aurora_primary_lightened);
+	--ls_theme_primary_lightened_1: var(--ls_theme_aurora_primary_lightened_1);
+	--ls_theme_primary_lightened_2: var(--ls_theme_aurora_primary_lightened_2);
+	--ls_theme_primary_lightened_3: var(--ls_theme_aurora_primary_lightened_3);
+	--ls_theme_primary_lightened_4: var(--ls_theme_aurora_primary_lightened_4);
+	--ls_theme_primary_lightened_5: var(--ls_theme_aurora_primary_lightened_5);
+	--ls_theme_primary_lightened_6: var(--ls_theme_aurora_primary_lightened_6);
+	--ls_theme_primary_lightly_darkened: var(--ls_theme_aurora_primary_lightly_darkened);
+	--ls_theme_primary_lightly_darkened_1: var(--ls_theme_aurora_primary_lightly_darkened_1);
+	--ls_theme_primary_lightly_darkened_2: var(--ls_theme_aurora_primary_lightly_darkened_2);
+	--ls_theme_primary_darkened: var(--ls_theme_aurora_primary_darkened);
+	--ls_theme_primary_darkened_1: var(--ls_theme_aurora_primary_darkened_1);
+	--ls_theme_primary_darkened_2: var(--ls_theme_aurora_primary_darkened_2);
+	--ls_theme_primary_darkened_3: var(--ls_theme_aurora_primary_darkened_3);
+
+	--ls_theme_secondary: var(--ls_theme_aurora_secondary);
+	--ls_theme_on_secondary: var(--ls_theme_aurora_on_secondary);
+
+	--ls_theme_secondary_lightened: var(--ls_theme_aurora_secondary_lightened);
+	--ls_theme_on_secondary_lightened: var(--ls_theme_aurora_on_secondary_lightened);
+	--ls_theme_secondary_lightened_1: var(--ls_theme_aurora_secondary_lightened_1);
+	--ls_theme_secondary_lightened_2: var(--ls_theme_aurora_secondary_lightened_2);
+	--ls_theme_secondary_lightened_3: var(--ls_theme_aurora_secondary_lightened_3);
+	--ls_theme_secondary_lightened_4: var(--ls_theme_aurora_secondary_lightened_4);
+	--ls_theme_secondary_lightened_5: var(--ls_theme_aurora_secondary_lightened_5);
+	--ls_theme_secondary_lightened_6: var(--ls_theme_aurora_secondary_lightened_6);
+	--ls_theme_secondary_lightly_darkened: var(--ls_theme_aurora_secondary_darkened);
+	--ls_theme_secondary_lightly_darkened_1: var(--ls_theme_aurora_secondary_darkened_1);
+	--ls_theme_secondary_lightly_darkened_2: var(--ls_theme_aurora_secondary_darkened_2);
+	--ls_theme_on_secondary_darkened: var(--ls_theme_aurora_on_secondary);
+	--ls_theme_secondary_darkened: var(--ls_theme_aurora_secondary_darkened);
+	--ls_theme_secondary_darkened_1: var(--ls_theme_aurora_secondary_darkened_1);
+	--ls_theme_secondary_darkened_2: var(--ls_theme_aurora_secondary_darkened_2);
+	--ls_theme_secondary_darkened_3: var(--ls_theme_aurora_secondary_darkened_3);
+
 	--ls_theme_foreground: var(--ls_theme_foreground_on_dark);
 	--ls_theme_background: #242424;
 
@@ -21,6 +59,7 @@
 	--ls_theme_background_accentuated: var(--ls_dark_theme_background_accentuated);
 	--ls_theme_background_highlight: #282828;
 	--ls_theme_background_popover: #2d2d2d;
+	--ls_theme_background_active: var(--ls_theme_aurora_background_active);
 }
 
 .ls_secondary_gradient {
