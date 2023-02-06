@@ -54,7 +54,6 @@
 
 			if (data.context.page.path !== "/" && data.context.page.path.startsWith(entry.link)) {
 				li.style("background-color", "var(--ls_theme_background_active)");
-				li.style("color", "var(--ls_theme_on_secondary_darkened)");
 			}
 		} else if (entry.type === "notice") {
 			li.append_child(entry.name);
