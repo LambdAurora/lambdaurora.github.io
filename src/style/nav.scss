@@ -19,11 +19,13 @@ nav {
 		padding: 0;
 	}
 
-	.ls_nav_entry {
+	.ls_nav_entry, .ls_nav_dir_entry {
 		padding-left: 1em;
 		padding-top: 0.25em;
 		padding-bottom: 0.25em;
+	}
 
+	.ls_nav_entry {
 		> div {
 			display: inline-flex;
 			flex-direction: column;

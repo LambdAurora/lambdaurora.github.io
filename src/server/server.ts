@@ -146,7 +146,7 @@ async function handle_raw_file(context: { response: Response }, path: string, fi
 							.with_child(new html.Text(`pre[class*="language-"] { margin: 0; }`, html.TextMode.RAW))
 						);
 				}),
-			load_script: (_: html.Element) => {
+			load_script: _ => {
 				return {
 					page: {
 						title: path,

@@ -1,14 +1,14 @@
 // deno-lint-ignore-file no-explicit-any
-import {html, md, merge_objects} from "@lib.md/mod.mjs";
+import {html, merge_objects} from "@lib.md/mod.mjs";
 
 import {COMPONENTS} from "./component.ts";
 import {CONSTANTS} from "./constants.ts";
-import {AsyncFunction, BUILD_DIR, create_common_markdown_parser_opts, create_common_markdown_render_opts, create_parent_directory, DECODER, DEPLOY_DIR, ENCODER} from "./utils.ts";
+import {create_parent_directory, DECODER, DEPLOY_DIR, ENCODER} from "./utils.ts";
+import {fill_embed_defaults, PageSpec, PreloadSpec, StyleSpecEntry, ViewSpec} from "./views/view.ts";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
 const PAGE_TEMPLATE_PATH = TEMPLATES_ROOT + "page.html";
-const VIEW_SCRIPTS_ROOT = BUILD_DIR + "/view_scripts";
 let debug = false;
 
 export class PageProcessError extends Error {
@@ -17,25 +17,20 @@ export class PageProcessError extends Error {
 	}
 }
 
-interface PreloadSpec {
-	source: string;
-	type: string;
-}
-
-interface StyleSpec {
-	source: string;
-	hash?: string;
-	cross_origin?: string;
-}
-
-type StyleSpecEntry = string | StyleSpec;
-
 interface HtmlConvertible {
 	html: () => string;
 }
 
 type HtmlNode = html.Node & HtmlConvertible;
-type PageModule = { [x: string]: any };
+
+interface PageData extends PageSpec {
+	path: string;
+}
+
+interface ViewData extends ViewSpec {
+	page: PageData;
+	global_context: unknown;
+}
 
 function get_relative_path(path: string) {
 	if (path === "/404") {
@@ -85,23 +80,29 @@ async function load_page_template() {
 	});
 }
 
-function process_string(string: string, module: PageModule) {
-	return string.replace(/\$\{([a-zA-Z\d_.]+)\}/g, (_, name: string) => {
+function process_string(string: string, module: ViewSpec) {
+	return string.replace(/\$\{([a-zA-Z\d_.]+)}/g, (original: string, name: string) => {
 		const name_parts = name.split(".");
-		let variable = module;
+		let variable: unknown = module;
 
 		for (const name of name_parts) {
-			variable = variable[name];
+			variable = (variable as { [x: string]: string })[name];
+
+			if (!variable) {
+				return original;
+			}
 		}
 
 		return variable as unknown as string;
 	});
 }
 
-function process_element(element: html.Node, parent: html.Element, module: PageModule) {
+function process_element(element: html.Node, parent: html.Element, module: ViewSpec) {
 	if (element instanceof html.Text && parent.tag.escape_inside) {
 		element.content = process_string((element as html.Text).content as string, module);
 	} else if (element instanceof html.Element) {
+		if (element.tag.name === "script") return;
+
 		element.attributes = element.attributes.map(attr => html.create_attribute(attr.name, process_string(attr.value(), module)));
 
 		element.children.forEach(child => process_element(child, element, module));
@@ -115,32 +116,26 @@ function process_element(element: html.Node, parent: html.Element, module: PageM
  * @param style the style element of the page if present
  * @param module the module of the page
  */
-function process_head(page: html.Element, style: html.Element | undefined, module: PageModule) {
+function process_head(page: html.Element, style: html.Element | undefined, module: ViewSpec) {
+	fill_embed_defaults(module.page);
+
 	const head = page.children[0] as html.Element;
 	process_element(head, page, module);
-
-	if (!module.page.embed) {
-		module.page.embed = {};
-	}
-
-	if (!module.page.embed.image) {
-		module.page.embed.image = CONSTANTS.get_url(CONSTANTS.site_logo);
-	}
+	process_element(page.children[1] as html.Element, page, module);
 
 	head.append_child(html.create_element("meta")
 		.with_attr("property", "og:image")
-		.with_attr("content", module.page.embed.image)
+		.with_attr("content", module.page.embed?.image)
 	);
 
 	if (module.page.keywords) {
 		head.append_child(html.create_element("meta")
 			.with_attr("name", "keywords")
-			.with_attr("content", module.page.keywords)
+			.with_attr("content", module.page.keywords.join(", "))
 		);
 	}
 
-	let favicon = module.page?.icons?.favicon;
-	if (!favicon) favicon = "/images/art/avatar_2022_02_no_bg.png";
+	const favicon = module.page?.icons?.favicon ?? "/images/art/avatar_2022_02_no_bg.png";
 	head.append_child(html.create_element("link")
 		.with_attr("rel", "shortcut icon")
 		.with_attr("href", favicon)
@@ -189,25 +184,25 @@ function load_view_file(view_path: string) {
 		.then(source => html.parse(source) as html.Element);
 }
 
-async function load_script(page_source: html.Element) {
-	const func: (...args: any[]) => Promise<PageModule> = new AsyncFunction(
-		"CONSTANTS", "html", "md", "create_common_markdown_parser_opts", "create_common_markdown_render_opts",
-		(page_source.get_element_by_tag_name("script")?.children[0] as html.Text).content
-	);
-	return await func(CONSTANTS, html, md, create_common_markdown_parser_opts, create_common_markdown_render_opts);
+async function load_script(view_path: string): Promise<ViewSpec> {
+	view_path = view_path.replace(/\.html$/, ".ts");
+
+	const hash = await Deno.readFile(view_path).then(data => crypto.subtle.digest("SHA-1", data));
+
+	return await import("." + view_path.replace(/^src/, "") + "#" + encodeURIComponent(DECODER.decode(hash))).then(module => module.SPEC as ViewSpec);
 }
 
 interface PageProcessingSettings {
 	load_view?: (view_path: string) => Promise<html.Node>;
 	load_page_template?: () => Promise<html.Node[]>;
-	load_script?: (page_source: html.Element) => (Promise<PageModule> | PageModule);
+	load_script?: (view_path: string) => (Promise<ViewSpec> | ViewSpec);
 }
 
 interface PageProcessingContext {
 	global_context: any;
 	load_view: (view_path: string) => Promise<html.Element>;
 	load_page_template: () => Promise<html.Node[]>;
-	load_script: (page_source: html.Element) => Promise<PageModule>;
+	load_script: (view_path: string) => Promise<ViewSpec>;
 }
 
 const PROCESS_PAGE_SETTINGS = Object.freeze({
@@ -233,14 +228,14 @@ export async function process_page(path: string, settings?: PageProcessingSettin
 		context.load_page_template(),
 		context.load_view(view_path)
 			.then((source: html.Element) => Promise.all([
-				context.load_script(source),
+				context.load_script(view_path),
 				source.get_element_by_tag_name("body"),
 				source.get_element_by_tag_name("style")
 			]))
 	]);
 
 	const page = results[0] as HtmlNode[];
-	const module = results[1][0] as PageModule;
+	const module = results[1][0] as ViewData;
 	const body = results[1][1] as html.Element;
 	const style = results[1][2];
 
@@ -278,7 +273,7 @@ export async function process_page(path: string, settings?: PageProcessingSettin
 	process_head(page[1] as html.Element, style, module);
 
 	if (module.post_process) {
-		await module.post_process(page[1]);
+		await module.post_process(page[1] as html.Element);
 	}
 
 	return {
