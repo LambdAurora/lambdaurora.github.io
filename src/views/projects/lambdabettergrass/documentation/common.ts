@@ -1,8 +1,16 @@
 import {html, md} from "@lib.md/mod.mjs";
 import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../../utils.ts";
-import {remove_comments} from "../../../view.ts";
+import {EmbedSpec, remove_comments} from "../../../view.ts";
 import {get_path} from "../data.ts";
+import {CONSTANTS} from "../../../../constants.ts";
 import "../../../../prismjs.mjs";
+
+export const DOC_EMBED: Partial<EmbedSpec> = {
+	image: {
+		url: CONSTANTS.get_url("/images/projects/lambdabettergrass/icon_64.png"),
+		alt: "LambdaBetterGrass icon"
+	}
+};
 
 export function make_post_process(file: string) {
 	return async (page: html.Element) => {

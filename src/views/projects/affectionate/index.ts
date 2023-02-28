@@ -29,7 +29,11 @@ export const SPEC: ViewSpec = {
 		},
 		embed: {
 			title: title,
-			image: CONSTANTS.get_url("/images/projects/affectionate/affectionate.png")
+			image: {
+				url: CONSTANTS.get_url("/images/projects/affectionate/affectionate.png"),
+				alt: "Affectionate's icon"
+			},
+			style: "large"
 		},
 		keywords: ["LambdAurora", "Affectionate", "Minecraft Mod"]
 	},

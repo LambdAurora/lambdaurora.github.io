@@ -11,7 +11,10 @@ export const SPEC: ViewSpec = {
 		},
 		embed: {
 			title: title,
-			image: "https://quiltmc.org/assets/img/logo.svg"
+			image: {
+				url: "https://quiltmc.org/assets/img/logo.svg",
+				alt: "Quilt Logo"
+			}
 		},
 		keywords: ["LambdAurora", "Minecraft", "Quilt", "QuiltMC", "modding"]
 	},

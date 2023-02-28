@@ -4,7 +4,7 @@ import {html, merge_objects} from "@lib.md/mod.mjs";
 import {COMPONENTS} from "./component.ts";
 import {CONSTANTS} from "./constants.ts";
 import {create_parent_directory, DECODER, DEPLOY_DIR, ENCODER} from "./utils.ts";
-import {fill_embed_defaults, PageSpec, PreloadSpec, StyleSpecEntry, ViewSpec} from "./views/view.ts";
+import {PageSpec, PreloadSpec, resolve_embed, StyleSpecEntry, ViewSpec} from "./views/view.ts";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
@@ -117,7 +117,8 @@ function process_element(element: html.Node, parent: html.Element, module: ViewS
  * @param module the module of the page
  */
 function process_head(page: html.Element, style: html.Element | undefined, module: ViewSpec) {
-	fill_embed_defaults(module.page);
+	const embed = resolve_embed(module.page);
+	module.page.embed = embed;
 
 	const head = page.children[0] as html.Element;
 	process_element(head, page, module);
@@ -125,8 +126,19 @@ function process_head(page: html.Element, style: html.Element | undefined, modul
 
 	head.append_child(html.create_element("meta")
 		.with_attr("property", "og:image")
-		.with_attr("content", module.page.embed?.image)
+		.with_attr("content", embed.image.url)
 	);
+	head.append_child(html.create_element("meta")
+		.with_attr("property", "og:image:alt")
+		.with_attr("content", embed.image.alt)
+	);
+
+	if (embed.style === "large") {
+		head.append_child(html.create_element("meta")
+			.with_attr("property", "twitter:card")
+			.with_attr("content", "summary_large_image")
+		);
+	}
 
 	if (module.page.keywords) {
 		head.append_child(html.create_element("meta")

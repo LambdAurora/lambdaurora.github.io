@@ -2,8 +2,10 @@ import {html, md} from "@lib.md/mod.mjs";
 import {CONSTANTS} from "../constants.ts";
 
 export interface EmbedSpec {
-	title?: string;
-	image?: string;
+	type: "website" | "article";
+	title: string;
+	image: { url: string; alt: string; };
+	style: "normal" | "large";
 }
 
 export interface IconsSpec {
@@ -14,7 +16,7 @@ export interface PageSpec {
 	title: string;
 	description: string;
 	keywords?: string[];
-	embed?: EmbedSpec;
+	embed?: Partial<EmbedSpec>;
 	icons?: IconsSpec;
 	custom?: { [x: string]: unknown };
 }
@@ -42,17 +44,15 @@ export interface ViewSpec {
 	custom?: { [x: string]: unknown };
 }
 
-export function fill_embed_defaults(page: PageSpec) {
-	if (!page.embed) {
-		page.embed = {};
-	}
-
-	if (!page.embed.title) {
-		page.embed.title = page.title;
-	}
-
-	if (!page.embed.image) {
-		page.embed.image = CONSTANTS.get_url(CONSTANTS.site_logo);
+export function resolve_embed(page: PageSpec): EmbedSpec {
+	return {
+		type: page.embed?.type ?? "website",
+		title: page.embed?.title ?? page.title,
+		image: page.embed?.image ?? {
+			url: CONSTANTS.get_url(CONSTANTS.site_logo),
+			alt: "Website Logo"
+		},
+		style: page.embed?.style ?? "normal"
 	}
 }
 

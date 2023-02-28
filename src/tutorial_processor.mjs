@@ -136,6 +136,7 @@ async function process_tutorial(path) {
 					title: title,
 					description: page_description,
 					embed: {
+						type: "article",
 						title: title
 					}
 				},

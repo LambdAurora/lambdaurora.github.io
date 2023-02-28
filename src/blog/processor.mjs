@@ -1,7 +1,15 @@
 import {PageProcessError, process_page} from "../page_processor.ts";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../utils.ts";
-import { md, html } from "@lib.md/mod.mjs";
-import { CONSTANTS } from "../constants.ts";
+import {
+	DECODER,
+	DEPLOY_DIR,
+	ENCODER,
+	create_parent_directory,
+	process_property_from_html,
+	create_common_markdown_parser_opts,
+	create_common_markdown_render_opts
+} from "../utils.ts";
+import {md, html} from "@lib.md/mod.mjs";
+import {CONSTANTS} from "../constants.ts";
 import * as PRISM from "../prismjs.mjs";
 
 const BLOG_ROOT = "src/blog";
@@ -83,11 +91,11 @@ function get_tags_html(keywords) {
 	if (keywords.length === 0) return "";
 	const metadata_div = html.create_element("div").with_attr("class", "ls_article_metadata").style("margin-top", "0.2em");
 	keywords.forEach(keyword => metadata_div.append_child(
-		html.create_element("span")
-			.with_attr("class", "ls_tag_ship")
-			.style("background-color", "var(--ls_theme_primary)")
-			.style("color", "var(--ls_theme_on_primary)")
-			.with_child(html.create_element("span").with_child(keyword))
+			html.create_element("span")
+				.with_attr("class", "ls_tag_ship")
+				.style("background-color", "var(--ls_theme_primary)")
+				.style("color", "var(--ls_theme_on_primary)")
+				.with_child(html.create_element("span").with_child(keyword))
 		)
 	);
 	return metadata_div.html();
@@ -115,7 +123,7 @@ async function process_blog_entry(path, context) {
 	};
 
 	return await process_page(`/blog/${path.replace(/\.md$/, ".html")}`, {
-		load_view: async function(_) {
+		load_view: async function (_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
 			const main = html.create_element("main")
@@ -156,8 +164,16 @@ async function process_blog_entry(path, context) {
 			});
 			process_property_from_html(article, "description", value => page_description = value);
 			process_property_from_html(article, "embed_image", value => {
-				if (!value.startsWith("http")) value = CONSTANTS.get_url(value);
-				embed_image = value;
+				const result = /^(\S+) "(.+[^\\])"\s*$/.exec(value);
+				if (!result) throw new PageProcessError(path, `Could not parse properly embed image data "${value}"`);
+
+				result[2] = result[2].substring(1, result[2].length - 1);
+				if (!result[1].startsWith("http")) result[1] = CONSTANTS.get_url(result[1]);
+
+				embed_image = {
+					url: result[1],
+					alt: result[2]
+				};
 			});
 			process_property_from_html(article, "author", value => {
 				const author = context.authors[value];
@@ -242,8 +258,10 @@ async function process_blog_entry(path, context) {
 					title: title,
 					description: page_description,
 					embed: {
+						type: "article",
 						title: title,
-						image: embed_image
+						image: embed_image,
+						style: embed_image ? "large" : "normal"
 					},
 					keywords: keywords,
 					custom: {
@@ -269,7 +287,7 @@ async function process_blog_index(entries) {
 	const title = `Blog Posts Index`;
 
 	return await process_page("/blog", {
-		load_view: function(_) {
+		load_view: function (_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
 			const main = html.create_element("main")
@@ -333,7 +351,7 @@ const rss_tag = {
 	escape_inside: true,
 	preserve_format: false,
 	inline: false,
-	create: function() {
+	create: function () {
 		return new html.Element(this);
 	}
 };
@@ -345,7 +363,7 @@ const channel_tag = {
 	escape_inside: true,
 	preserve_format: false,
 	inline: false,
-	create: function() {
+	create: function () {
 		return new html.Element(this);
 	}
 };
@@ -357,7 +375,7 @@ const item_tag = {
 	escape_inside: true,
 	preserve_format: false,
 	inline: false,
-	create: function() {
+	create: function () {
 		return new html.Element(this);
 	}
 };
@@ -376,7 +394,7 @@ async function generate_rss_feed(entries) {
 		escape_inside: true,
 		preserve_format: false,
 		inline: true,
-		create: function() {
+		create: function () {
 			return new html.Element(this);
 		}
 	};

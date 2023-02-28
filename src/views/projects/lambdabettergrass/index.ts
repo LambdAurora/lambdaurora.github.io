@@ -27,7 +27,11 @@ export const SPEC: ViewSpec = {
 			favicon: "/images/projects/lambdabettergrass/icon_64.png"
 		},
 		embed: {
-			image: `https://raw.githubusercontent.com/LambdAurora/LambdaBetterGrass/${BRANCH}/images/pack.png`
+			image: {
+				url: `https://raw.githubusercontent.com/LambdAurora/LambdaBetterGrass/${BRANCH}/images/pack.png`,
+				alt: "LambdaBetterGrass icon"
+			},
+			style: "large"
 		},
 		keywords: ["LambdAurora", "LambdaBetterGrass", "Minecraft Mod"]
 	},
