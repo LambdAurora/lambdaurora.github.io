@@ -96,28 +96,34 @@ dependencies {
 		const qsl_code_block = document.querySelector("#qsl_code");
 		const qsl_modules_list = document.querySelector("#qsl_modules");
 
+		const USER_AGENT = "Quilt Import Utility Client | " + (window.navigator.userAgent);
+
 		function fetch_json(url, options) {
+			if (!options) options = {};
+			if (!options.headers) options.headers = {};
+			if (!options.headers.accept) options.headers.accept = "application/json";
+			if (!options.headers['user-agent']) options.headers['user-agent'] = USER_AGENT;
 			return fetch(url, options).then(response => response.json())
-				.catch(error => {
-					console.error(`Failed to fetch ${url}:`);
-					console.error(error);
-					loading_indicator.classList.add("hide");
-					error_indicator.textContent = error;
-				});
+							.catch(error => {
+								console.error(`Failed to fetch ${url}:`);
+								console.error(error);
+								loading_indicator.classList.add("hide");
+								error_indicator.textContent = error;
+							});
 		}
 
 		function fetch_xml(url) {
 			return fetch(url).then(response => response.text())
-				.then(data => {
-					const parser = new DOMParser();
-					return parser.parseFromString(data, "application/xml");
-				})
-				.catch(error => {
-					console.error(`Failed to fetch ${url}:`);
-					console.error(error);
-					loading_indicator.classList.add("hide");
-					error_indicator.textContent = error;
-				});
+							.then(data => {
+								const parser = new DOMParser();
+								return parser.parseFromString(data, "application/xml");
+							})
+							.catch(error => {
+								console.error(`Failed to fetch ${url}:`);
+								console.error(error);
+								loading_indicator.classList.add("hide");
+								error_indicator.textContent = error;
+							});
 		}
 
 		// Load versions, we consider quilt mappings as the authority.
@@ -259,7 +265,7 @@ dependencies {
 		async function get_quilted_fapi_version(version) {
 			function get_version(raw) {
 				const split = raw.replace("-SNAPSHOT", "").split("-");
-				if (split.length == 0) return null;
+				if (split.length === 0) return null;
 
 				const mc_version = split.pop();
 
