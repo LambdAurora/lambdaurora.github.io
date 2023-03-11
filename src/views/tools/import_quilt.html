@@ -71,7 +71,6 @@ dependencies {
 	}
 }</code></pre>
 		</div>
-	
 	</main>
 	<app_footer>
 	</app_footer>
@@ -87,7 +86,6 @@ dependencies {
 
 		const QUILT_META = "https://meta.quiltmc.org/v3";
 		const QUILT_RELEASE_MAVEN = "https://maven.quiltmc.org/repository/release/";
-		const QUILT_SNAPSHOT_MAVEN = "https://maven.quiltmc.org/repository/snapshot/";
 		const QSL_GROUP = "org.quiltmc.qsl";
 
 		const error_indicator = document.querySelector("#error_indicator");
@@ -98,8 +96,8 @@ dependencies {
 		const qsl_code_block = document.querySelector("#qsl_code");
 		const qsl_modules_list = document.querySelector("#qsl_modules");
 
-		function fetch_json(url) {
-			return fetch(url).then(response => response.json())
+		function fetch_json(url, options) {
+			return fetch(url, options).then(response => response.json())
 				.catch(error => {
 					console.error(`Failed to fetch ${url}:`);
 					console.error(error);
@@ -124,19 +122,23 @@ dependencies {
 
 		// Load versions, we consider quilt mappings as the authority.
 		async function load_versions() {
-			const versions = (await fetch_json(QUILT_META + "/versions/game"))
-				.map(version => { return { mc: version.version, build: -1 }; });
+			const data = await Promise.all([
+				fetch_json(QUILT_META + "/versions/game", {cache: "no-store"})
+								.then(versions => versions.map(version => {
+									return {mc: version.version, stable: version.stable, build: -1};
+								})),
+				fetch_json(QUILT_META + "/versions/quilt-mappings", {cache: "no-store"})
+			]);
 
-			await fetch_json(QUILT_META + "/versions/quilt-mappings")
-				.then(data => {
-					for (const version of versions) {
-						const qm_version = data.find(v => v.gameVersion === version.mc);
+			const versions = data[0];
 
-						if (qm_version) {
-							version.build = qm_version.build;
-						}
-					}
-				});
+			for (const version of versions) {
+				const qm_version = data[1].find(v => v.gameVersion === version.mc);
+
+				if (qm_version) {
+					version.build = qm_version.build;
+				}
+			}
 
 			for (const version of versions) {
 				const version_option = document.createElement("option");
@@ -147,6 +149,10 @@ dependencies {
 			}
 
 			version_selector.removeAttribute("disabled");
+
+			let version_candidate = versions.find(v => v.stable);
+			if (!version_candidate) version_candidate = versions[0];
+			version_selector.value = version_candidate.mc;
 
 			return versions;
 		}
@@ -311,7 +317,7 @@ dependencies {
 			}
 
 			properties += `\nloader_version=${tool_versions[1]}\n`;
-			
+
 			properties += "\n# QSL\n";
 
 			if (!qsl_version) {
@@ -390,10 +396,7 @@ dependencies {
 			loading_indicator.classList.add("hide");
 		}
 
-		let version_candidate = versions.find(v => v.mc.match(/^\d+\.\d+(\.\d+)?$/));
-		if (!version_candidate) version_candidate = versions[0];
-		version_selector.value = version_candidate.mc;
-		apply(version_candidate);
+		apply(versions.find(v => v.mc === version_selector.value));
 
 		version_selector.addEventListener("change", e => {
 			apply(versions.find(v => v.mc === e.target.value));

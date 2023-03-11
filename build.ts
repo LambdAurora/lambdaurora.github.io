@@ -180,7 +180,8 @@ function start_watching(waiter: { lock: Promise<void>, on_rebuild: () => Promise
 			let last = Date.now();
 
 			for await (const event of watcher) {
-				if (event.kind !== "access" && (Date.now() - last) > 500) {
+				if (event.flag === "rescan") continue;
+				if ((event.kind === "create" || event.kind === "modify" || event.kind === "remove") && (Date.now() - last) > 750) {
 					last = Date.now();
 					const promise = build_func().then(async _ => { await waiter.on_rebuild(); });
 					waiter.lock = promise;
