@@ -46,7 +46,8 @@ If you go with the programmer way and know enough Java,
 you should get an IDE (Integrated Development Environment), this will improve greatly your programming experience.
 IDEs commonly used by the community are:
 
-- [Intellij IDEA](https://www.jetbrains.com/idea/), this is the most popular IDE in the community;
+- [Intellij IDEA](https://www.jetbrains.com/idea/), this is the most popular IDE in the community,
+  also worth to mention the [Minecraft Development][mcdev] plugin which improves Minecraft modding wiht this IDE;
 - [VSCode](https://code.visualstudio.com/);
 - [Eclipse](https://www.eclipse.org/), an IDE that has fallen out of popularity lately.
 
@@ -105,8 +106,11 @@ Clean and readable code will greatly help you when you wish to update your mod.
 You should always try to test your mod before publishing it, of course bugs always slip in,
 but a tested mod is less likely to break!
 
-Mod loaders start to include tools to use the Game Test system as seen in [Henrik Kniberg's keynote](https://www.youtube.com/watch?v=TNkPE6NTNHQ),
+Mod loaders are starting to include tools to use the Game Test system as seen in [Henrik Kniberg's keynote](https://www.youtube.com/watch?v=TNkPE6NTNHQ),
 or unit testing abilities, allowing to automatize the testing of your mod.
+
+Also make sure to not just test with the Minecraft client but also test dedicated servers.
+They have some subtle differences, and it's sadly common to see mods break on dedicated servers.
 
 ### Compatibility & Integration
 
@@ -144,3 +148,4 @@ So now go wild!
 [Fabric]: https://fabricmc.net/
 [Parchment]: https://parchmentmc.org/
 [QTM]: https://github.com/QuiltMC/quilt-template-mod
+[mcdev]: https://plugins.jetbrains.com/plugin/8327-minecraft-development
