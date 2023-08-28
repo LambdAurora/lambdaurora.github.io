@@ -59,12 +59,13 @@ The mod loader is a big question, some may want to make their mod on all mod loa
 The mod loader is what will load your mod, usually there's standard libraries made along them for your mod
 to use, simplifying greatly some things and improving greatly compatibility.
 
-There's currently 3 main mod loaders:
+There's currently 4 main mod loaders:
 
 - [Quilt], which is the newest and based off Fabric, it's my personal favorite mod loader which means I'll be talking more about it.
   Quilt has a focus on compatibility and mod integration (which I'll talk more in details later), and try to offer to both modders and players very interesting features.
   And as a treat Fabric mods run on Quilt too.
 - [Forge], a very old mod loader with a big community, it has a large API but is often criticized of being too heavy.
+- [NeoForge], a fork of Forge that attempts to fix the technical issues of Forge and some other stuff. It replaces Forge for Minecraft 1.20+.
 - [Fabric], was a response to Forge's technical issues, and is a popular mod loader today. Though it has issues which I won't detail here.
 
 The rest of this article should talk of things that would apply no matter the mod loader,
@@ -126,7 +127,7 @@ If possible you should strive for integration, it creates more cohesive experien
 For example having a mod that adds a new tree and wood type, and a mod that adds wooden chairs,
 them not crashing and working along will be compatibility, though it doesn't mean there's a wooden chair
 for the new wood type. Making so that a wooden chair for that new wood type is also added when both mods
-are presents is integration.  
+are present is integration.  
 You don't just make it work "together", you make them work hand-in-hand together. And that, in my opinion, is much better and enjoyable.
 
 ## Let Me Begin!
@@ -143,9 +144,12 @@ So now go wild!
 [Java]: https://en.wikipedia.org/wiki/Java_(programming_language) "Java (Wikipedia)"
 [Gradle]: https://gradle.org/
 [MCreator]: https://mcreator.net/
-[Quilt]: https://quiltmc.org/
-[Forge]: http://minecraftforge.net/
+
 [Fabric]: https://fabricmc.net/
+[Forge]: http://minecraftforge.net/
+[NeoForge]: https://neoforged.net/
 [Parchment]: https://parchmentmc.org/
+[Quilt]: https://quiltmc.org/
+
 [QTM]: https://github.com/QuiltMC/quilt-template-mod
 [mcdev]: https://plugins.jetbrains.com/plugin/8327-minecraft-development
