@@ -3,7 +3,7 @@
 		"@std/": "https://deno.land/std@0.157.0/",
 		"@lib.md/": "https://deno.land/x/libmd@v1.9.5/",
 		"@prism.js/": "https://cdn.jsdelivr.net/npm/prismjs@1.27/",
-		"@katex/": "https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/",
+		"@katex/": "https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/",
 		"@oak/": "https://deno.land/x/oak@v11.1.0/",
 		"@lambdawebserver/": "https://deno.land/x/lambdawebserver@v1.1.2/"
 	}

@@ -12,8 +12,8 @@
 	const author_picture = data.element.get_attr("author_picture");
 	if (author_picture) {
 		const img = html.create_element("img")
-			.with_attr("alt", `${author_name}'s picture`)
-			.with_attr("src", author_picture.value());
+						.with_attr("src", author_picture.value())
+						.with_attr("alt", "");
 		nodes.splice(0, 0, img);
 	}
 
