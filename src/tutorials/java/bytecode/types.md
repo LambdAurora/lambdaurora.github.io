@@ -23,7 +23,7 @@ We have the following types:
 - `C`, represents a `char` type.
 - `S`, represents a `short` type.
 - `I`, represents an `int` type.
-- `L`, represents a `long` type.
+- `J`, represents a `long` type.
 - `F`, represents a `float` type.
 - `D`, represents a `double` type.
 
