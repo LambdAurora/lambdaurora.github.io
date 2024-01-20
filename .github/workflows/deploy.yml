@@ -1,4 +1,4 @@
-name: 'Deploy'
+name: "Deploy"
 
 on:
   push:
@@ -21,30 +21,31 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 'Checkout'
+      - name: "Checkout"
         uses: actions/checkout@v3
-      - name: 'Setup Pages'
-        uses: actions/configure-pages@v1
-      - name: 'Setup Deno'
+      - name: "Setup Deno"
         uses: denoland/setup-deno@v1
         with:
           deno-version: v1.x
       - uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
 
-      - name: 'Install SASS'
+      - name: "Install SASS"
         run: |
           npm install -g sass
 
-      - name: 'Build with Deno'
+      - name: "Build with Deno"
         run: |
           deno task build
 
-      - name: 'Upload artifact'
-        uses: actions/upload-pages-artifact@v1
+      - name: "Upload artifact"
+        uses: actions/upload-artifact@v3
         with:
+          name: pages
           path: ./build/deploy
+          retention-days: 1
+          if-no-files-found: error
 
   deploy:
     needs: build
