@@ -207,6 +207,14 @@ while [on January 26th 2024 the Internal Court of Justice has said it that there
 imminent risk of genocide in Gaza Strip](https://www.icj-cij.org/index.php/case/192).
 
 While a company isn't a country, I don't think most would feel comfortable doing business with a company located in a country which is committing horrors.
+If you're a bit confused on why a company located there is a bit of an issue, despite that I haven't found a clear claim that they support what their government is doing,
+due to their location they will support the actions of their government through taxes.
+I think it's also a good time to remind that there is a boycott campaign ongoing, read more on the [BDS website](https://bdsmovement.net/).
+
+This criticism can also be applied to CurseForge, as it's operated by Overwolf which is an Israeli company.
+If you're a Minecraft modder or a mod user, I would recommend you to switch to [Modrinth](https://modrinth.com) instead.
+As for me, I'd also wish to pull out from CurseForge, though I haven't since I know people would end up reuploading my mods there,
+which could expose users to malicious actors, and I'm not sure if [I'd trust CurseForge to take care of it properly](/blog/2022/09/lap_sitting_and_curseforge.html).
 
 ### The Lesser Stuff
 
