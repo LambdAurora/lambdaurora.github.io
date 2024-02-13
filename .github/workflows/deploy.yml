@@ -40,12 +40,11 @@ jobs:
           deno task build
 
       - name: "Upload artifact"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: pages
+          name: github-pages
           path: ./build/deploy
           retention-days: 1
-          if-no-files-found: error
 
   deploy:
     needs: build
