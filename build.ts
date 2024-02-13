@@ -98,16 +98,14 @@ const style_step = new BuildStep(async context => {
 	context.add_file(deployed_style_dir, true);
 
 	await copy("./src/style", deployed_style_dir);
-	const result = await Deno.run(
-		{
-			cmd: [
-				"sass",
-				`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
-				`${deployed_style_dir}:${deployed_style_dir}`,
-				args.debug ? "--style=expanded" : "--style=compressed"
-			]
-		}
-	).status();
+	const result = await new Deno.Command("sass", {
+		args: [
+			`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
+			`${deployed_style_dir}:${deployed_style_dir}`,
+			args.debug ? "--style=expanded" : "--style=compressed"
+		],
+		stdout: "piped",
+	}).output();
 
 	if (!result.success) {
 		return false;
