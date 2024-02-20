@@ -50,8 +50,8 @@ But where this is unusual is the kind of service that's offered:
 a link shortener that makes the user wait for a bit to see ads so the person who wrapped the URL can get some revenue out of it.
 
 This isn't uncommon either in the Minecraft modding space, it was a big part of the early modded experience,
-when no mod hosting websites was established, so to get some revenue mod authors had adf.ly links,
-and if you look at some mods that still live a bit in the past you can find such thing on the OptiFine website or the Forge website.
+when no mod hosting websites were established. To get some revenue, mod authors had adf.ly links -
+and if you look at some mods that still live a bit in the past, you can find such thing on the OptiFine website or the Forge website.
 
 But what's uncommon is reaching out to people to get them to use the service and targeting "gamers" specifically.
 And I have to admit that I have a tendency to be very distrustful of anything gamer-branded.
@@ -61,7 +61,7 @@ The reason I'm looking into it though is, well, I was not the first to be contac
 which also means I'm not going to be the last.
 I decided to look a bit into it to discuss it with my fellow modders and potentially warn of its sketchiness to the less aware of us.
 
-I have fell into the rabbit hole, and it's not looking good.
+I have fallen into the rabbit hole, and it's not looking good.
 
 ## It is Sketchy
 
