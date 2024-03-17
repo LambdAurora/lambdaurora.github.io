@@ -101,7 +101,7 @@ blockquote > .ls_source::before {
 	align-items: center;
 
 	background-color: var(--ls_theme_background_accentuated);
-	color: #fff;
+	color: var(--ls_theme_foreground_accentuated);
 }
 
 .ls_app_footer > .ls_app_footer_license {
