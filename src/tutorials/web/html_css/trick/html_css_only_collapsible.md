@@ -13,9 +13,9 @@ There's some issues though, some of its applications can be questionable as
 some will use it to do some tracking on users, which is why some people choose to disable it.
 It also requires more processing than pure HTML & CSS.
 Since, HTML 5 and CSS 3 got released, with a ton of new features like animations, better selectors, and more stuff.
-A lot of websites continue to use Javascript while not necessarily having a need for it it in every parts.
+A lot of websites continue to use Javascript while not necessarily having a need for it in every part.
 
-To come back the the navigation part: this website uses a side navigation, on desktop it's fine.
+To come back to the navigation part: this website uses a side navigation, on desktop it's fine.
 Though, on mobile it has some issues, it needs to be hidden away *(collapsed)*.
 
 HTML 5 offers us the element `<details>`, which allows to hide stuff away with a trigger to open and see its content.
@@ -34,7 +34,7 @@ HTML checkboxes have some specific behaviors: when a user clicks on it, it gets 
 And we can check if a checkbox is checked with a CSS selector `:checked`.
 
 The other specific behavior comes from labels which are linked to a checkbox,
-when clicking a `<label>` targetting a checkbox, it will act as if the checkbox was clicked.
+when clicking a `<label>` targeting a checkbox, it will act as if the checkbox was clicked.
 
 And last, we can select neighbor elements in CSS with `~`.
 
@@ -282,7 +282,7 @@ Here's a collapsible side navigation which opens from the right:
 
 ## Conclusion
 
-Now you too have the knowledge of Javascript-less collapsible containers!
+Now you too, have the knowledge of Javascript-less collapsible containers!
 
 I hope it will help you some way, but there are more things to note:
 
