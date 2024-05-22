@@ -1,15 +1,14 @@
-import { copy } from "@std/fs/copy.ts";
-import { move } from "@std/fs/mod.ts";
-import { parse } from "@std/flags/mod.ts";
+import { copy, move } from "@std/fs";
+import { parseArgs } from "@std/cli";
 
 import { process_all_pages, enable_debug_pages } from "./src/page_processor.ts";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { process_all_blog_entries } from "./src/blog/processor.mjs";
 import { serve } from "./src/server/server.ts";
-import { BUILD_DIR, DEPLOY_DIR, DECODER, ENCODER } from "./src/utils.ts";
+import { BUILD_DIR, DEPLOY_DIR } from "./src/utils.ts";
 import { COMPONENTS } from "./src/component.ts";
 
-const args = parse(Deno.args, { default: { port: 8080 }});
+const args = parseArgs(Deno.args, { default: { port: 8080 }});
 
 if (args.debug) enable_debug_pages();
 
@@ -119,14 +118,13 @@ const style_step = new BuildStep(async context => {
 		}
 	}
 
-	await Deno.readFile(deployed_style_dir + "/style.css.map")
-		.then(source => DECODER.decode(source))
+	await Deno.readTextFile(deployed_style_dir + "/style.css.map")
 		.then(source => {
 			const json = JSON.parse(source);
 			json.sourceRoot = "/style";
 			return JSON.stringify(json);
-		}).then(source => ENCODER.encode(source))
-		.then(source => Deno.writeFile(DEPLOY_DIR + "/style.css.map", source))
+		})
+		.then(source => Deno.writeTextFile(DEPLOY_DIR + "/style.css.map", source))
 		.then(() => Deno.remove(deployed_style_dir + "/style.css.map"))
 		.then(() => move(deployed_style_dir + "/style.css", DEPLOY_DIR + "/style.css"));
 

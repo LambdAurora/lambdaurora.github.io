@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
 import { html } from "@lib.md/mod.mjs";
-import { DECODER, AsyncFunction, is_escaped } from "./utils.ts";
+import { AsyncFunction, is_escaped } from "./utils.ts";
 
 const COMPONENTS_ROOT = "src/templates/components";
 
@@ -247,8 +247,7 @@ export const COMPONENTS = {
 	load: async function(path: string) {
 		const name = path.replace(/\.html$/, "").split("/").filter(part => part !== "").join("_");
 
-		const nodes = await Deno.readFile(this.root + path)
-			.then(content => DECODER.decode(content))
+		const nodes = await Deno.readTextFile(this.root + path)
 			.then(content => html.parse_nodes(content));
 
 		const component = new Component(name, nodes);

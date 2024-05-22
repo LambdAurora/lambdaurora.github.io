@@ -1,5 +1,5 @@
 import { process_page } from "./page_processor.ts";
-import { DECODER, DEPLOY_DIR, ENCODER, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts } from "./utils.ts";
+import { DEPLOY_DIR, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts } from "./utils.ts";
 import { md, html } from "@lib.md/mod.mjs";
 import * as PRISM from "./prismjs.mjs";
 
@@ -11,8 +11,7 @@ async function get_pretty_path(path, parent = "") {
 		const file_info = await Deno.stat(TUTORIALS_ROOT + parent + path);
 
 		if (file_info.isDirectory) {
-			const json = await Deno.readFile(TUTORIALS_ROOT + parent + path + "/" + DIRECTORY_METADATA_FILE)
-				.then(content => DECODER.decode(content))
+			const json = await Deno.readTextFile(TUTORIALS_ROOT + parent + path + "/" + DIRECTORY_METADATA_FILE)
 				.then(content => JSON.parse(content));
 
 			if (json.name) {
@@ -48,8 +47,7 @@ async function process_tutorial(path) {
 			const article = html.create_element("article");
 			main.append_child(article);
 
-			const doc = await Deno.readFile(TUTORIALS_ROOT + path)
-				.then(content => DECODER.decode(content))
+			const doc = await Deno.readTextFile(TUTORIALS_ROOT + path)
 				.then(content => md.parser.parse(content, create_common_markdown_parser_opts()));
 
 			for (const block of doc.blocks) {
@@ -262,7 +260,7 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 				.then(async function(page) {
 					const deploy_path = DEPLOY_DIR + html_path;
 					await create_parent_directory(deploy_path);
-					await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
+					await Deno.writeTextFile(deploy_path, page.html());
 
 					const h1 = page.content[1].find_element_by_tag_name("h1");
 					let name = await get_pretty_path(path);
@@ -281,7 +279,7 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 			.then(async function (page) {
 				const deploy_path = DEPLOY_DIR + "/tutorials" + directory + "/index.html";
 				await create_parent_directory(deploy_path); // Shouldn't be needed.
-				await Deno.writeFile(deploy_path, ENCODER.encode(page.html()))
+				await Deno.writeTextFile(deploy_path, page.html())
 			});
 	}
 }

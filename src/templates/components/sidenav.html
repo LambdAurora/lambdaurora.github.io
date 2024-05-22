@@ -29,8 +29,7 @@
 	const nav_data_attr = data.element.get_attr("navigation_data");
 	if (!nav_data_attr) throw new Error(`Missing navigation data in ${data.context.page.path}.`);
 
-	const nav_data = await Deno.readFile(nav_data_attr.value())
-		.then(data => new TextDecoder("utf8").decode(data))
+	const nav_data = await Deno.readTextFile(nav_data_attr.value())
 		.then(data => JSON.parse(data));
 
 	const ul = nav.get_element_by_tag_name("ul");

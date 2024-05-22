@@ -1,8 +1,6 @@
 import {PageProcessError, process_page} from "../page_processor.ts";
 import {
-	DECODER,
 	DEPLOY_DIR,
-	ENCODER,
 	create_parent_directory,
 	process_property_from_html,
 	create_common_markdown_parser_opts,
@@ -25,8 +23,7 @@ async function get_pretty_path(path, parent = "") {
 		const file_info = await Deno.stat(BLOG_ROOT + parent + path);
 
 		if (file_info.isDirectory) {
-			const json = await Deno.readFile(BLOG_ROOT + parent + path + "/" + DIRECTORY_METADATA_FILE)
-				.then(content => DECODER.decode(content))
+			const json = await Deno.readTextFile(BLOG_ROOT + parent + path + "/" + DIRECTORY_METADATA_FILE)
 				.then(content => JSON.parse(content));
 
 			if (json.name) {
@@ -131,8 +128,7 @@ async function process_blog_entry(path, context) {
 
 			const article = html.create_element("article");
 
-			const doc = await Deno.readFile(`${context.root}/${path}`)
-				.then(content => DECODER.decode(content))
+			const doc = await Deno.readTextFile(`${context.root}/${path}`)
 				.then(content => md.parser.parse(content, create_common_markdown_parser_opts()));
 
 			for (const block of doc.blocks) {
@@ -415,7 +411,7 @@ async function generate_rss_feed(entries) {
 		);
 	});
 
-	await Deno.writeFile(DEPLOY_DIR + "/blog/feed.xml", ENCODER.encode(rss.html()));
+	await Deno.writeTextFile(DEPLOY_DIR + "/blog/feed.xml", rss.html());
 }
 
 export async function process_all_blog_entries(root = BLOG_ROOT) {
@@ -424,8 +420,7 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 	};
 	let blog_entries = [];
 
-	context.authors = await Deno.readFile(`${root}/authors.json`)
-		.then(content => DECODER.decode(content))
+	context.authors = await Deno.readTextFile(`${root}/authors.json`)
 		.then(content => JSON.parse(content));
 
 	for await (const year_entry of Deno.readDir(root)) {
@@ -446,7 +441,7 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 								.then(async function (page) {
 									const deploy_path = DEPLOY_DIR + html_path;
 									await create_parent_directory(deploy_path);
-									await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
+									await Deno.writeTextFile(deploy_path, page.html());
 
 									const h1 = page.content[1].find_element_by_tag_name("h1");
 									let name = await get_pretty_path(path);
@@ -480,7 +475,7 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 		.then(async function (page) {
 			const deploy_path = DEPLOY_DIR + "/blog/index.html";
 			await create_parent_directory(deploy_path); // Shouldn't be needed.
-			await Deno.writeFile(deploy_path, ENCODER.encode(page.html()))
+			await Deno.writeTextFile(deploy_path, page.html())
 		});
 	await generate_rss_feed(blog_entries);
 }

@@ -1,15 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
-import {magenta} from "@std/fmt/colors.ts";
-import {readAll} from "@std/streams/conversion.ts";
-import {Lock} from "https://deno.land/x/async@v1.1.5/lock.ts";
-import {html} from "@lib.md/mod.mjs";
+import { magenta } from "@std/fmt/colors";
+import { Lock } from "https://deno.land/x/async@v1.1.5/lock.ts";
+import { html } from "@lib.md/mod.mjs";
 import * as PRISM from "../prismjs.mjs";
-import {Application, Response} from "@oak/mod.ts";
-import {send} from "@oak/send.ts";
-import {HttpStatus, LoggerMiddleware, ProxyRouter, serve_files} from "@lambdawebserver/mod.ts";
+import { Application, Response, send } from "@oak/oak";
+import { HttpStatus, LoggerMiddleware, ProxyRouter, serve_files } from "@lambdaurora/lambdawebserver";
 
-import {process_page} from "../page_processor.ts";
-import {DEPLOY_DIR, DECODER} from "../utils.ts";
+import { process_page } from "../page_processor.ts";
+import { DEPLOY_DIR } from "../utils.ts";
 
 const debug_web_socket_lock = new Lock();
 const debug_web_socket_clients: DebugWebSocketAcceptedClient[] = [];
@@ -73,12 +71,10 @@ export async function serve(args: {
 		if (accept_header) {
 			try {
 				if (file_path.endsWith(".css") && accept_header.includes("text/html") && !accept_header.includes("text/css")) {
-					const file = await Deno.open(DEPLOY_DIR + file_path, {read: true});
-					await handle_raw_file(context, file_path, file, "css");
+					await handle_raw_file(context, file_path, DEPLOY_DIR + file_path, "css");
 					return;
 				} else if (file_path.endsWith(".scss") && accept_header.includes("text/html") && !accept_header.includes("text/scss")) {
-					const file = await Deno.open(DEPLOY_DIR + file_path, {read: true});
-					await handle_raw_file(context, file_path, file, "scss");
+					await handle_raw_file(context, file_path, DEPLOY_DIR + file_path, "scss");
 					return;
 				}
 			} catch {
@@ -115,10 +111,9 @@ export async function serve(args: {
 	});
 }
 
-async function handle_raw_file(context: { response: Response }, path: string, file: Deno.FsFile, language: string) {
+async function handle_raw_file(context: { response: Response }, path: string, file: string, language: string) {
 	const page = await process_page(path, {
-			load_view: (_: string) => readAll(file)
-				.then(source => DECODER.decode(source))
+			load_view: (_: string) => Deno.readTextFile(file)
 				.then(async source => {
 					try {
 						await import(PRISM.get_prism_url("components/prism-" + language + ".min.js"));

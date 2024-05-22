@@ -1,10 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
-import {html, merge_objects} from "@lib.md/mod.mjs";
+import { html, merge_objects } from "@lib.md/mod.mjs";
 
-import {COMPONENTS} from "./component.ts";
-import {CONSTANTS} from "./constants.ts";
-import {create_parent_directory, DECODER, DEPLOY_DIR, ENCODER} from "./utils.ts";
-import {PageSpec, PreloadSpec, resolve_embed, StyleSpecEntry, ViewSpec} from "./views/view.ts";
+import { COMPONENTS } from "./component.ts";
+import { CONSTANTS } from "./constants.ts";
+import { create_parent_directory, DECODER, DEPLOY_DIR } from "./utils.ts";
+import { PageSpec, PreloadSpec, resolve_embed, StyleSpecEntry, ViewSpec } from "./views/view.ts";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
@@ -47,14 +47,13 @@ function get_view_path(path: string) {
 }
 
 async function load_page_template() {
-	return html.parse_nodes(await Deno.readFile(PAGE_TEMPLATE_PATH)
-		.then(source => DECODER.decode(source))
-	).filter(node => {
-		if (node instanceof html.Element) {
-			node.purge_empty_children();
+	return html.parse_nodes(await Deno.readTextFile(PAGE_TEMPLATE_PATH))
+		.filter(node => {
+			if (node instanceof html.Element) {
+				node.purge_empty_children();
 
-			if (node.tag.name === "html" && debug) {
-				node.append_child(html.parse(/*html*/`<script type="module">
+				if (node.tag.name === "html" && debug) {
+					node.append_child(html.parse(/*html*/`<script type="module">
 		const protocol = window.location.protocol === "http:" ? "ws:" : "wss:";
 		function initiate_connection() {
 			const ws = new WebSocket(protocol + window.location.host + "/debug/hotreloader");
@@ -72,12 +71,12 @@ async function load_page_template() {
 		}
 		initiate_connection();
 </script>`));
-			}
+				}
 
-			return true;
-		}
-		return false;
-	});
+				return true;
+			}
+			return false;
+		});
 }
 
 function process_string(string: string, module: ViewSpec) {
@@ -191,8 +190,7 @@ function process_head(page: html.Element, style: html.Element | undefined, modul
 }
 
 function load_view_file(view_path: string) {
-	return Deno.readFile(view_path)
-		.then(source => DECODER.decode(source))
+	return Deno.readTextFile(view_path)
 		.then(source => html.parse(source) as html.Element);
 }
 
@@ -309,7 +307,7 @@ export async function process_all_pages(directory = "") {
 				.then(async function (page) {
 					const deploy_path = DEPLOY_DIR + path;
 					await create_parent_directory(deploy_path);
-					await Deno.writeFile(deploy_path, ENCODER.encode(page.html()));
+					await Deno.writeTextFile(deploy_path, page.html());
 				});
 		}
 	}
