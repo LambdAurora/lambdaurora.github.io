@@ -8,8 +8,8 @@
 	elem.children = data.element.children;
 
 	data.do_with_attr("href", attr => {
-		elem.attr("href", attr.value());
-		const link = new html.Link();
+		elem.attr("href", attr.value);
+		const link = new html.LinkElement();
 		link.children = elem.children;
 		link.attributes = elem.attributes;
 		data.nodes = data.nodes.map(e => e === elem ? link : e);

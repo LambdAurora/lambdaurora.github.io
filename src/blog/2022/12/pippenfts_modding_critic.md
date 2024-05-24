@@ -108,8 +108,7 @@ But I think this still doesn't address the root issues.
 Let's start with what's [Mixin](https://github.com/SpongePowered/Mixin):
 
 > Mixin is a trait/mixin framework for Java using ASM and hooking into the runtime classloading process via a set of pluggable built-in or user-provided services.
-> <div class="ls_source">SpongePowered
-> </div>
+> <div class="ls_source">SpongePowered</div>
 
 But that doesn't really help if you're not familiar with computer science concepts like trait or mixin. Mixin is an Object-Oriented Programming concept that involve to add properties 
 to an existing class/object. This allows to add new functions to an existing class. So for example I can add new methods to the class `PlayerEntity`.

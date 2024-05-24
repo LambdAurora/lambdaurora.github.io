@@ -1,4 +1,5 @@
-import {html, md} from "@lib.md/mod.mjs";
+import * as html from "@lambdaurora/libhtml";
+import * as md from "@lambdaurora/libmd";
 import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../../utils.ts";
 import {EmbedSpec, remove_comments} from "../../../view.ts";
 import {get_path} from "../data.ts";
@@ -26,7 +27,7 @@ export function make_post_process(file: string) {
 		const regex = /^(?:https:\/\/github\.com\/LambdAurora\/LambdaBetterGrass\/blob\/1\.\d+(?:\.\d+)?\/documentation|\.)(\/[A-z_]+)\.md(#.+)?/;
 
 		for (const block of readme.blocks) {
-			block.nodes = block.nodes.filter((node: md.Node) => {
+			block["nodes"] = block.children.filter((node: md.Node) => {
 				if (node instanceof md.Link) {
 					const result = regex.exec(node.ref.url);
 
@@ -70,7 +71,7 @@ export function make_post_process(file: string) {
 							+ "</code></pre>") as html.Element;
 						parent.children = stuff.get_element_by_tag_name("code")?.children as html.Node[];
 					} else
-						parent.append_child(new html.Text(code, html.TextMode.RAW));
+						parent.append_child(new html.Text(code));
 				}
 			},
 		}));

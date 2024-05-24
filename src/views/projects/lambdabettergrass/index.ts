@@ -1,5 +1,6 @@
+import * as html from "@lambdaurora/libhtml";
+import * as md from "@lambdaurora/libmd";
 import {remove_comments, ViewSpec} from "../../view.ts";
-import {html, md} from "@lib.md/mod.mjs";
 import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../utils.ts";
 import {BRANCH, get_path, title} from "./data.ts";
 
@@ -7,7 +8,7 @@ const LBG_README = get_path("README.md");
 
 function filter_badge_classes(nodes: html.Node[]) {
 	nodes.forEach(node => {
-		if (node instanceof html.Image) {
+		if (node instanceof html.ImageElement) {
 			node.remove_attr("class");
 		}
 
@@ -47,14 +48,15 @@ export const SPEC: ViewSpec = {
 
 		let should_remove = false;
 
-		readme.blocks = readme.blocks.filter((block: md.BlockElement) => {
+		readme.blocks = readme.blocks.filter((block: md.BlockElement<md.Node>) => {
 			if (block instanceof md.Heading) {
 				should_remove = block.as_plain_text() === "Build";
 			}
 
 			if (should_remove) return false;
 
-			block.nodes = block.nodes.filter((node: md.Node) => {
+			// deno-lint-ignore no-explicit-any
+			(block as any).nodes = block.children.filter((node: md.Node) => {
 				if (node instanceof md.Image) {
 					if (node.ref.url.startsWith("https://img.shields.io/badge/language-")
 						|| node.ref.url.startsWith("https://img.shields.io/github/v/tag")) {

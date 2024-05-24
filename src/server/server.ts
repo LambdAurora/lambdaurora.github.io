@@ -1,7 +1,7 @@
 // deno-lint-ignore-file no-explicit-any
 import { magenta } from "@std/fmt/colors";
 import { Lock } from "https://deno.land/x/async@v1.1.5/lock.ts";
-import { html } from "@lib.md/mod.mjs";
+import * as html from "@lambdaurora/libhtml";
 import * as PRISM from "../prismjs.mjs";
 import { Application, Response, send } from "@oak/oak";
 import { HttpStatus, LoggerMiddleware, ProxyRouter, serve_files } from "@lambdaurora/lambdawebserver";
@@ -127,9 +127,9 @@ async function handle_raw_file(context: { response: Response }, path: string, fi
 						const stuff = html.parse("<pre><code>"
 							+ Prism.highlight(source, Prism.languages[language], language)
 							+ "</code></pre>") as html.Element;
-						code.children = stuff.get_element_by_tag_name("code")?.children;
+						code.children = stuff.get_element_by_tag_name("code")!.children;
 					} else
-						code.append_child(new html.Text(source, html.TextMode.RAW));
+						code.append_child(new html.Text(source));
 
 					return html.create_element("html")
 						.with_child(html.create_element("body")
@@ -138,7 +138,7 @@ async function handle_raw_file(context: { response: Response }, path: string, fi
 								.with_child(code)
 							)
 						).with_child(html.create_element("style")
-							.with_child(new html.Text(`pre[class*="language-"] { margin: 0; }`, html.TextMode.RAW))
+							.with_child(new html.Text(`pre[class*="language-"] { margin: 0; }`))
 						);
 				}),
 			load_script: _ => {

@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { html } from "@lib.md/mod.mjs";
+import * as html from "@lambdaurora/libhtml";
 import { AsyncFunction, is_escaped } from "./utils.ts";
 
 const COMPONENTS_ROOT = "src/templates/components";
@@ -95,7 +95,7 @@ export class Component {
 		}
 
 		this.body = body;
-		this.body.purge_empty_children();
+		this.body.purge_blank_children();
 
 		if (!processor) {
 			throw new Error(`Missing script in component ${name}.`);
@@ -136,7 +136,7 @@ export class Component {
 			throw e;
 		});
 		const classes = element.get_attr("class");
-		const additional_classes = classes ? " " + classes.value() : "";
+		const additional_classes = classes ? " " + classes.value : "";
 		const eval_context = {
 			data: data,
 			processed: extra_data,
@@ -149,7 +149,7 @@ export class Component {
 					for (let i = 0; i < node.attributes.length; i++) {
 						const attr = node.attributes[i];
 						node.attributes[i] = html.create_attribute(attr.name,
-							await process_expressions(data.name, attr.value(), eval_context)
+							await process_expressions(data.name, attr.value, eval_context)
 						);
 					}
 
@@ -199,7 +199,7 @@ class ComponentData {
 		return null;
 	}
 
-	do_with_attr(attr: string, callback: (value: html.Attribute | undefined) => void) {
+	do_with_attr(attr: string, callback: (value: html.Attribute<any> | undefined) => void) {
 		const value = this.element.get_attr(attr);
 
 		if (value) {
@@ -208,14 +208,14 @@ class ComponentData {
 	}
 
 	copy_attr(attr: string) {
-		this.do_with_attr(attr, value => this.get_first_element()?.attr(attr, value?.value()));
+		this.do_with_attr(attr, value => this.get_first_element()?.attr(attr, value?.value));
 	}
 
 	replace(name: string, value: string) {
 		function replace_visit(node: html.Node, replacer: (text: string) => string) {
 			if (node instanceof html.Element) {
 				node.attributes = node.attributes.map(attr => {
-					return html.create_attribute(replacer(attr.name), replacer(attr.value()))
+					return html.create_attribute(replacer(attr.name), replacer(attr.value))
 				});
 
 				node.children.forEach(child => replace_visit(child, replacer));

@@ -12,15 +12,15 @@
 	}
 
 	data.copy_attr("ls_size");
-	data.replace("img", data.element.get_attr("img").value());
-	data.replace("alt", data.element.get_attr("alt").value());
+	data.replace("img", data.element.get_attr("img").value);
+	data.replace("alt", data.element.get_attr("alt").value);
 
 	data.do_with_attr("darken", intensity => {
 		card_section.get_attr("class").add("ls_card_media_darkened");
 
-		if (intensity.value() !== "none") {
+		if (intensity.value !== "none") {
 			const darkener = html.create_element("div").with_attr("class", "ls_card_media_darkener");
-			if (intensity.value() !== "") { darkener.with_attr("darken_intensity", intensity.value()); }
+			if (intensity.value !== "") { darkener.with_attr("darken_intensity", intensity.value); }
 			card_section.children.splice(1, 0, darkener);
 		}
 	});

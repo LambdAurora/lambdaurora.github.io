@@ -1,5 +1,6 @@
-import {html, md} from "@lib.md/mod.mjs";
-import {CONSTANTS} from "../constants.ts";
+import * as html from "@lambdaurora/libhtml";
+import * as md from "@lambdaurora/libmd";
+import { CONSTANTS } from "../constants.ts";
 
 export interface EmbedSpec {
 	type: "website" | "article";
@@ -56,12 +57,13 @@ export function resolve_embed(page: PageSpec): EmbedSpec {
 	}
 }
 
-export function remove_comments(nodes: md.Node[]) {
+export function remove_comments<N extends md.Node>(nodes: readonly N[]): N[] {
 	return nodes.filter(node => {
 		return !(node instanceof md.Comment);
 	}).map(node => {
-		if (node instanceof md.Element && node.nodes.length !== 0) {
-			node.nodes = remove_comments(node.nodes);
+		if (node instanceof md.Element && node.children.length !== 0) {
+			// deno-lint-ignore no-explicit-any
+			(node as any).nodes = remove_comments(node.children);
 		}
 
 		return node;

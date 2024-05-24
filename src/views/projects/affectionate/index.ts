@@ -1,6 +1,7 @@
+import * as html from "@lambdaurora/libhtml";
+import * as md from "@lambdaurora/libmd";
 import {remove_comments, ViewSpec} from "../../view.ts";
 import {CONSTANTS} from "../../../constants.ts";
-import {md, html} from "@lib.md/mod.mjs";
 import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../utils.ts";
 
 const title = "Affectionate";
@@ -8,7 +9,7 @@ const AFFECTIONATE_README = "https://raw.githubusercontent.com/LambdAurora/affec
 
 function filter_badge_classes(nodes: html.Node[]) {
 	nodes.forEach(node => {
-		if (node instanceof html.Image) {
+		if (node instanceof html.ImageElement) {
 			node.remove_attr("class");
 		}
 
@@ -47,7 +48,8 @@ export const SPEC: ViewSpec = {
 
 		readme.blocks = remove_comments(readme.blocks);
 
-		readme.blocks[1].nodes = readme.blocks[1].nodes.filter((node: md.Node) => {
+		// deno-lint-ignore no-explicit-any
+		(readme.blocks[1] as any).nodes = readme.blocks[1].children.filter((node: md.Node) => {
 			if (node instanceof md.Image) {
 				if (node.ref.url.startsWith("https://img.shields.io/badge/language-")
 					|| node.ref.url.startsWith("https://img.shields.io/github/v/tag")) {

@@ -45,9 +45,7 @@ I found it weird it took longer than usual for the latter. I quickly knew why:
 
 > Hey, after some deliberation we have decided to reject your project.
 > While we understand that you created it in good faith, we are afraid that other users may use your mods in a lewd or inappropriate manner due to how the animation looks like.
-> <div class="ls_source">
-> CurseForge
-> </div>
+> <div class="ls_source">CurseForge</div>
 
 *Uh oh.*
 
@@ -74,9 +72,7 @@ And all of that to get answered that:
 > After further deliberation and careful review of your project, we have decided to reject your appeal.  
 > While we understand that there is no malicious intent behind this mod, users may still use it in a lewd or inappropriate manner due to how the animation looks or implies.
 > If you wish to remove specifically the action of lap sitting from the mod, we are willing.
-> <div class="ls_source">
-> CurseForge
-> </div>
+> <div class="ls_source">CurseForge</div>
 
 I was effectively told to submit a demo version of my mod instead.
 

@@ -1,6 +1,7 @@
 import { process_page } from "./page_processor.ts";
 import { DEPLOY_DIR, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts } from "./utils.ts";
-import { md, html } from "@lib.md/mod.mjs";
+import * as html from "@lambdaurora/libhtml";
+import * as md from "@lambdaurora/libmd";
 import * as PRISM from "./prismjs.mjs";
 
 const TUTORIALS_ROOT = "src/tutorials";
@@ -105,8 +106,8 @@ async function process_tutorial(path) {
 					if (code) {
 						const classes = code.get_attr("class");
 
-						if (classes && classes.value().includes("language-")) {
-							element.with_attr("class", classes.value());
+						if (classes && classes.value.includes("language-")) {
+							element.with_attr("class", classes.value);
 						}
 					}
 				} else {
@@ -115,7 +116,7 @@ async function process_tutorial(path) {
 			})(article);
 
 			if (style_source.length !== 0) {
-				view.with_child(html.create_element("style").with_child(new html.Text(style_source, html.TextMode.RAW)));
+				view.with_child(html.create_element("style").with_child(new html.Text(style_source)));
 			}
 
 			return view.with_child(body

@@ -6,7 +6,8 @@ import {
 	create_common_markdown_parser_opts,
 	create_common_markdown_render_opts
 } from "../utils.ts";
-import {md, html} from "@lib.md/mod.mjs";
+import * as html from "@lambdaurora/libhtml";
+import * as md from "@lambdaurora/libmd";
 import {CONSTANTS} from "../constants.ts";
 import * as PRISM from "../prismjs.mjs";
 
@@ -72,7 +73,7 @@ function get_metadata_html(authors, times) {
 	times_div.append_child(html.create_element("time").with_attr("datetime", times.creation_time.toISOString()).with_child(get_date_string(times.creation_time)));
 	if (times.modification_time && times.creation_time !== times.modification_time) {
 		times_div.append_child(html.create_element("em")
-			.with_child("&nbsp;(Modified ")
+			.with_child(html.decode_html("&nbsp;(Modified "))
 			.with_child(html.create_element("time").with_attr("datetime", times.modification_time.toISOString()).with_child(get_date_string(times.modification_time)))
 			.with_child(")")
 		);
@@ -418,7 +419,7 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 	const context = {
 		root: root
 	};
-	let blog_entries = [];
+	const blog_entries = [];
 
 	context.authors = await Deno.readTextFile(`${root}/authors.json`)
 		.then(content => JSON.parse(content));

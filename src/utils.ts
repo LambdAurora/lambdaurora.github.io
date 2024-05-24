@@ -1,4 +1,5 @@
-import {html, HTML_TAGS_TO_PURGE_SUGGESTION, md, merge_objects} from "@lib.md/mod.mjs";
+import * as html from "@lambdaurora/libhtml";
+import * as md from "@lambdaurora/libmd";
 import katex from "@katex/katex.mjs";
 
 export const WEBSITE = "https://lambdaurora.dev";
@@ -45,14 +46,14 @@ export function is_escaped(text: string, char_pos: number) {
 	return backslash % 2 !== 0;
 }
 
-export function create_common_markdown_parser_opts(options?: md.parser.ParserOptions) {
+export function create_common_markdown_parser_opts(options?: Partial<md.parser.ParserOptions>) {
 	if (!options) {
 		options = {};
 	}
 
-	return merge_objects(options, {
+	return html.merge_objects(options, {
 		inline_html: {
-			disallowed_tags: HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe" && tag !== "svg" && tag !== "audio")
+			disallowed_tags: md.utils.HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe" && tag !== "svg" && tag !== "audio")
 		},
 		latex: true,
 		link: {
@@ -61,17 +62,17 @@ export function create_common_markdown_parser_opts(options?: md.parser.ParserOpt
 	});
 }
 
-export function create_common_markdown_render_opts(options?: Object) {
+export function create_common_markdown_render_opts(options?: Partial<md.RenderOptions>) {
 	if (!options) {
 		options = {};
 	}
 
-	return merge_objects(options, {
+	return html.merge_objects(options, {
 		image: {
 			class_name: "ls_responsive_img"
 		},
 		inline_html: {
-			disallowed_tags: HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe" && tag !== "svg" && tag !== "audio")
+			disallowed_tags: md.utils.HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe" && tag !== "svg" && tag !== "audio")
 		},
 		latex: {
 			katex: katex

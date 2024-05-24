@@ -29,7 +29,7 @@
 	const nav_data_attr = data.element.get_attr("navigation_data");
 	if (!nav_data_attr) throw new Error(`Missing navigation data in ${data.context.page.path}.`);
 
-	const nav_data = await Deno.readTextFile(nav_data_attr.value())
+	const nav_data = await Deno.readTextFile(nav_data_attr.value)
 		.then(data => JSON.parse(data));
 
 	const ul = nav.get_element_by_tag_name("ul");
@@ -74,10 +74,10 @@
 
 	const style = data.element.get_attr("style");
 	if (style) {
-		data.get_first_element().attr("style", style.value());
+		data.get_first_element().attr("style", style.value);
 	}
 
 	return {
-		name: id.value()
+		name: id.value
 	};
 </script>

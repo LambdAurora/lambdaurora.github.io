@@ -1,5 +1,5 @@
 // deno-lint-ignore-file no-explicit-any
-import { html, merge_objects } from "@lib.md/mod.mjs";
+import * as html from "@lambdaurora/libhtml";
 
 import { COMPONENTS } from "./component.ts";
 import { CONSTANTS } from "./constants.ts";
@@ -50,7 +50,7 @@ async function load_page_template() {
 	return html.parse_nodes(await Deno.readTextFile(PAGE_TEMPLATE_PATH))
 		.filter(node => {
 			if (node instanceof html.Element) {
-				node.purge_empty_children();
+				node.purge_blank_children();
 
 				if (node.tag.name === "html" && debug) {
 					node.append_child(html.parse(/*html*/`<script type="module">
@@ -102,7 +102,7 @@ function process_element(element: html.Node, parent: html.Element, module: ViewS
 	} else if (element instanceof html.Element) {
 		if (element.tag.name === "script") return;
 
-		element.attributes = element.attributes.map(attr => html.create_attribute(attr.name, process_string(attr.value(), module)));
+		element.attributes = element.attributes.map(attr => html.create_attribute(attr.name, process_string(attr.value, module)));
 
 		element.children.forEach(child => process_element(child, element, module));
 	}
@@ -230,7 +230,7 @@ const PROCESS_PAGE_SETTINGS = Object.freeze({
  * @returns the processed page
  */
 export async function process_page(path: string, settings?: PageProcessingSettings) {
-	const context = merge_objects(PROCESS_PAGE_SETTINGS, settings as Record<string, unknown>) as PageProcessingContext;
+	const context = html.merge_objects(PROCESS_PAGE_SETTINGS, settings as Record<string, unknown>) as PageProcessingContext;
 
 	const view_path = get_view_path(path);
 
@@ -278,7 +278,7 @@ export async function process_page(path: string, settings?: PageProcessingSettin
 		}
 	})(body, 0);
 
-	body.purge_empty_children();
+	body.purge_blank_children();
 
 	process_head(page[1] as html.Element, style, module);
 
