@@ -5,7 +5,7 @@ import {CONSTANTS} from "../../../constants.ts";
 import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../utils.ts";
 
 const title = "Affectionate";
-const AFFECTIONATE_README = "https://raw.githubusercontent.com/LambdAurora/affectionate/1.19/README.md";
+const AFFECTIONATE_README = "https://raw.githubusercontent.com/LambdAurora/affectionate/1.20/README.md";
 
 function filter_badge_classes(nodes: html.Node[]) {
 	nodes.forEach(node => {

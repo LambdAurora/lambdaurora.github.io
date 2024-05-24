@@ -4,7 +4,8 @@
 
 	</article>
 	<script type="module">
-		import { md, html } from "https://deno.land/x/libmd@v1.9.4/mod.mjs";
+		import * as html from "https://esm.sh/jsr/@lambdaurora/libhtml@1.2.3";
+		import * as md from "https://esm.sh/jsr/@lambdaurora/libmd@2.1.1";
 		import * as PRISM from "/script/prismjs_importer.mjs";
 		import katex from "https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.mjs"; // For inline LaTeX rendering
 		import "https://cdn.jsdelivr.net/npm/emoji-js@3.6.0/lib/emoji.min.js";
@@ -68,7 +69,7 @@
 								+ "</code></pre>");
 							parent.children = stuff.get_element_by_tag_name("code").children;
 						} else
-							parent.append_child(new html.Text(code, html.TextMode.RAW));
+							parent.append_child(new html.Text(code));
 					}
 				},
 				parent: MARKDOWN_CONTAINER
@@ -97,7 +98,7 @@
 				}
 			}
 
-			md.render(doc, MARKDOWN_CONTAINER, render_options);
+			md.render_to_dom(doc, MARKDOWN_CONTAINER, render_options);
 		})();
 	</script>
 </body>

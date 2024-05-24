@@ -74,7 +74,7 @@ async function process_tutorial(path) {
 								+ "</code></pre>");
 							parent.children = stuff.get_element_by_tag_name("code").children;
 						} else
-							parent.append_child(new html.Text(code, html.TextMode.RAW));
+							parent.append_child(new html.Text(code));
 					}
 				},
 				image: {
