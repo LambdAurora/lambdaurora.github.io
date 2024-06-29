@@ -1,14 +1,11 @@
 /*
- * lambdaurora.dev stylesheet - A simple stylesheet.
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
  *
- * Written in 2022 by LambdAurora <email@lambdaurora.dev>
+ * This file is part of LambdaStyle.
  *
- * To the extent possible under law, the author(s) have dedicated
- * all copyright and related and neighboring rights to this software
- * to the public domain worldwide.
- * This software is distributed without any warranty.
- *
- * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
 $sidenav_large_size: 300px;
@@ -37,7 +34,7 @@ $sidenav_medium_size: 180px;
 
 	z-index: 128;
 
-	> .ls_nav_banner {
+	& > .ls_nav_banner {
 		flex-direction: row;
 	}
 }
@@ -88,55 +85,57 @@ $sidenav_medium_size: 180px;
 	}
 }
 
-@media screen and (min-width: 851px) and (max-width: 1101px) {
-	:root {
-		--ls_sidenav_size: #{$sidenav_medium_size};
-	}
-
-	.ls_sidenav {
-		> .ls_nav_banner {
-			min-height: $sidenav_medium_size;
-			flex-direction: column;
+@media screen {
+	@media (min-width: 851px) and (max-width: 1101px) {
+		:root {
+			--ls_sidenav_size: #{$sidenav_medium_size};
 		}
+	
+		.ls_sidenav {
+			& > .ls_nav_banner {
+				min-height: $sidenav_medium_size;
+				flex-direction: column;
 
-		> .ls_nav_banner[ls_small_reverse] {
-			flex-direction: column-reverse;
+				&[ls_small_reverse] {
+					flex-direction: column-reverse;
+				}
+			}
 		}
 	}
-}
 
-@media screen and (max-width: 850px) {
-	.ls_sidenav {
-		visibility: hidden;
-		transform: translateX(-150%);
-
-		transition: transform 500ms ease, visibility 500ms ease;
-
-		max-width: 80%;
-	}
-
-	.ls_sidenav_trigger {
-		display: block;
-	}
-
-	.ls_sidenav_internal_trigger:checked ~ .ls_sidenav {
-		visibility: visible;
-		transform: translateX(0%);
-	}
-
-	.ls_sidenav_darkened {
-		display: block;
-	}
-
-	.ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
-		visibility: visible;
-		opacity: 100%;
-		transition: opacity 500ms ease, visibility 500ms ease;
-		transform: translateX(0%);
-	}
-
-	.ls_sidenav_neighbor {
-		padding-left: 0px !important;
+	@media (max-width: 850px) {
+		.ls_sidenav {
+			visibility: hidden;
+			transform: translateX(-150%);
+	
+			transition: transform 500ms ease, visibility 500ms ease;
+	
+			max-width: 80%;
+		}
+	
+		.ls_sidenav_trigger {
+			display: block;
+		}
+	
+		.ls_sidenav_internal_trigger:checked ~ .ls_sidenav {
+			visibility: visible;
+			transform: translateX(0%);
+		}
+	
+		.ls_sidenav_darkened {
+			display: block;
+		}
+	
+		.ls_sidenav_internal_trigger:checked ~ .ls_sidenav_darkened {
+			visibility: visible;
+			opacity: 100%;
+			transition: opacity 500ms ease, visibility 500ms ease;
+			transform: translateX(0%);
+		}
+	
+		.ls_sidenav_neighbor {
+			padding-left: 0px !important;
+		}
 	}
 }
 

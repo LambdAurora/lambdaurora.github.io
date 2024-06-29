@@ -1,0 +1,28 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+blockquote {
+	border-left: solid var(--ls_theme_primary);
+
+	padding-left: 1em;
+	margin-inline: 2em;
+
+	page-break-before: auto;
+	page-break-inside: avoid;
+
+	& > .ls_source {
+		font-size: 0.8em;
+		color: var(--ls_theme_foreground_accentuated);
+
+		&::before {
+			content: "\2014 \00A0";
+		}
+	}
+}

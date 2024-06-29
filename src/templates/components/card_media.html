@@ -17,6 +17,7 @@
 
 	data.do_with_attr("darken", intensity => {
 		card_section.get_attr("class").add("ls_card_media_darkened");
+		card_section.attr("ls_theme", "dark");
 
 		if (intensity.value !== "none") {
 			const darkener = html.create_element("div").with_attr("class", "ls_card_media_darkener");

@@ -1,0 +1,67 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "../base/typography";
+@use "../base/layout";
+
+.ls_app_footer {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+
+	@include layout.container();
+
+	@media screen {
+		background-color: var(--ls_theme_background_accentuated);
+		color: var(--ls_theme_foreground_accentuated);
+	}
+
+	& > .ls_app_footer_legal {
+		display: flex;
+		justify-content: space-between;
+		padding: 8px;
+
+		@include layout.container();
+
+		font-size: .857rem;
+		line-height: 1.375rem;
+		font-weight: typography.$landmark_font_weight;
+		letter-spacing: .0071428571em;
+
+		background-color: rgba(0, 0, 0, 0.1);
+
+		@media screen {
+			color: var(--ls_theme_foreground_accentuated);
+
+			a {
+				color: var(--ls_theme_foreground_accentuated);
+				text-decoration: underline;
+			}
+
+			@media (max-width: 850px) {
+				flex-direction: column;
+
+				& > * {
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	@media print {
+		& > :not(.ls_app_footer_legal) {
+			display: none;
+		}
+
+		& > .ls_app_footer_legal a {
+			color: var(--ls_theme_foreground);
+		}
+	}
+}

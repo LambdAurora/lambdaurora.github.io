@@ -1,0 +1,116 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@mixin container() {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+@mixin only_on_sr() {
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	clip: rect(0, 0, 0, 0);
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+/* Display */
+
+.ls_only_on_sr {
+	position: absolute;
+	@include only_on_sr();
+}
+
+@media not screen {
+	.ls_only_on_screen {
+		display: none;
+	}
+}
+
+@media not print {
+	.ls_only_on_print {
+		display: none;
+	}
+}
+
+@media screen {
+	@media (max-width: 850px) {
+		.ls_hide_on_small {
+			display: none !important;
+		}
+	}
+	
+	@media (min-width: 851px) {
+		.ls_show_on_small_only {
+			display: none !important;
+		}
+	}
+}
+
+/* General Layout */
+
+.ls_container {
+	@include container();
+}
+
+.ls_main_content, article {
+	flex: 1 1 auto;
+	flex-direction: column;
+
+	margin: 40px auto;
+	padding: 0 10px;
+
+	@include container();
+
+	@media screen {
+		display: flex;
+		max-width: 60em;
+	}
+
+	@media print {
+		margin: 0;
+	}
+}
+
+/* Auto-margin if navbar is present */
+.ls_navbar.ls_fixed:not(.ls_show_on_small_only) ~ .ls_sidenav_neighbor {
+	> .ls_main_content, > article {
+		margin-top: 4em;
+	}
+}
+
+@media screen and (max-width: 850px) {
+	.ls_navbar.ls_fixed.ls_show_on_small_only ~ .ls_sidenav_neighbor {
+		> .ls_main_content, > article {
+			margin-top: 4em;
+		}
+	}
+}
+
+.ls_divider {
+	height: 1px;
+	overflow: hidden;
+	background-color: #e0e0e0;
+}
+
+/* Position */
+
+.ls_fixed {
+	position: fixed;
+	z-index: 42;
+
+	&[ls_side="top"] {
+		top: 0;
+		right: 0;
+		left: 0;
+	}
+}

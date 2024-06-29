@@ -104,6 +104,7 @@ const style_step = new BuildStep(async context => {
 			args.debug ? "--style=expanded" : "--style=compressed"
 		],
 		stdout: "piped",
+		stderr: "piped"
 	}).output();
 
 	if (!result.success) {

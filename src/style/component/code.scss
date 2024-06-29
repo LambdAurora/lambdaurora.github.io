@@ -1,0 +1,200 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+/* Keyboard Input element styling */
+
+kbd {
+	display: inline-block;
+	position: relative;
+	padding: 2px 6px;
+	margin: 2px;
+	top: -1px;
+
+	cursor: default;
+
+	font-size: .90em;
+	font-weight: 800;
+	line-height: 1.5em;
+	white-space: nowrap;
+
+	background-color: var(--ls_theme_background_popover);
+	border: 1px solid var(--ls_theme_border_color);
+	border-radius: 4px;
+	box-shadow: 0 2px 0 1px var(--ls_theme_border_color);
+
+	/* Animate the hover to feels like a key being pressed. */
+	&:hover {
+		top: 1px;
+		box-shadow: 0 1px 0 0.5px var(--ls_theme_border_color);
+	}
+}
+
+/* Code elements */
+
+code {
+	font-family: "Fira Code", ui-monospace, monospace;
+	font-size: 0.85em;
+	/* Adjust line-height to match the 1.5 of parent. */
+	line-height: 1.875;
+}
+
+:not(pre) > code {
+	padding: .2em .4em;
+
+	background-color: var(--ls_theme_background_code);
+	border-radius: 6px;
+}
+
+pre[class*="language-"], .ls_code_block > pre {
+	background-color: var(--ls_theme_background_code);
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+}
+
+code[class*=language-],
+pre[class*=language-] {
+	--ls_tab_size: 4;
+	color: var(--ls_theme_foreground);
+	font-size: 1em;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	word-wrap: normal;
+	line-height: 1.5;
+	-o-tab-size: var(--ls_tab_size);
+	tab-size: var(--ls_tab_size);
+	-webkit-hyphens: none;
+	hyphens: none;
+}
+
+/* Syntax highlighting */
+
+[ls_theme="light"], :root {
+	--ls_theme_code_comment: #006d00;
+	--ls_theme_code_function_name: #335a95;
+	--ls_theme_code_keyword: #774c94;
+	--ls_theme_code_literal: #b14438;
+	--ls_theme_code_punctuation: #0e6e75;
+	--ls_theme_code_string: #42681f;
+	--ls_theme_code_tag: #c72728;
+	--ls_theme_code_type: #a04d00;
+
+	--ls_theme_code_diff_insert: #005e1b;
+	--ls_theme_code_diff_delete: #cf0534;
+}
+
+@media screen {
+	@mixin define_dark_theme() {
+		--ls_theme_code_comment: #7bac5f;
+		--ls_theme_code_function_name: #82a9f0;
+		--ls_theme_code_keyword: #c792e6;
+		--ls_theme_code_literal: #f78b65;
+		--ls_theme_code_punctuation: #89ddff;
+		--ls_theme_code_string: #c3e88c;
+		--ls_theme_code_tag: #e2777a;
+		--ls_theme_code_type: #ffcb6b;
+
+		--ls_theme_code_diff_insert: #37af4c;
+		--ls_theme_code_diff_delete: #ee736f;
+	}
+
+	[ls_theme="dark"] {
+		@include define_dark_theme();
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			@include define_dark_theme();
+		}
+	}
+}
+
+.token {
+	&.operator,
+	&.punctuation {
+		color: var(--ls_theme_code_punctuation);
+	}
+
+	&.atrule,
+	&.builtin,
+	&.important,
+	&.keyword,
+	&.selector {
+		color: var(--ls_theme_code_keyword);
+	}
+
+	&.boolean,
+	&.number {
+		color: var(--ls_theme_code_literal);
+	}
+
+	&.attr-value,
+	&.char,
+	&.regex,
+	&.string,
+	&.url,
+	&.variable {
+		color: var(--ls_theme_code_string);
+	}
+
+	&.function,
+	&.function-name {
+		color: var(--ls_theme_code_function_name);
+	}
+
+	&.class-name,
+	&.constant,
+	&.property,
+	&.symbol {
+		color: var(--ls_theme_code_type);
+	}
+
+	&.attr-name,
+	&.namespace,
+	&.tag {
+		color: var(--ls_theme_code_tag);
+	}
+
+	&.block-comment,
+	&.cdata,
+	&.comment,
+	&.doctype,
+	&.prolog {
+		color: var(--ls_theme_code_comment);
+	}
+
+	&.url {
+		text-decoration: underline;
+	}
+
+	&.entity {
+		color: #67cdcc;
+		cursor: help;
+	}
+	
+	&.bold,
+	&.important {
+		font-weight: 700;
+	}
+	
+	&.italic {
+		font-style: italic;
+	}
+
+	&.deleted {
+		color: var(--ls_theme_code_diff_delete);
+	}
+
+	&.inserted {
+		color: var(--ls_theme_code_diff_insert);
+	}
+}

@@ -10,6 +10,7 @@ import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import {CONSTANTS} from "../constants.ts";
 import * as PRISM from "../prismjs.mjs";
+import { process_headings } from "../engine/article.ts";
 
 const BLOG_ROOT = "src/blog";
 
@@ -45,58 +46,154 @@ async function get_pretty_path(path, parent = "") {
 		.join(" / ").replace(/^\//, "").replace(/\.md$/, "");
 }
 
-function get_metadata_html(authors, times) {
-	const metadata_div = html.create_element("div").with_attr("class", "ls_article_metadata");
-	const author_div = html.create_element("div").with_attr("class", "ls_article_authors");
+function get_authors_html(authors) {
+	return html.div({
+		attributes: {
+			class: "ls_article_authors"
+		},
+		children: [
+			html.span({
+				attributes: {
+					class: "ls_only_on_sr"
+				},
+				children: [
+					"Authored by "
+				]
+			}),
+			html.div({
+				attributes: {
+					class: "ls_article_authors_icons",
+					"aria-hidden": "true"
+				},
+				children: authors.map((author) => {
+					if (author.picture) {
+						return html.create_element("img")
+							.with_attr("src", author.picture)
+							.with_attr("alt", "")
+							.with_attr("class", "ls_img_icon");
+					} else {
+						return html.create_element("default_user_icon");
+					}
+				})
+			}),
+			authors.map((author) => author.name).join(", ")
+		]
+	});
+}
 
-	author_div.append_child(html.create_element("span").with_child("Authored by:"));
+function get_times_html(times) {
+	const times_div = html.div({
+		attributes: {
+			class: "ls_article_time"
+		},
+		children: [
+			html.span({
+				attributes: {
+					class: "ls_only_on_sr"
+				},
+				children: [
+					"Published on "
+				]
+			}),
+			html.time({
+				attributes: {
+					datetime: times.creation_time.toISOString()
+				},
+				children: [
+					get_date_string(times.creation_time)
+				]
+			})
+		]
+	});
 
-	for (let i = 0; i < authors.length; i++) {
-		const author = authors[i];
-		const a = html.create_element("authored_by")
-			.with_attr("author_name", author.name);
-
-		if (author.picture) {
-			a.attr("author_picture", author.picture);
-		}
-
-		author_div.append_child(a);
-
-		if (i !== (authors.length - 1)) {
-			author_div.append_child(", ");
-		}
-	}
-
-	const times_div = html.create_element("div").with_attr("class", "ls_article_times");
-
-	times_div.append_child("Created ");
-	times_div.append_child(html.create_element("time").with_attr("datetime", times.creation_time.toISOString()).with_child(get_date_string(times.creation_time)));
 	if (times.modification_time && times.creation_time !== times.modification_time) {
-		times_div.append_child(html.create_element("em")
-			.with_child(html.decode_html("&nbsp;(Modified "))
-			.with_child(html.create_element("time").with_attr("datetime", times.modification_time.toISOString()).with_child(get_date_string(times.modification_time)))
-			.with_child(")")
-		);
+		times_div.append_child(html.div({
+			attributes: {
+				class: "ls_article_time_edit"
+			},
+			children: [
+				html.create_element("icon_pen")
+					.with_attr("ls_size", "text")
+					.with_attr("color", "var(--ls_theme_foreground_accentuated)")
+					.with_attr("aria-hidden", "true"),
+				html.em({
+					attributes: {
+						class: "ls_article_time_edit_details"
+					},
+					children: [
+						html.decode_html(" Modified on "),
+						html.time({
+							attributes: {
+								datetime: times.modification_time.toISOString()
+							},
+							children: [
+								get_date_string(times.creation_time)
+							]
+						})
+					]
+				})
+			]
+		}));
 	}
 
-	metadata_div.append_child(author_div);
-	metadata_div.append_child(times_div);
+	return times_div;
+}
 
-	return metadata_div;
+function get_article_metadata_html(authors, times) {
+	return html.div({
+		attributes: {
+			class: "ls_article_metadata",
+		},
+		children: [
+			get_authors_html(authors),
+			get_times_html(times),
+		]
+	});
 }
 
 function get_tags_html(keywords) {
 	if (keywords.length === 0) return "";
-	const metadata_div = html.create_element("div").with_attr("class", "ls_article_metadata").style("margin-top", "0.2em");
-	keywords.forEach(keyword => metadata_div.append_child(
-			html.create_element("span")
-				.with_attr("class", "ls_tag_ship")
-				.style("background-color", "var(--ls_theme_primary)")
-				.style("color", "var(--ls_theme_on_primary)")
-				.with_child(html.create_element("span").with_child(keyword))
-		)
-	);
-	return metadata_div.html();
+	return html.div({
+		attributes: {
+			style: {
+				"margin-top": "0.75em"
+			}
+		},
+		children: [
+			html.span({
+				attributes: {
+					class: "ls_only_on_sr"
+				},
+				children: [
+					"Keywords: "
+				]
+			}),
+			...keywords.flatMap((keyword, index) => {
+				const span = html.span({
+					attributes: {
+						class: "ls_chip",
+						ls_size: "small",
+					},
+					children: [
+						keyword
+					]
+				});
+
+				if (index !== keywords.length - 1) {
+					return [span, html.span({
+						attributes: {
+							class: "ls_only_on_sr"
+						},
+						children: [
+							", "
+						]
+					})];
+				} else {
+					return span;
+				}
+			})
+		]
+	}).html();
 }
 
 function visit_html_tree(node, callback) {
@@ -210,7 +307,7 @@ async function process_blog_entry(path, context) {
 			const article_metadata = html.create_element("div");
 
 			article_metadata.append_child(html.create_element("h1").with_child(title));
-			article_metadata.append_child(get_metadata_html(authors, times));
+			article_metadata.append_child(get_article_metadata_html(authors, times));
 
 			article.children.splice(0, 0, article_metadata);
 			article.children.splice(1, 0, html.create_element("hr"));
@@ -226,14 +323,16 @@ async function process_blog_entry(path, context) {
 					if (code) {
 						const classes = code.get_attr("class");
 
-						if (classes && classes.value().includes("language-")) {
-							element.with_attr("class", classes.value());
+						if (classes && classes.value.includes("language-")) {
+							element.with_attr("class", classes.value);
 						}
 					}
 				} else {
 					element.children.forEach(element => visit_block_code(element));
 				}
 			})(article);
+
+			process_headings(article);
 
 			main.append_child(article);
 			return view.with_child(body
@@ -308,7 +407,7 @@ async function process_blog_index(entries) {
 						style="margin-top: 1em; margin-bottom: 1em;" tags="${metadata.page.custom.tags.join(", ")}">
 						<card_content>
 							<h2>${post.name}</h2>
-							${get_metadata_html(metadata.page.custom.authors, metadata.page.custom.times).html()}
+							${get_article_metadata_html(metadata.page.custom.authors, metadata.page.custom.times).html()}
 							${get_tags_html(metadata.page.custom.tags)}
 							<p>${metadata.page.description}</p>
 						</card_content>

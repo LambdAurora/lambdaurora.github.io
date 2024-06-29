@@ -1,0 +1,61 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "sass:map";
+@use "sass:color";
+
+$color_strong_ratio: 8.5%;
+$color_stronger_ratio: 15.75%;
+
+@function get_foreground($color, $foreground) {
+	@if (color.lightness($color) > 50) {
+		@return map.get($foreground, "dark");
+	} @else {
+		@return map.get($foreground, "light");
+	}
+}
+
+@function lighten_both($color_values, $amount) {
+	@return (
+		light: lighten(map.get($color_values, "light"), $amount),
+		dark: lighten(map.get($color_values, "dark"), $amount)
+	);
+}
+
+@function rich_lighten($background_values, $foreground_values, $amount) {
+	$bg: lighten_both($background_values, $amount);
+
+	@return (
+		"": $bg,
+		on: (
+			light: get_foreground(map.get($bg, "light"), $foreground_values),
+			dark: get_foreground(map.get($bg, "dark"), $foreground_values)
+		)
+	);
+}
+
+@function darken_both($color_values, $amount) {
+	@return (
+		light: darken(map.get($color_values, "light"), $amount),
+		dark: darken(map.get($color_values, "dark"), $amount)
+	);
+}
+
+@function rich_darken($background_values, $foreground_values, $amount) {
+	$bg: darken_both($background_values, $amount);
+
+	@return (
+		"": $bg,
+		on: (
+			light: get_foreground(map.get($bg, "light"), $foreground_values),
+			dark: get_foreground(map.get($bg, "dark"), $foreground_values)
+		)
+	);
+}

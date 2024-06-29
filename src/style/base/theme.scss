@@ -1,0 +1,60 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "./colors";
+@use "../util/utils";
+@use "sass:list";
+@use "sass:map";
+
+@mixin define-vars-of($theme) {
+	--ls_theme_primary: var(--ls_theme_aurora_primary_#{$theme});
+	--ls_theme_on_primary: var(--ls_theme_aurora_on_primary_#{$theme});
+
+	--ls_theme_secondary: var(--ls_theme_aurora_secondary_#{$theme});
+	--ls_theme_on_secondary: var(--ls_theme_aurora_on_secondary_#{$theme});
+
+	--ls_theme_foreground: var(--ls_theme_aurora_foreground_#{$theme});
+	--ls_theme_foreground_accentuated: var(--ls_theme_aurora_foreground_accentuated_#{$theme});
+
+	--ls_theme_background: var(--ls_theme_aurora_background_#{$theme});
+	--ls_theme_background_accentuated: var(--ls_theme_aurora_background_accentuated_#{$theme});
+	--ls_theme_background_popover: var(--ls_theme_aurora_background_popover_#{$theme});
+	--ls_theme_background_stronger: var(--ls_theme_aurora_background_stronger_#{$theme});
+	--ls_theme_background_active: var(--ls_theme_aurora_background_active_#{$theme});
+}
+
+[ls_theme="light"], :root {
+	color-scheme: light;
+
+	@include define-vars-of("light");
+}
+
+@media screen {
+	[ls_theme="dark"] {
+		color-scheme: dark;
+
+		@include define-vars-of("dark");
+	}
+
+	@media (prefers-color-scheme: dark) {
+		:root {
+			color-scheme: dark;
+	
+			@include define-vars-of("dark");
+		}
+	}
+}
+
+@media print {
+	:root {
+		--ls_theme_background: #fff;
+		--ls_theme_foreground: #000;
+	}
+}

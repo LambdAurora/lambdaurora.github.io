@@ -160,7 +160,7 @@ Prism.hooks.add('wrap', env => {
 			return;
 		}
 
-		const previewElement = /*html*/`<span class="ls_color_ship"><span style="background-color:${color};"></span></span>`;
+		const previewElement = /*html*/`<span class="ls_color_chip" style="--color:${color};" role="presentation"></span>`;
 		env.content = previewElement + content;
 	}
 });

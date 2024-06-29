@@ -1,0 +1,112 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "../util/utils";
+@use "../util/color";
+@use "sass:list";
+@use "sass:map";
+
+$theme_fg_on_dark: #eee;
+$theme_fg_on_light: #444;
+
+/* Classic colors */
+$theme_aurora_classic_primary: #f90;
+$theme_aurora_classic_secondary: #9c73cc;
+
+/* Theme colors */
+$theme_aurora_primary: (light: #c7136d, dark: #ff5aa2);
+$theme_aurora_on_primary_dark: #282828;
+$theme_aurora_on_primary: (light: $theme_fg_on_dark, dark: $theme_aurora_on_primary_dark);
+
+$theme_aurora_secondary_light: #00ac48;
+$theme_aurora_secondary_dark: #00ed76;
+$theme_aurora_secondary: (light: $theme_aurora_secondary_light, dark: $theme_aurora_secondary_light);
+$theme_aurora_on_secondary: (light: $theme_fg_on_dark, dark: $theme_aurora_on_primary_dark);
+
+$theme_aurora: (
+	primary: (
+		"": $theme_aurora_primary,
+		on: $theme_aurora_on_primary,
+		strong: (
+			"": (light: #b11168, dark: #ff298a),
+			on: (light: $theme_fg_on_dark, dark: #2a0d1b),
+		),
+		stronger: (
+			"": (light: #8b0e5e, dark: #c7136d),
+			on: (light: $theme_fg_on_dark, dark: $theme_fg_on_dark),
+		),
+		lighter: (
+			"": (light: #f0408d, dark: #fe8dbd),
+			on: (light: #2a0d1b, dark: $theme_aurora_on_primary_dark),
+		),
+		soft: (
+			"": (light: #f491be, dark:#fdbbd8),
+			on: (light: $theme_aurora_on_primary_dark, dark: $theme_aurora_on_primary_dark),
+		),
+	),
+	secondary: (
+		"": $theme_aurora_secondary,
+		on: $theme_aurora_on_secondary,
+	),
+	foreground: (
+		"": (light: $theme_fg_on_light, dark: $theme_fg_on_dark),
+		accentuated: (light: lighten($theme_fg_on_light, 10%), dark: darken($theme_fg_on_dark, 19%)),
+	),
+	background: (
+		"": (light: #faf2f2, dark: #292424),
+		accentuated: (light: #f6eeee, dark: #252020),
+		popover: (light: #f3ebeb, dark: #322b2b),
+		stronger: (light: #ece5e5, dark: #362f2f),
+		active: (light: rgba($theme_aurora_secondary_dark, .15), dark: rgba($theme_aurora_secondary_light, .15))
+	),
+);
+
+@mixin define_vars($prefix, $values) {
+	@if (map.get($values, "light") != null and map.get($values, "dark") != null) {
+		@each $theme, $value in $values {
+			--#{utils.join_string($prefix, _)}_#{$theme}: #{$value};
+		}
+	} @else {
+		@each $key, $value in $values {
+			$sub_prefix: $prefix;
+
+			@if ($key == "on") {
+				$len: list.length($prefix);
+				$i: 1;
+				$sub_prefix: ();
+
+				@each $part in $prefix {
+					@if ($i == 2) {
+						$sub_prefix: list.append($sub_prefix, $key);
+					}
+
+					$sub_prefix: list.append($sub_prefix, $part);
+					$i: $i + 1;
+				}
+			} @else if ($key != "") {
+				$sub_prefix: list.append($prefix, $key);
+			}
+
+			@include define_vars($sub_prefix, $value);
+		}
+	}
+}
+
+:root {
+	@include define_vars((ls_theme_aurora), $theme_aurora);
+
+	--ls_theme_foreground_on_dark: var(--ls_theme_aurora_foreground_dark);
+	--ls_theme_foreground_on_light: var(--ls_theme_aurora_foreground_light);
+
+	--ls_theme_background_code: #8077771a;
+	--ls_theme_border_color: #777;
+	--ls_theme_disabled_button_background: #d9d9d9;
+	--ls_theme_disabled_button_foreground: #898989;
+}

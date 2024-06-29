@@ -1,0 +1,64 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "./navbar";
+@use "./sidenav";
+
+nav {
+	ul {
+		padding: 0;
+	}
+
+	.ls_nav_entry, .ls_nav_dir_entry {
+		padding-left: 1em;
+		padding-top: 0.25em;
+		padding-bottom: 0.25em;
+	}
+
+	.ls_nav_entry {
+		& > div {
+			display: inline-flex;
+			flex-direction: column;
+			margin: 0.2em 0;
+		}
+	}
+
+	.ls_nav_dir_entry {
+		list-style: none inside;
+
+		& > details > summary {
+			cursor: pointer;
+		}
+	}
+}
+
+.ls_nav_banner {
+	display: flex;
+	width: 100%;
+	justify-content: space-between;
+	align-items: center;
+
+	& > img {
+		width: 128px;
+		height: 128px;
+	}
+
+	& > span {
+		flex: 1 1 auto;
+		display: flex;
+		justify-content: center;
+		max-width: 100%;
+		word-wrap: break-word;
+		text-align: center;
+		font-size: 1.5em;
+		align-items: center;
+		text-shadow: 2px 2px 6px black;
+	}
+}

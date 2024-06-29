@@ -3,6 +3,7 @@ import * as md from "@lambdaurora/libmd";
 import {remove_comments, ViewSpec} from "../../view.ts";
 import {CONSTANTS} from "../../../constants.ts";
 import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../utils.ts";
+import { process_headings } from "../../../engine/article.ts";
 
 const title = "Affectionate";
 const AFFECTIONATE_README = "https://raw.githubusercontent.com/LambdAurora/affectionate/1.20/README.md";
@@ -40,7 +41,7 @@ export const SPEC: ViewSpec = {
 	},
 	async post_process(page: html.Element) {
 		const main = page.find_element_by_tag_name("main") as html.Element;
-		const div = main.get_element_by_tag_name("div") as html.Element;
+		const article = main.get_element_by_tag_name("article") as html.Element;
 
 		const readme = await fetch(AFFECTIONATE_README)
 			.then(response => response.text())
@@ -60,13 +61,15 @@ export const SPEC: ViewSpec = {
 			return true;
 		});
 
-		div.children = [];
+		article.children = [];
 
 		md.render_to_html(readme, create_common_markdown_render_opts({
-			parent: div
+			parent: article
 		}));
 
-		const first_p = div.find_element_by_tag_name("p") as html.Element;
+		process_headings(article, { exclude: ["h1"] });
+
+		const first_p = article.find_element_by_tag_name("p") as html.Element;
 		filter_badge_classes(first_p.children);
 	}
 };

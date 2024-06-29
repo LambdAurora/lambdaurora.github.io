@@ -1,0 +1,27 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@media print {
+	@page {
+		@bottom-right-corner {
+			content: counter(page) "/" counter(pages);
+		}
+	}
+
+	a {
+		color: revert;
+	}
+
+	pre {
+		white-space: pre-wrap !important;
+		word-break: break-word;
+		word-wrap: break-word;
+	}
+}

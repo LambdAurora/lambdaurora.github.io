@@ -3,6 +3,7 @@ import { DEPLOY_DIR, create_parent_directory, process_property_from_html, create
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import * as PRISM from "./prismjs.mjs";
+import { process_headings } from "./engine/article.ts";
 
 const TUTORIALS_ROOT = "src/tutorials";
 const DIRECTORY_METADATA_FILE = "dir.json";
@@ -115,6 +116,8 @@ async function process_tutorial(path) {
 				}
 			})(article);
 
+			process_headings(article);
+
 			if (style_source.length !== 0) {
 				view.with_child(html.create_element("style").with_child(new html.Text(style_source)));
 			}
@@ -204,7 +207,15 @@ async function process_tutorial_index(entry) {
 							.with_attr("href", child.path);
 						
 						if (h1) {
-							link.children = h1.children;
+							link.children = h1.children.filter(child => {
+								if (child instanceof html.Element && child.tag.name === "a") {
+									if (child.get_attr("class").real_value.includes("ls_heading_anchor")) {
+										return false;
+									}
+								}
+
+								return true;
+							});
 						} else {
 							link.with_child(child.tutorial.metadata.page.title);
 						}

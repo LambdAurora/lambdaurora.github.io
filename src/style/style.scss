@@ -13,125 +13,10 @@
 
 /* Basics */
 
-@use "colors_light";
-@use "typography";
-@use "button";
-@use "card";
-@use "code";
-@use "color_ship";
-@use "icon";
-@use "image";
-@use "layout";
-@use "nav";
-@use "position";
-@use "table";
-@use "tag_ship";
-@use "article";
-@use "utilities";
+@use "root";
 
 :root {
-	color-scheme: light;
-
 	--peeking_fox_delay: 0s;
-}
-
-@media (prefers-color-scheme: dark) {
-	@import "colors_dark";
-
-	:root {
-		color-scheme: dark;
-	}
-}
-
-a {
-	color: var(--ls_theme_primary);
-	text-decoration: none;
-	-webkit-tap-highlight-color: transparent;
-}
-
-/*
- * Depth
- */
-
-.ls_elevation_2, .ls_btn[ls_variant="contained"] {
-	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2),
-	0 2px 2px 0 rgba(0, 0, 0, .14),
-	0 1px 5px 0 rgba(0, 0, 0, .12);
-}
-
-.ls_elevation_4,
-.ls_btn[ls_variant="contained"]:hover, .ls_btn[ls_variant="contained"]:focus,
-.ls_card[ls_clickable]:hover, .ls_card[ls_clickable]:focus {
-	box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2),
-	0 4px 5px 0 rgba(0, 0, 0, .14),
-	0 1px 10px 0 rgba(0, 0, 0, .12);
-}
-
-.ls_elevation_8, .ls_btn[ls_variant="contained"]:active, .ls_card[ls_clickable] {
-	box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .2),
-	0 8px 10px 1px rgba(0, 0, 0, .14),
-	0 3px 14px 2px rgba(0, 0, 0, .12);
-}
-
-/* Quotes */
-
-blockquote {
-	border-left: solid var(--ls_theme_primary);
-	padding-left: 1em;
-	page-break-before: auto;
-	page-break-inside: avoid;
-}
-
-blockquote > .ls_source {
-	font-size: 80%;
-	color: var(--ls_theme_foreground_accentuated);
-}
-
-blockquote > .ls_source::before {
-	content: "\2014 \00A0";
-}
-
-/*
- * Footer
- */
-
-.ls_app_footer {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-
-	background-color: var(--ls_theme_background_accentuated);
-	color: var(--ls_theme_foreground_accentuated);
-}
-
-.ls_app_footer > .ls_app_footer_license {
-	display: flex;
-	justify-content: space-between;
-	padding: 8px;
-
-	color: var(--ls_theme_foreground_accentuated);
-	background-color: rgba(0, 0, 0, 0.1);
-
-	a {
-		color: var(--ls_theme_foreground_accentuated);
-		text-decoration: underline;
-	}
-}
-
-@media print {
-	.ls_app_footer {
-		display: none;
-	}
-
-	.ls_main_content, article {
-		display: block;
-		margin: 0;
-		max-width: unset;
-	}
-
-	a {
-		color: revert;
-	}
 }
 
 /*
@@ -150,13 +35,9 @@ blockquote > .ls_source::before {
 	float: right !important;
 }
 
-.ls_responsive_iframe {
-	max-width: 100%;
-}
-
 .ls_sky_background {
 	background: repeat-x url("/images/background/sky_gradient.png");
-	color: var(--ls_theme_aurora_primary);
+	color: var(--ls_theme_aurora_primary_dark);
 }
 
 /* Fox peeking animations */
@@ -245,19 +126,5 @@ blockquote > .ls_source::before {
 	.peeking_fox_bottom[ls_display_reduced_motion] {
 		animation: none;
 		visibility: visible;
-	}
-}
-
-/*
- * Mobile
- */
-
-@media (max-width: 850px) {
-	.ls_app_footer_license {
-		flex-direction: column;
-	}
-
-	.ls_app_footer > .ls_app_footer_license > * {
-		text-align: center;
 	}
 }

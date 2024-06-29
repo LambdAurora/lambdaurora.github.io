@@ -5,6 +5,7 @@ import {EmbedSpec, remove_comments} from "../../../view.ts";
 import {get_path} from "../data.ts";
 import {CONSTANTS} from "../../../../constants.ts";
 import "../../../../prismjs.mjs";
+import { process_headings } from "../../../../engine/article.ts";
 
 export const DOC_EMBED: Partial<EmbedSpec> = {
 	image: {
@@ -16,7 +17,7 @@ export const DOC_EMBED: Partial<EmbedSpec> = {
 export function make_post_process(file: string) {
 	return async (page: html.Element) => {
 		const main = page.find_element_by_tag_name("main") as html.Element;
-		const div = main.get_element_by_tag_name("div") as html.Element;
+		const article = main.get_element_by_tag_name("div") as html.Element;
 
 		const readme = await fetch(get_path(file))
 			.then(response => response.text())
@@ -56,7 +57,7 @@ export function make_post_process(file: string) {
 			}
 		});
 
-		div.children.pop();
+		article.children.pop();
 
 		const container = md.render_to_html(readme, create_common_markdown_render_opts({
 			block_code: {
@@ -76,7 +77,9 @@ export function make_post_process(file: string) {
 			},
 		}));
 
-		(div.find_element_by_id("doc_content") as html.Element).children = container.children.filter(node => {
+		process_headings(container);
+
+		(article.find_element_by_id("doc_content") as html.Element).children = container.children.filter(node => {
 			return !(node instanceof html.Element && node.tag.name === "h1");
 		});
 	};

@@ -49,7 +49,7 @@
 					source="https://github.com/LambdAurora/affectionate"
 					thumbnail="/images/projects/affectionate/affectionate.png" thumbnail_darken="25">
 					<h3><a href="/projects/affectionate">Affectionate</a></h3>
-					A Minecraft mod about player interactions, made for Modfest: Singularity.
+					<span>A Minecraft mod about player interactions, made for Modfest: Singularity.</span>
 				</project_card>
 				<project_card
 					source="https://github.com/LambdAurora/fuck_namemc">
@@ -68,21 +68,21 @@
 					source="https://github.com/LambdAurora/LambdaBetterGrass"
 					thumbnail="https://raw.githubusercontent.com/LambdAurora/LambdaBetterGrass/1.19/images/pack.png" thumbnail_darken="25">
 					<h3><a href="/projects/lambdabettergrass">LambdaBetterGrass</a></h3>
-					A Minecraft mod which adds better grass and snow to the game.
+					<span>A Minecraft mod which adds better grass and snow to the game.</span>
 				</project_card>
 				<project_card
 					page="https://modrinth.com/mod/lambdynamiclights"
 					source="https://github.com/LambdAurora/LambDynamicLights"
 					thumbnail="https://media.forgecdn.net/attachments/301/21/2020-07-04_22.png" thumbnail_darken="25">
 					<h3><a href="https://modrinth.com/mod/lambdynamiclights">LambDynamicLights</a></h3>
-					A Minecraft mod which adds dynamic lighting.
+					<span>A Minecraft mod which adds dynamic lighting.</span>
 				</project_card>
 				<project_card
 					page="https://modrinth.com/mod/lovely_snails"
 					source="https://github.com/LambdAurora/lovely_snails"
 					thumbnail="https://raw.githubusercontent.com/LambdAurora/lovely_snails/1.17/images/small_snails.png" thumbnail_darken="none">
 					<h3><a href="https://modrinth.com/mod/lovely_snails">Lovely Snails</a></h3>
-					A Minecraft mod which adds some very cute snails.
+					<span>A Minecraft mod which adds some very cute snails.</span>
 				</project_card>
 				<project_card
 					source="https://github.com/LambdAurora/SpruceUI">
@@ -111,19 +111,52 @@
 		border-radius: 4px;
 	}
 
+	.project_card > .ls_card_section.ls_card_media.ls_card_media_darkened > .ls_card_content > * {
+		position: relative;
+	}
+
+	.project_card > .ls_card_section.ls_card_media.ls_card_media_darkened > .ls_card_content::before {
+		content: "";
+
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+		left: 0;
+		backdrop-filter: blur(4px) brightness(50%);
+		mask: linear-gradient(transparent 0%, #000c 40%, #000f 100%);
+	}
+
+	.project_card > .ls_card_section.ls_card_media.ls_card_media_darkened > .ls_card_content > h3 {
+		max-width: max-content;
+
+		z-index: 1;
+	}
+
+	.project_card > .ls_card_section.ls_card_media.ls_card_media_darkened > .ls_card_content > h3::before {
+		content: "";
+
+		position: absolute;
+		top: -4px;
+		left: -4px;
+		right: -4px;
+		bottom: -4px;
+
+		z-index: -1;
+
+		border-radius: 4px;
+		background-color: rgba(0, 0, 0, .4);
+		box-shadow: 0 5px 5px -3px rgba(0, 0, 0, .4),
+			0 8px 10px 1px rgba(0, 0, 0, .24),
+			0 3px 14px 2px rgba(0, 0, 0, .12);
+		backdrop-filter: blur(4px);
+	}
+
 	@media screen and (max-width: 850px) {
 		.project_card {
 			--project_card_logo_size: 64px;
 
 			flex: revert;
-		}
-	}
-
-	@media screen and (prefers-color-scheme: light) {
-		.project_card > .ls_card_section > .ls_card_content > h3 > * {
-			padding: 4px;
-			background-color: rgba(255, 255, 255, 0.5);
-			border-radius: 4px;
 		}
 	}
 </style>

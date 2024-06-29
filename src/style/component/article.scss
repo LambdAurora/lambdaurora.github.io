@@ -1,0 +1,113 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "../base/layout";
+@use "../base/depth";
+
+article, .ls_article_display {
+	li + li, li > ul, li > ol {
+		margin-top: .25em;
+	}
+
+	& > table {
+		width: max-content;
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	& > .ls_img {
+		align-self: center;
+	}
+}
+
+.ls_article_time {
+	flex: 0 1 auto;
+
+	.ls_article_time_edit {
+		display: inline-block;
+		position: relative;
+
+		$padding: .25em;
+		$distance: .5em;
+
+		.ls_article_time_edit_details {
+			display: inline-block;
+
+			position: absolute;
+			right: -$distance;
+			top: 1.45em;
+
+			@include layout.only_on_sr();
+			@include depth.elevation(8);
+
+			border: 1px solid var(--ls_theme_border_color);
+			border-radius: 4px;
+			background-color: var(--ls_theme_background_popover);
+
+			&::before {
+				content: "";
+
+				position: absolute;
+				top: calc(-#{$padding} + 1px);
+				right: calc($distance + 2px);
+				width: 4px;
+				height: 4px;
+
+				border-top-style: solid;
+				border-right-style: solid;
+				border-width: 1px;
+				border-color: var(--ls_theme_border_color);
+				background-color: var(--ls_theme_background_popover);
+
+				transform: rotate(-45deg);
+			}
+		}
+
+		&:hover, &:focus {
+			.ls_article_time_edit_details {
+				width: max-content;
+				height: initial;
+				padding: $padding .5em;
+				margin: initial;
+
+				overflow: initial;
+				clip: initial;
+			}
+		}
+	}
+}
+
+.ls_article_metadata {
+	display: flex;
+	flex-direction: row;
+
+	justify-content: space-between;
+	align-items: center;
+
+	font-size: 85%;
+}
+
+.ls_article_authors {
+	display: flex;
+	flex-direction: row;
+
+	align-items: center;
+
+	.ls_article_authors_icons {
+		display: flex;
+		flex-direction: row;
+
+		margin-right: .5em;
+
+		:not(:first-child) {
+			margin-left: -.5em;
+		}
+	}
+}

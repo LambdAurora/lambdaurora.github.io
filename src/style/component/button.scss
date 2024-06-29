@@ -1,19 +1,15 @@
 /*
- * lambdaurora.dev stylesheet - A simple stylesheet.
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
  *
- * Written in 2023 by LambdAurora <email@lambdaurora.dev>
+ * This file is part of LambdaStyle.
  *
- * To the extent possible under law, the author(s) have dedicated
- * all copyright and related and neighboring rights to this software
- * to the public domain worldwide.
- * This software is distributed without any warranty.
- *
- * See <http://creativecommons.org/publicdomain/zero/1.0/>.
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
 
-/*
- * Buttons
- */
+@use "../base/typography";
+@use "../base/depth";
 
 .ls_btn {
 	--ls_btn_hover_shade_color: var(--ls_theme_primary);
@@ -31,8 +27,8 @@
 	overflow: hidden;
 	outline: none;
 
-	font-size: 14px;
-	font-weight: 500;
+	font-size: 0.875rem;
+	font-weight: typography.$landmark_font_weight;
 	letter-spacing: .05929em;
 	text-decoration: none;
 	text-transform: uppercase;
@@ -60,12 +56,18 @@
 		background-color: var(--ls_btn_hover_shade_color);
 	}
 
-	&:hover::before, &:focus::before {
-		opacity: .04;
+	&:hover, &:focus {
+		&::before {
+			opacity: .04;
+		}
 	}
 
 	&:focus-visible {
-		border: 1px solid var(--ls_theme_primary);
+		border-color: var(--ls_theme_primary);
+	}
+
+	&:active::before {
+		opacity: .2;
 	}
 
 	/*
@@ -100,11 +102,13 @@
 			box-shadow: none !important;
 		}
 
-		&:hover:before, &:focus:before {
-			opacity: .2;
+		&:hover, &:focus {
+			&::before {
+				opacity: .2;
+			}
 		}
 
-		&:active:before {
+		&:active::before {
 			opacity: .4;
 		}
 	}
@@ -117,6 +121,18 @@
 		border-radius: 50%;
 	}
 
+	&[ls_variant="contained"] {
+		@include depth.elevation(2);
+
+		&:hover, &:focus {
+			@include depth.elevation(4);
+		}
+
+		&:active {
+			@include depth.elevation(8);
+		}
+	}
+
 	&[ls_variant="fab"] {
 		box-shadow: 0px 3px 5px -1px #0003, 0px 6px 10px 0px #00000024, 0px 1px 18px 0px #0000001f;
 	}
@@ -126,5 +142,15 @@
 		cursor: default;
 		box-shadow: none;
 		color: var(--ls_theme_disabled_button_foreground, rgba(0, 0, 0, .37));
+	}
+
+	&:not([ls_variant*="icon"]):not([ls_variant="fab"]) {
+		> .ls_icon:first_child {
+			margin-right: .15em;
+		}
+	
+		> .ls_icon:last-child {
+			margin-right: .15em;
+		}
 	}
 }

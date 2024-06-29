@@ -1,0 +1,27 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "sass:string";
+
+@function join_string($list, $separator: "") {
+	$result: "";
+
+	@each $part in $list {
+		$result: #{$result}#{$separator}#{$part};
+	}
+
+	$separator_length: string.length($separator);
+
+	@if ($separator_length > 0) {
+		@return string.slice($result, $separator_length + 1);
+	} @else {
+		@return $result;
+	}
+}

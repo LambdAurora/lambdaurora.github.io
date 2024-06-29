@@ -1,0 +1,58 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+$size: 1em;
+$border_radius: 4px;
+
+/*
+ * Representes a color chip.
+ *
+ * The main element defines sizing and the default background pattern.
+ * The ::before element defines the actual color content of the chip.
+ * The ::after element defines the border of the chip.
+ */
+.ls_color_chip {
+	&, &::before, &::after {
+		display: inline-block;
+		box-sizing: border-box;
+	}
+
+	position: relative;
+	width: $size;
+	height: $size;
+	margin: 0 4px 2px 0;
+	vertical-align: middle;
+
+	border-radius: $border_radius;
+
+	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyIDIiPjxwYXRoIGZpbGw9ImdyYXkiIGQ9Ik0wIDBoMnYySDB6Ii8+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0wIDBoMXYxSDB6TTEgMWgxdjFIMXoiLz48L3N2Zz4=);
+
+	&::before, &::after {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		content: " ";
+
+		border: 2px solid transparent;
+	}
+
+	&::before {
+		background-color: var(--color);
+		border-radius: $border_radius + 1px;
+	}
+
+	&::after {
+		filter: contrast(1000%);
+		border-color: var(--ls_theme_foreground);
+		border-radius: $border_radius;
+	}
+}

@@ -1,0 +1,39 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "./theme";
+@use "./typography";
+@use "./layout";
+@use "./depth";
+@use "./icon";
+@use "./print";
+
+body {
+	display: flex;
+	flex-direction: column;
+
+	min-height: 100vh;
+	height: 100%;
+	margin: 0;
+
+	color: var(--ls_theme_foreground);
+	background-color: var(--ls_theme_background);
+}
+
+main {
+	flex: 1 1 auto;
+	box-sizing: border-box;
+}
+
+a {
+	color: var(--ls_theme_primary);
+	text-decoration: none;
+	-webkit-tap-highlight-color: transparent;
+}

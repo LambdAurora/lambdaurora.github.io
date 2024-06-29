@@ -1,0 +1,43 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "../base/icon";
+
+.ls_img, .ls_responsive_img {
+	max-width: 100%;
+	width: fit-content;
+	height: auto;
+
+	&.ls_rounded_img {
+		border-radius: 100%;
+	}
+}
+
+.ls_responsive_img {
+	width: 100%;
+}
+
+.ls_pixelated {
+	image-rendering: pixelated;
+}
+
+.ls_responsive_iframe {
+	max-width: 100%;
+}
+
+.ls_img_icon {
+	border-radius: 4px;
+
+	@include icon.icon_sizes();
+
+	&[ls_variant="rounded"] {
+		border-radius: 100%;
+	}
+}

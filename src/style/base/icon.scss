@@ -1,0 +1,52 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@mixin icon_sizes() {
+	width: 24px;
+	height: 24px;
+
+	&[ls_size="small"] {
+		width: 16px;
+		height: 16px;
+	}
+
+	&[ls_size="large"] {
+		width: 32px;
+		height: 32px;
+	}
+
+	&[ls_size="text"] {
+		width: .75em;
+		height: .75em;
+	}
+}
+
+.ls_icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-feature-settings: "liga";
+
+	@include icon_sizes();
+}
+
+.ls_icon_default_user {
+	display: inline-flex;
+
+	width: 24px;
+	height: 24px;
+
+	border-radius: 4px;
+	justify-content: center;
+	align-items: center;
+
+	fill: var(--ls_theme_disabled_button_foreground);
+	background-color: var(--ls_theme_disabled_button_background);
+}
