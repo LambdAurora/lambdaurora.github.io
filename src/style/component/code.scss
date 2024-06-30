@@ -41,6 +41,7 @@ kbd {
 code {
 	font-family: "Fira Code", ui-monospace, monospace;
 	font-size: 0.85em;
+	font-feature-settings: "liga";
 	/* Adjust line-height to match the 1.5 of parent. */
 	line-height: 1.875;
 }
@@ -119,6 +120,8 @@ pre[class*=language-] {
 }
 
 .token {
+	font-variant-ligatures: contextual;
+
 	&.operator,
 	&.punctuation {
 		color: var(--ls_theme_code_punctuation);
