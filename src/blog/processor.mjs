@@ -10,7 +10,6 @@ import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import {CONSTANTS} from "../constants.ts";
 import * as PRISM from "../prismjs.mjs";
-import { process_headings } from "../engine/article.ts";
 
 const BLOG_ROOT = "src/blog";
 
@@ -311,28 +310,6 @@ async function process_blog_entry(path, context) {
 
 			article.children.splice(0, 0, article_metadata);
 			article.children.splice(1, 0, html.create_element("hr"));
-
-			(function visit_block_code(element) {
-				if (!(element instanceof html.Element)) {
-					return;
-				}
-
-				if (element.tag.name === "pre") {
-					const code = element.get_element_by_tag_name("code");
-
-					if (code) {
-						const classes = code.get_attr("class");
-
-						if (classes && classes.value.includes("language-")) {
-							element.with_attr("class", classes.value);
-						}
-					}
-				} else {
-					element.children.forEach(element => visit_block_code(element));
-				}
-			})(article);
-
-			process_headings(article);
 
 			main.append_child(article);
 			return view.with_child(body

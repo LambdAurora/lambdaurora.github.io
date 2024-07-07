@@ -3,7 +3,6 @@ import * as md from "@lambdaurora/libmd";
 import {remove_comments, ViewSpec} from "../../view.ts";
 import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../utils.ts";
 import {BRANCH, get_path, title} from "./data.ts";
-import { process_headings } from "../../../engine/article.ts";
 
 const LBG_README = get_path("README.md");
 
@@ -82,8 +81,6 @@ export const SPEC: ViewSpec = {
 		md.render_to_html(readme, create_common_markdown_render_opts({
 			parent: article
 		}));
-
-		process_headings(article, { exclude: ["h1"] });
 
 		const first_p = article.find_element_by_tag_name("p") as html.Element;
 		filter_badge_classes(first_p.children);

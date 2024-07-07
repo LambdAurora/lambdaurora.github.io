@@ -1,6 +1,7 @@
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import katex from "@katex/katex.mjs";
+import { process_heading } from "./engine/article.ts";
 
 export const WEBSITE = "https://lambdaurora.dev";
 export const BUILD_DIR = "./build";
@@ -68,6 +69,13 @@ export function create_common_markdown_render_opts(options?: Partial<md.RenderOp
 	}
 
 	return html.merge_objects(options, {
+		heading: {
+			post_process: (node: md.Heading, element: html.Element): void => {
+				if (node.level > 1) {
+					process_heading(element);
+				}
+			}
+		},
 		image: {
 			class_name: "ls_responsive_img"
 		},
@@ -77,16 +85,17 @@ export function create_common_markdown_render_opts(options?: Partial<md.RenderOp
 		latex: {
 			katex: katex
 		},
+		link: {
+			inline_class_name: "ls_raw_link"
+		},
 		strikethrough: {
 			class_name: "ls_strikethrough"
 		},
 		table: {
-			process: (table: html.Element) => {
-				table.with_attr("class", "ls_grid_table");
-			}
+			class_name: "ls_grid_table"
 		},
 		underline: {
 			class_name: "ls_underline"
 		}
-	});
+	} as Partial<md.RenderOptions>);
 }

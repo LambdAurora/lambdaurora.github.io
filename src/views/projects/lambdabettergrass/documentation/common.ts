@@ -5,7 +5,6 @@ import {EmbedSpec, remove_comments} from "../../../view.ts";
 import {get_path} from "../data.ts";
 import {CONSTANTS} from "../../../../constants.ts";
 import "../../../../prismjs.mjs";
-import { process_headings } from "../../../../engine/article.ts";
 
 export const DOC_EMBED: Partial<EmbedSpec> = {
 	image: {
@@ -76,8 +75,6 @@ export function make_post_process(file: string) {
 				}
 			},
 		}));
-
-		process_headings(container);
 
 		(article.find_element_by_id("doc_content") as html.Element).children = container.children.filter(node => {
 			return !(node instanceof html.Element && node.tag.name === "h1");

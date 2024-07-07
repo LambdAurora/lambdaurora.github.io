@@ -3,7 +3,6 @@ import { DEPLOY_DIR, create_parent_directory, process_property_from_html, create
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import * as PRISM from "./prismjs.mjs";
-import { process_headings } from "./engine/article.ts";
 
 const TUTORIALS_ROOT = "src/tutorials";
 const DIRECTORY_METADATA_FILE = "dir.json";
@@ -95,28 +94,6 @@ async function process_tutorial(path) {
 				return true;
 			});
 			process_property_from_html(article, "description", value => page_description = value);
-
-			(function visit_block_code(element) {
-				if (!(element instanceof html.Element)) {
-					return;
-				}
-
-				if (element.tag.name === "pre") {
-					const code = element.get_element_by_tag_name("code");
-
-					if (code) {
-						const classes = code.get_attr("class");
-
-						if (classes && classes.value.includes("language-")) {
-							element.with_attr("class", classes.value);
-						}
-					}
-				} else {
-					element.children.forEach(element => visit_block_code(element));
-				}
-			})(article);
-
-			process_headings(article);
 
 			if (style_source.length !== 0) {
 				view.with_child(html.create_element("style").with_child(new html.Text(style_source)));
