@@ -7,135 +7,98 @@ import { process_all_blog_entries } from "./src/blog/processor.mjs";
 import { serve } from "./src/server/server.ts";
 import { BUILD_DIR, DEPLOY_DIR } from "./src/utils.ts";
 import { COMPONENTS } from "./src/component.ts";
+import { BuildSystem, BuildTask } from "./src/engine/build_tool/build.ts";
 
 const args = parseArgs(Deno.args, { default: { port: 8080 }});
 
 if (args.debug) enable_debug_pages();
 
-interface BuildStepContext {
-	add_file: (file: string, recursive?: boolean) => void
-}
+const build_system = new BuildSystem();
 
-type BuildStepExecutor = (context: BuildStepContext) => Promise<boolean>;
+const public_step = new BuildTask(
+	"Copy Public Assets",
+	async context => {
+		console.log("Copying static resources...");
 
-class BuildStep {
-	step_executor: BuildStepExecutor;
-	files: {readonly name: string, readonly recursive: boolean}[];
+		async function visit(directory: string) {
+			await Deno.mkdir(DEPLOY_DIR + directory, { recursive: true });
+	
+			for await (const dir_entry of Deno.readDir("./public" + directory)) {
+				if (dir_entry.isDirectory) {
+					const dir = directory + "/" + dir_entry.name;
 
-	constructor(step_executor: BuildStepExecutor, parent_dir?: string) {
-		this.step_executor = step_executor;
-		this.files = [];
+					await visit(dir);
+					context.push_output(`${DEPLOY_DIR}/${dir}`, "empty_directory");
+				} else if (dir_entry.isFile) {
+					const file = "/" + directory + "/" + dir_entry.name;
+					const output_file = DEPLOY_DIR + file;
 
-		if (parent_dir) {
-			this.files.push({ name: parent_dir, recursive: true });
-		}
-	}
-
-	async execute() {
-		if (this.files.length !== 0) {
-			await this.cleanup();
-		}
-		return await this.build();
-	}
-
-	async build() {
-		return await this.step_executor({
-			add_file: (file: string, recursive = false) => {
-				this.files.push({ name: file, recursive: recursive });
-			}
-		});
-	}
-
-	async cleanup() {
-		const deletion_tasks: Promise<void>[] = [];
-
-		for (const file of this.files) {
-			deletion_tasks.push(Deno.remove(file.name, { recursive: file.recursive })
-				.catch(error => {
-					if (!(error instanceof Deno.errors.NotFound)) {
-						throw error;
-					}
-				})
-			);
-		}
-
-		this.files = [];
-
-		await Promise.all(deletion_tasks);
-	}
-}
-
-const public_step = new BuildStep(async context => {
-	console.log("Copying static resources...");
-
-	async function visit(directory: string) {
-		await Deno.mkdir(DEPLOY_DIR + directory, { recursive: true });
-
-		for await (const dir_entry of Deno.readDir("./public" + directory)) {
-			if (dir_entry.isDirectory) {
-				await visit(directory + "/" + dir_entry.name);
-			} else if (dir_entry.isFile) {
-				const file = "/" + directory + "/" + dir_entry.name;
-				const output_file = DEPLOY_DIR + file;
-				context.add_file(output_file);
-
-				await copy("./public" + file, output_file);
+					await copy("./public" + file, output_file);
+					context.push_output(output_file);
+				}
 			}
 		}
-	}
+	
+		await visit("");
 
-	await visit("");
+		console.log("Static resources have been copied.");
 
-	return true;
-});
+		return true;
+	},
+	["./public"]
+);
+build_system.register_task(public_step);
 
-const style_step = new BuildStep(async context => {
-	console.log("Building styles...");
+const style_step = new BuildTask(
+	"Style",
+	async context => {
+		console.log("Building styles...");
 
-	const deployed_style_dir = DEPLOY_DIR + "/style";
+		const deployed_style_dir = DEPLOY_DIR + "/style";
 
-	context.add_file(deployed_style_dir, true);
+		context.push_output(deployed_style_dir, "directory");
 
-	await copy("./src/style", deployed_style_dir);
-	const result = await new Deno.Command("sass", {
-		args: [
-			`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
-			`${deployed_style_dir}:${deployed_style_dir}`,
-			args.debug ? "--style=expanded" : "--style=compressed"
-		],
-		stdout: "piped",
-		stderr: "piped"
-	}).output();
+		await copy("./src/style", deployed_style_dir);
+		const result = await new Deno.Command("sass", {
+			args: [
+				`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
+				`${deployed_style_dir}:${deployed_style_dir}`,
+				args.debug ? "--style=expanded" : "--style=compressed"
+			],
+			stdout: "piped",
+			stderr: "piped"
+		}).output();
 
-	if (!result.success) {
-		return false;
-	}
-
-	try {
-		await Deno.remove(DEPLOY_DIR + "/style.css");
-	} catch (e) {
-		if (!(e instanceof Deno.errors.NotFound)) {
-			throw e;
+		if (!result.success) {
+			return false;
 		}
-	}
 
-	await Deno.readTextFile(deployed_style_dir + "/style.css.map")
-		.then(source => {
-			const json = JSON.parse(source);
-			json.sourceRoot = "/style";
-			return JSON.stringify(json);
-		})
-		.then(source => Deno.writeTextFile(DEPLOY_DIR + "/style.css.map", source))
-		.then(() => Deno.remove(deployed_style_dir + "/style.css.map"))
-		.then(() => move(deployed_style_dir + "/style.css", DEPLOY_DIR + "/style.css"));
+		try {
+			await Deno.remove(DEPLOY_DIR + "/style.css");
+		} catch (e) {
+			if (!(e instanceof Deno.errors.NotFound)) {
+				throw e;
+			}
+		}
 
-	return true;
-}, DEPLOY_DIR + "/style");
+		await Deno.readTextFile(deployed_style_dir + "/style.css.map")
+			.then(source => {
+				const json = JSON.parse(source);
+				json.sourceRoot = "/style";
+				return JSON.stringify(json);
+			})
+			.then(source => Deno.writeTextFile(DEPLOY_DIR + "/style.css.map", source))
+			.then(() => Deno.remove(deployed_style_dir + "/style.css.map"))
+			.then(() => move(deployed_style_dir + "/style.css", DEPLOY_DIR + "/style.css"));
+
+		return true;
+	},
+	["./src/style/"]
+);
+build_system.register_task(style_step);
 
 async function build() {
-	/* Main */
-
-	console.log("Creating build directory...");
+	console.log("Cleaning build directory...");
 	try {
 		await Deno.remove(BUILD_DIR, {recursive: true});
 	} catch (e) {
@@ -143,18 +106,7 @@ async function build() {
 			throw e;
 		}
 	}
-
-	await public_step.execute();
-	await copy("./src/script", DEPLOY_DIR + "/script");
-
-	/* Style stuff */
-	if (!await style_step.execute()) {
-		console.error("Failed to build style.");
-
-		if (!(args.serve && args.debug)) {
-			Deno.exit(1);
-		}
-	}
+	await build_system.run(!(args.serve && args.debug));
 
 	await COMPONENTS.load_all();
 
@@ -197,8 +149,8 @@ if (args.serve) {
 	const waiter = { lock: new Promise<void>(resolved => resolved()), on_rebuild: async () => {} };
 
 	if (args.debug) {
-		start_watching(waiter, async () => await public_step.execute(), "./public");
-		start_watching(waiter, async () => await style_step.execute(), "./src/style/");
+		start_watching(waiter, async () => await public_step.run(), "./public");
+		start_watching(waiter, async () => await style_step.run(), "./src/style/");
 		start_watching(waiter, async () => {
 			try {
 				await build();
