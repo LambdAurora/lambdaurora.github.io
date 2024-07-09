@@ -25,10 +25,10 @@
 
 			<h3>Let me use it!</h3>
 
-			<div style="display: flex; flex-direction: row;">
-				<div class="ls_col" style="display: flex; flex-direction: column; flex: 2 1 auto;">
-					<label for="markdown_url">Markdown document's URL to render:</label>
-					<input type="text" name="markdown_url" id="markdown_url_input" />
+			<div style="display: flex; flex-direction: row; align-items: end;">
+				<div class="ls_input_field" style="flex: 2 1 auto;">
+					<input type="url" name="markdown_url" id="markdown_url_input" placeholder="https://..." />
+					<label for="markdown_url">Markdown document's URL to render</label>
 				</div>
 				<button id="markdown_render_btn" class="ls_btn" ls_variant="contained" style="flex: 1 1 auto;">Render</button>
 			</div>

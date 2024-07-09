@@ -56,11 +56,6 @@
 				emoji: node => {
 					return html.parse(emoji.replace_colons(node.toString()));
 				},
-				image: { class_name: "ls_responsive_img" },
-				latex: {
-					katex: katex
-				},
-				spoiler: { enable: true },
 				block_code: {
 					highlighter: (code, language, parent) => {
 						if (Prism.languages[language]) {
@@ -72,6 +67,17 @@
 							parent.append_child(new html.Text(code));
 					}
 				},
+				image: { class_name: "ls_responsive_img" },
+				latex: {
+					katex: katex
+				},
+				link: {
+					inline_class_name: "ls_raw_link"
+				},
+				spoiler: { enable: true },
+				strikethrough: { class_name: "ls_strikethrough" },
+				table: { class_name: "ls_grid_table" },
+				underline: { class_name: "ls_underline" },
 				parent: MARKDOWN_CONTAINER
 			};
 

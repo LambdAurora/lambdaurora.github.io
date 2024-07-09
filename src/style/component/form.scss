@@ -1,0 +1,68 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+.ls_input_field {
+	position: relative;
+
+	display: flex;
+	flex-direction: column-reverse;
+
+	margin: 6px 8px;
+
+	> input:not(.ls_input_browser_default) {
+		width: 100%;
+		padding: 8px 16px 7px 16px;
+		font-size: .875rem;
+		box-sizing: border-box;
+
+		background-color: var(--ls_theme_background_stronger);
+
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+		border: none;
+		border-bottom: 1px solid var(--ls_theme_border_color);
+		outline: none;
+
+		transition: border-bottom-color 250ms ease;
+
+		&:disabled {
+			padding-bottom: 6px;
+			border-bottom: 2px dashed var(--ls_theme_border_color);
+			background-color: var(--ls_theme_background_popover);
+			color: var(--ls_theme_disabled_button_foreground);
+		}
+
+		&:not(:disabled):focus {
+			padding-bottom: 6px;
+			border-bottom: 2px solid var(--ls_theme_primary);
+
+			~ label {
+				color: var(--ls_theme_primary);
+			}
+		}
+	}
+
+	&:has(> input:disabled) {
+		opacity: 75%;
+	}
+
+	> label {
+		font-size: .938rem;
+		margin-left: 8px;
+		margin-bottom: 4px;
+
+		cursor: text;
+
+		color: var(--ls_theme_foreground_accentuated);
+
+		transform-origin: 0 bottom;
+		transition: all 250ms ease;
+	}
+}
