@@ -1,83 +1,31 @@
-<body>
-	<div class="ls_navbar ls_fixed ls_show_on_small_only" ls_side="top">
-		<div class="ls_nav_trigger_btn_wrapper">
-			<label for="${processed.name}_trigger" class="ls_btn ls_nav_trigger_btn" ls_variant="icon"
-						 aria-role="menu" aria-label="Menu" aria-description="Open the navigation menu.">
-				<svg width="40" height="40" viewBox="0 0 40 40" stroke="var(--ls_theme_on_primary)" stroke-width="2px" shape-rendering="crispedges">
-					<line x1="12" y1="14" x2="28" y2="14"></line>
-					<line x1="12" y1="20" x2="28" y2="20"></line>
-					<line x1="12" y1="26" x2="28" y2="26"></line>
-				</svg>
-			</label>
-		</div>
-		<span class="ls_navbar_title">LambdAurora</span>
+<div class="ls_navbar ls_fixed ls_show_on_small_only" ls_side="top" [style]>
+	<div class="ls_nav_trigger_btn_wrapper">
+		<label
+			[for]="`${props.name}_trigger`"
+			class="ls_btn ls_nav_trigger_btn"
+			ls_variant="icon"
+			aria-role="menu"
+			aria-label="Menu"
+			aria-description="Open the navigation menu."
+		>
+			<svg width="40" height="40" viewBox="0 0 40 40" stroke="var(--ls_theme_on_primary)" stroke-width="2px" shape-rendering="crispedges">
+				<line x1="12" y1="14" x2="28" y2="14"></line>
+				<line x1="12" y1="20" x2="28" y2="20"></line>
+				<line x1="12" y1="26" x2="28" y2="26"></line>
+			</svg>
+		</label>
 	</div>
-	<div class="ls_sidenav_wrapper${additional_classes}">
-		<input type="checkbox" id="${processed.name}_trigger" class="ls_sidenav_internal_trigger" aria-hidden="true">
-		<nav id="${processed.name}" class="ls_sidenav">
-			<ul></ul>
-		</nav>
+	<span class="ls_navbar_title">LambdAurora</span>
+</div>
+<div [class]='["ls_sidenav_wrapper", ...(props.class ?? [])]'>
+	<input type="checkbox" [id]="`${props.name}_trigger`" class="ls_sidenav_internal_trigger" aria-hidden="true">
+	<nav [id]="name" class="ls_sidenav">
+		<$content of="header" />
+		<ul>
+			<$content of="nav" />
+		</ul>
+		<$content of="footer" />
+	</nav>
 
-		<label for="${processed.name}_trigger" class="ls_sidenav_darkened"></label>
-	</div>
-</body>
-
-<script>
-	const nav = data.get_element_by_index(1).get_element_by_tag_name("nav");
-	const id = data.element.get_attr("id");
-
-	const nav_data_attr = data.element.get_attr("navigation_data");
-	if (!nav_data_attr) throw new Error(`Missing navigation data in ${data.context.page.path}.`);
-
-	const nav_data = await Deno.readTextFile(nav_data_attr.value)
-		.then(data => JSON.parse(data));
-
-	const ul = nav.get_element_by_tag_name("ul");
-	for (const entry of nav_data) {
-		const li = html.create_element("li");
-
-		ul.append_child(li);
-
-		if (entry.type === "link") {
-			const div = html.create_element("div");
-			li.with_attr("class", "ls_nav_entry")
-				.append_child(div);
-
-			div.append_child(html.create_element("a")
-				.with_attr("href", entry.link)
-				.with_child(entry.name));
-
-			if (entry.description) {
-				div.append_child(html.create_element("span").with_child(entry.description));
-			}
-
-			if (data.context.page.path !== "/" && data.context.page.path.startsWith(entry.link)) {
-				li.style("background-color", "var(--ls_theme_background_active)");
-			}
-		} else if (entry.type === "notice") {
-			li.append_child(entry.name);
-			li.with_attr("class", "ls_nav_entry");
-		}
-	}
-
-	const header = data.element.get_element_by_tag_name("header");
-
-	if (header) {
-		nav.children = header.children.concat(nav.children);
-	}
-
-	const footer = data.element.get_element_by_tag_name("footer");
-
-	if (footer) {
-		nav.children = nav.children.concat(footer.children);
-	}
-
-	const style = data.element.get_attr("style");
-	if (style) {
-		data.get_first_element().attr("style", style.value);
-	}
-
-	return {
-		name: id.value
-	};
-</script>
+	<label [for]="`${props.name}_trigger`" class="ls_sidenav_darkened"></label>
+</div>

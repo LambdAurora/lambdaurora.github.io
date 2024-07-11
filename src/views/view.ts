@@ -1,26 +1,7 @@
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import { CONSTANTS } from "../constants.ts";
-
-export interface EmbedSpec {
-	type: "website" | "article";
-	title: string;
-	image: { url: string; alt: string; };
-	style: "normal" | "large";
-}
-
-export interface IconsSpec {
-	favicon?: string;
-}
-
-export interface PageSpec {
-	title: string;
-	description: string;
-	keywords?: string[];
-	embed?: Partial<EmbedSpec>;
-	icons?: IconsSpec;
-	custom?: { [x: string]: unknown };
-}
+import { EmbedSpec, PageSpec } from "../engine/page.ts";
 
 export type PostProcessFunction = (page: html.Element) => Promise<void>;
 

@@ -6,8 +6,8 @@ import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { process_all_blog_entries } from "./src/blog/processor.mjs";
 import { serve } from "./src/server/server.ts";
 import { BUILD_DIR, DEPLOY_DIR } from "./src/utils.ts";
-import { COMPONENTS } from "./src/component.ts";
 import { BuildSystem, BuildTask } from "./src/engine/build_tool/build.ts";
+import { COMPONENTS } from "./src/engine/component.ts";
 
 const args = parseArgs(Deno.args, { default: { port: 8080 }});
 

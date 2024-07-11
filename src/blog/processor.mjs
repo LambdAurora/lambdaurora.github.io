@@ -111,7 +111,7 @@ function get_times_html(times) {
 				class: "ls_article_time_edit"
 			},
 			children: [
-				html.create_element("icon_pen")
+				html.create_element("icon:pen")
 					.with_attr("ls_size", "text")
 					.with_attr("color", "var(--ls_theme_foreground_accentuated)")
 					.with_attr("aria-hidden", "true"),
@@ -382,12 +382,12 @@ async function process_blog_index(entries) {
 				const metadata = post.page.metadata;
 				const card = html.parse(/*html*/`<card href="${post.path}"
 						style="margin-top: 1em; margin-bottom: 1em;" tags="${metadata.page.custom.tags.join(", ")}">
-						<card_content>
+						<card:content>
 							<h2>${post.name}</h2>
 							${get_article_metadata_html(metadata.page.custom.authors, metadata.page.custom.times).html()}
 							${get_tags_html(metadata.page.custom.tags)}
 							<p>${metadata.page.description}</p>
-						</card_content>
+						</card:content>
 					</card>`);
 				nav.append_child(card);
 			});

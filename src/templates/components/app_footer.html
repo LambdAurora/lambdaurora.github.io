@@ -1,18 +1,13 @@
-<body>
-	<footer class="ls_app_footer${additional_classes}">
-		<div class="ls_app_footer_legal">
-			<span class="ls_only_on_screen">
-				Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
-			</span>
-			<span class="ls_only_on_print">
-				Source: https://lambdaurora.dev.
-			</span>
-			<span>
-				Except where otherwise noted: &copy; LambdAurora 2022-2024, under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.
-			</span>
-		</div>
-	</footer>
-</body>
-
-<script>
-</script>
+<footer [class]='["ls_app_footer", ...(props.class ?? [])]'>
+	<div class="ls_app_footer_legal">
+		<span class="ls_only_on_screen">
+			Hosted on <a href="https://pages.github.com">GitHub Pages</a>.
+		</span>
+		<span class="ls_only_on_print">
+			Source: https://lambdaurora.dev.
+		</span>
+		<span>
+			Except where otherwise noted: &copy; LambdAurora 2022-2024, under <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a>.
+		</span>
+	</div>
+</footer>

@@ -99,3 +99,13 @@ export function create_common_markdown_render_opts(options?: Partial<md.RenderOp
 		}
 	} as Partial<md.RenderOptions>);
 }
+
+/**
+ * Gets the SHA-1 hash of the given file.
+ *
+ * @param path the path of the file
+ * @returns the hash of the file
+ */
+export async function get_file_hash(path: string): Promise<string> {
+	return await Deno.readFile(path).then(data => crypto.subtle.digest("SHA-1", data)).then(data => DECODER.decode(data));
+}

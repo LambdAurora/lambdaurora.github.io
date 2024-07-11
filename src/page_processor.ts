@@ -1,10 +1,10 @@
 // deno-lint-ignore-file no-explicit-any
 import * as html from "@lambdaurora/libhtml";
-
-import { COMPONENTS } from "./component.ts";
 import { CONSTANTS } from "./constants.ts";
-import { create_parent_directory, DECODER, DEPLOY_DIR } from "./utils.ts";
-import { PageSpec, PreloadSpec, resolve_embed, StyleSpecEntry, ViewSpec } from "./views/view.ts";
+import { create_parent_directory, DEPLOY_DIR, get_file_hash } from "./utils.ts";
+import { PreloadSpec, resolve_embed, StyleSpecEntry, ViewSpec } from "./views/view.ts";
+import { PageSpec } from "./engine/page.ts";
+import { ComponentContext, process_nodes } from "./engine/component.ts";
 
 const VIEWS_ROOT = "src/views";
 const TEMPLATES_ROOT = "src/templates/";
@@ -197,9 +197,9 @@ function load_view_file(view_path: string) {
 async function load_script(view_path: string): Promise<ViewSpec> {
 	view_path = view_path.replace(/\.html$/, ".ts");
 
-	const hash = await Deno.readFile(view_path).then(data => crypto.subtle.digest("SHA-1", data));
+	const hash = await get_file_hash(view_path);
 
-	return await import("." + view_path.replace(/^src/, "") + "#" + encodeURIComponent(DECODER.decode(hash))).then(module => module.SPEC as ViewSpec);
+	return await import("." + view_path.replace(/^src/, "") + "#" + encodeURIComponent(hash)).then(module => module.SPEC as ViewSpec);
 }
 
 interface PageProcessingSettings {
@@ -254,29 +254,10 @@ export async function process_page(path: string, settings?: PageProcessingSettin
 	module.global_context = context.global_context;
 	module.page.path = path.replace(/index.html$/, "");
 
-	await (async function process_nodes(parent, index) {
-		const node = parent.children[index];
+	const process_context = new ComponentContext(module.page, {});
+	body.children = await process_nodes(body.children, process_context);
 
-		if (node instanceof html.Element) {
-			const component = COMPONENTS.get(node.tag.name);
-
-			if (component) {
-				const nodes = await component.apply(module, node);
-				parent.children.splice(index, 1, ...nodes);
-
-				await process_nodes(parent, index);
-				return;
-			} else {
-				if (node.children.length !== 0) {
-					await process_nodes(node, 0);
-				}
-			}
-		}
-
-		if (index + 1 < parent.children.length) {
-			await process_nodes(parent, index + 1);
-		}
-	})(body, 0);
+	module.preload = (module.preload ?? []).concat(process_context.preload);
 
 	body.purge_blank_children();
 
