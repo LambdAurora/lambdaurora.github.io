@@ -3,6 +3,29 @@ import "@prism.js/components/prism-css.min.js";
 import "@prism.js/components/prism-css-extras.min.js";
 import "@prism.js/components/prism-json.min.js";
 
+export interface GrammarToken {
+	pattern: RegExp;
+	lookbehind?: boolean;
+	greedy?: boolean;
+	alias?: string | string[];
+	inside?: Grammar;
+}
+export type Grammar = Record<string, RegExp | GrammarToken | Array<RegExp | GrammarToken>>;
+// deno-lint-ignore no-explicit-any
+export type HookCallback = (env: Record<string, any>) => void;
+
+declare const Prism: {
+	languages: { [key: string]: Grammar },
+	highlight: (source: string, grammar: Grammar, language: string) => string,
+	hooks: {
+		add: (name: string, callback: HookCallback) => void
+	}
+};
+const PrismInstance = Prism;
+export {
+	PrismInstance as Prism
+};
+
 //startregion FROM: https://cdn.jsdelivr.net/npm/prismjs@1.27/plugins/inline-color/prism-inline-color.js
 // Copied from the markup language definition
 const HTML_TAG = /<\/?(?!\d)[^\s>\/=$<%]+(?:\s(?:\s*[^\s>\/=]+(?:\s*=\s*(?:"[^"]*"|'[^']*'|[^\s'">=]+(?=[\s>]))|(?=[\s/>])))+)?\s*\/?>/g;
@@ -19,10 +42,10 @@ const HEX_COLOR = /^#?((?:[\da-f]){3,4}|(?:[\da-f]{2}){3,4})$/i;
  * Hexadecimal colors are parsed because they are not fully supported by older browsers, so converting them to
  * `rgba` functions improves browser compatibility.
  *
- * @param {string} hex
- * @returns {string | undefined}
+ * @param hex the hex color to parse
+ * @returns the RGBA color
  */
-function parseHexColor(hex) {
+function parseHexColor(hex: string): string | undefined {
 	const match = HEX_COLOR.exec(hex);
 	if (!match) {
 		return undefined;
@@ -49,10 +72,10 @@ function parseHexColor(hex) {
 	// output
 	const rgb = channels.slice(0, 3).map(function (x) {
 		return String(Math.round(x * 255));
-	}).join(',');
+	}).join(",");
 	const alpha = String(Number(channels[3].toFixed(3))); // easy way to round 3 decimal places
 
-	return 'rgba(' + rgb + ',' + alpha + ')';
+	return `rgba(${rgb},${alpha})`;
 }
 
 const VALID_COLORS = [
@@ -116,12 +139,12 @@ const VALID_COLORS = [
 ];
 
 /**
- * Validates the given Color using the current browser's internal implementation.
+ * Validates the given color using the current browser's internal implementation.
  *
- * @param {string} color
- * @returns {string | undefined}
+ * @param color the color to validate
+ * @returns the validated color
  */
-function validateColor(color) {
+function validateColor(color: string): string | undefined {
 	if (color.match(/^(?:rgb(?:\(\s?\d{1,3}\s?,\s?\d{1,3}\s?,\s?\d{1,3}\s?\)|a\(\s?\d{1,3}\s?,\s?\d{1,3}\s?,\s?\d{1,3}\s?,\s?(?:\d{1,3}|[01]\.\d*)\s?\)))$/)) {
 		return color;
 	} else if (VALID_COLORS.includes(color.toLocaleLowerCase())) {
@@ -144,12 +167,12 @@ const parsers = [
 	validateColor
 ];
 
-Prism.hooks.add('wrap', env => {
-	if (env.type === 'color' || env.classes.indexOf('color') >= 0) {
+Prism.hooks.add("wrap", env => {
+	if (env.type === "color" || env.classes.indexOf("color") >= 0) {
 		const content = env.content;
 
 		// remove all HTML tags inside
-		const rawText = content.split(HTML_TAG).join('');
+		const rawText = content.split(HTML_TAG).join("");
 
 		let color;
 		for (let i = 0, l = parsers.length; i < l && !color; i++) {

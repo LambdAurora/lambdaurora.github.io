@@ -1,8 +1,8 @@
 import { process_page } from "./page_processor.ts";
-import { DEPLOY_DIR, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts } from "./utils.ts";
+import { DEPLOY_DIR, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts, create_common_markdown_render_opts } from "./utils.ts";
+import { get_or_load_language, get_prism_url, Prism } from "./prismjs.ts";
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
-import * as PRISM from "./prismjs.mjs";
 
 const TUTORIALS_ROOT = "src/tutorials";
 const DIRECTORY_METADATA_FILE = "dir.json";
@@ -53,13 +53,13 @@ async function process_tutorial(path) {
 
 			for (const block of doc.blocks) {
 				if (block instanceof md.BlockCode && block.has_language()) {
-					await PRISM.get_or_load_language(block.language.replace(/:apply$/, ""));
+					await get_or_load_language(block.language.replace(/:apply$/, ""));
 				}
 			}
 
 			let style_source = "";
 
-			article.children = md.render_to_html(doc, {
+			article.children = md.render_to_html(doc, create_common_markdown_render_opts({
 				block_code: {
 					highlighter: (code, language, parent) => {
 						if (language === "css:apply") {
@@ -77,16 +77,8 @@ async function process_tutorial(path) {
 							parent.append_child(new html.Text(code));
 					}
 				},
-				image: {
-					class_name: "ls_responsive_img"
-				},
-				table: {
-					process: table => {
-						table.with_attr("class", "ls_grid_table");
-					}
-				},
 				parent: article
-			}).children.filter(node => {
+			})).children.filter(node => {
 				if (node instanceof html.Element && node.tag.name === "h1") {
 					title = node.text();
 				}
@@ -96,17 +88,17 @@ async function process_tutorial(path) {
 			process_property_from_html(article, "description", value => page_description = value);
 
 			if (style_source.length !== 0) {
-				view.with_child(html.create_element("style").with_child(new html.Text(style_source)));
+				view.with_child(html.style([style_source]));
 			}
 
 			return view.with_child(body
-				.with_child(html.parse(`<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+				.with_child(html.parse(/*html*/ `<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
 					<header>
 						<main_nav_banner></main_nav_banner>
 					</header>
 				</sidenav>`))
 				.with_child(main)
-				.with_child(html.parse(`<app_footer class="ls_sidenav_neighbor"></app_footer>`))
+				.with_child(html.parse(/*html*/ `<app_footer class="ls_sidenav_neighbor"></app_footer>`))
 			);
 		},
 		load_script: _ => {
@@ -120,7 +112,7 @@ async function process_tutorial(path) {
 					}
 				},
 				styles: [
-					PRISM.get_prism_url("plugins/inline-color/prism-inline-color.min.css")
+					get_prism_url("plugins/inline-color/prism-inline-color.min.css")
 				]
 			};
 		}

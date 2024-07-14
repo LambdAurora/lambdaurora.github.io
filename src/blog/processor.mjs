@@ -1,23 +1,18 @@
-import {PageProcessError, process_page} from "../page_processor.ts";
+import { PageProcessError, process_page } from "../page_processor.ts";
 import {
 	DEPLOY_DIR,
 	create_parent_directory,
 	process_property_from_html,
 	create_common_markdown_parser_opts,
-	create_common_markdown_render_opts
+	create_common_markdown_render_opts,
+	get_iso_date,
 } from "../utils.ts";
+import { CONSTANTS } from "../constants.ts";
+import { get_or_load_language, get_prism_url, Prism } from "../prismjs.ts";
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
-import {CONSTANTS} from "../constants.ts";
-import * as PRISM from "../prismjs.mjs";
 
 const BLOG_ROOT = "src/blog";
-
-function get_date_string(date) {
-	return date.getFullYear()
-		+ "-" + String(date.getMonth() + 1).padStart(2, '0')
-		+ "-" + String(date.getDate()).padStart(2, '0');
-}
 
 async function get_pretty_path(path, parent = "") {
 	try {
@@ -99,7 +94,7 @@ function get_times_html(times) {
 					datetime: times.creation_time.toISOString()
 				},
 				children: [
-					get_date_string(times.creation_time)
+					get_iso_date(times.creation_time)
 				]
 			})
 		]
@@ -126,7 +121,7 @@ function get_times_html(times) {
 								datetime: times.modification_time.toISOString()
 							},
 							children: [
-								get_date_string(times.creation_time)
+								get_iso_date(times.creation_time)
 							]
 						})
 					]
@@ -230,7 +225,7 @@ async function process_blog_entry(path, context) {
 
 			for (const block of doc.blocks) {
 				if (block instanceof md.BlockCode && block.has_language()) {
-					await PRISM.get_or_load_language(block.language.replace(/:apply$/, ""));
+					await get_or_load_language(block.language.replace(/:apply$/, ""));
 				}
 			}
 
@@ -344,7 +339,7 @@ async function process_blog_entry(path, context) {
 					}
 				},
 				styles: [
-					PRISM.get_prism_url("plugins/inline-color/prism-inline-color.min.css"),
+					get_prism_url("plugins/inline-color/prism-inline-color.min.css"),
 					{
 						source: "https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.css",
 						hash: "sha384-bsHo4/LA+lkZv61JspMDQB9QP1TtO4IgOf2yYS+J6VdAYLVyx1c3XKcsHh0Vy8Ws",

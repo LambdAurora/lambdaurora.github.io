@@ -1,10 +1,11 @@
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
-import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../../utils.ts";
-import {EmbedSpec, remove_comments} from "../../../view.ts";
-import {get_path} from "../data.ts";
-import {CONSTANTS} from "../../../../constants.ts";
-import "../../../../prismjs.mjs";
+import { create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../../../../utils.ts";
+import { EmbedSpec } from "../../../../engine/page.ts";
+import { remove_comments } from "../../../view.ts";
+import { CONSTANTS } from "../../../../constants.ts";
+import { get_path } from "../data.ts";
+import { Prism } from "../../../../prismjs.ts";
 
 export const DOC_EMBED: Partial<EmbedSpec> = {
 	image: {

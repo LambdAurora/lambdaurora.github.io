@@ -2,7 +2,7 @@
 import { magenta } from "@std/fmt/colors";
 import { Lock } from "https://deno.land/x/async@v1.1.5/lock.ts";
 import * as html from "@lambdaurora/libhtml";
-import * as PRISM from "../prismjs.mjs";
+import { get_or_load_language, Prism } from "../prismjs.ts";
 import { Application, Response, send } from "@oak/oak";
 import { HttpStatus, LoggerMiddleware, ProxyRouter, serve_files } from "@lambdaurora/lambdawebserver";
 
@@ -116,7 +116,7 @@ async function handle_raw_file(context: { response: Response }, path: string, fi
 			load_view: (_: string) => Deno.readTextFile(file)
 				.then(async source => {
 					try {
-						await import(PRISM.get_prism_url("components/prism-" + language + ".min.js"));
+						await get_or_load_language(language);
 					} catch (_e) { /* Ignored */
 					}
 

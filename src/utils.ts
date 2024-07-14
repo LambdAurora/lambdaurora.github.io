@@ -10,14 +10,6 @@ export const SRC_DIR = "./src";
 export const DECODER = new TextDecoder("utf-8");
 export const AsyncFunction = Object.getPrototypeOf(async function(){}).constructor;
 
-export async function create_parent_directory(path: string) {
-	const path_parts = path.split("/");
-	path_parts.splice(-1, 1);
-	const parent_dir = path_parts.join("/");
-
-	await Deno.mkdir(parent_dir, { recursive: true });
-}
-
 export function process_property_from_html(html_tree: html.Element, property: string, callback: (value: string) => void) {
 	const token = property + ':';
 
@@ -98,6 +90,28 @@ export function create_common_markdown_render_opts(options?: Partial<md.RenderOp
 			class_name: "ls_underline"
 		}
 	} as Partial<md.RenderOptions>);
+}
+
+/**
+ * Returns the ISO 8601 string representation of the given date.
+ *
+ * @param date the date
+ * @returns the ISO 8601 string representation
+ */
+export function get_iso_date(date: Date): string {
+	return date.getFullYear()
+		+ "-" + String(date.getMonth() + 1).padStart(2, "0")
+		+ "-" + String(date.getDate()).padStart(2, "0");
+}
+
+/* File stuff */
+
+export async function create_parent_directory(path: string) {
+	const path_parts = path.split("/");
+	path_parts.splice(-1, 1);
+	const parent_dir = path_parts.join("/");
+
+	await Deno.mkdir(parent_dir, { recursive: true });
 }
 
 /**
