@@ -32,13 +32,13 @@
 
 @media not screen {
 	.ls_only_on_screen {
-		display: none;
+		display: none !important;
 	}
 }
 
 @media not print {
 	.ls_only_on_print {
-		display: none;
+		display: none !important;
 	}
 }
 
