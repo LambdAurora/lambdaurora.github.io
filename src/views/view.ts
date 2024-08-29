@@ -1,28 +1,15 @@
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import { CONSTANTS } from "../constants.ts";
-import { EmbedSpec, PageSpec } from "../engine/page.ts";
+import { EmbedSpec, PageSpec, PreloadEntrySpec, StyleEntrySpec } from "../engine/page.ts";
 
 export type PostProcessFunction = (page: html.Element) => Promise<void>;
 
-export interface PreloadSpec {
-	source: string;
-	type: string;
-}
-
-export interface StyleSpec {
-	source: string;
-	hash?: string;
-	cross_origin?: string;
-}
-
-export type StyleSpecEntry = string | StyleSpec;
-
 export interface ViewSpec {
 	page: PageSpec;
-	preload?: PreloadSpec[];
+	preload?: PreloadEntrySpec[];
 	post_process?: PostProcessFunction;
-	styles?: StyleSpecEntry[];
+	styles?: StyleEntrySpec[];
 	custom?: { [x: string]: unknown };
 }
 

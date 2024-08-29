@@ -10,8 +10,7 @@
 import * as html from "@lambdaurora/libhtml";
 import { get_file_hash } from "../utils.ts";
 import { dirname, resolve, toFileUrl } from "jsr:@std/path@0.223";
-import { PageData } from "./page.ts";
-import { PreloadSpec } from "../views/view.ts";
+import { PageData, PreloadEntrySpec } from "./page.ts";
 
 /**
  * Represents the base arguments that a component can expect.
@@ -33,10 +32,10 @@ export class ComponentContext<Args> {
 	 * The arguments given to the component.
 	 */
 	public readonly args: Args;
-	public readonly preload: PreloadSpec[];
+	public readonly preload: PreloadEntrySpec[];
 	private post_processor?: ComponentPostProcessor;
 
-	constructor(page: PageData, args: Args, preload: PreloadSpec[] = []) {
+	constructor(page: PageData, args: Args, preload: PreloadEntrySpec[] = []) {
 		this.page = page;
 		this.args = args;
 		this.preload = preload;

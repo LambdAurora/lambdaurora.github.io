@@ -1,7 +1,9 @@
+// deno-lint-ignore-file no-this-alias
 export type OutputKind = "file" | "directory" | "empty_directory";
 
 export interface TaskExecutionContext {
 	push_output(path: string, kind?: OutputKind): void;
+	run_all_others(): Promise<boolean>;
 }
 
 /**
@@ -32,18 +34,22 @@ export class BuildTask {
 	 *
 	 * @returns `true` on success, or `false` otherwise
 	 */
-	public async run(): Promise<boolean> {
+	public async run(system: BuildSystem): Promise<boolean> {
 		if (this.output_files.length !== 0) {
 			await this.clean();
 		}
 
-		return await this.build();
+		return await this.build(system);
 	}
 
-	private async build(): Promise<boolean> {
+	private async build(system: BuildSystem): Promise<boolean> {
+		const task = this;
 		return await this.executor({
 			push_output: (path, recursive) => {
 				this.output_files.push({ path: path, kind: recursive ?? "file" });
+			},
+			async run_all_others() {
+				return await system.run_except([task]);
 			}
 		});
 	}
@@ -103,7 +109,7 @@ export class BuildSystem {
 
 	public async run(fatal: boolean): Promise<void> {
 		for (const task of this.tasks) {
-			if (!await task.run()) {
+			if (!await task.run(this)) {
 				console.error(`Task "${task.name}" failed.`);
 
 				if (fatal) {
@@ -113,8 +119,24 @@ export class BuildSystem {
 		}
 	}
 
+	public async run_except(tasks: BuildTask[]): Promise<boolean> {
+		for (const task of this.tasks) {
+			if (tasks.includes(task)) {
+				continue;
+			}
+
+			if (!await task.run(this)) {
+				console.error(`Task "${task.name}" failed.`);
+
+				return false;
+			}
+		}
+
+		return true;
+	}
+
 	public watch(): BuildWatcher {
-		const build_watcher = new BuildWatcher();
+		const build_watcher = new BuildWatcher(this);
 
 		this.tasks.forEach(task => {
 			build_watcher.start_watching(task);
@@ -124,9 +146,18 @@ export class BuildSystem {
 	}
 }
 
+export type BuildWatchListener = (() => Promise<void>) | (() => void);
+
 export class BuildWatcher {
 	private watchers: Deno.FsWatcher[] = [];
-	private locks: { [x: string]: Promise<unknown> } = {};
+	private locks: { [x: string]: { id: number; action: Promise<unknown>; } } = {};
+	private listeners: BuildWatchListener[] = [];
+
+	constructor(private system: BuildSystem) {}
+
+	public add_listener(listener: BuildWatchListener) {
+		this.listeners.push(listener);
+	}
 
 	public start_watching(task: BuildTask): void {
 		const watcher = Deno.watchFs(task.input_files, { recursive: true });
@@ -138,26 +169,56 @@ export class BuildWatcher {
 
 			for await (const event of watcher) {
 				if (event.flag === "rescan") continue;
-				if ((event.kind === "create" || event.kind === "modify" || event.kind === "remove") && (Date.now() - last) > 750) {
+				if (
+					(
+						event.kind === "create"
+						|| event.kind === "modify"
+						|| event.kind === "remove"
+					) && (Date.now() - last) > 750
+				) {
 					last = Date.now();
-					const promise = task.run();
-					await this.request_lock(task, promise);
+
+					const execution_id = last.valueOf();
+
+					const promise = task.run(this.system);
+					await this.request_lock(task, execution_id, promise);
 				}
 			}
 		})();
 	}
 
-	public async request_lock(task: BuildTask, action: Promise<unknown>): Promise<void> {
-		this.locks[task.name] = action;
+	public async request_lock(
+		task: BuildTask,
+		execution_id: number,
+		action: Promise<unknown>
+	): Promise<void> {
+		this.locks[task.name] = {
+			id: execution_id,
+			action: action
+		};
 
 		await action;
 
-		delete this.locks[task.name];
+		// The lock can be released, the action has ended.
+
+		if (this.locks[task.name].id === execution_id) {
+			delete this.locks[task.name];
+
+			if (Object.values(this.locks).length === 0) {
+				await Promise.all(
+					this.listeners
+						.map(listener => listener())
+				);
+			}
+		}
 	}
 
 	public async check_lock(): Promise<void> {
 		while (Object.values(this.locks).length !== 0) {
-			await Promise.all(Object.values(this.locks));
+			await Promise.all(
+				Object.values(this.locks)
+				.map(lock => lock.action)
+			);
 		}
 	}
 

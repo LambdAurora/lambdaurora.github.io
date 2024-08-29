@@ -1,6 +1,6 @@
 // deno-lint-ignore-file no-explicit-any
-import { magenta } from "@std/fmt/colors";
-import { Lock } from "https://deno.land/x/async@v1.1.5/lock.ts";
+import { brightMagenta, magenta } from "@std/fmt/colors";
+import { Semaphore } from "@core/asyncutil/semaphore";
 import * as html from "@lambdaurora/libhtml";
 import { get_or_load_language, Prism } from "../prismjs.ts";
 import { Application, Response, send } from "@oak/oak";
@@ -8,8 +8,9 @@ import { HttpStatus, LoggerMiddleware, ProxyRouter, serve_files } from "@lambdau
 
 import { process_page } from "../page_processor.ts";
 import { DEPLOY_DIR } from "../utils.ts";
+import { BuildWatcher } from "../engine/build_tool/build.ts";
 
-const debug_web_socket_lock = new Lock();
+const debug_web_socket_lock = new Semaphore(1);
 const debug_web_socket_clients: DebugWebSocketAcceptedClient[] = [];
 
 class DebugWebSocketAcceptedClient {
@@ -18,16 +19,14 @@ class DebugWebSocketAcceptedClient {
 	constructor(sock: WebSocket) {
 		this.web_socket = sock;
 		this.web_socket.onopen = _ => {
-			console.log("\u001b[35;1mDebug WebSocket connected.\u001b[0m");
+			console.log(brightMagenta("mDebug WebSocket connected."));
 		};
 		this.web_socket.onclose = () => {
-			debug_web_socket_lock.acquire()
-				.then(() => {
-					const index = debug_web_socket_clients.indexOf(this);
+			debug_web_socket_lock.lock(() => {
+				const index = debug_web_socket_clients.indexOf(this);
 					debug_web_socket_clients.splice(index, 1);
-					debug_web_socket_lock.release();
-					console.log("\u001b[35;1mDebug WebSocket disconnected.\u001b[0m");
-				});
+					console.log(brightMagenta("Debug WebSocket disconnected."));
+			});
 		};
 	}
 }
@@ -35,7 +34,7 @@ class DebugWebSocketAcceptedClient {
 export async function serve(args: {
 	[x: string]: any;
 	_: (string | number)[];
-}, waiter: { lock: Promise<void>, on_rebuild: () => void }) {
+}, watcher?: BuildWatcher) {
 	const port = parseInt(args.port);
 	const app = new Application();
 
@@ -52,14 +51,14 @@ export async function serve(args: {
 		if (args.debug && context.request.url.pathname === "/debug/hotreloader") {
 			const socket = context.upgrade();
 
-			await debug_web_socket_lock.acquire();
-			debug_web_socket_clients.push(new DebugWebSocketAcceptedClient(socket));
-			debug_web_socket_lock.release();
+			debug_web_socket_lock.lock(() => {
+				debug_web_socket_clients.push(new DebugWebSocketAcceptedClient(socket));
+			});
 
 			return;
-		} else if (args.debug) {
+		} else if (args.debug && watcher) {
 			// Wait for the debug reload to complete.
-			await waiter.lock;
+			await watcher.check_lock();
 		}
 
 		return await next();
@@ -93,13 +92,15 @@ export async function serve(args: {
 	});
 
 	app.addEventListener("listen", evt => {
-		waiter.on_rebuild = async () => {
-			await debug_web_socket_lock.acquire();
-			debug_web_socket_clients.forEach(client => {
-				client.web_socket.send("reload");
+		if (watcher) {
+			watcher.add_listener(() => {
+				debug_web_socket_lock.lock(() => {
+					debug_web_socket_clients.forEach(client => {
+						client.web_socket.send("reload");
+					});
+				});
 			});
-			debug_web_socket_lock.release();
-		};
+		}
 		console.log("Access it at: " + magenta(`http://${evt.hostname === "0.0.0.0"
 			? "localhost" : evt.hostname}:${port}/`)
 		);

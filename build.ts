@@ -6,7 +6,7 @@ import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { process_all_blog_entries } from "./src/blog/processor.mjs";
 import { serve } from "./src/server/server.ts";
 import { BUILD_DIR, DEPLOY_DIR } from "./src/utils.ts";
-import { BuildSystem, BuildTask } from "./src/engine/build_tool/build.ts";
+import { BuildSystem, BuildTask, BuildWatcher } from "./src/engine/build_tool/build.ts";
 import { COMPONENTS } from "./src/engine/component.ts";
 
 const args = parseArgs(Deno.args, { default: { port: 8080 }});
@@ -97,70 +97,48 @@ const style_step = new BuildTask(
 );
 build_system.register_task(style_step);
 
-async function build() {
-	console.log("Cleaning build directory...");
-	try {
-		await Deno.remove(BUILD_DIR, {recursive: true});
-	} catch (e) {
-		if (!(e instanceof Deno.errors.NotFound)) {
-			throw e;
-		}
-	}
-	await build_system.run(!(args.serve && args.debug));
-
-	await COMPONENTS.load_all();
-
-	await process_all_pages();
-	await process_all_tutorials();
-	await process_all_blog_entries();
-}
-
-await build();
-
-const watchers: Deno.FsWatcher[] = [];
-
-function start_watching(waiter: { lock: Promise<void>, on_rebuild: () => Promise<void> }, build_func: () => Promise<unknown>, ...directories: string[]) {
-	for (const directory of directories) {
-		const watcher = Deno.watchFs(directory, { recursive: true });
-		watchers.push(watcher);
-
-		// Bootstrap the running watcher. Not using await allows for this to run in the background.
-		(async function () {
-			let last = Date.now();
-
-			for await (const event of watcher) {
-				if (event.flag === "rescan") continue;
-				if ((event.kind === "create" || event.kind === "modify" || event.kind === "remove") && (Date.now() - last) > 750) {
-					last = Date.now();
-					const promise = build_func().then(async _ => { await waiter.on_rebuild(); });
-					waiter.lock = promise;
-					await promise;
-				}
+const build_step = new BuildTask(
+	"Build",
+	async context => {
+		console.log("Cleaning build directory...");
+		try {
+			await Deno.remove(BUILD_DIR, {recursive: true});
+		} catch (e) {
+			if (!(e instanceof Deno.errors.NotFound)) {
+				throw e;
 			}
-		})();
-	}
-}
+		}
 
-function stop_watching() {
-	watchers.forEach(watcher => watcher.close());
-}
+		const result = await context.run_all_others();
+
+		if (!(args.serve && args.debug)) {
+			return result;
+		}
+
+		await COMPONENTS.load_all();
+
+		await process_all_pages();
+		await process_all_tutorials();
+		await process_all_blog_entries();
+
+		return result;
+	},
+	["./src/templates", "./src/views", "./src/tutorials", "./src/blog"]
+);
+build_system.register_task(build_step);
+
+await build_step.run(build_system);
 
 if (args.serve) {
-	const waiter = { lock: new Promise<void>(resolved => resolved()), on_rebuild: async () => {} };
+	let watcher: BuildWatcher | undefined = undefined;
 
 	if (args.debug) {
-		start_watching(waiter, async () => await public_step.run(), "./public");
-		start_watching(waiter, async () => await style_step.run(), "./src/style/");
-		start_watching(waiter, async () => {
-			try {
-				await build();
-			} catch (e) {
-				console.error(e);
-			}
-		}, "./src/templates", "./src/views", "./src/tutorials", "./src/blog");
+		watcher = build_system.watch();
 	}
 
-	await serve(args, waiter);
+	await serve(args, watcher);
 
-	stop_watching();
+	if (watcher) {
+		watcher.shutdown();
+	}
 }

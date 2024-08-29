@@ -32,6 +32,19 @@ export interface IconsSpec {
 	favicon?: string;
 }
 
+export interface PreloadEntrySpec {
+	source: string;
+	type: string;
+}
+
+export interface RichStyleEntrySpec {
+	source: string;
+	hash?: string;
+	cross_origin?: string;
+}
+
+export type StyleEntrySpec = string | RichStyleEntrySpec;
+
 export interface PageSpec {
 	/**
 	 * The title of the page.

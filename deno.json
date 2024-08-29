@@ -7,9 +7,7 @@
 	},
 	"importMap": "./import_map.json",
 	"fmt": {
-		"options": {
-			"useTabs": true
-		}
+		"useTabs": true
 	},
 	"lock": false
 }

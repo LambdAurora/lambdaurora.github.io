@@ -2,8 +2,8 @@
 import * as html from "@lambdaurora/libhtml";
 import { CONSTANTS } from "./constants.ts";
 import { create_parent_directory, DEPLOY_DIR, get_file_hash } from "./utils.ts";
-import { PreloadSpec, resolve_embed, StyleSpecEntry, ViewSpec } from "./views/view.ts";
-import { PageSpec } from "./engine/page.ts";
+import { resolve_embed, ViewSpec } from "./views/view.ts";
+import { PageData, PreloadEntrySpec, StyleEntrySpec } from "./engine/page.ts";
 import { ComponentContext, process_nodes } from "./engine/component.ts";
 
 const VIEWS_ROOT = "src/views";
@@ -15,16 +15,6 @@ export class PageProcessError extends Error {
 	constructor(path: string, message: string) {
 		super(`Error at ${path}: ${message}`);
 	}
-}
-
-interface HtmlConvertible {
-	html: () => string;
-}
-
-type HtmlNode = html.Node & HtmlConvertible;
-
-interface PageData extends PageSpec {
-	path: string;
 }
 
 interface ViewData extends ViewSpec {
@@ -153,7 +143,7 @@ function process_head(page: html.Element, style: html.Element | undefined, modul
 	);
 
 	if (module.styles) {
-		module.styles.forEach((style_data: StyleSpecEntry) => {
+		module.styles.forEach((style_data: StyleEntrySpec) => {
 			if (typeof style_data === "string") {
 				style_data = {
 					source: style_data
@@ -176,7 +166,7 @@ function process_head(page: html.Element, style: html.Element | undefined, modul
 	}
 
 	if (module.preload) {
-		module.preload.forEach((preload: PreloadSpec) => {
+		module.preload.forEach((preload: PreloadEntrySpec) => {
 			head.append_child(html.create_element("link")
 				.with_attr("rel", "preload")
 				.with_attr("href", preload.source)
@@ -244,7 +234,7 @@ export async function process_page(path: string, settings?: PageProcessingSettin
 			]))
 	]);
 
-	const page = results[0] as HtmlNode[];
+	const page = results[0] as html.Node[];
 	const module = results[1][0] as ViewData;
 	const body = results[1][1] as html.Element;
 	const style = results[1][2];
