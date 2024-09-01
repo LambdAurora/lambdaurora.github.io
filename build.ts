@@ -111,7 +111,7 @@ const build_step = new BuildTask(
 
 		const result = await context.run_all_others();
 
-		if (!(args.serve && args.debug)) {
+		if (!result && !(args.serve && args.debug)) {
 			return result;
 		}
 
