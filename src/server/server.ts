@@ -19,7 +19,7 @@ class DebugWebSocketAcceptedClient {
 	constructor(sock: WebSocket) {
 		this.web_socket = sock;
 		this.web_socket.onopen = _ => {
-			console.log(brightMagenta("mDebug WebSocket connected."));
+			console.log(brightMagenta("Debug WebSocket connected."));
 		};
 		this.web_socket.onclose = () => {
 			debug_web_socket_lock.lock(() => {

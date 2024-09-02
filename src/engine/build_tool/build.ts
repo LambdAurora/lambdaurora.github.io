@@ -7,30 +7,29 @@ export interface TaskExecutionContext {
 }
 
 /**
- * Represents the task executor which takes a context as input, and returns `true` on success, or `false` otherwise.
+ * Represents the task executor which takes a context as input,
+ * and returns `true` on success, or `false` otherwise.
  */
 export type TaskExecutor = (context: TaskExecutionContext) => Promise<boolean>;
 
 /**
- * Represents a build task.
+ * Represents a task part of the build system.
  */
-export class BuildTask {
+export abstract class Task {
 	/**
 	 * Input files to watch changes for.
 	 */
 	public readonly input_files: string[];
 	private output_files: {readonly path: string; readonly kind: OutputKind}[] = [];
 
-	constructor(
-		public readonly name: string,
-		public readonly executor: TaskExecutor,
-		input_files: string[]
-	) {
+	constructor(public readonly name: string, input_files: string[]) {
 		this.input_files = input_files;
 	}
 
+	protected abstract do_action(context: TaskExecutionContext): Promise<boolean>;
+
 	/**
-	 * Runs this build task.
+	 * Runs this task.
 	 *
 	 * @returns `true` on success, or `false` otherwise
 	 */
@@ -39,12 +38,12 @@ export class BuildTask {
 			await this.clean();
 		}
 
-		return await this.build(system);
+		return await this.run_action(system);
 	}
 
-	private async build(system: BuildSystem): Promise<boolean> {
+	private async run_action(system: BuildSystem): Promise<boolean> {
 		const task = this;
-		return await this.executor({
+		return await this.do_action({
 			push_output: (path, recursive) => {
 				this.output_files.push({ path: path, kind: recursive ?? "file" });
 			},
@@ -98,12 +97,29 @@ export class BuildTask {
 }
 
 /**
+ * Represents a build task.
+ */
+export class BuildTask extends Task {
+	constructor(
+		name: string,
+		public readonly executor: TaskExecutor,
+		input_files: string[]
+	) {
+		super(name, input_files);
+	}
+
+	protected async do_action(context: TaskExecutionContext): Promise<boolean> {
+		return await this.executor(context);
+	}
+}
+
+/**
  * Represents the build system.
  */
 export class BuildSystem {
-	private tasks: BuildTask[] = [];
+	private tasks: Task[] = [];
 
-	public register_task(task: BuildTask): void {
+	public register_task(task: Task): void {
 		this.tasks.push(task);
 	}
 
@@ -119,7 +135,7 @@ export class BuildSystem {
 		}
 	}
 
-	public async run_except(tasks: BuildTask[]): Promise<boolean> {
+	public async run_except(tasks: Task[]): Promise<boolean> {
 		for (const task of this.tasks) {
 			if (tasks.includes(task)) {
 				continue;
@@ -159,7 +175,7 @@ export class BuildWatcher {
 		this.listeners.push(listener);
 	}
 
-	public start_watching(task: BuildTask): void {
+	public start_watching(task: Task): void {
 		const watcher = Deno.watchFs(task.input_files, { recursive: true });
 		this.watchers.push(watcher);
 
@@ -188,7 +204,7 @@ export class BuildWatcher {
 	}
 
 	public async request_lock(
-		task: BuildTask,
+		task: Task,
 		execution_id: number,
 		action: Promise<unknown>
 	): Promise<void> {

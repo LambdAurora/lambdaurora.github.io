@@ -8,6 +8,7 @@ import { serve } from "./src/server/server.ts";
 import { BUILD_DIR, DEPLOY_DIR } from "./src/utils.ts";
 import { BuildSystem, BuildTask, BuildWatcher } from "./src/engine/build_tool/build.ts";
 import { COMPONENTS } from "./src/engine/component.ts";
+import { CopyStaticResourcesTask } from "./src/engine/build_tool/tasks.ts";
 
 const args = parseArgs(Deno.args, { default: { port: 8080 }});
 
@@ -15,39 +16,12 @@ if (args.debug) enable_debug_pages();
 
 const build_system = new BuildSystem();
 
-const public_step = new BuildTask(
+const assets_step = new CopyStaticResourcesTask(
 	"Copy Public Assets",
-	async context => {
-		console.log("Copying static resources...");
-
-		async function visit(directory: string) {
-			await Deno.mkdir(DEPLOY_DIR + directory, { recursive: true });
-	
-			for await (const dir_entry of Deno.readDir("./public" + directory)) {
-				if (dir_entry.isDirectory) {
-					const dir = directory + "/" + dir_entry.name;
-
-					await visit(dir);
-					context.push_output(`${DEPLOY_DIR}/${dir}`, "empty_directory");
-				} else if (dir_entry.isFile) {
-					const file = "/" + directory + "/" + dir_entry.name;
-					const output_file = DEPLOY_DIR + file;
-
-					await copy("./public" + file, output_file);
-					context.push_output(output_file);
-				}
-			}
-		}
-	
-		await visit("");
-
-		console.log("Static resources have been copied.");
-
-		return true;
-	},
-	["./public"]
+	["./public"],
+	DEPLOY_DIR
 );
-build_system.register_task(public_step);
+build_system.register_task(assets_step);
 
 const style_step = new BuildTask(
 	"Style",
@@ -115,11 +89,15 @@ const build_step = new BuildTask(
 			return result;
 		}
 
+		console.log("Building pages...");
+
 		await COMPONENTS.load_all();
 
 		await process_all_pages();
 		await process_all_tutorials();
 		await process_all_blog_entries();
+
+		console.log("Build completed.");
 
 		return result;
 	},
