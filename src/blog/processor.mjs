@@ -1,4 +1,4 @@
-import { PageProcessError, process_page } from "../page_processor.ts";
+import { PageProcessError, process_page } from "../engine/page.ts";
 import {
 	DEPLOY_DIR,
 	create_parent_directory,
@@ -198,7 +198,7 @@ function visit_html_tree(node, callback) {
 	}
 }
 
-async function process_blog_entry(path, context) {
+async function process_blog_entry(path, pages_context, context) {
 	let title = await get_pretty_path(path);
 
 	let page_description = null;
@@ -211,7 +211,7 @@ async function process_blog_entry(path, context) {
 		modification_time: null
 	};
 
-	return await process_page(`/blog/${path.replace(/\.md$/, ".html")}`, {
+	return await process_page(`/blog/${path.replace(/\.md$/, ".html")}`, pages_context, {
 		load_view: async function (_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
@@ -351,10 +351,10 @@ async function process_blog_entry(path, context) {
 	});
 }
 
-async function process_blog_index(entries) {
+async function process_blog_index(entries, pages_context) {
 	const title = `Blog Posts Index`;
 
-	return await process_page("/blog", {
+	return await process_page("/blog", pages_context, {
 		load_view: function (_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
@@ -486,7 +486,7 @@ async function generate_rss_feed(entries) {
 	await Deno.writeTextFile(DEPLOY_DIR + "/blog/feed.xml", rss.html());
 }
 
-export async function process_all_blog_entries(root = BLOG_ROOT) {
+export async function process_all_blog_entries(pages_context, root = BLOG_ROOT) {
 	const context = {
 		root: root
 	};
@@ -509,7 +509,7 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 							const path = `${month_path}/${entry.name}`;
 							const html_path = `/blog/${path.replace(/\.md$/, ".html")}`;
 
-							await process_blog_entry(path, context)
+							await process_blog_entry(path, pages_context, context)
 								.then(async function (page) {
 									const deploy_path = DEPLOY_DIR + html_path;
 									await create_parent_directory(deploy_path);
@@ -543,7 +543,7 @@ export async function process_all_blog_entries(root = BLOG_ROOT) {
 		else return 0;
 	});
 
-	await process_blog_index(blog_entries)
+	await process_blog_index(blog_entries, pages_context)
 		.then(async function (page) {
 			const deploy_path = DEPLOY_DIR + "/blog/index.html";
 			await create_parent_directory(deploy_path); // Shouldn't be needed.

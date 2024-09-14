@@ -1,7 +1,7 @@
 import { copy, move } from "@std/fs";
 import { parseArgs } from "@std/cli";
 
-import { process_all_pages, enable_debug_pages } from "./src/page_processor.ts";
+import { PagesContext, process_all_pages } from "./src/engine/page.ts";
 import { process_all_tutorials } from "./src/tutorial_processor.mjs";
 import { process_all_blog_entries } from "./src/blog/processor.mjs";
 import { serve } from "./src/server/server.ts";
@@ -9,10 +9,22 @@ import { BUILD_DIR, DEPLOY_DIR } from "./src/utils.ts";
 import { BuildSystem, BuildTask, BuildWatcher } from "./src/engine/build_tool/build.ts";
 import { COMPONENTS } from "./src/engine/component.ts";
 import { CopyStaticResourcesTask } from "./src/engine/build_tool/tasks.ts";
+import { Application } from "./src/engine/app.ts";
+import { CONSTANTS } from "./src/constants.ts";
 
 const args = parseArgs(Deno.args, { default: { port: 8080 }});
 
-if (args.debug) enable_debug_pages();
+const app = new Application({
+	name: CONSTANTS.site_name,
+	root_url: CONSTANTS.root_url,
+	logo: CONSTANTS.site_logo,
+	debug: args.debug
+});
+const pages_context = new PagesContext(
+	app,
+	"src/templates/page.html",
+	"src/views"
+)
 
 const build_system = new BuildSystem();
 
@@ -71,6 +83,16 @@ const style_step = new BuildTask(
 );
 build_system.register_task(style_step);
 
+const components_task = new BuildTask(
+	"Components",
+	async () => {
+		await COMPONENTS.load_all();
+		return true;
+	},
+	[COMPONENTS.root]
+);
+build_system.register_task(components_task);
+
 const build_step = new BuildTask(
 	"Build",
 	async context => {
@@ -91,11 +113,9 @@ const build_step = new BuildTask(
 
 		console.log("Building pages...");
 
-		await COMPONENTS.load_all();
-
-		await process_all_pages();
-		await process_all_tutorials();
-		await process_all_blog_entries();
+		await process_all_pages(pages_context, pages_context.views_root, DEPLOY_DIR);
+		await process_all_tutorials(pages_context);
+		await process_all_blog_entries(pages_context);
 
 		console.log("Build completed.");
 
@@ -114,7 +134,7 @@ if (args.serve) {
 		watcher = build_system.watch();
 	}
 
-	await serve(args, watcher);
+	await serve(pages_context, args, watcher);
 
 	if (watcher) {
 		watcher.shutdown();

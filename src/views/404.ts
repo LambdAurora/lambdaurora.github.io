@@ -1,4 +1,4 @@
-import {ViewSpec} from "./view.ts";
+import { ViewSpec } from "../engine/view.ts";
 
 const title = "404 Not Found";
 

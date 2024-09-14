@@ -1,4 +1,4 @@
-import { process_page } from "./page_processor.ts";
+import { process_page } from "./engine/page.ts";
 import { DEPLOY_DIR, create_parent_directory, process_property_from_html, create_common_markdown_parser_opts, create_common_markdown_render_opts } from "./utils.ts";
 import { get_or_load_language, get_prism_url, Prism } from "./prismjs.ts";
 import * as html from "@lambdaurora/libhtml";
@@ -33,12 +33,12 @@ async function get_pretty_path(path, parent = "") {
 		.join(" / ").replace(/^\//, "").replace(/\.md$/, "");
 }
 
-async function process_tutorial(path) {
+async function process_tutorial(path, pages_context) {
 	let title = await get_pretty_path(path);
 
 	let page_description = "A tutorial made by LambdAurora.";
 
-	return await process_page("/tutorials" + path.replace(/\.md$/, ".html"), {
+	return await process_page("/tutorials" + path.replace(/\.md$/, ".html"), pages_context, {
 		load_view: async function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
@@ -119,13 +119,13 @@ async function process_tutorial(path) {
 	});
 }
 
-async function process_tutorial_index(entry) {
+async function process_tutorial_index(entry, pages_context) {
 	let index_name = "";
 	if (entry.dir !== "") index_name = ` (${entry.name})`;
 
 	const title = `Tutorials Index${index_name}`;
 
-	return await process_page("/tutorials/" + entry.dir, {
+	return await process_page("/tutorials/" + entry.dir, pages_context, {
 		load_view: function(_) {
 			const view = html.create_element("html");
 			const body = html.create_element("body");
@@ -220,7 +220,7 @@ async function process_tutorial_index(entry) {
 	});
 }
 
-export async function process_all_tutorials(entry = { dir: "", children: [] }) {
+export async function process_all_tutorials(pages_context, entry = { dir: "", children: [] }) {
 	const directory = entry.dir;
 
 	for await (const dir_entry of Deno.readDir(TUTORIALS_ROOT + directory)) {
@@ -229,7 +229,7 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 			const new_entry = { dir: directory + path, name: await get_pretty_path(path, directory), children: [] };
 			entry.children.push(new_entry);
 
-			await process_all_tutorials(new_entry);
+			await process_all_tutorials(pages_context, new_entry);
 		} else {
 			if (dir_entry.name === DIRECTORY_METADATA_FILE || !dir_entry.name.includes(".md")) {
 				continue;
@@ -237,7 +237,7 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 
 			const path = directory + "/" + dir_entry.name;
 			const html_path = "/tutorials" + path.replace(/\.md$/, ".html");
-			await process_tutorial(path)
+			await process_tutorial(path, pages_context)
 				.then(async function(page) {
 					const deploy_path = DEPLOY_DIR + html_path;
 					await create_parent_directory(deploy_path);
@@ -256,7 +256,7 @@ export async function process_all_tutorials(entry = { dir: "", children: [] }) {
 	}
 
 	if (entry.dir === "") {
-		await process_tutorial_index(entry)
+		await process_tutorial_index(entry, pages_context)
 			.then(async function (page) {
 				const deploy_path = DEPLOY_DIR + "/tutorials" + directory + "/index.html";
 				await create_parent_directory(deploy_path); // Shouldn't be needed.

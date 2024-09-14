@@ -9,8 +9,8 @@
 // deno-lint-ignore-file no-explicit-any
 import * as html from "@lambdaurora/libhtml";
 import { get_file_hash } from "../utils.ts";
-import { dirname, resolve, toFileUrl } from "jsr:@std/path@0.223";
-import { PageData, PreloadEntrySpec } from "./page.ts";
+import { PageData, PreloadEntrySpec } from "./page_data.ts";
+import { dirname, resolve, toFileUrl } from "@std/path";
 
 /**
  * Represents the base arguments that a component can expect.
@@ -37,7 +37,10 @@ export class ComponentContext<Args> {
 
 	constructor(page: PageData, args: Args, preload: PreloadEntrySpec[] = []) {
 		this.page = page;
-		this.args = args;
+		this.args = {
+			page: page,
+			...args
+		};
 		this.preload = preload;
 	}
 
@@ -158,8 +161,26 @@ export async function process_nodes(nodes: html.Node[], context: ComponentContex
 export async function process(node: html.Node, context: ComponentContext<any>): Promise<html.Node | html.Node[]> {
 	if (node instanceof html.Text) {
 		// Process text.
-		const regex = /\$\{([a-z_\-\$][a-z0-9_\-\$]*?)\}/ig;
+		const regex = /\$\{([a-z_\-\$][a-z0-9_\-\$\.]*?)\}/ig;
 		node.content = node.content.replaceAll(regex, (content, name: string) => {
+			if (name.includes(".")) {
+				const path = name.split(".");
+				let current = context.args;
+
+				for (const part of path) {
+					if (part in current) {
+						current = current[part];
+					} else {
+						current = undefined;
+						break;
+					}
+				}
+
+				if (current !== undefined) {
+					return current;
+				}
+			}
+
 			if (name in context.args) {
 				return context.args[name];
 			}

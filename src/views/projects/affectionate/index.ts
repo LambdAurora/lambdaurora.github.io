@@ -1,8 +1,8 @@
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
-import {remove_comments, ViewSpec} from "../../view.ts";
-import {CONSTANTS} from "../../../constants.ts";
-import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../utils.ts";
+import { remove_comments, ViewSpec } from "../../../engine/view.ts";
+import { CONSTANTS } from "../../../constants.ts";
+import { create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../../../utils.ts";
 
 const title = "Affectionate";
 const AFFECTIONATE_README = "https://raw.githubusercontent.com/LambdAurora/affectionate/1.20/README.md";

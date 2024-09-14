@@ -7,13 +7,13 @@
 
 		<link rel="preload" href="/style.css" as="style">
 
-		<meta name="description" content="${page.description}">
+		<meta name="description" [content]="props.page.description">
 
-		<meta property="og:type" content="${page.embed.type}">
-		<meta property="og:title" content="${page.embed.title}">
-		<meta property="og:site_name" content="${global_context.site_name}">
-		<meta property="og:url" content="${global_context.root_url}${page.path}">
-		<meta property="og:description" content="${page.description}">
+		<meta property="og:type" [content]="props.page.embed.type">
+		<meta property="og:title" [content]="props.page.embed.title">
+		<meta property="og:site_name" [content]="props.app.name">
+		<meta property="og:url" [content]="props.app.root_url + props.page.path">
+		<meta property="og:description" [content]="props.page.description">
 		<meta property="twitter:creator" content="@LambdAurora">
 
 		<meta name="theme-color" content="#ff5aa2">

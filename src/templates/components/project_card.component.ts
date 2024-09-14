@@ -2,7 +2,7 @@ import * as html from "@lambdaurora/libhtml";
 import { ComponentData } from "../../engine/component.ts";
 
 const ProjectCardComponent: ComponentData<{
-	page?: string;
+	href?: string;
 	source?: string;
 	thumbnail?: string;
 	thumbnail_darken?: string;
@@ -62,10 +62,10 @@ const ProjectCardComponent: ComponentData<{
 
 		const actions: html.Node[] = [];
 
-		if (args.page) {
+		if (args.href) {
 			actions.push(html.a({
 				attributes: {
-					href: args.page,
+					href: args.href,
 					class: "ls_btn"
 				},
 				children: [ "View Page" ]

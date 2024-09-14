@@ -6,7 +6,7 @@ import { get_or_load_language, Prism } from "../prismjs.ts";
 import { Application, Response, send } from "@oak/oak";
 import { HttpStatus, LoggerMiddleware, ProxyRouter, serve_files } from "@lambdaurora/lambdawebserver";
 
-import { process_page } from "../page_processor.ts";
+import { PagesContext, process_page } from "../engine/page.ts";
 import { DEPLOY_DIR } from "../utils.ts";
 import { BuildWatcher } from "../engine/build_tool/build.ts";
 
@@ -31,10 +31,14 @@ class DebugWebSocketAcceptedClient {
 	}
 }
 
-export async function serve(args: {
-	[x: string]: any;
-	_: (string | number)[];
-}, watcher?: BuildWatcher) {
+export async function serve(
+	pages_context: PagesContext,
+	args: {
+		[x: string]: any;
+		_: (string | number)[];
+	},
+	watcher?: BuildWatcher
+) {
 	const port = parseInt(args.port);
 	const app = new Application();
 
@@ -70,10 +74,22 @@ export async function serve(args: {
 		if (accept_header) {
 			try {
 				if (file_path.endsWith(".css") && accept_header.includes("text/html") && !accept_header.includes("text/css")) {
-					await handle_raw_file(context, file_path, DEPLOY_DIR + file_path, "css");
+					await handle_raw_file(
+						context,
+						pages_context,
+						file_path,
+						DEPLOY_DIR + file_path,
+						"css"
+					);
 					return;
 				} else if (file_path.endsWith(".scss") && accept_header.includes("text/html") && !accept_header.includes("text/scss")) {
-					await handle_raw_file(context, file_path, DEPLOY_DIR + file_path, "scss");
+					await handle_raw_file(
+						context,
+						pages_context,
+						file_path,
+						DEPLOY_DIR + file_path,
+						"scss"
+					);
 					return;
 				}
 			} catch {
@@ -112,8 +128,14 @@ export async function serve(args: {
 	});
 }
 
-async function handle_raw_file(context: { response: Response }, path: string, file: string, language: string) {
-	const page = await process_page(path, {
+async function handle_raw_file(
+	context: { response: Response },
+	pages_context: PagesContext,
+	path: string,
+	file: string,
+	language: string
+) {
+	const page = await process_page(path, pages_context, {
 			load_view: (_: string) => Deno.readTextFile(file)
 				.then(async source => {
 					try {

@@ -1,6 +1,6 @@
-import {ViewSpec} from "../../../view.ts";
-import {BRANCH, title} from "../data.ts";
-import {DOC_EMBED, make_post_process} from "./common.ts";
+import { ViewSpec } from "../../../../engine/view.ts";
+import { BRANCH, title } from "../data.ts";
+import { DOC_EMBED, make_post_process } from "./common.ts";
 
 export const SPEC: ViewSpec = {
 	page: {

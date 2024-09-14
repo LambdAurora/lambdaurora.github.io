@@ -1,8 +1,8 @@
 import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
-import {remove_comments, ViewSpec} from "../../view.ts";
-import {create_common_markdown_parser_opts, create_common_markdown_render_opts} from "../../../utils.ts";
-import {BRANCH, get_path, title} from "./data.ts";
+import { remove_comments, ViewSpec } from "../../../engine/view.ts";
+import { create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../../../utils.ts";
+import { BRANCH, get_path, title } from "./data.ts";
 
 const LBG_README = get_path("README.md");
 
