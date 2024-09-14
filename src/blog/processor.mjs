@@ -121,7 +121,7 @@ function get_times_html(times) {
 								datetime: times.modification_time.toISOString()
 							},
 							children: [
-								get_iso_date(times.creation_time)
+								get_iso_date(times.modification_time)
 							]
 						})
 					]

@@ -5,13 +5,13 @@
 <!--author: lambdaurora -->
 <!--tag: affectionate, curseforge, minecraft modding -->
 <!--date: 2022-09-18 23:21:19 GMT+0200 -->
-<!--modified: 2022-10-27 -->
+<!--modified: 2024-09-14 -->
 
 [[ToC]]
 
 ## Introduction
 
-From August 13th to August 21th, the development time of [ModFest: Singularity][modfest] was running high, and I wanted to participate.  
+From August 13th to August 21st, the development time of [ModFest: Singularity][modfest] was running high, and I wanted to participate.  
 I wondered for a while which mod would I make. And I landed on the idea of Affectionate.
 
 [Affectionate] is a Minecraft mod about affectionate player interactions. Those interactions at the time of release were lap sitting and a heart emote.  
@@ -39,7 +39,7 @@ Now with this feature explained and proper cultural context in mind, let's see w
 ## CurseForge rejection
 
 I published the mod to GitHub, submitted it to [Modrinth](https://modrinth.com/mod/affectionate "Affectionate Modrinth Page") which quickly got accepted, and to CurseForge.  
-I found it weird it took longer than usual for the latter. I quickly knew why:
+I found it weird it took longer than usual for the latter, I quickly knew why:
 
 ![Rejection of the CurseForge project (quote just next)][rejection_note]
 
@@ -53,7 +53,7 @@ My first thought when I saw this was "What in hell? How could this be?".
 So I went to ask around on the CurseForge dev Discord guild, haven't really gotten an official answer from there, but it sparked quite the debate, with
 several people agreeing that lap sitting isn't an issue, though culture differences could be a thing.
 
-I was honestly pissed off, spent quite a few hours on making a mod that I genuinely found cute, that several people found cute. I had lot of positive feedback from my own community, from Quilt's community, and Modfest's community.
+I was honestly pissed off, spent quite a few hours on making a mod that I genuinely found cute, that several people found cute. I had a lot of positive feedback from my own community, from Quilt's community, and Modfest's community.
 
 And honestly, for that kind of concerns, there is already other worse or equivalent mods already hosted on CurseForge (more on that later).
 
@@ -63,7 +63,7 @@ And honestly, for that kind of concerns, there is already other worse or equival
 
 With a good friend we went and wrote an appeal ticket.
 
-The ticket mentioned that a large number of people whom none had any issue with it and instead being supportive of the mod, that I feared that the moderation could be acting on their own culture only and disregarding other cultures. It also had some anonymous quotes from some debates, and a question on why this mod was more inappropriate than some mods that are already being hosted.
+The ticket mentioned that many people whom none had any issue with it and instead being supportive of the mod, that I feared that the moderation could be acting on their own culture only and disregarding other cultures. It also had some anonymous quotes from some debates, and a question on why this mod was more inappropriate than some mods that are already being hosted.
 
 The support service announces an estimated 3 business days for a submitted request/ticker, it being a little longer I can accept. Though I had to wait 2 weeks to get an answer, which I only got after publicly complaining in the CurseForge dev Discord guild. This was honestly quite demotivating.
 
@@ -76,7 +76,7 @@ And all of that to get answered that:
 
 I was effectively told to submit a demo version of my mod instead.
 
-Someone mentioned that they thought demo were disallowed on the site, turns out it's fine as long as you don't point out to additional features in exchange of money.
+Someone mentioned that they thought demo were disallowed on the site, turns out it's fine as long as you don't point out to additional features in exchange for money.
 ​
 ## The Issue With The Reason
 
@@ -85,7 +85,7 @@ To this day, I am still unsure how users may use my mod in a lewd or inappropria
 
 Meanwhile, you can create lewder scenes in the Vanilla game, simply with two players and a bed: a player rapidly sneaking on top of the bed would make this rather obvious. But this is fine since it's in the base game I guess. ¯\\\_(ツ)\_/¯
 
-And like, as I said, there are other hosted projects that are much lewder and less appropriate than simply lap sitting. Here's a few examples, be mindful of the content warnings:
+And like, as I said, there are other hosted projects that are much lewder and less appropriate than simply lap sitting. Here are a few examples, be mindful of the content warnings:
 
 <ul>
 	<li>
@@ -122,7 +122,7 @@ For my quest of answers, I asked about those mods. So far I've been told they're
 
 ## CurseForge Moderation Is Inappropriate
 
-I have several issues with CurseForge, ranging from extremely bad UI, having disregarded accessibility, not being able to reply to some of the comments on **my own projects** without editing the CSS rules, and more.
+I have several issues with CurseForge, ranging from awful UI, having disregarded accessibility, not being able to reply to some of the comments on **my own projects** without editing the CSS rules, and more.
 
 But moderation on that website is a whole can of worms.
 
@@ -131,14 +131,14 @@ The moderation is very inconsistent, some authors can upload multiple mods that 
 but some of them might require modification after review, because the "summary isn't fitting", or the "description is too short/non-descriptive",
 while in all of these cases the summary or descriptions were literally saying what the mod did.
 
-And as you can see here with my little list of mods, it's also not consistent: why is my mod inappropriate but those are not?
+And as you can see here with my little list of mods, it's also not consistent: why is my mod inappropriate, but those are not?
 I can understand that a different moderation team was in place before and had different rules. Though, I've heard that CurseForge has a tendency to not request modifications after a project got approved, that's kind of a recipe for inconsistent moderation and unfairness.
 
 Second issue, reporting is a black box.  
-CurseForge has a way to report projects and comments directly on the website, which is neat, until you see the dialog and you realize you will never get a notification on whether the report has been reviewed or not. It's basically hit or miss.  
+CurseForge has a way to report projects and comments directly on the website, which is neat, until you see the dialog, and you realize you will never get a notification on whether the report has been reviewed or not. It's basically hit or miss.  
 It's even more frustrating when the comment in question is on your own project: if you delete the comment you have to report the account, but how am I guaranteed the context will be found and consequences will happen? Reporting then deleting the comment apparently internally resolve the report too.  
 So the best way to know if a comment has been actioned upon due to a report is to simply not delete it and report it.  
-*So far a transphobic comment on the page of my mod [Aurora's Decorations](https://www.curseforge.com/minecraft/mc-mods/aurorasdecorations) has been up since the 16/09/2022 to the 22/09/2022, which represents almost a week of up time. I do understand that CurseForge is a bit behind on report processing, but not being able to delete the comment to make sure the report will be actioned upon with a proof for so long is not good.
+*So far a transphobic comment on the page of my mod [Aurora's Decorations](https://www.curseforge.com/minecraft/mc-mods/aurorasdecorations) has been up since the 16/09/2022 to the 22/09/2022, which represents almost a week of uptime. I do understand that CurseForge is a bit behind on report processing, but not being able to delete the comment to make sure the report will be actioned upon with a proof for so long is not good.
 I really hope that future website updates will take time to improve this system.*
 
 ## What Now?
@@ -149,15 +149,72 @@ You also can look into [Modrinth] which so far has proven to be more friendly an
 And if you disagree with me, then I at least hope you enjoyed the read.
 
 For me? Well, as you can see I wrote this post, to hopefully not let this go on ignored and make people aware of CurseForge's actions and my general disappointment.
-I don't think I will take the offer to upload a demo mod. Lap sitting is the part I took the most time to develop and I was genuinely proud of it, and being told to just discard it hurts my feelings. It's also genuinely a pain to maintain, there's chances for that mod's `curseforge` build task to remain forever disabled.
+I don't think I will take the offer to upload a demo mod. Lap sitting is the part I took the most time to develop, and I was genuinely proud of it, and being told to just discard it hurts my feelings. It's also genuinely a pain to maintain, there are chances for that mod's `curseforge` build task to remain forever disabled.
 
 To conclude, this *has not been a fun* journey.  
-I hoped this ModFest would have gone smoothly and be able to share some much needed love, turns out not.
+I hoped this ModFest would have gone smoothly and be able to share some much-needed love, turns out not.
 
 This also reminds us to not let monopolies take over.
-At least I have still the possibility to host the mod on Modrinth, but it's saddening that this mod might get forgotten because it's not on the "de facto" mod host: lot of modpacks won't be able to include it either...
+At least I have still the possibility to host the mod on Modrinth, but it's saddening that this mod might get forgotten because it's not on the "de facto" mod host: a lot of modpacks won't be able to include it either...
 
 I hope we all can learn from this.
+
+## PS - September 2024 Update
+
+After 2 years I think an update is due, especially given a recent event.
+
+Last year I was contacted by CurseForge after complaining one too many times about some issues
+with their platform, and turns out they've read this article and wished to find a resolution.
+I was promised a new review over this case by their moderation team and... it didn't happen.
+And honestly, at this point I couldn't care less about my mod being on this platform.
+So far, the amount of issues and ethical concerns have piled up way too much to even fight
+to have this mod be accepted, especially when it's already being happily hosted by Modrinth.
+
+And honestly, I wished for the story to end here, but disaster struck when their Twitter
+account posted yet another cringe meme on September 9th 2024.
+Said meme is accompanying their announcement about integrating Discord Rich Presence with their
+client, so far so good. Until you realize what the meme is.
+
+<img
+	class="ls_img"
+	alt="A screenshot from Twitter of CurseForge's tweet with a meme about seeing the rich presence of someone playing a lewd mod."
+	src="/images/blog/2022/09/lap_sitting/cringe_meme.png"
+	style="max-width: 512px"
+/>
+<p style="text-align: center;">
+	[Archive](https://archive.is/QrfrV)
+</p>
+
+*WAIT A MINUTE! Isn't this one of the mods that I listed earlier?*  
+**Yes! Yes it is!**
+
+I am baffled at the audacity to joke about knowing a mod, **willingly hosted by the platform**,
+is lewd, inappropriate, and misogynistic!
+
+Aside from that, the moderation hasn't really changed since:
+from time to time, I have transphobic comments on my mod pages,
+and the moderation is seemingly still absent moderation for those.
+The website just got a new look, which managed to break so many basic things. Got an email
+about new comments on your mod? Don't you dare use the link provided to see it!
+Hell, **they're not even able to properly deal with a DMCA takedown.**
+
+Overall, I'm tired of this, and I'm not someone who has the traction to make them change.
+The only thing that can happen is a general action from the community to avoid this platform
+and go to Modrinth instead.
+
+As for me, I will not post new mods on CurseForge, but I will continue
+to provide updates for any maintained mods that had a page on it.
+I'm doing this reluctantly as I wished I could just stop and ignore them until the heat death
+of the universe. Sadly, there's people who will reupload stuff to CurseForge if not available,
+and I am not really interested in playing a game of cat and mouse with DMCA takedowns, especially
+not when CurseForge is not dealing with those properly,
+and I'd like to avoid dragging them to court over some funny block game mods.
+
+Turns out I was wrong with my original last words for this article, CurseForge did not learn.
+I hope I raised awareness to some other people though, and hopefully it's been a good learning
+material to them.
+
+Thank you for reading.
 
 [affectionate]: /projects/affectionate
 [modfest]: https://modfest.net/singularity "ModFest: Singularity"
