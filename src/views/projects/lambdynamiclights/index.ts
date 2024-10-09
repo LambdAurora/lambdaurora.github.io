@@ -29,7 +29,7 @@ export const SPEC: ViewSpec = {
 		},
 		embed: {
 			image: {
-				url: `https://raw.githubusercontent.com/LambdAurora/LambDynamicLights/${BRANCH}/images/pack.png`,
+				url: `https://media.forgecdn.net/attachments/301/21/2020-07-04_22.png`,
 				alt: "LambDynamicLights screenshot"
 			},
 			style: "large"
