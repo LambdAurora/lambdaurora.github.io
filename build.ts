@@ -24,7 +24,7 @@ const pages_context = new PagesContext(
 	app,
 	"src/templates/page.html",
 	"src/views"
-)
+);
 
 const build_system = new BuildSystem();
 
