@@ -1,6 +1,7 @@
 # LambDynamicLights v3.0.0 got released!
 
 <!--description: The long-awaited release of LambDynamicLights for Minecraft 1.21 has finally landed as LambDynamicLights v3.0.0! Discover its changelog, some talks about why it took so long, and the future of the mod.-->
+<!--embed_image: /assets/blog/2024/10/ldl_1.21_promo.png "LambDynamicLights 3.0.0 promotional picture." -->
 <!--author: lambdaurora -->
 <!--tag: minecraft modding, lambdynamiclights -->
 <!--date: 2024-10-09 22:45:00 GMT+0200 -->
