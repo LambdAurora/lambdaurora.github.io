@@ -34,6 +34,8 @@
 	justify-content: center;
 	font-feature-settings: "liga";
 
+	fill: var(--ls_theme_foreground);
+
 	@include icon_sizes();
 }
 

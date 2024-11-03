@@ -2,6 +2,9 @@ export * from "./script/prismjs_importer.mjs";
 import "@prism.js/components/prism-css.min.js";
 import "@prism.js/components/prism-css-extras.min.js";
 import "@prism.js/components/prism-json.min.js";
+import "@prism.js/components/prism-toml.min.js";
+import "@prism.js/components/prism-kotlin.min.js";
+import "@prism.js/components/prism-java.min.js";
 
 export interface GrammarToken {
 	pattern: RegExp;

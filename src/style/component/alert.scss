@@ -1,0 +1,62 @@
+/*
+ * Copyright 2024 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "../base/typography";
+
+.ls_alert {
+	--alert_color: var(--ls_theme_border_color);
+
+	position: relative;
+	background-image: linear-gradient(0deg,var(--alert_color),var(--alert_color)),
+		linear-gradient(0deg,var(--alert_color),var(--alert_color)),
+		linear-gradient(0deg,var(--alert_color),var(--alert_color)),
+		linear-gradient(0deg,var(--alert_color),var(--alert_color)),
+		linear-gradient(0deg,var(--alert_color),var(--alert_color));
+	background-position: 0 0,100% 0,0 100%,0 0,100% 100%;
+	background-repeat: no-repeat,no-repeat,no-repeat;
+	background-size: 100% 1px,1px 100%,100% 1px,2.5rem 100%;
+	padding: 1rem 2.25rem .75rem 3.5rem;
+
+	&::before {
+		--icon_size: 1.5rem;
+
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: var(--icon_size);
+		height: var(--icon_size);
+		margin: .8rem .5rem;
+
+		background-color: currentColor;
+		color: var(--ls_theme_background);
+		mask-size: 100% 100%;
+	}
+
+	&.ls_alert[ls_alert_type="warning"], &.ls_alert__warning {
+		--alert_color: var(--ls_theme_warning_color);
+
+		&::before {
+			content: "";
+			mask-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjQgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZD0iTTI1NiAzMmMxNC4yIDAgMjcuMyA3LjUgMzQuNSAxOS44bDIxNiAzNjhjNy4zIDEyLjQgNy4zIDI3LjcgLjIgNDAuMVM0ODYuMyA0ODAgNDcyIDQ4MEw0MCA0ODBjLTE0LjMgMC0yNy42LTcuNy0zNC43LTIwLjFzLTctMjcuOCAuMi00MC4xbDIxNi0zNjhDMjI4LjcgMzkuNSAyNDEuOCAzMiAyNTYgMzJ6bTAgMTI4Yy0xMy4zIDAtMjQgMTAuNy0yNCAyNGwwIDExMmMwIDEzLjMgMTAuNyAyNCAyNCAyNHMyNC0xMC43IDI0LTI0bDAtMTEyYzAtMTMuMy0xMC43LTI0LTI0LTI0em0zMiAyMjRhMzIgMzIgMCAxIDAgLTY0IDAgMzIgMzIgMCAxIDAgNjQgMHoiLz48L3N2Zz4K);
+		}
+	}
+
+	.ls_alert_title {
+		display: block;
+		font-size: 1.25rem;
+		font-weight: typography.$bold_font_weight;
+		line-height: 1.15em;
+		margin-block-end: .25em;
+	}
+
+	> p:last-child {
+		margin-block-end: 0;
+	}
+}

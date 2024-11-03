@@ -9,6 +9,7 @@
  */
 
 @use "base/core";
+@use "component/alert";
 @use "component/button";
 @use "component/card";
 @use "component/chip";
@@ -22,4 +23,5 @@
 @use "component/quote";
 @use "component/nav";
 @use "component/table";
+@use "component/tree";
 @use "component/article";

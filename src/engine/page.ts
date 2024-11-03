@@ -317,13 +317,22 @@ async function process_directory(
 			if (!dir_entry.name.endsWith(".html")) continue;
 
 			const path = `${directory}/${dir_entry.name}`;
-			await process_page(path, context)
+			const promise = process_page(path, context)
 				.then(async (page) => {
 					const deploy_path = output_dir + path;
 					await create_parent_directory(deploy_path);
 					await Deno.writeTextFile(deploy_path, page.html());
 					push_output(deploy_path);
 				});
+				
+			if (context.app.debug) {
+				await promise.catch(reason => {
+					console.error(`Failed to process page ${path}.`);
+					console.error(reason);
+				});
+			} else {
+				await promise;
+			}
 		}
 	}
 }

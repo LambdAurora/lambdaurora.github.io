@@ -10,10 +10,10 @@ export const SPEC: ViewSpec = {
 			favicon: "/images/projects/lambdabettergrass/icon_64.png"
 		},
 		embed: DOC_EMBED,
-		keywords: ["LambdAurora", "LambdaBetterGrass", "Minecraft Mod", "documentation"]
+		keywords: ["LambdAurora", "LambdaBetterGrass", "Minecraft Mod", "documentation"],
+		custom: {
+			branch: BRANCH
+		}
 	},
-	post_process: make_post_process("documentation/API.md"),
-	custom: {
-		branch: BRANCH
-	}
+	post_process: make_post_process("documentation/API.md")
 };

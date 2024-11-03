@@ -2,7 +2,7 @@ import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import { remove_comments, ViewSpec } from "../../../engine/view.ts";
 import { create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../../../utils.ts";
-import { BRANCH, get_path, title } from "./data.ts";
+import { BRANCH, get_path, ICON, KEYWORDS, TITLE } from "./data.ts";
 
 const LBG_README = get_path("README.md");
 
@@ -22,10 +22,10 @@ function filter_badge_classes(nodes: html.Node[]) {
 
 export const SPEC: ViewSpec = {
 	page: {
-		title: title,
+		title: TITLE,
 		description: "A Minecraft mod which adds dynamic lighting to the game.",
 		icons: {
-			favicon: "/images/projects/lambdynamiclights/icon_64.png"
+			favicon: ICON
 		},
 		embed: {
 			image: {
@@ -34,7 +34,7 @@ export const SPEC: ViewSpec = {
 			},
 			style: "large"
 		},
-		keywords: ["LambdAurora", "LambDynamicLights", "Minecraft Mod"]
+		keywords: KEYWORDS
 	},
 	async post_process(page: html.Element) {
 		const main = page.find_element_by_tag_name("main") as html.Element;

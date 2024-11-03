@@ -27,6 +27,12 @@ article, .ls_article_display {
 	}
 }
 
+.ls_article_display {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+}
+
 .ls_article_time {
 	flex: 0 1 auto;
 

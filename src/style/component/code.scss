@@ -54,6 +54,7 @@ code {
 }
 
 pre[class*="language-"], .ls_code_block > pre {
+	font-family: "Fira Code", ui-monospace, monospace;
 	background-color: var(--ls_theme_background_code);
 	padding: 1em;
 	margin: .5em 0;

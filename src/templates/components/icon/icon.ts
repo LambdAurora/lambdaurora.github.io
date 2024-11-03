@@ -4,19 +4,23 @@ export interface IconProps {
 	color?: string;
 }
 
-export function make_render(default_fill?: string) {
+export function make_render() {
 	return (context: ComponentContext<IconProps>) => {
 		let style = undefined;
 
-		if (context.args.color || default_fill) {
+		if (context.args.color) {
 			style = {
-				fill: context.args.color ?? default_fill
+				fill: context.args.color
 			};
 		}
 
-		return {
-			...context.args,
-			style: style
+		// deno-lint-ignore no-explicit-any
+		const args_to_return: any = { ...context.args };
+
+		if (style) {
+			args_to_return.style = style;
 		}
+
+		return args_to_return;
 	}
 }
