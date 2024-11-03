@@ -3,7 +3,7 @@ import { ICON, KEYWORDS, TITLE } from "../../data.ts";
 
 export const SPEC: ViewSpec = {
 	page: {
-		title: TITLE,
+		title: `${TITLE} - Entity Lighting Documentation`,
 		description: "The LambDynamicLights documentation about entity lighting.",
 		icons: {
 			favicon: ICON
