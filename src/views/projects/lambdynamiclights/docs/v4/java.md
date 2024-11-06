@@ -46,7 +46,7 @@ On Fabric, this translates into adding in the `entrypoints` field of your `fabri
 
 ```json
 	"entrypoints": {
-		"dynamiclights": [
+		"lambdynlights:initializer": [
 			"<package>.YourModDynamicLightsInitializer"
 		]
 	}
@@ -59,7 +59,7 @@ On NeoForge, this translates into adding in the `modproperties` table of your `n
 # Stuff
 
 [modproperties.${mod_id}]
-	"lambdynamiclights:initializer" = "<package>.YourModDynamicLightsInitializer"
+	"lambdynlights:initializer" = "<package>.YourModDynamicLightsInitializer"
 ```
 
 <div class="ls_alert ls_alert__warning" style="margin-top: 1em; margin-bottom: 1em;">
