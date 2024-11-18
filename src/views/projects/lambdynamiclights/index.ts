@@ -91,23 +91,17 @@ export const SPEC: ViewSpec = {
 			if (child instanceof html.Element && child.tag.name === "p") {
 				const a = child.find_element_by_tag_name("a") as html.LinkElement;
 				if (a && a.href?.startsWith("https://www.youtube.com/embed")) {
-					article.children[i] = html.div({
+					article.children[i] = html.iframe({
 						attributes: {
-							align: "center"
-						},
-						children: [
-							html.iframe({
-								attributes: {
-									width: "560",
-									height: "315",
-									src: a.href!,
-									title: "YouTube video player: " + a.title!,
-									frameborder: "0",
-									allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-									allowfullscreen: ""
-								}
-							})
-						]
+							class: "ls_article_iframe",
+							width: "560",
+							height: "315",
+							src: a.href!,
+							title: "YouTube video player: " + a.title!,
+							frameborder: "0",
+							allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+							allowfullscreen: ""
+						}
 					});
 					break;
 				}

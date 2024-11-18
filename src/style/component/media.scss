@@ -33,6 +33,14 @@
 	max-width: 100%;
 }
 
+.ls_article_iframe {
+	flex: 1 0 auto;
+	margin-block-start: .75em;
+	margin-block-end: .75em;
+	max-width: 100%;
+	align-self: center;
+}
+
 .ls_img_icon {
 	border-radius: 4px;
 
