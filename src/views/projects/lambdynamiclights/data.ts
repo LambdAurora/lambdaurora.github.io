@@ -1,5 +1,5 @@
 export const TITLE = "LambDynamicLights";
-export const ICON = "/images/projects/lambdynamiclights/icon_64.png";
+export const ICON = "/assets/projects/lambdynamiclights/icon_64.png";
 export const KEYWORDS = [
 	"LambDynamicLights",
 	"LambdAurora",

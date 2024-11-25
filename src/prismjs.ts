@@ -1,4 +1,5 @@
 export * from "./script/prismjs_importer.mjs";
+import "@prism.js";
 import "@prism.js/components/prism-css.min.js";
 import "@prism.js/components/prism-css-extras.min.js";
 import "@prism.js/components/prism-json.min.js";
@@ -28,6 +29,19 @@ const PrismInstance = Prism;
 export {
 	PrismInstance as Prism
 };
+
+export async function get_or_load_language(language: string) {
+	if (Prism.languages[language]) {
+		return Prism.languages[language];
+	} else {
+		try {
+			await import(`@prism.js/components/prism-${language}.min.js`);
+			return Prism.languages[language];
+		} catch (_e) {
+			return null;
+		}
+	}
+}
 
 //startregion FROM: https://cdn.jsdelivr.net/npm/prismjs@1.27/plugins/inline-color/prism-inline-color.js
 // Copied from the markup language definition
