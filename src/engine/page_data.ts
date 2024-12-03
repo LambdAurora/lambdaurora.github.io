@@ -23,6 +23,10 @@ export interface EmbedSpec {
 	 */
 	image?: { url: string; alt: string; };
 	/**
+	 * The video to include in the embed.
+	 */
+	video?: { url: string; type: string; width: number; height: number; };
+	/**
 	 * The style of embed for the image.
 	 */
 	style: "normal" | "large";

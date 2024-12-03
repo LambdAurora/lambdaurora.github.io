@@ -30,6 +30,9 @@ $theme_aurora_secondary_dark: #00ed76;
 $theme_aurora_secondary: (light: $theme_aurora_secondary_light, dark: $theme_aurora_secondary_light);
 $theme_aurora_on_secondary: (light: $theme_fg_on_dark, dark: $theme_aurora_on_primary_dark);
 
+$theme_error: #b3261e;
+$theme_on_error: #fff;
+
 $theme_aurora: (
 	primary: (
 		"": $theme_aurora_primary,
@@ -111,4 +114,6 @@ $theme_aurora: (
 	--ls_theme_disabled_button_foreground: #898989;
 
 	--ls_theme_warning_color: #fc6f00;
+	--ls_theme_error_color: $theme_error;
+	--ls_theme_on_error_color: $theme_on_error;
 }

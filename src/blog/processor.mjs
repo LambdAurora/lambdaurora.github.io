@@ -203,6 +203,7 @@ async function process_blog_entry(path, pages_context, context) {
 
 	let page_description = null;
 	let embed_image = undefined;
+	let embed_video = undefined;
 	const authors = [];
 	const tags = [];
 	const cws = [];
@@ -262,6 +263,10 @@ async function process_blog_entry(path, pages_context, context) {
 					url: result[1],
 					alt: result[2]
 				};
+			});
+			process_property_from_html(article, "embed_video", value => {
+				const parsed = JSON.parse(value);
+				embed_video = parsed;
 			});
 			process_property_from_html(article, "author", value => {
 				const author = context.authors[value];
@@ -329,7 +334,8 @@ async function process_blog_entry(path, pages_context, context) {
 						type: "article",
 						title: title,
 						image: embed_image,
-						style: embed_image ? "large" : "normal"
+						style: embed_image ? "large" : "normal",
+						video: embed_video
 					},
 					keywords: keywords,
 					custom: {

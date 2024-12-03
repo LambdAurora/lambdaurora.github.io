@@ -118,6 +118,39 @@ async function process_head(
 		}));
 	}
 
+	if (embed.video) {
+		head.append_child(html.meta({
+			attributes: {
+				property: "og:video:url",
+				content: embed.video.url
+			}
+		}));
+		head.append_child(html.meta({
+			attributes: {
+				property: "og:video:secure_url",
+				content: embed.video.url
+			}
+		}));
+		head.append_child(html.meta({
+			attributes: {
+				property: "og:video:type",
+				content: embed.video.type
+			}
+		}));
+		head.append_child(html.meta({
+			attributes: {
+				property: "og:video:width",
+				content: String(embed.video.width)
+			}
+		}));
+		head.append_child(html.meta({
+			attributes: {
+				property: "og:video:height",
+				content: String(embed.video.height)
+			}
+		}));
+	}
+
 	if (embed.style === "large") {
 		head.append_child(
 			html.create_element("meta")

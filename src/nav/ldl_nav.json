@@ -1,0 +1,41 @@
+[
+	{
+		"type": "dir",
+		"name": "LambDynamicLights",
+		"link": "/projects/lambdynamiclights",
+		"open": true,
+		"items": [
+			{
+				"type": "link",
+				"name": "Documentation",
+				"link": "/projects/lambdynamiclights/docs/v4"
+			},
+			{
+				"type": "link",
+				"name": "Permissions",
+				"link": "/projects/lambdynamiclights/permissions"
+			}
+		]
+	},
+	{
+		"type": "link",
+		"name": "Other Projects",
+		"link": "/projects",
+		"never_highlight": true
+	},
+	{
+		"type": "link",
+		"name": "Blog",
+		"link": "/blog"
+	},
+	{
+		"type": "link",
+		"name": "Tutorials",
+		"link": "/tutorials",
+		"description": "Not a lot yet."
+	},
+	{
+		"type": "notice",
+		"name": "And more stuff under construction!"
+	}
+]

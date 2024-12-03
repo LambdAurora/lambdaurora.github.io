@@ -22,6 +22,11 @@
 		height: 32px;
 	}
 
+	&[ls_size="xl"] {
+		width: 42px;
+		height: 42px;
+	}
+
 	&[ls_size="text"] {
 		width: .75em;
 		height: .75em;

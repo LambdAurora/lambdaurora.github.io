@@ -25,10 +25,11 @@ export function resolve_embed(app: Application, page: PageSpec): EmbedSpec {
 	return {
 		type: page.embed?.type ?? "website",
 		title: page.embed?.title ?? page.title,
-		image: page.embed?.image ?? (app.logo ? {
+		image: page.embed?.image ?? (app.logo && page.embed?.video === undefined ? {
 			url: app.get_url(app.logo),
 			alt: "Website Logo"
 		} : undefined),
+		video: page.embed?.video,
 		style: page.embed?.style ?? "normal"
 	}
 }

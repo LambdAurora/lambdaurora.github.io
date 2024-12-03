@@ -1,5 +1,5 @@
 import { ViewSpec } from "../../../../../engine/view.ts";
-import { ICON, KEYWORDS, TITLE } from "../../data.ts";
+import { ICON, KEYWORDS, THUMBNAIL, TITLE } from "../../data.ts";
 
 export const SPEC: ViewSpec = {
 	page: {
@@ -10,7 +10,7 @@ export const SPEC: ViewSpec = {
 		},
 		embed: {
 			image: {
-				url: `https://media.forgecdn.net/attachments/301/21/2020-07-04_22.png`,
+				url: THUMBNAIL,
 				alt: "LambDynamicLights screenshot"
 			},
 			style: "large"

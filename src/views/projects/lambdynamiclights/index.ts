@@ -2,7 +2,7 @@ import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import { remove_comments, ViewSpec } from "../../../engine/view.ts";
 import { create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../../../utils.ts";
-import { BRANCH, get_path, ICON, KEYWORDS, TITLE } from "./data.ts";
+import { BRANCH, get_path, ICON, KEYWORDS, THUMBNAIL, TITLE } from "./data.ts";
 
 const LBG_README = get_path("README.md");
 
@@ -23,13 +23,13 @@ function filter_badge_classes(nodes: html.Node[]) {
 export const SPEC: ViewSpec = {
 	page: {
 		title: TITLE,
-		description: "A Minecraft mod which adds dynamic lighting to the game.",
+		description: "The most feature-complete dynamic lighting Minecraft mod for Fabric.",
 		icons: {
 			favicon: ICON
 		},
 		embed: {
 			image: {
-				url: `https://media.forgecdn.net/attachments/301/21/2020-07-04_22.png`,
+				url: THUMBNAIL,
 				alt: "LambDynamicLights screenshot"
 			},
 			style: "large"
@@ -61,7 +61,7 @@ export const SPEC: ViewSpec = {
 					if (node.ref.url.startsWith("https://img.shields.io/badge/language-")
 						|| node.ref.url.startsWith("https://img.shields.io/github/v/tag")) {
 						return false;
-					} else if (node.ref.url.startsWith("images/")) {
+					} else if (node.ref.url.startsWith("assets/")) {
 						node.ref.url = `https://raw.githubusercontent.com/LambdAurora/LambDynamicLights/${BRANCH}/${node.ref.url}`;
 					}
 				} else if (node instanceof md.Link) {
@@ -88,23 +88,8 @@ export const SPEC: ViewSpec = {
 		for (let i = 0; i < article.children.length; i++) {
 			const child = article.children[i];
 
-			if (child instanceof html.Element && child.tag.name === "p") {
-				const a = child.find_element_by_tag_name("a") as html.LinkElement;
-				if (a && a.href?.startsWith("https://www.youtube.com/embed")) {
-					article.children[i] = html.iframe({
-						attributes: {
-							class: "ls_article_iframe",
-							width: "560",
-							height: "315",
-							src: a.href!,
-							title: "YouTube video player: " + a.title!,
-							frameborder: "0",
-							allow: "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-							allowfullscreen: ""
-						}
-					});
-					break;
-				}
+			if (child instanceof html.Element && child.tag.name === "iframe") {
+				child.attr("class", "ls_article_iframe");
 			}
 		}
 	}

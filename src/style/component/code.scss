@@ -53,7 +53,7 @@ code {
 	border-radius: 6px;
 }
 
-pre[class*="language-"], .ls_code_block > pre {
+pre[class*="language-"], pre.ls_code_block, .ls_code_block > pre {
 	font-family: "Fira Code", ui-monospace, monospace;
 	background-color: var(--ls_theme_background_code);
 	padding: 1em;

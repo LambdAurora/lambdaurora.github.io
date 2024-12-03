@@ -223,7 +223,7 @@ The luminance can either be:
 - an object with a type and arguments, this means the luminance value will be provided by the specified [luminance provider](#luminance-providers);
 - an array of the previous possibilities.
 
-### `silence_error` <icon:warning aria-hidden="true" />
+### `silence_error` <icon:warning ls_size="text" aria-hidden="true" />
 
 *(Default: `false`)*
 

@@ -116,7 +116,9 @@
 	}
 
 	.ls_card_actions {
+		display: flex;
 		padding: 8px;
+		align-items: center;
 	}
 
 	&[ls_flat] {

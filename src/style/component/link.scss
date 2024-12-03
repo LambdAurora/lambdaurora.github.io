@@ -11,3 +11,7 @@
 .ls_raw_link {
 	word-wrap: anywhere;
 }
+
+.ls_unresolved_link {
+	color: var(--ls_theme_error_color);
+}

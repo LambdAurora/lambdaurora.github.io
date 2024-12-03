@@ -72,6 +72,7 @@ export function create_common_markdown_render_opts(options?: Partial<md.RenderOp
 			class_name: "ls_responsive_img"
 		},
 		inline_html: {
+			allowed_attributes: true,
 			disallowed_tags: md.utils.HTML_TAGS_TO_PURGE_SUGGESTION.filter(tag => tag !== "iframe" && tag !== "svg" && tag !== "audio")
 		},
 		latex: {

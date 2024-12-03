@@ -1,4 +1,4 @@
-Welcome on the documentation pages of [LambDynamicLights] version 4!
+Welcome to the documentation pages of [LambDynamicLights] version 4!
 
 ## The Basics
 
@@ -54,7 +54,11 @@ dependencies {
 }
 ```
 
-To go further and interact with the mod's code, I invite you to read [the modding interfaces documentation page](./java.html).
+## Advanced
+
+If the data-driven APIs are not enough for you, don't worry [LambDynamicLights] has a Java-based API which provides even more features!
+
+I invite you to read [the modding interfaces documentation page](./java.html) to learn more about those features.
 
 [LambDynamicLights]: ../..
 [item]: ./item.html "Documentation of the item-related lighting features"

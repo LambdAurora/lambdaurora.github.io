@@ -28,8 +28,7 @@ Let's create our own [LambDynamicLights] initializer as follows:
 public class YourModDynamicLightsInitializer implements DynamicLightsInitializer {
 	@Override
 	void onInitializeDynamicLights(
-		ItemLightSourceManager itemLightSourceManager,
-		EntityLightSourceManager entityLightSourceManager
+		DynamicLightsContext context
 	) {
 		// Code related to dynamic lighting here.
 	}
@@ -62,7 +61,7 @@ On NeoForge, this translates into adding in the `modproperties` table of your `n
 	"lambdynlights:initializer" = "<package>.YourModDynamicLightsInitializer"
 ```
 
-<div class="ls_alert ls_alert__warning" style="margin-top: 1em; margin-bottom: 1em;">
+<div class="ls_alert" ls_alert_type="warning" style="margin-top: 1em; margin-bottom: 1em;">
 	Keep in mind that [LambDynamicLights] is a client-side mod, this means you will **not** have access to the API on the server,
 	and code in your dynamic lights initializer will not be executed either.
 </div>
@@ -169,17 +168,17 @@ public class YourModDynamicLightsInitializer implements DynamicLightsInitializer
 
 ## Query Dynamic Light Values
 
-You might have noticed the `ItemLightSourceManager` and the `EntityLightSourceManager` objects earlier,
-those allow to query the dynamic light value of a given item or a given entity:
+You might have noticed the `DynamicLightsContext` object earlier,
+this gives access to the dynamic lighting context which allows to query the dynamic light value of a given item or a given entity:
 
 ```java
-int lightOfTorch = itemLightSourceManager.getLuminance(
+int lightOfTorch = context.itemLightSourceManager().getLuminance(
 		new ItemStack(Items.TORCH), 
 		/* submerged in water */ false
 	);
 
 Entity cow = /* get a cow */;
-int lightOfCow = entityLightSourceManager.getLuminance(cow);
+int lightOfCow = context.entityLightSourceManager().getLuminance(cow);
 ```
 
 It is currently not possible to query the dynamic light value of a precise position in the world from the API.
@@ -189,14 +188,14 @@ It is currently not possible to query the dynamic light value of a precise posit
 If for some reason the JSON way doesn't fit your use-case, it is possible to register the same data through Java code:
 
 ```java
-itemLightSourceManager.onRegisterEvent().register(context -> {
+context.itemLightSourceManager().onRegisterEvent().register(context -> {
 	// You have registry access through context.registryAccess()
 	
 	// Register item lighting with any of the context.register() overloads.
 	context.register(Items.ALLIUM, 5);
 });
 
-entityLightSourceManager.onRegisterEvent().register(context -> {
+context.entityLightSourceManager().onRegisterEvent().register(context -> {
 	// You have registry access through context.registryAccess()
 	
 	// Register entity lighting with any of the context.register() overloads.
@@ -214,5 +213,18 @@ For those familiar with Fabric-style events, while this API is multi-loader,
 it is using the [Yumi Commons Event](https://github.com/YumiProject/yumi-commons) framework,
 which is based off the Fabric event framework.
 This means it can be used similarly, and it will let you order your listeners if needed.
+
+## Add Custom Dynamic Light Sources
+
+<div class="ls_alert" ls_alert_type="warning">
+	<span class="ls_alert_title">Work-in-Progress</span>
+	<p>
+		Sorry but this part of the documentation is currently work-in-progress.
+	</p>
+	<p>
+		However, the mod provides Javadocs about this feature so it's not impossible to figure it out.
+		Additionally, you can submit GitHub issues or seek support on the Discord server if needed.
+	</p>
+</div>
 
 [LambDynamicLights]: ../..
