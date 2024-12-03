@@ -139,10 +139,10 @@ We hope that you will try it out and enjoy it!
 
 ### Illuminated Downloads
 
-As soon as the project passes approval from CurseForge and Modrinth.
+As soon as the project passes approval from CurseForge and Modrinth, in the meantime you can get it from GitHub:
 
-<!--
 <div style="display: flex; flex-direction: row; justify-content: center; gap: 1.5em; margin: 2em;">
+	<!--
 	<a
 		href="https://modrinth.com/mod/dawns_reach/version/1.0.0+1.21.4"
 		title="Illuminated Modrinth page"
@@ -159,6 +159,7 @@ As soon as the project passes approval from CurseForge and Modrinth.
 		<icon:curseforge ls_size="xl" aria-hidden="true" color="var(--ls_theme_primary)" />
 		CurseForge
 	</a>
+	-->
 	<a
 		href="https://github.com/LambdAurora/Illuminated/releases/tag/v1.0.0%2B1.21.4"
 		title="Illuminated GitHub page"
@@ -168,7 +169,6 @@ As soon as the project passes approval from CurseForge and Modrinth.
 		GitHub releases
 	</a>
 </div>
--->
 
 ## Conclusion
 
