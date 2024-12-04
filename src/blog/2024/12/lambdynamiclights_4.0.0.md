@@ -144,22 +144,21 @@ As soon as the project passes approval from CurseForge and Modrinth, in the mean
 <div style="display: flex; flex-direction: row; justify-content: center; gap: 1.5em; margin: 2em;">
 	<!--
 	<a
-		href="https://modrinth.com/mod/dawns_reach/version/1.0.0+1.21.4"
+		href="https://modrinth.com/mod/illuminated/version/1.0.0+1.21.4"
 		title="Illuminated Modrinth page"
 		style="display: inline-flex; align-items: center; gap: .5em;"
 	>
 		<icon:modrinth ls_size="xl" aria-hidden="true" />
 		Modrinth
-	</a>
+	</a>-->
 	<a
-		href="https://www.curseforge.com/minecraft/mc-mods/dawns_reach/files/5798757"
+		href="https://www.curseforge.com/minecraft/mc-mods/illuminated/files/5798757"
 		title="Illuminated CurseForge page"
 		style="display: inline-flex; align-items: center; gap: .5em;"
 	>
 		<icon:curseforge ls_size="xl" aria-hidden="true" color="var(--ls_theme_primary)" />
 		CurseForge
 	</a>
-	-->
 	<a
 		href="https://github.com/LambdAurora/Illuminated/releases/tag/v1.0.0%2B1.21.4"
 		title="Illuminated GitHub page"
