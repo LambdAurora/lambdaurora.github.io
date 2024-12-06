@@ -5,7 +5,8 @@
 <!--author: lambdaurora -->
 <!--author: akarys -->
 <!--tag: minecraft modding, lambdynamiclights -->
-<!--date: 2024-12-03 22:45:00 GMT+0200 -->
+<!--date: 2024-12-03 22:45:00 GMT+0100 -->
+<!--modified: 2024-12-07 00:55:00 GMT+0100 -->
 
 The Garden Awakens, but not alone. [LambDynamicLights] continue its improvement and updating streak with LambDynamicLights v4.0.0 for Minecraft 1.21.4!
 
@@ -139,10 +140,7 @@ We hope that you will try it out and enjoy it!
 
 ### Illuminated Downloads
 
-As soon as the project passes approval from CurseForge and Modrinth, in the meantime you can get it from GitHub:
-
 <div style="display: flex; flex-direction: row; justify-content: center; gap: 1.5em; margin: 2em;">
-	<!--
 	<a
 		href="https://modrinth.com/mod/illuminated/version/1.0.0+1.21.4"
 		title="Illuminated Modrinth page"
@@ -150,7 +148,7 @@ As soon as the project passes approval from CurseForge and Modrinth, in the mean
 	>
 		<icon:modrinth ls_size="xl" aria-hidden="true" />
 		Modrinth
-	</a>-->
+	</a>
 	<a
 		href="https://www.curseforge.com/minecraft/mc-mods/illuminated/files/5798757"
 		title="Illuminated CurseForge page"
