@@ -243,8 +243,7 @@ This interface contains some methods to implement:
 
 - `double lightAtPos(BlockPos pos, double falloffRatio)`: this is the method where the magic happens,
   this is where the mod will query for the light level at a given position.
-  This method will be called for all positions inside the bounding box.
-
+  This method will be called for all positions inside the bounding box.  
   While lights in Minecraft normally light up to 15 blocks of distance, LambDynamicLights has a cap on how far away
   a source may interact with the world. The argument `fallofRatio` is used to convert between the usual Minecraft
   distance scale to the one expected by the mod. Most commonly, you'll be multiplying your computed distance by this ratio.
@@ -268,6 +267,7 @@ public class FadeOutDynamicLightBehavior implements DynamicLightBehavior {
 	private final double z;
 	private final BoundingBox box;
 	private int remainingTicks = 600;
+	private int lastLuminance = 15;
 	private int luminance = 15;
 
 	public FadeOutDynamicLightBehavior(BlockPos pos) {
@@ -302,12 +302,18 @@ public class FadeOutDynamicLightBehavior implements DynamicLightBehavior {
 
 	@Override
 	public boolean hasChanged() {
-		// This is executed every tick.
-		int newLuminance = (int) (remainingTicks / 600.f * 15.f);
-		boolean changed = this.luminance != newLuminance;
-		this.luminance = newLuminance;
+		if (this.luminance != this.lastLuminance) {
+			this.lastLuminance = this.luminance;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void tick() {
+		// Function called every tick somewhere.
+		this.luminance = (int) (remainingTicks / 600.f * 15.f);
 		this.remainingTicks--;
-		return changed;
 	}
 
 	@Override
