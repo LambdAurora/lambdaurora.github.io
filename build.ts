@@ -77,6 +77,9 @@ const style_step = new BuildTask(
 			.then(() => Deno.remove(deployed_style_dir + "/style.css.map"))
 			.then(() => move(deployed_style_dir + "/style.css", DEPLOY_DIR + "/style.css"));
 
+		context.push_output(DEPLOY_DIR + "/style.css", "file");
+		context.push_output(DEPLOY_DIR + "/style.css.map", "file");
+
 		return true;
 	},
 	["./src/style/"]

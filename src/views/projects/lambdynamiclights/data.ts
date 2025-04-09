@@ -8,7 +8,7 @@ export const KEYWORDS = [
 	"dynamic lighting",
 	"dynamic lights"
 ];
-export const BRANCH = "1.21.4";
+export const BRANCH = "1.21.5";
 
 export function get_path(path: string) {
 	return `https://raw.githubusercontent.com/LambdAurora/LambDynamicLights/${BRANCH}/${path}`;

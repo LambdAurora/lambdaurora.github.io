@@ -19,78 +19,110 @@
 				you can visit <a href="https://github.com/LambdAurora?tab=repositories">my GitHub profile</a>.
 			</p>
 
-			<h2>Quick Tools</h2>
-			<p>
-				This is a quick list of tools I worked on that can be used directly in the browser.
-			</p>
+			<section>
+				<h2>Quick Tools</h2>
+				<p>
+					This is a quick list of tools I worked on that can be used directly in the browser.
+				</p>
 
-			<ul>
-				<li><a href="/tools/markdown_viewer">Yet Another Markdown Viewer</a> - a very quick Markdown viewer to see documents as a HTML page.</li>
-			</ul>
+				<ul>
+					<li><a href="/tools/markdown_viewer">Yet Another Markdown Viewer</a> - a very quick Markdown viewer to see documents as a HTML page.</li>
+				</ul>
+			</section>
 
-			<h2 id="libraries">Libraries</h2>
-			<ul>
-				<li><a href="https://github.com/LambdAurora/lib.html">lib.html</a> - an HTML parser and writer written in TypeScript.</li>
-				<li><a href="https://github.com/LambdAurora/lib.md">lib.md</a> - a Markdown parser and renderer written in TypeScript.</li>
-			</ul>
+			<section id="libraries">
+				<h2>Libraries</h2>
+				<ul>
+					<li><a href="https://github.com/YumiProject/yumi-commons">Yumi Commons</a> - a set of common libraries in Java which include utilities, topological sorting, and even an event framework.</li>
+					<li><a href="https://github.com/LambdAurora/lib.html">lib.html</a> - an HTML parser and writer written in TypeScript.</li>
+					<li><a href="https://github.com/LambdAurora/lib.md">lib.md</a> - a Markdown parser and renderer written in TypeScript.</li>
+				</ul>
+			</section>
 
-			<h2 id="mc_mods">Minecraft Mods</h2>
-			<!-- TODO: don't use a style property? -->
-			<div style="display: flex; flex-flow: row wrap; justify-content: space-between; gap: 10px;">
-				<project_card
-					href="/AurorasDecorations"
-					source="https://github.com/LambdAurora/AurorasDecorations"
-					logo="https://lambdaurora.dev/AurorasDecorations/icon.png" logo_pixelated>
-					<h3><a href="/AurorasDecorations">Aurora's Decorations</a></h3>
-					A decorations-focused Minecraft mod, and tries to have a twist for its different features.
-				</project_card>
-				<project_card
-					href="/projects/affectionate"
-					source="https://github.com/LambdAurora/affectionate"
-					thumbnail="/images/projects/affectionate/affectionate.png" thumbnail_darken="25">
-					<h3><a href="/projects/affectionate">Affectionate</a></h3>
-					<span>A Minecraft mod about player interactions, made for Modfest: Singularity.</span>
-				</project_card>
-				<project_card
-					source="https://github.com/LambdAurora/fuck_namemc">
-					<h3><a href="https://github.com/LambdAurora/fuck_namemc">Fuck NameMC</a></h3>
-					A Minecraft mod to block NameMC indexing on servers.
-				</project_card>
-				<project_card
-					href="https://modrinth.com/mod/inspecio"
-					source="https://github.com/Queerbric/Inspecio"
-					logo="https://cdn.modrinth.com/data/a93H3mKU/icon.png" logo_pixelated>
-					<h3><a href="https://modrinth.com/mod/inspecio">Inspecio</a></h3>
-					A Minecraft mod which adds more detailed tooltips.
-				</project_card>
-				<project_card
-					href="/projects/lambdabettergrass"
-					source="https://github.com/LambdAurora/LambdaBetterGrass"
-					thumbnail="https://raw.githubusercontent.com/LambdAurora/LambdaBetterGrass/1.19/images/pack.png" thumbnail_darken="25">
-					<h3><a href="/projects/lambdabettergrass">LambdaBetterGrass</a></h3>
-					<span>A Minecraft mod which adds better grass and snow to the game.</span>
-				</project_card>
-				<project_card
-					href="/projects/lambdynamiclights"
-					source="https://github.com/LambdAurora/LambDynamicLights"
-					thumbnail="https://github.com/LambdAurora/LambDynamicLights/raw/1.21.4/assets/fox_holding.png" thumbnail_darken="25">
-					<h3><a href="/projects/lambdynamiclights">LambDynamicLights</a></h3>
-					<span>The most feature-complete dynamic lighting Minecraft mod for Fabric.</span>
-				</project_card>
-				<project_card
-					href="https://modrinth.com/mod/lovely_snails"
-					source="https://github.com/LambdAurora/lovely_snails"
-					thumbnail="https://raw.githubusercontent.com/LambdAurora/lovely_snails/1.17/images/small_snails.png" thumbnail_darken="none">
-					<h3><a href="https://modrinth.com/mod/lovely_snails">Lovely Snails</a></h3>
-					<span>A Minecraft mod which adds some very cute snails.</span>
-				</project_card>
-				<project_card
-					source="https://github.com/LambdAurora/SpruceUI">
-					<h3><a href="https://github.com/LambdAurora/SpruceUI">SpruceUI</a></h3>
-					A Minecraft library mod which adds a new abstraction to create GUI interfaces.
-					Still close to the Vanilla design code-wise.
-				</project_card>
-			</div>
+			<section id="gradle_plugins">
+				<h2>Gradle Plugins</h2>
+				<p>
+					I have worked on the <a href="https://github.com/YumiProject/yumi-gradle-licenser">Yumi Gradle Licenser</a> Gradle plugin which is a license header manager.
+				</p>
+				<p>
+					The goal of this plugin is to ensure the source files contains a predefined license header determined by some rules, and optionally to generate them automatically through a Gradle task.
+				</p>
+			</section>
+
+			<section id="mc_mods">
+				<h2>Minecraft Mods</h2>
+
+				<div class="ls_card_board">
+					<project_card
+									href="/AurorasDecorations"
+									source="https://github.com/LambdAurora/AurorasDecorations"
+									logo="https://lambdaurora.dev/AurorasDecorations/icon.png" logo_pixelated>
+						<h3><a href="/AurorasDecorations">Aurora's Decorations</a></h3>
+						A decorations-focused Minecraft mod, and tries to have a twist for its different features.
+					</project_card>
+					<project_card
+									href="/projects/affectionate"
+									source="https://github.com/LambdAurora/affectionate"
+									thumbnail="/images/projects/affectionate/affectionate.png" thumbnail_darken="25">
+						<h3><a href="/projects/affectionate">Affectionate</a></h3>
+						<span>A Minecraft mod about player interactions, made for Modfest: Singularity.</span>
+					</project_card>
+					<project_card
+									href="https://modrinth.com/mod/illuminated"
+									source="https://github.com/LambdAurora/Illuminated"
+									thumbnail="https://github.com/LambdAurora/Illuminated/raw/1.21.5/assets/flashlight_demo.png">
+						<h3><a href="https://modrinth.com/mod/illuminated">Illuminated</a></h3>
+						<span>Illuminate your world with a flashlight!</span>
+					</project_card>
+					<project_card
+									href="https://modrinth.com/mod/inspecio"
+									source="https://github.com/Queerbric/Inspecio"
+									logo="https://cdn.modrinth.com/data/a93H3mKU/icon.png" logo_pixelated>
+						<h3><a href="https://modrinth.com/mod/inspecio">Inspecio</a></h3>
+						A Minecraft mod which adds more detailed tooltips.
+					</project_card>
+					<project_card
+									href="/projects/lambdabettergrass"
+									source="https://github.com/LambdAurora/LambdaBetterGrass"
+									thumbnail="https://raw.githubusercontent.com/LambdAurora/LambdaBetterGrass/1.19/images/pack.png" thumbnail_darken="25">
+						<h3><a href="/projects/lambdabettergrass">LambdaBetterGrass</a></h3>
+						<span>A Minecraft mod which adds better grass and snow to the game.</span>
+					</project_card>
+					<project_card
+									href="/projects/lambdynamiclights"
+									source="https://github.com/LambdAurora/LambDynamicLights"
+									thumbnail="https://github.com/LambdAurora/LambDynamicLights/raw/1.21.4/assets/fox_holding.png" thumbnail_darken="25">
+						<h3><a href="/projects/lambdynamiclights">LambDynamicLights</a></h3>
+						<span>The most feature-complete dynamic lighting Minecraft mod for Fabric.</span>
+					</project_card>
+					<project_card
+									href="https://modrinth.com/mod/lovely_snails"
+									source="https://github.com/LambdAurora/lovely_snails"
+									thumbnail="https://raw.githubusercontent.com/LambdAurora/lovely_snails/1.17/images/small_snails.png" thumbnail_darken="none">
+						<h3><a href="https://modrinth.com/mod/lovely_snails">Lovely Snails</a></h3>
+						<span>A Minecraft mod which adds some very cute snails.</span>
+					</project_card>
+					<project_card
+									source="https://github.com/LambdAurora/SpruceUI">
+						<h3><a href="https://github.com/LambdAurora/SpruceUI">SpruceUI</a></h3>
+						A Minecraft library mod which adds a new abstraction to create GUI interfaces.
+						Still close to the Vanilla design code-wise.
+					</project_card>
+				</div>
+
+				<p></p>
+				<h3>Archived</h3>
+
+				<p>These are mods that I have made but don't maintain anymore.</p>
+
+				<div class="ls_card_board">
+					<project_card
+									source="https://github.com/LambdAurora/fuck_namemc">
+						<h3><a href="https://github.com/LambdAurora/fuck_namemc">Fuck NameMC</a></h3>
+						A Minecraft mod to block NameMC indexing on servers.
+					</project_card>
+				</div>
+			</section>
 		</div>
 	</main>
 

@@ -136,3 +136,10 @@
 		}
 	}
 }
+
+.ls_card_board {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	gap: 10px;
+}

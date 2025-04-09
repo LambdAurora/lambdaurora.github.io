@@ -1,4 +1,8 @@
 // deno-lint-ignore-file no-this-alias
+
+import { debounce } from "@std/async/debounce";
+import { AsyncLock } from "@olli/async-lock";
+
 export type OutputKind = "file" | "directory" | "empty_directory";
 
 export interface TaskExecutionContext {
@@ -165,11 +169,11 @@ export class BuildSystem {
 export type BuildWatchListener = (() => Promise<void>) | (() => void);
 
 export class BuildWatcher {
-	private watchers: Deno.FsWatcher[] = [];
-	private locks: { [x: string]: { id: number; action: Promise<unknown>; } } = {};
-	private listeners: BuildWatchListener[] = [];
+	private readonly watchers: Deno.FsWatcher[] = [];
+	private readonly listeners: BuildWatchListener[] = [];
+	private readonly lock = new AsyncLock();
 
-	constructor(private system: BuildSystem) {}
+	constructor(private readonly system: BuildSystem) {}
 
 	public add_listener(listener: BuildWatchListener) {
 		this.listeners.push(listener);
@@ -179,63 +183,30 @@ export class BuildWatcher {
 		const watcher = Deno.watchFs(task.input_files, { recursive: true });
 		this.watchers.push(watcher);
 
+		const action = debounce(async (_: Deno.FsEvent) => {
+			await this.lock.run(() => task.run(this.system));
+			await Promise.all(
+				this.listeners.map(listener => listener())
+			);
+		}, 750);
+
 		// Bootstrap the running watcher. Not using await allows for this to run in the background.
 		(async () => {
-			let last = Date.now();
-
 			for await (const event of watcher) {
-				if (event.flag === "rescan") continue;
+				if (event.flag === "rescan") return;
 				if (
-					(
-						event.kind === "create"
-						|| event.kind === "modify"
-						|| event.kind === "remove"
-					) && (Date.now() - last) > 750
+					event.kind === "create"
+					|| event.kind === "modify"
+					|| event.kind === "remove"
 				) {
-					last = Date.now();
-
-					const execution_id = last.valueOf();
-
-					const promise = task.run(this.system);
-					await this.request_lock(task, execution_id, promise);
+					action(event);
 				}
 			}
 		})();
 	}
 
-	public async request_lock(
-		task: Task,
-		execution_id: number,
-		action: Promise<unknown>
-	): Promise<void> {
-		this.locks[task.name] = {
-			id: execution_id,
-			action: action
-		};
-
-		await action;
-
-		// The lock can be released, the action has ended.
-
-		if (this.locks[task.name].id === execution_id) {
-			delete this.locks[task.name];
-
-			if (Object.values(this.locks).length === 0) {
-				await Promise.all(
-					this.listeners
-						.map(listener => listener())
-				);
-			}
-		}
-	}
-
 	public async check_lock(): Promise<void> {
-		while (Object.values(this.locks).length !== 0) {
-			await Promise.all(
-				Object.values(this.locks)
-				.map(lock => lock.action)
-			);
-		}
+		await this.lock.run(() => {});
 	}
 
 	public shutdown(): void {

@@ -47,6 +47,14 @@ dependencies {
 	// This is only required for compilation if you're using the Java API.
 	modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:<version>")
 
+	// If you need the Mojang-mappings version of the API for a common source set,
+	// or NeoForge:
+	modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:<version>") {
+		capabilities {
+			requireCapability("dev.lambdaurora.lambdynamiclights:api-mojmap")
+		}
+	}
+
 	// For runtime of LambDynamicLights.
 	// Include only if you need to test in your dev env compatibility with LambDynamicLights.
 	// Replace with modRuntimeOnly if you want the dependency to be transitive.
