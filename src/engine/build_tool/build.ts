@@ -46,8 +46,10 @@ export abstract class Task {
 	}
 
 	private async run_action(system: BuildSystem): Promise<boolean> {
+		console.log(`> Task \x1b[36;1m${this.name}\x1b[0m`);
+
 		const task = this;
-		return await this.do_action({
+		const result = await this.do_action({
 			push_output: (path, recursive) => {
 				this.output_files.push({ path: path, kind: recursive ?? "file" });
 			},
@@ -55,6 +57,14 @@ export abstract class Task {
 				return await system.run_except([task]);
 			}
 		});
+
+		if (!result) {
+			console.error(`> Task \x1b[36;1m${this.name}\x1b[0m - \x1b[31;1mFAILED\x1b[0m`);
+		} else {
+			console.log(`> Task \x1b[36;1m${this.name}\x1b[0m - \x1b[32;1mSUCCESS\x1b[0m`);
+		}
+
+		return result;
 	}
 
 	/**
@@ -130,8 +140,6 @@ export class BuildSystem {
 	public async run(fatal: boolean): Promise<void> {
 		for (const task of this.tasks) {
 			if (!await task.run(this)) {
-				console.error(`Task "${task.name}" failed.`);
-
 				if (fatal) {
 					Deno.exit(1);
 				}
@@ -146,8 +154,6 @@ export class BuildSystem {
 			}
 
 			if (!await task.run(this)) {
-				console.error(`Task "${task.name}" failed.`);
-
 				return false;
 			}
 		}

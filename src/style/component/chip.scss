@@ -14,6 +14,10 @@
 } 
 
 .ls_chip {
+	--ls_chip_background_color: none;
+	--ls_chip_color: initial;
+	--ls_chip_border_color: var(--ls_theme_border_color);
+
 	display: inline-flex;
 	box-sizing: border-box;
 
@@ -22,13 +26,26 @@
 	@include chip_size(32px, 12px);
 	margin: 4px;
 
-	border: 1px solid var(--ls_theme_border_color);
+	border: 1px solid var(--ls_chip_border_color);
 	border-radius: 8px;
 
+	background-color: var(--ls_chip_background_color);
+	color: var(--ls_chip_color);
+
 	&[ls_variant="highlight"] {
-		border-color: var(--ls_theme_primary);
+		--ls_chip_border_color: var(--ls_theme_primary);
 		border-width: 2px;
-		color: var(--ls_theme_primary);
+		--ls_chip_color: var(--ls_theme_primary);
+	}
+
+	&[ls_variant="warning"] {
+		--ls_chip_background_color: var(--ls_theme_warning_soft_background_color);
+		--ls_chip_border_color: var(--ls_theme_warning_color);
+	}
+
+	&[ls_variant="error"] {
+		--ls_chip_background_color: var(--ls_theme_error_soft_background_color);
+		--ls_chip_border_color: var(--ls_theme_error_color);
 	}
 
 	&[ls_size="small"] {

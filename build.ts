@@ -38,21 +38,22 @@ build_system.register_task(assets_step);
 const style_step = new BuildTask(
 	"Style",
 	async context => {
-		console.log("Building styles...");
-
 		const deployed_style_dir = DEPLOY_DIR + "/style";
 
 		context.push_output(deployed_style_dir, "directory");
 
 		await copy("./src/style", deployed_style_dir);
+
+		const cliArgs = [
+			`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
+			`${deployed_style_dir}:${deployed_style_dir}`,
+			args.debug ? "--style=expanded" : "--style=compressed"
+		];
+		console.debug(`$ \x1b[33msass ${cliArgs.join(" ")}\x1b[0m`);
 		const result = await new Deno.Command("sass", {
-			args: [
-				`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
-				`${deployed_style_dir}:${deployed_style_dir}`,
-				args.debug ? "--style=expanded" : "--style=compressed"
-			],
-			stdout: "piped",
-			stderr: "piped"
+			args: cliArgs,
+			stdout: "inherit",
+			stderr: "inherit"
 		}).output();
 
 		if (!result.success) {

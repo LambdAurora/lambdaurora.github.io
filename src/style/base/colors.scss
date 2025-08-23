@@ -10,6 +10,7 @@
 
 @use "../util/utils";
 @use "../util/color";
+@use "sass:color" as sass_color;
 @use "sass:list";
 @use "sass:map";
 
@@ -30,7 +31,11 @@ $theme_aurora_secondary_dark: #00ed76;
 $theme_aurora_secondary: (light: $theme_aurora_secondary_light, dark: $theme_aurora_secondary_light);
 $theme_aurora_on_secondary: (light: $theme_fg_on_dark, dark: $theme_aurora_on_primary_dark);
 
+$theme_warning: #fc6f00;
+$theme_warning_soft_bg: sass_color.change($theme_warning, $alpha: 27%);
+
 $theme_error: #b3261e;
+$theme_error_soft_bg: sass_color.change($theme_error, $alpha: 27%);
 $theme_on_error: #fff;
 
 $theme_aurora: (
@@ -60,7 +65,7 @@ $theme_aurora: (
 	),
 	foreground: (
 		"": (light: $theme_fg_on_light, dark: $theme_fg_on_dark),
-		accentuated: (light: lighten($theme_fg_on_light, 10%), dark: darken($theme_fg_on_dark, 19%)),
+		accentuated: (light: sass_color.adjust($theme_fg_on_light, $lightness: 10%), dark: sass_color.adjust($theme_fg_on_dark, $lightness: -19%)),
 	),
 	background: (
 		"": (light: #faf2f2, dark: #292424),
@@ -113,7 +118,9 @@ $theme_aurora: (
 	--ls_theme_disabled_button_background: #d9d9d9;
 	--ls_theme_disabled_button_foreground: #898989;
 
-	--ls_theme_warning_color: #fc6f00;
-	--ls_theme_error_color: $theme_error;
-	--ls_theme_on_error_color: $theme_on_error;
+	--ls_theme_warning_color: #{$theme_warning};
+	--ls_theme_warning_soft_background_color: #{$theme_warning_soft_bg};
+	--ls_theme_error_color: #{$theme_error};
+	--ls_theme_error_soft_background_color: #{$theme_error_soft_bg};
+	--ls_theme_on_error_color: #{$theme_on_error};
 }

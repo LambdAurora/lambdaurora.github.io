@@ -19,11 +19,6 @@ $border_radius: 4px;
  * The ::after element defines the border of the chip.
  */
 .ls_color_chip {
-	&, &::before, &::after {
-		display: inline-block;
-		box-sizing: border-box;
-	}
-
 	position: relative;
 	width: $size;
 	height: $size;
@@ -33,6 +28,11 @@ $border_radius: 4px;
 	border-radius: $border_radius;
 
 	background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyIDIiPjxwYXRoIGZpbGw9ImdyYXkiIGQ9Ik0wIDBoMnYySDB6Ii8+PHBhdGggZmlsbD0id2hpdGUiIGQ9Ik0wIDBoMXYxSDB6TTEgMWgxdjFIMXoiLz48L3N2Zz4=);
+
+	&, &::before, &::after {
+		display: inline-block;
+		box-sizing: border-box;
+	}
 
 	&::before, &::after {
 		position: absolute;

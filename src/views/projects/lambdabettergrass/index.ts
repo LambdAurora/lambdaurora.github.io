@@ -61,7 +61,7 @@ export const SPEC: ViewSpec = {
 					if (node.ref.url.startsWith("https://img.shields.io/badge/language-")
 						|| node.ref.url.startsWith("https://img.shields.io/github/v/tag")) {
 						return false;
-					} else if (node.ref.url.startsWith("images/")) {
+					} else if (node.ref.url.startsWith("assets/")) {
 						node.ref.url = `https://raw.githubusercontent.com/LambdAurora/LambdaBetterGrass/${BRANCH}/${node.ref.url}`;
 					}
 				} else if (node instanceof md.Link) {
