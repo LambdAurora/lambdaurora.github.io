@@ -57,7 +57,7 @@ On NeoForge, this translates into adding in the `modproperties` table of your `n
 [[mods]]
 # Stuff
 
-[modproperties.${mod_id}]
+[modproperties.${mod_id}."yumi:entrypoints"]
 	"lambdynlights:initializer" = "<package>.YourModDynamicLightsInitializer"
 ```
 
