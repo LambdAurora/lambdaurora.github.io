@@ -59,6 +59,13 @@ dependencies {
 	// Include only if you need to test in your dev env compatibility with LambDynamicLights.
 	// Replace with modRuntimeOnly if you want the dependency to be transitive.
 	modLocalRuntime("dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:<version>")
+
+	// If you need the Mojang-mappings version of the runtime for NeoForge:
+	modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:<version>") {
+		capabilities {
+			requireCapability("dev.lambdaurora.lambdynamiclights:lambdynamiclights-mojmap")
+		}
+	}
 }
 ```
 

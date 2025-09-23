@@ -101,11 +101,11 @@ I am excited to see what people will build with those new features!
 
 ## Downloads
 
-<div style="display: flex; flex-direction: row; justify-content: center; gap: 1.5em; margin: 2em;">
+<div class="ls_download_container">
 	<a
 		href="https://modrinth.com/mod/lambdynamiclights/version/4.0.0+1.21.4"
 		title="LambDynamicLights Modrinth page"
-		style="display: inline-flex; align-items: center; gap: .5em;"
+		class="ls_download_item"
 	>
 		<icon:modrinth ls_size="xl" aria-hidden="true" />
 		Modrinth
@@ -113,7 +113,7 @@ I am excited to see what people will build with those new features!
 	<a
 		href="https://www.curseforge.com/minecraft/mc-mods/lambdynamiclights/files/5959688"
 		title="LambDynamicLights CurseForge page"
-		style="display: inline-flex; align-items: center; gap: .5em;"
+		class="ls_download_item"
 	>
 		<icon:curseforge ls_size="xl" aria-hidden="true" color="var(--ls_theme_primary)" />
 		CurseForge
@@ -121,7 +121,7 @@ I am excited to see what people will build with those new features!
 	<a
 		href="https://github.com/LambdAurora/LambDynamicLights/releases/tag/v4.0.0%2B1.21.4"
 		title="LambDynamicLights GitHub page"
-		style="display: inline-flex; align-items: center; gap: .5em;"
+		class="ls_download_item"
 	>
 		<icon:github ls_size="xl" aria-hidden="true" color="var(--ls_theme_primary)" />
 		GitHub releases
@@ -140,11 +140,11 @@ We hope that you will try it out and enjoy it!
 
 ### Illuminated Downloads
 
-<div style="display: flex; flex-direction: row; justify-content: center; gap: 1.5em; margin: 2em;">
+<div class="ls_download_container">
 	<a
 		href="https://modrinth.com/mod/illuminated/version/1.0.0+1.21.4"
 		title="Illuminated Modrinth page"
-		style="display: inline-flex; align-items: center; gap: .5em;"
+		class="ls_download_item"
 	>
 		<icon:modrinth ls_size="xl" aria-hidden="true" />
 		Modrinth
@@ -152,7 +152,7 @@ We hope that you will try it out and enjoy it!
 	<a
 		href="https://www.curseforge.com/minecraft/mc-mods/illuminated/files/5798757"
 		title="Illuminated CurseForge page"
-		style="display: inline-flex; align-items: center; gap: .5em;"
+		class="ls_download_item"
 	>
 		<icon:curseforge ls_size="xl" aria-hidden="true" color="var(--ls_theme_primary)" />
 		CurseForge
@@ -160,7 +160,7 @@ We hope that you will try it out and enjoy it!
 	<a
 		href="https://github.com/LambdAurora/Illuminated/releases/tag/v1.0.0%2B1.21.4"
 		title="Illuminated GitHub page"
-		style="display: inline-flex; align-items: center; gap: .5em;"
+		class="ls_download_item"
 	>
 		<icon:github ls_size="xl" aria-hidden="true" color="var(--ls_theme_primary)" />
 		GitHub releases

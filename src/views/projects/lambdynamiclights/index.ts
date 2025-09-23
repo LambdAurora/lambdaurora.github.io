@@ -23,7 +23,7 @@ function filter_badge_classes(nodes: html.Node[]) {
 export const SPEC: ViewSpec = {
 	page: {
 		title: TITLE,
-		description: "The most feature-complete dynamic lighting Minecraft mod for Fabric.",
+		description: "The most feature-complete and optimized dynamic lighting Minecraft mod.",
 		icons: {
 			favicon: ICON
 		},

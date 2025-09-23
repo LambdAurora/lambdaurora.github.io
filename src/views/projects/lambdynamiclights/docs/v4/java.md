@@ -18,7 +18,7 @@ Once you have the [LambDynamicLights] API in your development environment we can
 
 This API's design uses Fabric's entrypoint philosophy which allows declaring that one part of your code will be initialized directly
 by [LambDynamicLights]. This design allows mod-loaders to not depend on an initialization order.  
-This design choice should be upheld by NeoForge ports as well, even if not the convention in that ecosystem.
+This design choice is upheld on NeoForge as well, even if not the convention in that ecosystem.
 
 For multi-loader modders: the API is multi-loader! This means you can directly add it to your common project, and it should work as-is.
 
