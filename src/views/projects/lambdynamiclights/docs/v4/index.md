@@ -41,29 +41,45 @@ repositories {
 
 Then you can add to your dependencies either the API, the runtime, or both:
 
+#### Fabric
+
 ```kotlin
 dependencies {
 	// The API of LambDynamicLights.
 	// This is only required for compilation if you're using the Java API.
 	modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:<version>")
 
-	// If you need the Mojang-mappings version of the API for a common source set,
-	// or NeoForge:
-	modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:<version>") {
-		capabilities {
-			requireCapability("dev.lambdaurora.lambdynamiclights:api-mojmap")
+	// For runtime of LambDynamicLights.
+	// Include only if you need to test in your dev env compatibility with LambDynamicLights.
+	// Replace with modRuntimeOnly if you want the dependency to be transitive.
+	modLocalRuntime("dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:<version>")
+}
+```
+
+#### NeoForge or common source sets
+
+```kotlin
+val mappingsAttribute = Attribute.of("net.minecraft.mappings", String::class)
+
+dependencies {
+	attributesSchema {
+		attribute(mappingsAttribute)
+	}
+
+	// The API of LambDynamicLights.
+	// This is only required for compilation if you're using the Java API.
+	compileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:<version>") {
+		attributes {
+			attribute(mappingsAttribute, "mojmap")
 		}
 	}
 
 	// For runtime of LambDynamicLights.
 	// Include only if you need to test in your dev env compatibility with LambDynamicLights.
-	// Replace with modRuntimeOnly if you want the dependency to be transitive.
-	modLocalRuntime("dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:<version>")
-
-	// If you need the Mojang-mappings version of the runtime for NeoForge:
-	modCompileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:<version>") {
-		capabilities {
-			requireCapability("dev.lambdaurora.lambdynamiclights:lambdynamiclights-mojmap")
+	// Replace with runtimeOnly if you want the dependency to be transitive.
+	localRuntime("dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:<version>") {
+		attributes {
+			attribute(mappingsAttribute, "mojmap")
 		}
 	}
 }
