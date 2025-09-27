@@ -4,7 +4,7 @@ import { remove_comments, ViewSpec } from "../../../engine/view.ts";
 import { create_common_markdown_parser_opts, create_common_markdown_render_opts } from "../../../utils.ts";
 import { BRANCH, get_path, ICON, KEYWORDS, THUMBNAIL, TITLE } from "./data.ts";
 
-const LBG_README = get_path("README.md");
+const README = get_path("README.md");
 
 function filter_badge_classes(nodes: html.Node[]) {
 	nodes.forEach(node => {
@@ -40,7 +40,7 @@ export const SPEC: ViewSpec = {
 		const main = page.find_element_by_tag_name("main") as html.Element;
 		const article = main.get_element_by_tag_name("article") as html.Element;
 
-		const readme = await fetch(LBG_README)
+		const readme = await fetch(README)
 			.then(response => response.text())
 			.then(text => md.parser.parse(text, create_common_markdown_parser_opts()));
 
@@ -50,7 +50,7 @@ export const SPEC: ViewSpec = {
 
 		readme.blocks = readme.blocks.filter((block: md.BlockElement<md.Node>) => {
 			if (block instanceof md.Heading) {
-				should_remove = block.as_plain_text() === "Build";
+				should_remove = block.as_plain_text().trim().endsWith("Build");
 			}
 
 			if (should_remove) return false;
