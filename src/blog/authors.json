@@ -3,8 +3,12 @@
 		"name": "LambdAurora",
 		"picture": "/images/art/avatar_2022_02_no_pins.png"
 	},
+	"layla": {
+		"name": "Layla",
+		"picture": "/assets/avatar/layla.png"
+	},
 	"akarys": {
 		"name": "Akarys",
-		"picture": "/assets/squib/akarys.jpg"
+		"picture": "/assets/avatar/akarys.jpg"
 	}
 }

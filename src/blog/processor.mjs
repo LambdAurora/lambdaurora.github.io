@@ -381,15 +381,30 @@ async function process_blog_index(entries, pages_context) {
 
 			entries.forEach(post => {
 				const metadata = post.page.metadata;
-				const card = html.parse(/*html*/`<card href="${post.path}"
-						style="margin-top: 1em; margin-bottom: 1em;" tags="${metadata.page.custom.tags.join(", ")}">
-						<card:content>
-							<h2>${post.name}</h2>
-							${get_article_metadata_html(metadata.page.custom.authors, metadata.page.custom.times).html()}
-							${get_tags_html(metadata.page.custom.tags)}
-							<p>${metadata.page.description}</p>
-						</card:content>
-					</card>`);
+				const post_description_doc = md.parser.parse(metadata.page.description, create_common_markdown_parser_opts());
+				const card = html.create_element("card")
+					.with_attr("href", post.path)
+					.with_attr("style", "margin-top: 1em; margin-bottom: 1em;")
+					.with_attr("tags", metadata.page.custom.tags.join(", "));
+				const content = html.parse(/*html*/`<card:content>
+						<h2>${post.name}</h2>
+						${get_article_metadata_html(metadata.page.custom.authors, metadata.page.custom.times).html()}
+						${get_tags_html(metadata.page.custom.tags)}
+					</card:content>`);
+				card.append_child(content);
+				content.append_child(md.render_to_html(post_description_doc, create_common_markdown_render_opts({
+					block_code: {
+						highlighter: (code, language, parent) => {
+							if (Prism.languages[language]) {
+								const stuff = html.parse(
+									/*html*/`<pre><code>${Prism.highlight(code, Prism.languages[language], language)}</code></pre>`
+								);
+								parent.children = stuff.get_element_by_tag_name("code").children;
+							} else
+								parent.append_child(new html.Text(code));
+						}
+					}
+				})));
 				nav.append_child(card);
 			});
 
