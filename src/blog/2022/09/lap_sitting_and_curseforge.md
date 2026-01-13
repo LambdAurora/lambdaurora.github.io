@@ -176,7 +176,7 @@ Said meme is accompanying their announcement about integrating Discord Rich Pres
 client, so far so good. Until you realize what the meme is.
 
 <img
-	class="ls_img"
+	class="ls_img ls_responsive_img"
 	alt="A screenshot from Twitter of CurseForge's tweet with a meme about seeing the rich presence of someone playing a lewd mod."
 	src="/images/blog/2022/09/lap_sitting/cringe_meme.png"
 	style="max-width: 512px"

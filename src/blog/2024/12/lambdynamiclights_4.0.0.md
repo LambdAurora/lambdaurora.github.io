@@ -174,7 +174,7 @@ If you have questions, feedback, or even just want to say hi, don't hesitate to 
 
 Thank you for your support and have fun!
 
-<div style="display: flex; flex-direction: row; justify-content: center; gap: 1.5em; margin: 2em;">
+<div style="display: flex; flex-direction: row; justify-content: center; gap: .8em; margin: 2em;">
 	<img class="ls_img" src="/assets/squib/aurora_eepy.png" style="width: 200px; transform: rotate(-45deg);" />
 	<img class="ls_img" src="/assets/squib/akarys_silly.png" style="width: 200px;" />
 </div>
