@@ -1,8 +1,8 @@
 {
 	"tasks": {
-		"build": "deno run --allow-read=. --allow-write=build --allow-net --allow-run build.ts",
-		"serve": "deno run --allow-read=. --allow-write=build --allow-net --allow-run build.ts --serve --port 8081",
-		"dev": "deno run --allow-read=. --allow-write=build --allow-net --allow-run build.ts --serve --port 9091 --debug",
+		"build": "deno run --allow-read=. --allow-write=build --allow-env=SASS_PATH --allow-net --allow-run build.ts",
+		"serve": "deno run --allow-read=. --allow-write=build --allow-env=SASS_PATH --allow-net --allow-run build.ts --serve --port 8081",
+		"dev": "deno run --allow-read=. --allow-write=build --allow-env=SASS_PATH --allow-net --allow-run build.ts --serve --port 9091 --debug",
 		"clean": "rm -r build"
 	},
 	"imports": {
@@ -18,7 +18,8 @@
 		"@katex/": "https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/",
 		"@core/asyncutil/": "jsr:/@core/asyncutil@^1.1.1/",
 		"@lambdaurora/lambdawebserver": "jsr:@lambdaurora/lambdawebserver@^3.0.0",
-		"@oak/oak": "jsr:@oak/oak@^17.1.5"
+		"@oak/oak": "jsr:@oak/oak@^17.1.5",
+		"sass": "npm:sass@^1.97.2"
 	},
 	"fmt": {
 		"useTabs": true

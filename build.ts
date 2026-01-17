@@ -1,4 +1,4 @@
-import { copy, move } from "@std/fs";
+import { copy } from "@std/fs";
 import { parseArgs } from "@std/cli";
 
 import { PagesContext, process_all_pages } from "./src/engine/page.ts";
@@ -11,6 +11,9 @@ import { COMPONENTS } from "./src/engine/component.ts";
 import { CopyStaticResourcesTask } from "./src/engine/build_tool/tasks.ts";
 import { Application } from "./src/engine/app.ts";
 import { CONSTANTS } from "./src/constants.ts";
+import { initCompiler } from "sass";
+
+const ABSOLUTE_DEPLOY_DIR = await Deno.realPath(DEPLOY_DIR);
 
 const args = parseArgs(Deno.args, { default: { port: 8080 }});
 
@@ -35,6 +38,7 @@ const assets_step = new CopyStaticResourcesTask(
 );
 build_system.register_task(assets_step);
 
+const sass_compiler = initCompiler();
 const style_step = new BuildTask(
 	"Style",
 	async context => {
@@ -44,44 +48,40 @@ const style_step = new BuildTask(
 
 		await copy("./src/style", deployed_style_dir);
 
-		const cliArgs = [
-			`${deployed_style_dir}/style.scss:${deployed_style_dir}/style.css`,
-			`${deployed_style_dir}:${deployed_style_dir}`,
-			args.debug ? "--style=expanded" : "--style=compressed"
-		];
-		console.debug(`$ \x1b[33msass ${cliArgs.join(" ")}\x1b[0m`);
-		const result = await new Deno.Command("sass", {
-			args: cliArgs,
-			stdout: "inherit",
-			stderr: "inherit"
-		}).output();
+		async function explore_and_compile(dir: string): Promise<boolean> {
+			for await (const entry of Deno.readDir(dir)) {
+				if (entry.isDirectory) {
+					await explore_and_compile(`${dir}/${entry.name}`);
+				} else if (entry.isFile && entry.name.endsWith(".scss")) {
+					const file = `${dir}/${entry.name}`;
+					const index = file === `${deployed_style_dir}/style.scss`;
+					const output_file = index ? `${DEPLOY_DIR}/style.css` : file.replace(".scss", ".css");
+					console.debug(`Compiling ${file} to ${output_file}...\x1b[0m`)
+					try {
+						const result = sass_compiler.compile(file, {
+							style: args.debug ? "expanded" : "compressed",
+							sourceMap: true,
+						});
 
-		if (!result.success) {
-			return false;
-		}
+						await Deno.writeTextFile(output_file, result.css);
 
-		try {
-			await Deno.remove(DEPLOY_DIR + "/style.css");
-		} catch (e) {
-			if (!(e instanceof Deno.errors.NotFound)) {
-				throw e;
+						if (index) {
+							const source_map = result.sourceMap!;
+							source_map.sourceRoot = "/style";
+							source_map.sources = source_map.sources.map(source => source.replace(`file://${ABSOLUTE_DEPLOY_DIR}`, ""))
+							await Deno.writeTextFile(output_file + ".map", JSON.stringify(source_map));
+						}
+					} catch (error) {
+						console.error(error);
+						return false;
+					}
+				}
 			}
+
+			return true;
 		}
 
-		await Deno.readTextFile(deployed_style_dir + "/style.css.map")
-			.then(source => {
-				const json = JSON.parse(source);
-				json.sourceRoot = "/style";
-				return JSON.stringify(json);
-			})
-			.then(source => Deno.writeTextFile(DEPLOY_DIR + "/style.css.map", source))
-			.then(() => Deno.remove(deployed_style_dir + "/style.css.map"))
-			.then(() => move(deployed_style_dir + "/style.css", DEPLOY_DIR + "/style.css"));
-
-		context.push_output(DEPLOY_DIR + "/style.css", "file");
-		context.push_output(DEPLOY_DIR + "/style.css.map", "file");
-
-		return true;
+		return await explore_and_compile(deployed_style_dir);
 	},
 	["./src/style/"]
 );

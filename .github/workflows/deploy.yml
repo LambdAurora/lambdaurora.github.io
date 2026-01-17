@@ -27,13 +27,6 @@ jobs:
         uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - uses: actions/setup-node@v4
-        with:
-          node-version: "22"
-
-      - name: "Install SASS"
-        run: |
-          npm install -g sass
 
       - name: "Build with Deno"
         run: |
