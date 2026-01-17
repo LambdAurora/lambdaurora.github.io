@@ -124,3 +124,14 @@ export async function create_parent_directory(path: string) {
 export async function get_file_hash(path: string): Promise<string> {
 	return await Deno.readFile(path).then(data => crypto.subtle.digest("SHA-1", data)).then(data => DECODER.decode(data));
 }
+
+/**
+ * Reads a text file at the given path.
+ * Always converts back to LF.
+ *
+ * @param path the path to the file
+ * @returns the text
+ */
+export async function readTextFile(path: string): Promise<string> {
+	return await Deno.readTextFile(path).then(data => data.replaceAll(/\r?\n/g, "\n"));
+}
