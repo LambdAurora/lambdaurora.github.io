@@ -13,21 +13,50 @@
 @use "sass:list";
 @use "sass:map";
 
+@mixin define-base-vars-of($name, $lightness) {
+	--ls_theme_primary_#{$lightness}: var(--ls_theme_#{$name}_primary_#{$lightness});
+	--ls_theme_on_primary_#{$lightness}: var(--ls_theme_#{$name}_on_primary_#{$lightness});
+
+	--ls_theme_secondary_#{$lightness}: var(--ls_theme_#{$name}_secondary_#{$lightness});
+	--ls_theme_on_secondary_#{$lightness}: var(--ls_theme_#{$name}_on_secondary_#{$lightness});
+
+	--ls_theme_foreground_#{$lightness}: var(--ls_theme_#{$name}_foreground_#{$lightness});
+	--ls_theme_foreground_accentuated_#{$lightness}: var(--ls_theme_#{$name}_foreground_accentuated_#{$lightness});
+
+	--ls_theme_background_#{$lightness}: var(--ls_theme_#{$name}_background_#{$lightness});
+	--ls_theme_background_accentuated_#{$lightness}: var(--ls_theme_#{$name}_background_accentuated_#{$lightness});
+	--ls_theme_background_popover_#{$lightness}: var(--ls_theme_#{$name}_background_popover_#{$lightness});
+	--ls_theme_background_stronger_#{$lightness}: var(--ls_theme_#{$name}_background_stronger_#{$lightness});
+	--ls_theme_background_active_#{$lightness}: var(--ls_theme_#{$name}_background_active_#{$lightness});
+}
+
 @mixin define-vars-of($theme) {
-	--ls_theme_primary: var(--ls_theme_aurora_primary_#{$theme});
-	--ls_theme_on_primary: var(--ls_theme_aurora_on_primary_#{$theme});
+	--ls_theme_primary: var(--ls_theme_primary_#{$theme});
+	--ls_theme_on_primary: var(--ls_theme_on_primary_#{$theme});
 
-	--ls_theme_secondary: var(--ls_theme_aurora_secondary_#{$theme});
-	--ls_theme_on_secondary: var(--ls_theme_aurora_on_secondary_#{$theme});
+	--ls_theme_secondary: var(--ls_theme_secondary_#{$theme});
+	--ls_theme_on_secondary: var(--ls_theme_on_secondary_#{$theme});
 
-	--ls_theme_foreground: var(--ls_theme_aurora_foreground_#{$theme});
-	--ls_theme_foreground_accentuated: var(--ls_theme_aurora_foreground_accentuated_#{$theme});
+	--ls_theme_foreground: var(--ls_theme_foreground_#{$theme});
+	--ls_theme_foreground_accentuated: var(--ls_theme_foreground_accentuated_#{$theme});
 
-	--ls_theme_background: var(--ls_theme_aurora_background_#{$theme});
-	--ls_theme_background_accentuated: var(--ls_theme_aurora_background_accentuated_#{$theme});
-	--ls_theme_background_popover: var(--ls_theme_aurora_background_popover_#{$theme});
-	--ls_theme_background_stronger: var(--ls_theme_aurora_background_stronger_#{$theme});
-	--ls_theme_background_active: var(--ls_theme_aurora_background_active_#{$theme});
+	--ls_theme_background: var(--ls_theme_background_#{$theme});
+	--ls_theme_background_accentuated: var(--ls_theme_background_accentuated_#{$theme});
+	--ls_theme_background_popover: var(--ls_theme_background_popover_#{$theme});
+	--ls_theme_background_stronger: var(--ls_theme_background_stronger_#{$theme});
+	--ls_theme_background_active: var(--ls_theme_background_active_#{$theme});
+
+	--ls_theme_blend_al_primary: var(--ls_theme_blend_al_primary_#{$theme});
+}
+
+:root, [ls_theme_color="aurore"] {
+	@include define-base-vars-of("aurora", "light");
+	@include define-base-vars-of("aurora", "dark");
+}
+
+[ls_theme_color="layla"] {
+	@include define-base-vars-of("layla", "light");
+	@include define-base-vars-of("layla", "dark");
 }
 
 [ls_theme="light"], :root {

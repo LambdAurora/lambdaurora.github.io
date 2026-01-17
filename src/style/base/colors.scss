@@ -22,6 +22,14 @@ $theme_aurora_classic_primary: #f90;
 $theme_aurora_classic_secondary: #9c73cc;
 
 /* Theme colors */
+$theme_warning: #fc6f00;
+$theme_warning_soft_bg: sass_color.change($theme_warning, $alpha: 27%);
+
+$theme_error: #b3261e;
+$theme_error_soft_bg: sass_color.change($theme_error, $alpha: 27%);
+$theme_on_error: #fff;
+
+/* Aurore theme colors */
 $theme_aurora_primary: (light: #c7136d, dark: #ff5aa2);
 $theme_aurora_on_primary_dark: #282828;
 $theme_aurora_on_primary: (light: $theme_fg_on_dark, dark: $theme_aurora_on_primary_dark);
@@ -30,13 +38,6 @@ $theme_aurora_secondary_light: #00ac48;
 $theme_aurora_secondary_dark: #00ed76;
 $theme_aurora_secondary: (light: $theme_aurora_secondary_light, dark: $theme_aurora_secondary_light);
 $theme_aurora_on_secondary: (light: $theme_fg_on_dark, dark: $theme_aurora_on_primary_dark);
-
-$theme_warning: #fc6f00;
-$theme_warning_soft_bg: sass_color.change($theme_warning, $alpha: 27%);
-
-$theme_error: #b3261e;
-$theme_error_soft_bg: sass_color.change($theme_error, $alpha: 27%);
-$theme_on_error: #fff;
 
 $theme_aurora: (
 	primary: (
@@ -76,6 +77,54 @@ $theme_aurora: (
 	),
 );
 
+/* Layla theme colors */
+$theme_layla_primary: (light: #007dc2, dark: #14bbe7);
+$theme_layla_on_primary_dark: #282828;
+$theme_layla_on_primary: (light: $theme_fg_on_dark, dark: $theme_layla_on_primary_dark);
+
+$theme_layla_secondary_light: #db5108;
+$theme_layla_secondary_dark: #ff8662;
+$theme_layla_secondary: (light: $theme_layla_secondary_light, dark: $theme_layla_secondary_dark);
+$theme_layla_on_secondary: (light: $theme_fg_on_dark, dark: $theme_layla_on_primary_dark);
+
+$theme_layla: (
+	primary: (
+		"": $theme_layla_primary,
+		on: $theme_layla_on_primary,
+		strong: (
+			"": (light: #006caf, dark: #00abe5),
+			on: (light: $theme_fg_on_dark, dark: #2a0d1b),
+		),
+		stronger: (
+			"": (light: #004d8f, dark: #007dc2),
+			on: (light: $theme_fg_on_dark, dark: $theme_fg_on_dark),
+		),
+		lighter: (
+			"": (light: #2dbdfa, dark: #6dcded),
+			on: (light: #2a0d1b, dark: $theme_layla_on_primary_dark),
+		),
+		soft: (
+			"": (light: #83d8fc, dark: #a9e1f4),
+			on: (light: $theme_layla_on_primary_dark, dark: $theme_layla_on_primary_dark),
+		),
+	),
+	secondary: (
+		"": $theme_layla_secondary,
+		on: $theme_layla_on_secondary,
+	),
+	foreground: (
+		"": (light: $theme_fg_on_light, dark: $theme_fg_on_dark),
+		accentuated: (light: sass_color.adjust($theme_fg_on_light, $lightness: 10%), dark: sass_color.adjust($theme_fg_on_dark, $lightness: -19%)),
+	),
+	background: (
+		"": (light: #f2f2fa, dark: #242429),
+		accentuated: (light: #eeeef6, dark: #202025),
+		popover: (light: #ebebf3, dark: #2b2b32),
+		stronger: (light: #e5e5ec, dark: #2f2f36),
+		active: (light: rgba($theme_layla_secondary_dark, .15), dark: rgba($theme_layla_secondary_light, .15))
+	)
+);
+
 @mixin define_vars($prefix, $values) {
 	@if (map.get($values, "light") != null and map.get($values, "dark") != null) {
 		@each $theme, $value in $values {
@@ -107,8 +156,18 @@ $theme_aurora: (
 	}
 }
 
+@mixin define_gradient($kind, $first, $second, $blend) {
+	--ls_theme_blend_#{$blend}_#{$kind}_light: linear-gradient(22.5deg, var(--ls_theme_#{$first}_#{$kind}_light), var(--ls_theme_#{$second}_#{$kind}_light));
+	--ls_theme_blend_#{$blend}_#{$kind}_dark: linear-gradient(22.5deg, var(--ls_theme_#{$first}_#{$kind}_dark), var(--ls_theme_#{$second}_#{$kind}_dark));
+}
+
 :root {
 	@include define_vars((ls_theme_aurora), $theme_aurora);
+	@include define_vars((ls_theme_layla), $theme_layla);
+
+	@include define_gradient(("primary"), (aurora), (layla), (al));
+	@include define_gradient(("background"), (aurora), (layla), (al));
+	@include define_gradient(("background_popover"), (aurora), (layla), (al));
 
 	--ls_theme_foreground_on_dark: var(--ls_theme_aurora_foreground_dark);
 	--ls_theme_foreground_on_light: var(--ls_theme_aurora_foreground_light);
