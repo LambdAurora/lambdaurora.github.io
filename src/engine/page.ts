@@ -357,7 +357,7 @@ async function process_directory(
 					await Deno.writeTextFile(deploy_path, page.html());
 					push_output(deploy_path);
 				});
-				
+
 			if (context.app.debug) {
 				await promise.catch(reason => {
 					console.error(`Failed to process page ${path}.`);
