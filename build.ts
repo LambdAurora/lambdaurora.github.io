@@ -13,8 +13,6 @@ import { Application } from "./src/engine/app.ts";
 import { CONSTANTS } from "./src/constants.ts";
 import { initCompiler } from "sass";
 
-const ABSOLUTE_DEPLOY_DIR = await Deno.realPath(DEPLOY_DIR);
-
 const args = parseArgs(Deno.args, { default: { port: 8080 }});
 
 const app = new Application({
@@ -48,6 +46,8 @@ const style_step = new BuildTask(
 
 		await copy("./src/style", deployed_style_dir);
 
+		const absolute_deploy_dir = await Deno.realPath(DEPLOY_DIR);
+
 		async function explore_and_compile(dir: string): Promise<boolean> {
 			for await (const entry of Deno.readDir(dir)) {
 				if (entry.isDirectory) {
@@ -68,7 +68,7 @@ const style_step = new BuildTask(
 						if (index) {
 							const source_map = result.sourceMap!;
 							source_map.sourceRoot = "/style";
-							source_map.sources = source_map.sources.map(source => source.replace(`file://${ABSOLUTE_DEPLOY_DIR}`, ""))
+							source_map.sources = source_map.sources.map(source => source.replace(`file://${absolute_deploy_dir}`, ""))
 							await Deno.writeTextFile(output_file + ".map", JSON.stringify(source_map));
 						}
 					} catch (error) {
