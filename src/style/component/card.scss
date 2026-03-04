@@ -142,4 +142,8 @@
 	flex-flow: row wrap;
 	justify-content: space-between;
 	gap: 10px;
+
+	&.ls_card_board_column > .ls_card {
+		width: 100%;
+	}
 }
