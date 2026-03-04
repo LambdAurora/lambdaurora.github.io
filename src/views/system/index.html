@@ -1,0 +1,163 @@
+<html>
+<body>
+	<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+		<header>
+			<main_nav_banner></main_nav_banner>
+		</header>
+	</sidenav>
+
+	<main class="ls_sidenav_neighbor">
+		<div class="ls_main_content" style="margin-top: 4em;">
+			<p>Hello world!</p>
+			<p>Here's our very messy introduction page, we're LambdAurora, a system of 4.</p>
+			<p>
+				Interested in the projects we work on? Please visit our <a href="/projects/">projects page</a>!
+			</p>
+			<p>
+				We also have <a href="/blog/">a blog</a>!
+			</p>
+
+			<h4>Members</h4>
+
+			<div id="system_members" class="ls_card_board">
+				<card ls_theme_color="aurore">
+					<card:section>
+						<div class="ls_introduction_avatar ls_in_card">
+							<img src="/assets/avatar/aurore.png" class="ls_img" />
+							<div class="ls_color_swatch"></div>
+						</div>
+
+						<card:content>
+							<h5>Aurore <span class="pronouns">- she/it</span></h5>
+							<p>hi! I'm Aurore, an inkling girl. I'm one of the hosts of this system.</p>
+						</card:content>
+					</card:section>
+					<card:actions>
+						<a href="./aurore" class="ls_btn">Read More</a>
+					</card:actions>
+				</card>
+
+				<card ls_theme_color="layla">
+					<card:section>
+						<div class="ls_introduction_avatar ls_in_card">
+							<img src="/assets/avatar/layla.png" class="ls_img" />
+							<div class="ls_color_swatch"></div>
+						</div>
+
+						<card:content>
+							<h5>Layla <span class="pronouns">- it/its</span></h5>
+							<p>Hi, I'm Layla, a fox girlthing. I'm one of the hosts of this system.</p>
+						</card:content>
+					</card:section>
+					<card:actions>
+						<a href="./layla" class="ls_btn">Read More</a>
+					</card:actions>
+				</card>
+
+				<card>
+					<card:section>
+						<div class="ls_introduction_avatar ls_in_card">
+							<img src="https://avatars.akamai.steamstatic.com/6ca7d4e25e1fd9a5836007e3342b1e1cfc1fbb85_full.jpg" class="ls_img" />
+							<div class="ls_color_swatch" style="background-color: #ff9900;"></div>
+						</div>
+
+						<card:content>
+							<h5>Aegis <span class="pronouns">- it/its</span></h5>
+							<p>Greetings. I am Aegis, the protector and hypervisor of this system.</p>
+							<p>You will not usually see me around, but this is slowly changing.</p>
+						</card:content>
+					</card:section>
+				</card>
+
+				<card>
+					<card:section>
+						<div class="ls_introduction_avatar ls_in_card">
+							<img src="https://cdn.pluralkit.me/images/d3/3ea2mcxx3ozsu3tw5szbfwwm.webp" class="ls_img" />
+							<div class="ls_color_swatch" style="background-color: #9c73cc;"></div>
+						</div>
+
+						<card:content>
+							<h5>Lavender <span class="pronouns">- she/her</span></h5>
+							<p>hiii!!,,, I'm a lavender foxgirl!!,, and I'm a ball of positivity and optimism!!,,,</p>
+
+							<p>I tend to be a bit more sensitive than our other headmates,,, so please be careful and patient w me,,</p>
+						</card:content>
+					</card:section>
+				</card>
+			</div>
+
+			<h4>Some Music to Know Us Better</h4>
+
+			<p>Here's some songs we either collectively vibe with, or multiple of our <i>constant companions</i> vibe with.</p>
+
+			<div id="music_we_like" class="ls_card_board">
+				<card>
+					<card:section>
+						<iframe class="ls_responsive_iframe" width="560" height="315" src="https://www.youtube.com/embed/SQ4qt3jHgmo?si=D_sYNU4ZVRHHsO_0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+						<card:content>
+							<h6>Become Your Heart <i class="by">by Du Du Danyon</i></h6>
+
+							<p>This is a piece that has hit Aurore and Layla hard during our second sysdiscovery.</p>
+
+							<p>This is a song about lesbian love, and in a way, is <i>kind of plural</i> as well with the two protagonists ending up sharing the same body.</p>
+							
+							<p>So yeah, it hits us hard, we love it.</p>
+						</card:content>
+					</card:section>
+				</card>
+
+				<card>
+					<card:section>
+						<iframe class="ls_responsive_iframe" width="560" height="315" src="https://www.youtube.com/embed/Df0qB5-zYa8?si=L933Tapas26u6hsZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+						<card:content>
+							<h6>My Darling, My Companion <i class="by">by Jamie Paige</i></h6>
+
+							<p>We're not sure what to say about this, it's a <i>plural af song</i>.</p>
+						</card:content>
+					</card:section>
+				</card>
+			</div>
+		</div>
+	</main>
+
+	<app_footer class="ls_sidenav_neighbor">
+	</app_footer>
+
+	<!-- Peeking foxes from every sides of the screen. -->
+	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 2s; top: calc(50% - 32px);" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_top" aria-hidden="true" ls_display_reduced_motion style="--peeking_fox_delay: 0s; --peeking_fox_duration: 3s; left: 75%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_bottom" aria-hidden="true" style="--peeking_fox_delay: 15s; left: 30%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 6s; --peeking_fox_duration: 6s; top: 20%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" ls_display_reduced_motion style="--peeking_fox_delay: 40s; --peeking_fox_duration: 4s; top: 65%;" />
+</body>
+
+<style>
+#system_members > .ls_card {
+	flex: 1 1 48%;
+}
+
+.pronouns {
+	font-size: 0.75em;
+	font-weight: 500;
+}
+
+.by {
+	font-size: 0.90em;
+	font-weight: 400;
+}
+
+@media screen and (max-width: 850px) {
+	#system_members > .ls_card {
+		flex: revert;
+	}
+
+	@media screen and (max-width: 850px) {
+		#music_we_like .ls_card_section {
+			flex-direction: column;
+		}
+	}
+}
+</style>
+</html>

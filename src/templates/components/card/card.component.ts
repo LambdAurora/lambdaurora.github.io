@@ -3,7 +3,7 @@ import { ComponentData } from "../../../engine/component.ts";
 
 const CardComponent: ComponentData<{ href?: string; }> = {
 	selector: "card",
-	template: /*html*/ `<div [href] [class]='["ls_card", ...(props.class ?? [])]' [style] [tags] [ls_clickable]><$content /></div>`,
+	template: /*html*/ `<div [href] [class]='["ls_card", ...(props.class ?? [])]' [style] [tags] [ls_clickable] [ls_theme] [ls_theme_color]><$content /></div>`,
 	render: (ctx) => {
 		if (ctx.args.href) {
 			ctx.register_post_process(nodes => {
