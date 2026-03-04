@@ -30,23 +30,23 @@
 	--ls_theme_background_active_#{$lightness}: var(--ls_theme_#{$name}_background_active_#{$lightness});
 }
 
-@mixin define-vars-of($theme) {
-	--ls_theme_primary: var(--ls_theme_primary_#{$theme});
-	--ls_theme_on_primary: var(--ls_theme_on_primary_#{$theme});
+@mixin define-vars-of($theme, $lightness) {
+	--ls_theme_primary: var(--ls_theme_#{$theme}_primary_#{$lightness});
+	--ls_theme_on_primary: var(--ls_theme_#{$theme}_on_primary_#{$lightness});
 
-	--ls_theme_secondary: var(--ls_theme_secondary_#{$theme});
-	--ls_theme_on_secondary: var(--ls_theme_on_secondary_#{$theme});
+	--ls_theme_secondary: var(--ls_theme_#{$theme}_secondary_#{$lightness});
+	--ls_theme_on_secondary: var(--ls_theme_#{$theme}_on_secondary_#{$lightness});
 
-	--ls_theme_foreground: var(--ls_theme_foreground_#{$theme});
-	--ls_theme_foreground_accentuated: var(--ls_theme_foreground_accentuated_#{$theme});
+	--ls_theme_foreground: var(--ls_theme_#{$theme}_foreground_#{$lightness});
+	--ls_theme_foreground_accentuated: var(--ls_theme_#{$theme}_foreground_accentuated_#{$lightness});
 
-	--ls_theme_background: var(--ls_theme_background_#{$theme});
-	--ls_theme_background_accentuated: var(--ls_theme_background_accentuated_#{$theme});
-	--ls_theme_background_popover: var(--ls_theme_background_popover_#{$theme});
-	--ls_theme_background_stronger: var(--ls_theme_background_stronger_#{$theme});
-	--ls_theme_background_active: var(--ls_theme_background_active_#{$theme});
+	--ls_theme_background: var(--ls_theme_#{$theme}_background_#{$lightness});
+	--ls_theme_background_accentuated: var(--ls_theme_#{$theme}_background_accentuated_#{$lightness});
+	--ls_theme_background_popover: var(--ls_theme_#{$theme}_background_popover_#{$lightness});
+	--ls_theme_background_stronger: var(--ls_theme_#{$theme}_background_stronger_#{$lightness});
+	--ls_theme_background_active: var(--ls_theme_#{$theme}_background_active_#{$lightness});
 
-	--ls_theme_blend_al_primary: var(--ls_theme_blend_al_primary_#{$theme});
+	--ls_theme_blend_al_primary: var(--ls_theme_blend_al_primary_#{$lightness});
 }
 
 :root, [ls_theme_color="aurore"] {
@@ -62,21 +62,65 @@
 [ls_theme="light"], :root {
 	color-scheme: light;
 
-	@include define-vars-of("light");
+	@include define-vars-of("aurora", "light");
+
+	[ls_theme_color="layla"], &[ls_theme_color="layla"] {
+		@include define-vars-of("layla", "light");
+	}
+
+	[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
+		@include define-vars-of("aurora", "light");
+	}
 }
 
 @media screen {
 	[ls_theme="dark"] {
 		color-scheme: dark;
 
-		@include define-vars-of("dark");
+		@include define-vars-of("aurora", "dark");
+
+		[ls_theme_color="layla"], &[ls_theme_color="layla"] {
+			@include define-vars-of("layla", "dark");
+		}
+
+		[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
+			@include define-vars-of("aurora", "dark");
+		}
 	}
 
 	@media (prefers-color-scheme: dark) {
 		:root {
 			color-scheme: dark;
 	
-			@include define-vars-of("dark");
+			@include define-vars-of("aurora", "dark");
+
+			[ls_theme_color="layla"], &[ls_theme_color="layla"] {
+				@include define-vars-of("layla", "dark");
+			}
+
+			[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
+				@include define-vars-of("aurora", "dark");
+			}
+		}
+
+		[ls_theme_color="layla"] {
+			@include define-vars-of("layla", "dark");
+		}
+
+		[ls_theme_color="aurore"] {
+			@include define-vars-of("aurora", "dark");
+		}
+
+		[ls_theme="light"] {
+			color-scheme: light;
+		
+			[ls_theme_color="layla"], &[ls_theme_color="layla"] {
+				@include define-vars-of("layla", "light");
+			}
+		
+			[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
+				@include define-vars-of("aurora", "light");
+			}
 		}
 	}
 }
