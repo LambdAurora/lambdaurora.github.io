@@ -11,10 +11,10 @@
 			<p>Hello world!</p>
 			<p>Here's our very messy introduction page, we're LambdAurora, a system of 4.</p>
 			<p>
-				Interested in the projects we work on? Please visit our <a href="/projects/">projects page</a>!
+				Interested in the projects we work on? Please visit our <a href="/projects/" style="background: var(--ls_theme_blend_al_primary); background-clip: text; color: transparent;">projects page</a>!
 			</p>
 			<p>
-				We also have <a href="/blog/">a blog</a>!
+				We also have <a href="/blog/" style="background: var(--ls_theme_blend_al_primary); background-clip: text; color: transparent;">a blog</a>!
 			</p>
 
 			<h4>Members</h4>
@@ -54,11 +54,11 @@
 					</card:actions>
 				</card>
 
-				<card>
+				<card ls_theme_color="aegis">
 					<card:section>
 						<div class="ls_introduction_avatar ls_in_card">
 							<img src="https://avatars.akamai.steamstatic.com/6ca7d4e25e1fd9a5836007e3342b1e1cfc1fbb85_full.jpg" class="ls_img" />
-							<div class="ls_color_swatch" style="background-color: #ff9900;"></div>
+							<div class="ls_color_swatch"></div>
 						</div>
 
 						<card:content>
@@ -69,11 +69,11 @@
 					</card:section>
 				</card>
 
-				<card>
+				<card ls_theme_color="lavender">
 					<card:section>
 						<div class="ls_introduction_avatar ls_in_card">
 							<img src="https://cdn.pluralkit.me/images/d3/3ea2mcxx3ozsu3tw5szbfwwm.webp" class="ls_img" />
-							<div class="ls_color_swatch" style="background-color: #9c73cc;"></div>
+							<div class="ls_color_swatch"></div>
 						</div>
 
 						<card:content>
@@ -126,14 +126,14 @@
 	</app_footer>
 
 	<!-- Peeking foxes from every sides of the screen. -->
-	<img src="/images/peeking_fox.png" class="peeking_fox_left" aria-hidden="true" style="--peeking_fox_delay: 2s; top: calc(50% - 32px);" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_top" aria-hidden="true" ls_display_reduced_motion style="--peeking_fox_delay: 0s; --peeking_fox_duration: 3s; left: 75%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_bottom" aria-hidden="true" style="--peeking_fox_delay: 15s; left: 30%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" style="--peeking_fox_delay: 6s; --peeking_fox_duration: 6s; top: 20%;" />
-	<img src="/images/peeking_fox.png" class="peeking_fox_right" aria-hidden="true" ls_display_reduced_motion style="--peeking_fox_delay: 40s; --peeking_fox_duration: 4s; top: 65%;" />
+	<img src="/images/peeking_fox.png" class="peeking_fox_top" aria-hidden="true" ls_display_reduced_motion style="--peeking_fox_delay: 0s; --peeking_fox_duration: 6s; left: 75%;" />
 </body>
 
 <style>
+body {
+	background: var(--ls_theme_blend_al_background);
+}
+
 #system_members > .ls_card {
 	flex: 1 1 48%;
 }
@@ -146,6 +146,10 @@
 .by {
 	font-size: 0.90em;
 	font-weight: 400;
+}
+
+#music_we_like .ls_card {
+	background: var(--ls_theme_blend_al_background_popover);
 }
 
 @media screen and (max-width: 850px) {

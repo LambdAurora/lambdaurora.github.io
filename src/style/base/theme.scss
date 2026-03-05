@@ -47,6 +47,8 @@
 	--ls_theme_background_active: var(--ls_theme_#{$theme}_background_active_#{$lightness});
 
 	--ls_theme_blend_al_primary: var(--ls_theme_blend_al_primary_#{$lightness});
+	--ls_theme_blend_al_background: var(--ls_theme_blend_al_background_#{$lightness});
+	--ls_theme_blend_al_background_popover: var(--ls_theme_blend_al_background_popover_#{$lightness});
 }
 
 :root, [ls_theme_color="aurore"] {
@@ -57,6 +59,16 @@
 [ls_theme_color="layla"] {
 	@include define-base-vars-of("layla", "light");
 	@include define-base-vars-of("layla", "dark");
+}
+
+[ls_theme_color="lavender"] {
+	@include define-base-vars-of("lavender", "light");
+	@include define-base-vars-of("lavender", "dark");
+}
+
+[ls_theme_color="aegis"] {
+	@include define-base-vars-of("aegis", "light");
+	@include define-base-vars-of("aegis", "dark");
 }
 
 [ls_theme="light"], :root {
@@ -70,6 +82,14 @@
 
 	[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
 		@include define-vars-of("aurora", "light");
+	}
+
+	[ls_theme_color="lavender"], &[ls_theme_color="lavender"] {
+		@include define-vars-of("lavender", "light");
+	}
+
+	[ls_theme_color="aegis"], &[ls_theme_color="aegis"] {
+		@include define-vars-of("aegis", "light");
 	}
 }
 
@@ -86,6 +106,14 @@
 		[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
 			@include define-vars-of("aurora", "dark");
 		}
+
+		[ls_theme_color="lavender"], &[ls_theme_color="lavender"] {
+			@include define-vars-of("lavender", "dark");
+		}
+
+		[ls_theme_color="aegis"], &[ls_theme_color="aegis"] {
+			@include define-vars-of("aegis", "dark");
+		}
 	}
 
 	@media (prefers-color-scheme: dark) {
@@ -101,6 +129,14 @@
 			[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
 				@include define-vars-of("aurora", "dark");
 			}
+
+			[ls_theme_color="lavender"], &[ls_theme_color="lavender"] {
+				@include define-vars-of("lavender", "dark");
+			}
+
+			[ls_theme_color="aegis"], &[ls_theme_color="aegis"] {
+				@include define-vars-of("aegis", "dark");
+			}
 		}
 
 		[ls_theme_color="layla"] {
@@ -109,6 +145,14 @@
 
 		[ls_theme_color="aurore"] {
 			@include define-vars-of("aurora", "dark");
+		}
+
+		[ls_theme_color="lavender"] {
+			@include define-vars-of("lavender", "dark");
+		}
+
+		[ls_theme_color="aegis"] {
+			@include define-vars-of("aegis", "dark");
 		}
 
 		[ls_theme="light"] {
@@ -120,6 +164,14 @@
 		
 			[ls_theme_color="aurore"], &[ls_theme_color="aurore"] {
 				@include define-vars-of("aurora", "light");
+			}
+
+			[ls_theme_color="lavender"], &[ls_theme_color="lavender"] {
+				@include define-vars-of("lavender", "light");
+			}
+
+			[ls_theme_color="aegis"] {
+				@include define-vars-of("aegis", "dark");
 			}
 		}
 	}
