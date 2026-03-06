@@ -22,7 +22,10 @@
 		"sass": "npm:sass@^1.97.2"
 	},
 	"fmt": {
-		"useTabs": true
+		"useTabs": true,
+		"exclude": [
+			"**/*.md"
+		]
 	},
 	"lock": false
 }

@@ -62,6 +62,10 @@ export interface PageSpec {
 	 * The keywords of the page.
 	 */
 	keywords?: string[];
+	/**
+	 * The theme color of this page.
+	 */
+	theme_color?: string;
 	embed?: Partial<EmbedSpec>;
 	icons?: IconsSpec;
 	custom?: { [x: string]: unknown };

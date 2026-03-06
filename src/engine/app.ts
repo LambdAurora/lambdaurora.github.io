@@ -10,6 +10,7 @@ export interface ApplicationData {
 	name: string;
 	root_url: string;
 	logo?: string;
+	themes: Record<string, Record<string, string>>;
 	debug: boolean;
 }
 
@@ -17,6 +18,7 @@ export class Application implements Readonly<ApplicationData> {
 	public readonly name: string;
 	public readonly root_url: string;
 	public readonly logo?: string;
+	public readonly themes: Readonly<Record<string, Readonly<Record<string, string>>>>;
 	public readonly debug: boolean;
 
 	constructor(
@@ -25,6 +27,7 @@ export class Application implements Readonly<ApplicationData> {
 		this.name = data.name;
 		this.root_url = data.root_url;
 		this.logo = data.logo;
+		this.themes = data.themes;
 		this.debug = data.debug;
 	}
 
