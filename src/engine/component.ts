@@ -11,6 +11,7 @@ import * as html from "@lambdaurora/libhtml";
 import { get_file_hash, readTextFile } from "../utils.ts";
 import { PageData, PreloadEntrySpec } from "./page_data.ts";
 import { dirname, resolve, toFileUrl } from "@std/path";
+import { ApplicationData } from "./app.ts";
 
 /**
  * Represents the base arguments that a component can expect.
@@ -27,6 +28,7 @@ export type ComponentPostProcessor = (nodes: html.Node[]) => void;
  * Represents the component context for rendering.
  */
 export class ComponentContext<Args> {
+	public readonly app: ApplicationData;
 	public readonly page: PageData;
 	/**
 	 * The arguments given to the component.
@@ -35,7 +37,8 @@ export class ComponentContext<Args> {
 	public readonly preload: PreloadEntrySpec[];
 	private post_processor?: ComponentPostProcessor;
 
-	constructor(page: PageData, args: Args, preload: PreloadEntrySpec[] = []) {
+	constructor(app: ApplicationData, page: PageData, args: Args, preload: PreloadEntrySpec[] = []) {
+		this.app = app;
 		this.page = page;
 		this.args = {
 			page: page,
@@ -61,7 +64,7 @@ export class ComponentContext<Args> {
 	 * @returns the forked context
 	 */
 	public fork<NewArgs>(args: NewArgs): ComponentContext<NewArgs> {
-		return new ComponentContext(this.page, args, this.preload);
+		return new ComponentContext(this.app, this.page, args, this.preload);
 	}
 }
 

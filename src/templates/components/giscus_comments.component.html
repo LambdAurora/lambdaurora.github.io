@@ -1,0 +1,14 @@
+<script
+	src="https://giscus.app/client.js"
+	[data-repo]="repo"
+	[data-repo-id]="repo_id"
+	data-mapping="number"
+	[data-term]="discussion_number"
+	[data-reactions-enabled]="props.reactions ? '1' : '0'"
+	[data-emit-metadata]="props.emit_metadata ? '1' : '0'"
+	[data-theme]="`${props.app.root_url}/giscus_style${props.theme === 'layla' ? '_layla' : ''}.css`"
+	data-lang="en"
+	crossorigin="anonymous"
+	async
+>
+</script>

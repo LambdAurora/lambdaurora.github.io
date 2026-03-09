@@ -287,7 +287,7 @@ export async function process_page(
 	module.app = pages_context.app;
 	module.page.path = path.replace(/index.html$/, "");
 
-	const process_context = new ComponentContext(module.page, {});
+	const process_context = new ComponentContext(module.app, module.page, {});
 	body.children = await process_nodes(body.children, process_context);
 
 	module.preload = [...new Set((module.preload ?? []).concat(process_context.preload))];

@@ -278,6 +278,7 @@ async function process_blog_entry(
 		creation_time: undefined,
 		modification_time: undefined,
 	};
+	let giscus: number | null = null;
 
 	return await process_page(
 		`/blog/${path.replace(/\.md$/, ".html")}`,
@@ -385,6 +386,9 @@ async function process_blog_entry(
 				process_property_from_html(article, "modified", (value) => {
 					times.modification_time = new Date(Date.parse(value));
 				});
+				process_property_from_html(article, "giscus", (value) => {
+					giscus = Number.parseInt(value);
+				});
 
 				if (!page_description) {
 					throw new PageProcessError(
@@ -421,6 +425,11 @@ async function process_blog_entry(
 				}
 
 				main.append_child(article);
+
+				if (giscus !== null) {
+					main.append_child(html.parse(`<div class="ls_main_content ls_container"><giscus_comments discussion_number="${giscus}" ls_theme_color="${authors.length === 1 && authors[0].name === "Layla" ? "layla" : undefined}" /></div>`));
+				}
+
 				return view.with_child(
 					body
 						.with_child(

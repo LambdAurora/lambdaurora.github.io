@@ -68,6 +68,10 @@ export async function serve(
 		return await next();
 	});
 	app.use(async (context, next) => {
+		await next();
+		context.response.headers.set("Access-Control-Allow-Origin", "*");
+	});
+	app.use(async (context, next) => {
 		const file_path = decodeURIComponent(context.request.url.pathname);
 		const accept_header = context.request.headers.get("accept");
 
