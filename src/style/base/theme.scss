@@ -13,21 +13,42 @@
 @use "sass:list";
 @use "sass:map";
 
-@mixin define-base-vars-of($name, $lightness) {
-	--ls_theme_primary_#{$lightness}: var(--ls_theme_#{$name}_primary_#{$lightness});
-	--ls_theme_on_primary_#{$lightness}: var(--ls_theme_#{$name}_on_primary_#{$lightness});
+@mixin define-base-vars-of($name, $lightness, $suffix) {
+	--ls_theme_primary#{$suffix}: var(--ls_theme_#{$name}_primary_#{$lightness});
+	--ls_theme_on_primary#{$suffix}: var(--ls_theme_#{$name}_on_primary_#{$lightness});
 
-	--ls_theme_secondary_#{$lightness}: var(--ls_theme_#{$name}_secondary_#{$lightness});
-	--ls_theme_on_secondary_#{$lightness}: var(--ls_theme_#{$name}_on_secondary_#{$lightness});
+	--ls_theme_secondary#{$suffix}: var(--ls_theme_#{$name}_secondary_#{$lightness});
+	--ls_theme_on_secondary#{$suffix}: var(--ls_theme_#{$name}_on_secondary_#{$lightness});
 
-	--ls_theme_foreground_#{$lightness}: var(--ls_theme_#{$name}_foreground_#{$lightness});
-	--ls_theme_foreground_accentuated_#{$lightness}: var(--ls_theme_#{$name}_foreground_accentuated_#{$lightness});
+	--ls_theme_foreground#{$suffix}: var(--ls_theme_#{$name}_foreground_#{$lightness});
+	--ls_theme_foreground_accentuated#{$suffix}: var(--ls_theme_#{$name}_foreground_accentuated_#{$lightness});
 
-	--ls_theme_background_#{$lightness}: var(--ls_theme_#{$name}_background_#{$lightness});
-	--ls_theme_background_accentuated_#{$lightness}: var(--ls_theme_#{$name}_background_accentuated_#{$lightness});
-	--ls_theme_background_popover_#{$lightness}: var(--ls_theme_#{$name}_background_popover_#{$lightness});
-	--ls_theme_background_stronger_#{$lightness}: var(--ls_theme_#{$name}_background_stronger_#{$lightness});
-	--ls_theme_background_active_#{$lightness}: var(--ls_theme_#{$name}_background_active_#{$lightness});
+	--ls_theme_background#{$suffix}: var(--ls_theme_#{$name}_background_#{$lightness});
+	--ls_theme_background_accentuated#{$suffix}: var(--ls_theme_#{$name}_background_accentuated_#{$lightness});
+	--ls_theme_background_popover#{$suffix}: var(--ls_theme_#{$name}_background_popover_#{$lightness});
+	--ls_theme_background_stronger#{$suffix}: var(--ls_theme_#{$name}_background_stronger_#{$lightness});
+	--ls_theme_background_active#{$suffix}: var(--ls_theme_#{$name}_background_active_#{$lightness});
+}
+
+@mixin define-base-with-lightness-vars-of($name, $lightness) {
+	@include define-base-vars-of($name, $lightness, "_#{$lightness}");
+}
+
+@mixin define-general-base-vars-of($name, $lightness) {
+	--ls_theme_#{$name}_primary: var(--ls_theme_#{$name}_primary_#{$lightness});
+	--ls_theme_#{$name}_on_primary: var(--ls_theme_#{$name}_on_primary_#{$lightness});
+
+	--ls_theme_#{$name}_secondary: var(--ls_theme_#{$name}_secondary_#{$lightness});
+	--ls_theme_#{$name}_on_secondary: var(--ls_theme_#{$name}_on_secondary_#{$lightness});
+
+	--ls_theme_#{$name}_foreground: var(--ls_theme_#{$name}_foreground_#{$lightness});
+	--ls_theme_#{$name}_foreground_accentuated: var(--ls_theme_#{$name}_foreground_accentuated_#{$lightness});
+
+	--ls_theme_#{$name}_background: var(--ls_theme_#{$name}_background_#{$lightness});
+	--ls_theme_#{$name}_background_accentuated: var(--ls_theme_#{$name}_background_accentuated_#{$lightness});
+	--ls_theme_#{$name}_background_popover: var(--ls_theme_#{$name}_background_popover_#{$lightness});
+	--ls_theme_#{$name}_background_stronger: var(--ls_theme_#{$name}_background_stronger_#{$lightness});
+	--ls_theme_#{$name}_background_active: var(--ls_theme_#{$name}_background_active_#{$lightness});
 }
 
 @mixin define-vars-of($theme, $lightness) {
@@ -52,27 +73,32 @@
 }
 
 :root, [ls_theme_color="aurore"] {
-	@include define-base-vars-of("aurora", "light");
-	@include define-base-vars-of("aurora", "dark");
+	@include define-base-with-lightness-vars-of("aurora", "light");
+	@include define-base-with-lightness-vars-of("aurora", "dark");
 }
 
 [ls_theme_color="layla"] {
-	@include define-base-vars-of("layla", "light");
-	@include define-base-vars-of("layla", "dark");
+	@include define-base-with-lightness-vars-of("layla", "light");
+	@include define-base-with-lightness-vars-of("layla", "dark");
 }
 
 [ls_theme_color="lavender"] {
-	@include define-base-vars-of("lavender", "light");
-	@include define-base-vars-of("lavender", "dark");
+	@include define-base-with-lightness-vars-of("lavender", "light");
+	@include define-base-with-lightness-vars-of("lavender", "dark");
 }
 
 [ls_theme_color="aegis"] {
-	@include define-base-vars-of("aegis", "light");
-	@include define-base-vars-of("aegis", "dark");
+	@include define-base-with-lightness-vars-of("aegis", "light");
+	@include define-base-with-lightness-vars-of("aegis", "dark");
 }
 
 [ls_theme="light"], :root {
 	color-scheme: light;
+
+	@include define-general-base-vars-of("aurora", "light");
+	@include define-general-base-vars-of("layla", "light");
+	@include define-general-base-vars-of("lavender", "light");
+	@include define-general-base-vars-of("aegis", "light");
 
 	@include define-vars-of("aurora", "light");
 
@@ -97,6 +123,11 @@
 	[ls_theme="dark"] {
 		color-scheme: dark;
 
+		@include define-general-base-vars-of("aurora", "dark");
+		@include define-general-base-vars-of("layla", "dark");
+		@include define-general-base-vars-of("lavender", "dark");
+		@include define-general-base-vars-of("aegis", "dark");
+
 		@include define-vars-of("aurora", "dark");
 
 		[ls_theme_color="layla"], &[ls_theme_color="layla"] {
@@ -119,7 +150,12 @@
 	@media (prefers-color-scheme: dark) {
 		:root {
 			color-scheme: dark;
-	
+
+			@include define-general-base-vars-of("aurora", "dark");
+			@include define-general-base-vars-of("layla", "dark");
+			@include define-general-base-vars-of("lavender", "dark");
+			@include define-general-base-vars-of("aegis", "dark");
+
 			@include define-vars-of("aurora", "dark");
 
 			[ls_theme_color="layla"], &[ls_theme_color="layla"] {
@@ -157,6 +193,11 @@
 
 		[ls_theme="light"] {
 			color-scheme: light;
+
+			@include define-general-base-vars-of("aurora", "light");
+			@include define-general-base-vars-of("layla", "light");
+			@include define-general-base-vars-of("lavender", "light");
+			@include define-general-base-vars-of("aegis", "light");
 		
 			[ls_theme_color="layla"], &[ls_theme_color="layla"] {
 				@include define-vars-of("layla", "light");
