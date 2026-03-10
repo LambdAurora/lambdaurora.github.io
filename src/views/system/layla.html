@@ -1,92 +1,117 @@
 <html>
-<body ls_theme_color="layla">
-	<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
-		<header>
-			<main_nav_banner></main_nav_banner>
-		</header>
-	</sidenav>
+	<body ls_theme_color="layla">
+		<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+			<header>
+				<main_nav_banner></main_nav_banner>
+			</header>
+		</sidenav>
 
-	<main class="ls_sidenav_neighbor">
-		<div class="ls_main_content" style="margin-top: 4em;">
-			<h2>Layla</h2>
+		<main class="ls_sidenav_neighbor">
+			<div class="ls_main_content" style="margin-top: 4em">
+				<h2>Layla</h2>
 
-			<a href="./">Go back to system index</a>
+				<a href="./">Go back to system index</a>
 
-			<hr />
+				<hr />
 
-			<div class="ls_article_display">
-				<div class="introduction">
-					<div class="ls_introduction_avatar">
-						<img [src]="props.page.custom.avatar" class="ls_img" />
-						<div class="ls_color_swatch"></div>
-					</div>
+				<div class="ls_article_display">
+					<section class="introduction">
+						<div class="ls_introduction_avatar">
+							<img [src]="props.page.custom.avatar" class="ls_img" />
+							<div class="ls_color_swatch"></div>
+						</div>
 
-					<div>
-						<p>Hi, I'm Layla, a fox girlthing. I go by <code>it/its</code>. I'm one of the hosts of this system.</p>
-						<p>I wish I knew how to introduce myself, it's always a hard task.</p>
-						<p>I'm the most recent discovery of this system. I can be a bit more direct than Aurore, and I will not accept any bullshit thrown at us.</p>
-					</div>
-				</div>
+						<div>
+							<p>Hi, I'm Layla, a fox girlthing. I go by <code>it/its</code>. I'm one of the hosts of this system.</p>
+							<p>Introductions are quite hard when you're still figuring out a lot about yourself.</p>
+							<p>I'm the most recent discovery of this system. I can be a bit more direct than Aurore, and I will not accept any bullshit thrown at us.</p>
+							<p>Hobby-wise, I'm into programming, making things, yapping.</p>
+						</div>
+					</section>
 
-				<h4>Some Music to Know Me Better</h4>
+					<section class="ls_section">
+						<h4>Some Music to Know Me Better</h4>
 
-				<p>Here's some songs that I Vibe A Lot With™.</p>
+						<p>Here are some songs that I Vibe A Lot With™:</p>
 
-				<div id="music_i_like" class="ls_card_board">
-					<card>
-						<card:section>
-							<iframe class="ls_responsive_iframe" width="560" height="315" src="https://www.youtube.com/embed/sqK-jh4TDXo?si=vAaFv2ih_RKriLvY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+						<div id="music_i_like" class="ls_card_board">
+							<card>
+								<card:section>
+									<iframe
+										class="ls_responsive_iframe"
+										width="560"
+										height="315"
+										src="https://www.youtube.com/embed/sqK-jh4TDXo?si=vAaFv2ih_RKriLvY"
+										title="YouTube video player"
+										frameborder="0"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+										referrerpolicy="strict-origin-when-cross-origin"
+										allowfullscreen
+									></iframe>
 
-							<card:content>
-								<h6>Machine Love <i class="by">by Jamie Paige</i></h6>
+									<card:content>
+										<h6>Machine Love <i class="by">by Jamie Paige</i></h6>
 
-								<p>I really, really like this piece.</p>
-								<p>It's a piece that if you take a close look to its lyrics you can see a plural meaning to them.</p>
-								<p>Which is not surprising given <i>Jamie Paige</i>.</p>
+										<p>I really, really like this piece.</p>
+										<p>If you take a close look to its lyrics you can see a plural meaning to them.</p>
+										<p>Which is not surprising given <i>Jamie Paige</i>.</p>
 
-								<blockquote>
-									i am definite and real!
-								</blockquote>
-							</card:content>
-						</card:section>
-					</card>
+										<blockquote>
+											my love, i give you my grand reveal <br />
+											do you feel the things i feel? <br />
+											i am definite and real!
+										</blockquote>
+									</card:content>
+								</card:section>
+							</card>
 
-					<card>
-						<card:section>
-							<iframe class="ls_responsive_iframe" width="560" height="315" src="https://www.youtube.com/embed/0GysI01-FnY?si=RJyGong-SDVMxqIr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+							<card>
+								<card:section>
+									<iframe
+										class="ls_responsive_iframe"
+										width="560"
+										height="315"
+										src="https://www.youtube.com/embed/0GysI01-FnY?si=RJyGong-SDVMxqIr"
+										title="YouTube video player"
+										frameborder="0"
+										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+										referrerpolicy="strict-origin-when-cross-origin"
+										allowfullscreen
+									></iframe>
 
-							<card:content>
-								<h6>Heat Abnormal <i class="by">remix by LuvP</i></h6>
+									<card:content>
+										<h6>Heat Abnormal <i class="by">remix by LuvP</i></h6>
 
-								<p>This whole piece feels like a buildup to doomsday, really neat.</p>
-							</card:content>
-						</card:section>
-					</card>
+										<p>This whole piece feels like a buildup to doomsday, or definitely something consequential.</p>
+										<p>Certainly one of my favorite remixes of Heat Abnormal.</p>
+									</card:content>
+								</card:section>
+							</card>
+						</div>
+					</section>
 				</div>
 			</div>
-		</div>
-	</main>
+		</main>
 
-	<app_footer class="ls_sidenav_neighbor">
-	</app_footer>
-</body>
+		<app_footer class="ls_sidenav_neighbor"> </app_footer>
+	</body>
 
-<style>
-.introduction {
-	display: flex;
-	gap: 1em;
-	align-items: center;
-}
+	<style>
+		.introduction {
+			display: flex;
+			gap: 1em;
+			align-items: center;
+		}
 
-.by {
-	font-size: 0.90em;
-	font-weight: 400;
-}
+		.by {
+			font-size: 0.90em;
+			font-weight: 400;
+		}
 
-@media screen and (max-width: 850px) {
-	#music_i_like .ls_card_section {
-		flex-direction: column;
-	}
-}
-</style>
+		@media screen and (max-width: 850px) {
+			#music_i_like .ls_card_section {
+				flex-direction: column;
+			}
+		}
+	</style>
 </html>

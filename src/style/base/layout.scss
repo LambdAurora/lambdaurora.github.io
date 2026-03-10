@@ -81,6 +81,14 @@
 	}
 }
 
+.ls_section {
+	flex: 1 1 auto;
+	flex-direction: column;
+	margin: 1em auto;
+
+	@include container();
+}
+
 /* Auto-margin if navbar is present */
 .ls_navbar.ls_fixed:not(.ls_show_on_small_only) ~ .ls_sidenav_neighbor {
 	> .ls_main_content, > article {

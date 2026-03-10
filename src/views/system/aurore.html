@@ -1,56 +1,58 @@
 <html>
-<body ls_theme_color="aurore">
-	<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
-		<header>
-			<main_nav_banner></main_nav_banner>
-		</header>
-	</sidenav>
+	<body ls_theme_color="aurore">
+		<sidenav id="main_nav" navigation_data="src/nav/main_nav.json">
+			<header>
+				<main_nav_banner></main_nav_banner>
+			</header>
+		</sidenav>
 
-	<main class="ls_sidenav_neighbor">
-		<div class="ls_main_content" style="margin-top: 4em;">
-			<h2>Aurore</h2>
+		<main class="ls_sidenav_neighbor">
+			<div class="ls_main_content" style="margin-top: 4em">
+				<h2>Aurore</h2>
 
-			<a href="./">Go back to system index</a>
+				<a href="./">Go back to system index</a>
 
-			<hr />
+				<hr />
 
-			<div class="ls_article_display">
-				<div class="introduction">
-					<div class="ls_introduction_avatar">
-						<img [src]="props.page.custom.avatar" class="ls_img" />
-						<div class="ls_color_swatch"></div>
-					</div>
+				<div class="ls_article_display">
+					<section class="introduction">
+						<div class="ls_introduction_avatar">
+							<img [src]="props.page.custom.avatar" class="ls_img" />
+							<div class="ls_color_swatch"></div>
+						</div>
 
-					<div>
-						<p>hi! I'm Aurore, an inkling girl. I go by <code>she/it</code>. I'm one of the hosts of this system, although a bit on a break atm.</p>
-						<p>i'm not sure how to best introduce myself, my identity is the basis of our <i>singletsona</i>, although I'd like this to change to give more space to my <i>constant companions</i> more agency.</p>
-						<p>I like gardening, sewing, programming, creating art</p>
-					</div>
+						<div>
+							<p>hi! I'm Aurore, an inkling girl. I go by <code>she/it</code>. I'm one of the hosts of this system, although a bit on a break atm.</p>
+							<p>
+								i'm not sure how to best introduce myself, my identity is the basis of our <i>singletsona</i>, although I'd like this to change to give more
+								space to my <i>constant companions</i> more agency.
+							</p>
+							<p>I like gardening, sewing, programming, creating art</p>
+						</div>
+					</section>
 				</div>
 			</div>
-		</div>
-	</main>
+		</main>
 
-	<app_footer class="ls_sidenav_neighbor">
-	</app_footer>
-</body>
+		<app_footer class="ls_sidenav_neighbor"> </app_footer>
+	</body>
 
-<style>
-.introduction {
-	display: flex;
-	gap: 1em;
-	align-items: center;
-}
+	<style>
+		.introduction {
+			display: flex;
+			gap: 1em;
+			align-items: center;
+		}
 
-.by {
-	font-size: 0.90em;
-	font-weight: 400;
-}
+		.by {
+			font-size: 0.90em;
+			font-weight: 400;
+		}
 
-@media screen and (max-width: 850px) {
-	#music_i_like .ls_card_section {
-		flex-direction: column;
-	}
-}
-</style>
+		@media screen and (max-width: 850px) {
+			#music_i_like .ls_card_section {
+				flex-direction: column;
+			}
+		}
+	</style>
 </html>

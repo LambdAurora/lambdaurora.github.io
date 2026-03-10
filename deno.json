@@ -23,6 +23,7 @@
 	},
 	"fmt": {
 		"useTabs": true,
+		"lineWidth": 160,
 		"exclude": [
 			"**/*.md"
 		]
