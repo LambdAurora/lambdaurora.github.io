@@ -21,12 +21,10 @@
 							<div class="ls_color_swatch"></div>
 						</div>
 
-						<div>
-							<p>Hi, I'm Layla, a fox girlthing. I go by <code>it/its</code>. I'm one of the hosts of this system.</p>
-							<p>Introductions are quite hard when you're still figuring out a lot about yourself.</p>
-							<p>I'm the most recent discovery of this system. I can be a bit more direct than Aurore, and I will not accept any bullshit thrown at us.</p>
-							<p>Hobby-wise, I'm into programming, making things, yapping.</p>
-						</div>
+						<p>Hi, I'm Layla, a fox girlthing. I go by <code>it/its</code>. I'm one of the hosts of this system.</p>
+						<p>Introductions are quite hard when you're still figuring out a lot about yourself.</p>
+						<p>I'm the most recent discovery of this system. I can be a bit more direct than Aurore, and I will not accept any bullshit thrown at us.</p>
+						<p>Hobby-wise, I'm into programming, making things, yapping.</p>
 					</section>
 
 					<section class="ls_section">
@@ -41,7 +39,7 @@
 										class="ls_responsive_iframe"
 										width="560"
 										height="315"
-										src="https://www.youtube.com/embed/sqK-jh4TDXo?si=vAaFv2ih_RKriLvY"
+										src="https://www.youtube.com/embed/sqK-jh4TDXo"
 										title="YouTube video player"
 										frameborder="0"
 										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -71,7 +69,7 @@
 										class="ls_responsive_iframe"
 										width="560"
 										height="315"
-										src="https://www.youtube.com/embed/0GysI01-FnY?si=RJyGong-SDVMxqIr"
+										src="https://www.youtube.com/embed/0GysI01-FnY"
 										title="YouTube video player"
 										frameborder="0"
 										allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -93,14 +91,17 @@
 			</div>
 		</main>
 
-		<app_footer class="ls_sidenav_neighbor"> </app_footer>
+		<app_footer class="ls_sidenav_neighbor" />
 	</body>
 
 	<style>
-		.introduction {
-			display: flex;
-			gap: 1em;
-			align-items: center;
+		.ls_introduction_avatar {
+			float: left;
+			margin: 1em;
+		}
+
+		.introduction p:first-of-type {
+			margin-block-start: 1.5em;
 		}
 
 		.by {
@@ -109,6 +110,16 @@
 		}
 
 		@media screen and (max-width: 850px) {
+			.ls_introduction_avatar {
+				float: initial;
+				margin-left: auto;
+				margin-right: auto;
+			}
+
+			#music_i_like .ls_card iframe {
+				width: 100%;
+			}
+
 			#music_i_like .ls_card_section {
 				flex-direction: column;
 			}

@@ -104,7 +104,7 @@
 									class="ls_responsive_iframe"
 									width="560"
 									height="315"
-									src="https://www.youtube.com/embed/SQ4qt3jHgmo?si=D_sYNU4ZVRHHsO_0"
+									src="https://www.youtube.com/embed/SQ4qt3jHgmo"
 									title="YouTube video player"
 									frameborder="0"
 									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -132,7 +132,7 @@
 									class="ls_responsive_iframe"
 									width="560"
 									height="315"
-									src="https://www.youtube.com/embed/Df0qB5-zYa8?si=L933Tapas26u6hsZ"
+									src="https://www.youtube.com/embed/Df0qB5-zYa8"
 									title="YouTube video player"
 									frameborder="0"
 									allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -230,10 +230,12 @@
 				flex: revert;
 			}
 
-			@media screen and (max-width: 850px) {
-				#music_we_like .ls_card_section {
-					flex-direction: column;
-				}
+			#music_we_like .ls_card iframe {
+				width: 100%;
+			}
+
+			#music_we_like .ls_card_section {
+				flex-direction: column;
 			}
 		}
 	</style>
