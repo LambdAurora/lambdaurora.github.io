@@ -14,7 +14,7 @@ export const SPEC: ViewSpec = {
 		embed: {
 			image: {
 				url: CONSTANTS.get_url(AVATAR),
-				alt: "Avatar of Layla."
+				alt: "Avatar of Aurore."
 			},
 			style: "normal",
 		},
