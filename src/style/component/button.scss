@@ -56,6 +56,10 @@
 		background-color: var(--ls_btn_hover_shade_color);
 	}
 
+	&:hover {
+		text-decoration: none;
+	}
+
 	&:hover, &:focus {
 		&::before {
 			opacity: .04;

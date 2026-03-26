@@ -36,4 +36,8 @@ a {
 	color: var(--ls_theme_primary);
 	text-decoration: none;
 	-webkit-tap-highlight-color: transparent;
+
+	&:hover {
+		text-decoration: revert;
+	}
 }
