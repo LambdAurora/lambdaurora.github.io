@@ -4,6 +4,7 @@
 <!--author: layla -->
 <!--tag: plurality, essay -->
 <!--date: 2026-03-26 23:00:00 GMT+0100 -->
+<!--modified: 2026-03-27 08:50:00 GMT+0100 -->
 <!--giscus: 3 -->
 
 We've been around plurality topics for a while now, even if our awareness of what we experience has only stabilized recently,
@@ -221,7 +222,7 @@ If *split* is an accurate term for you, please do use it! My goal, however, is t
 
 I am personally fond of the term *discover* when we find new *headmates* we haven't encountered previously, as it allows giving a lot of room for further
 introspection and better identify their origin before jumping to conclusions.
-It's a mistake <a href="/system/aurore/" ls\_theme\_color="aurore">Aurore</a> has made in the past: which led to a very misunderstood system, and an unstable awareness.
+It's a mistake <a href="/system/aurore" ls\_theme\_color="aurore">Aurore</a> has made in the past: which led to a very misunderstood system, and an unstable awareness.
 
 I think this approach can also be beneficial in systems that work around the traditional approach to DID,
 because it can easily disregard (just like *alter*) other possibilities.
@@ -357,5 +358,5 @@ what I was trying to get at about *personality* and nudging me back into the rig
 [^pp_alter_note_8]: Janet, P. (1889). L'automatisme psychologique
 [^pp_alter_note_9]: Ludwig, A. (1972). [The objective study of a multiple personality. Or, are four heads better than one?](https://www.semanticscholar.org/paper/The-objective-study-of-a-multiple-personality.-Or%2C-Ludwig-Brandsma/02eda19bb04acc1f5b2ce25070929346534d95cd)
 
-[^arte_documentary]: Documentary from Arte: *Un moi au personnalités multiples*/*Das Geteilte ich*. Its main focus is around DID, and is not publicly available anymore sadly.
+[^arte_documentary]: Documentary from Arte: [*Un moi au personnalités multiples*/*Das Geteilte ich*](https://archive.org/details/un-moi-aux-personnalites-multiples-vivre-avec-un-trouble-dissociatif-de-lidentite). Its main focus is around DID, sadly it is not widely available anymore.
 [^alexander_jatzko]: I first came across Dr Alexander Jatzko's work an Arte documentary[^arte_documentary], in which some of his slides from [*Gibt es multiple Persönlichkeiten hirnphysiologisch?*](https://www.auditorium-netzwerk.de/ar/gibt-es-multiple-persoenlichkeiten-hirnphysiologisch-alexander-jatzko-100033407/) were shown. Do have in mind that this research is centered around DID, which focuses on trauma. However, I think parts of this research can still be interesting for the wider plural community.
