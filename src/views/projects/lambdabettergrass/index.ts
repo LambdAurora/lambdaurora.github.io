@@ -50,7 +50,7 @@ export const SPEC: ViewSpec = {
 
 		readme.blocks = readme.blocks.filter((block: md.BlockElement<md.Node>) => {
 			if (block instanceof md.Heading) {
-				should_remove = block.as_plain_text() === "Build";
+				should_remove = block.as_plain_text() === "🔨 Build";
 			}
 
 			if (should_remove) return false;

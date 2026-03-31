@@ -1,6 +1,6 @@
 export const TITLE = "LambDynamicLights";
 export const ICON = "/assets/projects/lambdynamiclights/icon_64.png";
-export const BRANCH = "1.21.9";
+export const BRANCH = "26.1";
 export const THUMBNAIL = `https://github.com/LambdAurora/LambDynamicLights/raw/${BRANCH}/assets/fox_holding.png`;
 export const KEYWORDS = [
 	"LambDynamicLights",
