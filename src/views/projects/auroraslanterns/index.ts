@@ -23,7 +23,7 @@ function filter_badge_classes(nodes: html.Node[]) {
 export const SPEC: ViewSpec = {
 	page: {
 		title: TITLE,
-		description: "A mod all about lanterns, focusing on small details.",
+		description: "A mod all about lanterns and other light sources, focusing on small details.",
 		icons: {
 			favicon: ICON
 		},
