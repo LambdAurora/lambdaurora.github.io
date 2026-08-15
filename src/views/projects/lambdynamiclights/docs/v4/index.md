@@ -41,7 +41,24 @@ repositories {
 
 Then you can add to your dependencies either the API, the runtime, or both:
 
-#### Fabric
+#### From 26.1 and onwards:
+
+```kotlin
+dependencies {
+	// The API of LambDynamicLights.
+	// This is only required for compilation if you're using the Java API.
+	compileOnly("dev.lambdaurora.lambdynamiclights:lambdynamiclights-api:<version>")
+
+	// For runtime of LambDynamicLights.
+	// Include only if you need to test in your dev env compatibility with LambDynamicLights.
+	// Replace with modRuntimeOnly if you want the dependency to be transitive.
+	localRuntime("dev.lambdaurora.lambdynamiclights:lambdynamiclights-runtime:<version>")
+}
+```
+
+#### Before 26.1
+
+##### Fabric
 
 ```kotlin
 dependencies {
@@ -56,7 +73,7 @@ dependencies {
 }
 ```
 
-#### NeoForge or common source sets
+##### NeoForge or common source sets
 
 ```kotlin
 val mappingsAttribute = Attribute.of("net.minecraft.mappings", String::class)

@@ -1,14 +1,19 @@
 // deno-lint-ignore-file no-explicit-any
-import { brightMagenta, magenta } from "@std/fmt/colors";
+import { brightMagenta, magenta, red } from "@std/fmt/colors";
 import { Semaphore } from "@core/asyncutil/semaphore";
 import * as html from "@lambdaurora/libhtml";
 import { get_or_load_language, Prism } from "../prismjs.ts";
-import { Application, Response, send } from "@oak/oak";
-import { HttpStatus, LoggerMiddleware, ProxyRouter, serve_files } from "@lambdaurora/lambdawebserver";
+
+import { compose_middlewares, edit_response_headers, RequestContext } from "./engine.ts";
+import { LoggerMiddleware } from "./request_logger.ts";
+import { ProxyRouter } from "./proxy.ts";
+import { serve_files } from "./static.ts";
 
 import { PagesContext, process_page } from "../engine/page.ts";
 import { DEPLOY_DIR } from "../utils.ts";
 import { BuildWatcher } from "../engine/build_tool/build.ts";
+import { serveFile } from "@std/http/file-server";
+import { STATUS_CODE } from "@std/http/status";
 
 const debug_web_socket_lock = new Semaphore(1);
 const debug_web_socket_clients: DebugWebSocketAcceptedClient[] = [];
@@ -40,7 +45,6 @@ export async function serve(
 	watcher?: BuildWatcher
 ) {
 	const port = parseInt(args.port);
-	const app = new Application();
 
 	const proxy = new ProxyRouter();
 
@@ -49,96 +53,103 @@ export async function serve(
 		redirect: "rewrite"
 	});
 
-	app.use(new LoggerMiddleware().middleware());
-	app.use(proxy.proxy());
-	app.use(async (context, next) => {
-		if (args.debug && context.request.url.pathname === "/debug/hotreloader") {
-			const socket = context.upgrade();
-
-			debug_web_socket_lock.lock(() => {
-				debug_web_socket_clients.push(new DebugWebSocketAcceptedClient(socket));
-			});
-
-			return;
-		} else if (args.debug && watcher) {
-			// Wait for the debug reload to complete.
-			await watcher.check_lock();
-		}
-
-		return await next();
-	});
-	app.use(async (context, next) => {
-		await next();
-		context.response.headers.set("Access-Control-Allow-Origin", "*");
-	});
-	app.use(async (context, next) => {
-		const file_path = decodeURIComponent(context.request.url.pathname);
-		const accept_header = context.request.headers.get("accept");
-
-		if (accept_header) {
-			try {
-				if (file_path.endsWith(".css") && accept_header.includes("text/html") && !accept_header.includes("text/css")) {
-					await handle_raw_file(
-						context,
-						pages_context,
-						file_path,
-						DEPLOY_DIR + file_path,
-						"css"
-					);
-					return;
-				} else if (file_path.endsWith(".scss") && accept_header.includes("text/html") && !accept_header.includes("text/scss")) {
-					await handle_raw_file(
-						context,
-						pages_context,
-						file_path,
-						DEPLOY_DIR + file_path,
-						"scss"
-					);
-					return;
+	const middlewares = compose_middlewares(
+		new LoggerMiddleware().middleware(),
+		proxy.proxy(),
+		async (request, next) => {
+			if (args.debug && request.url.pathname === "/debug/hotreloader") {
+				if (request.headers.get("upgrade") !== "websocket") {
+					request.request.body?.cancel();
+					return new Response(null, { status: 426 });
 				}
-			} catch {
-				/* No file found, let other middlewares handle it. */
-			}
-		}
 
-		return await next();
-	});
-	app.use(serve_files(DEPLOY_DIR));
-	app.use(async (context, _) => {
-		await send(context, DEPLOY_DIR + "/404.html", {
-			root: ""
-		});
-		context.response.status = HttpStatus.NotFound;
-	});
+				const { socket, response } = Deno.upgradeWebSocket(request.request);
 
-	app.addEventListener("listen", evt => {
-		if (watcher) {
-			watcher.add_listener(() => {
 				debug_web_socket_lock.lock(() => {
-					debug_web_socket_clients.forEach(client => {
-						client.web_socket.send("reload");
-					});
+					debug_web_socket_clients.push(new DebugWebSocketAcceptedClient(socket));
+				});
+
+				return response;
+			} else if (args.debug && watcher) {
+				// Wait for the debug reload to complete.
+				await watcher.check_lock();
+			}
+
+			return await next();
+		},
+		async (_, next) => {
+			const response = await next();
+			if (response) {
+				return edit_response_headers(response, headers => {
+					headers.set("Access-Control-Allow-Origin", "*");
+				});
+			} else {
+				return null;
+			}
+		},
+		async (request, next) => {
+			const file_path = decodeURIComponent(new URL(request.url).pathname);
+			const accept_header = request.headers.get("accept");
+
+			if (accept_header) {
+				try {
+					if (file_path.endsWith(".css") && accept_header.includes("text/html") && !accept_header.includes("text/css")) {
+						return await handle_raw_file(
+							pages_context,
+							file_path,
+							DEPLOY_DIR + file_path,
+							"css"
+						);
+					} else if (file_path.endsWith(".scss") && accept_header.includes("text/html") && !accept_header.includes("text/scss")) {
+						return await handle_raw_file(
+							pages_context,
+							file_path,
+							DEPLOY_DIR + file_path,
+							"scss"
+						);
+					}
+				} catch {
+					/* No file found, let other middlewares handle it. */
+				}
+			}
+
+			return await next();
+		},
+		serve_files(DEPLOY_DIR),
+	);
+
+	const server = Deno.serve({ port }, async (request: Request) => {
+		return await middlewares(new RequestContext(request), async () => {
+			const response = await serveFile(request, DEPLOY_DIR + "/404.html");
+			return new Response(response.body, {...response, status: STATUS_CODE.NotFound});
+		}) as Response;
+	});
+
+	if (watcher) {
+		watcher.add_listener(() => {
+			debug_web_socket_lock.lock(() => {
+				debug_web_socket_clients.forEach(client => {
+					client.web_socket.send("reload");
 				});
 			});
-		}
-		console.log("Access it at: " + magenta(`http://${evt.hostname === "0.0.0.0"
-			? "localhost" : evt.hostname}:${port}/`)
-		);
-	});
+		});
+	}
+	console.log("Access it at: " + magenta(`http://${server.addr.hostname === "0.0.0.0"
+		? "localhost" : server.addr.hostname}:${port}/`)
+	);
 
-	console.log("HTTP web server running.");
-	await app.listen({
-		port: port
+	Deno.addSignalListener("SIGINT", () => {
+		console.log(red("Shutting down."));
+		server.shutdown();
 	});
 }
 
 async function handle_raw_file(
-	context: { response: Response },
 	pages_context: PagesContext,
 	path: string,
 	file: string,
 	language: string
-) {
+): Promise<Response> {
 	const page = await process_page(path, pages_context, {
 			load_view: (_: string) => Deno.readTextFile(file)
 				.then(async source => {
@@ -182,6 +193,9 @@ async function handle_raw_file(
 		}
 	);
 
-	context.response.body = page.html();
-	context.response.headers.append("Content-Type", "text/html; charset=utf-8");
+	return new Response(page.html(), {
+		headers: {
+			"Content-Type": "text/html; charset=utf-8",
+		},
+	});
 }
