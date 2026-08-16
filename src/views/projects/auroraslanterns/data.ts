@@ -1,5 +1,5 @@
 export const TITLE = "Aurora's Lanterns";
-export const BRANCH = "26.1";
+export const BRANCH = "26.2";
 export const ICON = "/assets/projects/auroraslanterns/icon_64.png";
 export const THUMBNAIL = get_path("/assets/overview.png");
 export const KEYWORDS = [
