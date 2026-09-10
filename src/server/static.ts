@@ -96,8 +96,6 @@ export function serve_files(root_path: string, options?: StaticFileServingOption
 			return await serveFile(request.request, root_path + p);
 		}
 
-		console.log("SERVE FILES", request.url, file_path, expect_directory)
-
 		if (expect_directory) {
 			if (!accept_html) {
 				// The client wants a non-HTML file but gave a directory path.
