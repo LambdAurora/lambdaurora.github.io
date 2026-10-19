@@ -189,6 +189,9 @@ export class BuildWatcher {
 		const watcher = Deno.watchFs(task.input_files, { recursive: true });
 		this.watchers.push(watcher);
 
+		console.log(`> Task \x1b[36;1m${task.name}\x1b[0m - \x1b[35;1mWATCHING\x1b[0m`);
+		task.input_files.forEach(input_file => console.log(`  - ` + input_file));
+
 		const action = debounce(async (_: Deno.FsEvent) => {
 			await this.lock.run(() => task.run(this.system));
 			await Promise.all(
@@ -216,6 +219,7 @@ export class BuildWatcher {
 	}
 
 	public shutdown(): void {
+		console.log("Yeet watchers")
 		this.watchers.forEach(watcher => watcher.close());
 	}
 }

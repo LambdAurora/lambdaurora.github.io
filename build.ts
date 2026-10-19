@@ -157,6 +157,8 @@ if (args.serve) {
 	await serve(pages_context, args, watcher);
 
 	if (watcher) {
-		watcher.shutdown();
+		Deno.addSignalListener("SIGINT", () => {
+			watcher.shutdown();
+		});
 	}
 }
