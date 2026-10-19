@@ -422,6 +422,8 @@ async function process_blog_entry(
 
 				if (authors.length === 1 && authors[0].theme) {
 					body.attr("ls_theme_color", authors[0].theme);
+				} else if (authors.length === 2 && authors.find(author => author.name === "Aurore") && authors.find(author => author.name === "Layla")) {
+					body.with_child(html.parse(`<style>body { background: var(--ls_theme_blend_al_background); }</style>`))
 				}
 
 				main.append_child(article);
@@ -531,9 +533,8 @@ async function process_blog_index(
 				article,
 			);
 
-			const nav = html.create_element("nav");
-			nav.style("display", "flex");
-			nav.style("flex-direction", "column");
+			const nav = html.create_element("nav")
+				.with_attr("class", "ls_blog_index");
 			article.append_child(nav);
 
 			entries.forEach((post) => {
@@ -546,7 +547,7 @@ async function process_blog_index(
 				);
 				const card = html.create_element("card")
 					.with_attr("href", post.path)
-					.with_attr("style", "margin-top: 1em; margin-bottom: 1em;")
+					.with_attr("authors", authors.map(author => author.name).join(","))
 					.with_attr(
 						"tags",
 						(metadata.page.custom!.tags as string[]).join(", "),
@@ -797,11 +798,13 @@ export async function process_all_blog_entries(
 		else return 0;
 	});
 
-	await process_blog_index(blog_entries, pages_context)
-		.then(async function (page) {
-			const deploy_path = DEPLOY_DIR + "/blog/index.html";
-			await create_parent_directory(deploy_path); // Shouldn't be needed.
-			await Deno.writeTextFile(deploy_path, page.html());
-		});
-	await generate_rss_feed(blog_entries);
+	await Promise.all([
+		process_blog_index(blog_entries, pages_context)
+			.then(async function (page) {
+				const deploy_path = DEPLOY_DIR + "/blog/index.html";
+				await create_parent_directory(deploy_path); // Shouldn't be needed.
+				await Deno.writeTextFile(deploy_path, page.html());
+			}),
+		generate_rss_feed(blog_entries)
+	]);
 }

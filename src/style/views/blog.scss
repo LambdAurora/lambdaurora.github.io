@@ -1,0 +1,35 @@
+/*
+ * Copyright 2026 LambdAurora <email@lambdaurora.dev>
+ *
+ * This file is part of LambdaStyle.
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/.
+ */
+
+@use "../base/colors" as colors;
+@use "sass:map";
+
+$theme_aurora_background_popover: map.get(map.get(colors.$theme_aurora, "background"), "popover");
+$theme_layla_background_popover: map.get(map.get(colors.$theme_layla, "background"), "popover");
+
+.ls_blog_index {
+	display: flex;
+	flex-direction: column;
+
+	> .ls_card {
+		margin-top: 1em;
+		margin-bottom: 1em;
+
+		&[authors="Aurore,Layla"] {
+			background: linear-gradient(120deg, map.get($theme_aurora_background_popover, "light"), map.get($theme_layla_background_popover, "light"))
+		}
+	}
+}
+
+@media screen and (prefers-color-scheme: dark) {
+	.ls_blog_index > .ls_card[authors="Aurore,Layla"] {
+		background: linear-gradient(120deg, map.get($theme_aurora_background_popover, "dark"), map.get($theme_layla_background_popover, "dark"))
+	}
+}
