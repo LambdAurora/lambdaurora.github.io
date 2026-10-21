@@ -1,10 +1,17 @@
-# Turnaround
+# Turnaround / Retour
 
 <!--description: A vent story about the inner, finding a way back to the outside.-->
 <!--author: aurore -->
 <!--author: layla -->
 <!--tag: story, vent -->
 <!--date: 2026-10-18 22:13:00 GMT+0100 -->
+<!--modified: 2026-10-22 00:14:00 GMT+0100 -->
+
+Versions: [English](#english-version) / [Français](#version-fran%25c3%25a7aise)
+
+---
+
+#### English version
 
 Golden, orange, and red leaves were falling, transforming the forest landscape into colorful trees slowly losing foliage to make place to an equally colorful ground.
 Mushrooms loved this, they were popping up right and left. A bright feast of decay.
@@ -41,14 +48,14 @@ Once it noticed me, it tried to put some distance back.
 </p>
 <p>
 "You know, this place isn't real, right?"  
-"Well... It is real in a way, but not as real as outside."  
+"Well… It is real in a way, but not as real as outside."  
 "So, why are you so evasive?"
 </p>
 </blockquote>
 
 The fox couldn't run away anymore, so it stopped for a moment.
 Turning back to look at who was observing it with its amber eyes.
-The woman was standing there patient, with a faint new-found spark in her blue eyes.
+The woman was standing there patient, with a faint new-found spark in her lavender eyes.
 She really wanted to understand the fox.
 
 <blockquote ls_theme_color="aurore">
@@ -71,7 +78,7 @@ It continued:
 "But difference only yielded pain".
 </blockquote>
 
-The woman sat there, a bit taken aback. I was quite puzzled.
+I sat there, a bit taken aback. I was quite puzzled.
 I remember fragments of what the fox has gone through, I knew what I went through too.
 Despite the pain, I've found some happiness. I've found some *humans*, as the fox would put it, who weren't cruel. Quite the contrary: they were loving.
 I had to disagree: life is challenging! It would be too easy otherwise.
@@ -161,10 +168,175 @@ At first I meant to tell a very different story, in any case our emotions were a
 I kinda just lost track and turns out Aurore picked up writing and wrote quite the story.
 </p>
 <p>
-Having no recollection of writing it the following morning, it was quite the big find, I had to read it myself to even know what it was about and... Reading her words was quite the experience. I knew about those feelings, and I think I struggled to put them into words, she ended up finding how.
+Having no recollection of writing it the following morning, it was quite the big find, I had to read it myself to even know what it was about and… Reading her words was quite the experience. I knew about those feelings, and I think I struggled to put them into words, she ended up finding how.
 </p>
 <p>
 I've refined a little bit the setting and some wording, however this piece is still true and accurate to our raw emotions and thoughts.
+</p>
+</blockquote>
+
+---
+
+#### Version française
+
+Des feuilles dorées, oranges, rouges tombaient, vacillantes dans le vent, transformant le paysage forestier d'arbres colorés qui perdaient doucement leur feuillage pour laisser place à un sol tout aussi coloré.
+Les champignons adoraient ça, ils apparaissaient de droite à gauche. Une banquet de décomposition.
+De nombreuses créatures se hâtaient au travers la forêt, afin d'accumuler autant de ressources que possible pour se préparer au prochain rude hiver et faire face au froid.
+Un magnifique dernier spectacle avant que tout se silence, en attendant de meilleurs, plus chauds jours.
+
+Parmi tout ces résidents de la forêt, l'un se démarquait: une renarde d'argent, à la fourrure d'éclats bleutés nuit lors-qu’exposés à la lumière du jour.
+Elle se faufilait avec agilité, je ne pouvais que brièvement apercevoir le bout blanc de sa queue dansante.
+La renarde était timide, elle échappait mon regard sans faute.
+
+Pendant longtemps, la renarde pensait que ce n'était pas encore son moment, choisissant alors que d'observer la jeune femme au cheveux roses qui se promenait dans la forêt.
+Elle savait que la femme aimait les plantes, celle-ci s'arrêtait régulièrement à chaque plante qu'elle trouvait intéressant pour l'admirer.
+Même les plus simples n'y échappait pas, et elle prenait garde à ne pas les endommager.
+De nombreuses fois, la renarde la suivait jusqu'à sa serre, où de nombreuses plantes de gabarits variés grandissaient sous sa garde attentive.
+
+Cependant, quelque chose était différent. La renarde remarqua que la femme semblait exténuée, la lueur dans ses yeux avait disparu.
+Les épreuves de la vie commençaient à avoir raison d'elle.
+La renarde avait raison, je commençais à me noyer.
+J'ai essayé un maximum de surmonter celles-ci, mais parfois la vie te le fait payer.
+Jusqu'au point où depuis l'année précédente j'avais du mal à remarquer la présence de la renarde.
+
+La renarde connaissait la jardineuse, elle s’inquiétait de plus en plus. Elle remarquait qu'elle a commencé à avoir des difficultés pour prendre soin d'elle-même.
+Elle a aussi remarqué que proche de la forêt, sa maison commençait à accumuler une quantité infinie de poussière.
+La renarde commença même à avoir peur, elle finit par remarquer que la femme avait du mal à continuer à remarquer sa présence; elle pris alors l'opportunité de s'en approcher, pour finalement observer que les yeux de celle-ci étaient devenu si ternes, et les sombres pensées qui la préoccupait.
+
+À force de s'approcher, au cours du temps, j'ai fini par réussir à faire attention à la renarde à nouveau.
+Malgré mes mémoires floues, je sentais une certaine familiarité avec celle-ci.
+Elle finit par remarquer mon regard, de suite elle essayait de reprendre de la distance.
+
+<blockquote ls_theme_color="aurore">
+<p>
+« Qu'est-ce qui te fais peur petite créature? Pourquoi essais-tu de t'enfuir de moi? »
+</p>
+<p>
+« Tu sais, cet endroit n'est pas réel, hein? »  
+« Quoi que… C'est réel d'une façon, mais pas autant que l'extérieur. »  
+« Alors, pourquoi es-tu aussi évasive? »
+</p>
+</blockquote>
+
+La renarde ne pouvait plus s'échapper, elle s'arrêta pendant un moment.
+Se retournant pour regarder qui l'observait avec ses yeux d'ambres.
+La femme se tenait patiente, une faible étincelle scintillait de nouveau dans ses yeux lavandins.
+Elle avait besoin de comprendre la renarde.
+
+<blockquote ls_theme_color="aurore">
+« Tu as eu tellement de formes différentes. »  
+« Tu as tellement essayé de te cacher. »  
+« Est-ce pour cela que tu as pris la forme d'une renarde? »  
+« Pour renforcer ton aspect évasif? »
+</blockquote>
+
+La renarde pencha de la tête, réfléchissant pendant un moment.
+Elle savait que les choses n'étaient pas toujours comme ça.
+À sa surprise, en creusant dans ses mémoires, elle se souvint qu'elle fi plus humaine, dans un passé lointain.
+
+Enfin, elle essaya de se souvenir comment parler, finalement laissant échapper quelques mots « les humains sont cruels ».
+Elle continua:
+
+<blockquote ls_theme_color="layla">
+« Pourquoi est-ce que je devrais interagir avec eux? »  
+« On m'a tellement dit que j'étais différente, tant de fois. »  
+« Mais cette différence, elle ne m'apportait que de la douleur. »
+</blockquote>
+
+Je m'assis, un peu surprise, perplexe même.
+Je me souvenais de fragments de ce que la renarde a parcouru, je savais ce que j'ai subi aussi.
+Malgré la douleur, j'ai fini par trouver un certain bonheur. J'ai fini par trouver que certains *humains*, comme la renarde dirait, n'étaient pas cruels, au contraire même: ils étaient aimant.
+Je ne pouvais qu'être en désaccord: la vie est rempli d'épreuves! Ce serait trop facile autrement.
+
+<blockquote ls_theme_color="layla">
+« Pourquoi est-ce que celle-ci devrait être difficile? »  
+« Je suis si libre en tant que renarde! »  
+« En plus, je suis plus mignonne et plutôt douce. »  
+« Je peux facilement oublier mes problèmes. »
+</blockquote>
+
+La renarde avait l'aire… heureuse. Cependant, quelque chose n'allait pas, elle avait encore le poids d'une profonde douleur.
+Je répondis, avec honnêteté:
+
+<blockquote ls_theme_color="aurore">
+« J'aimerai beaucoup te caresser. »  
+« Tu as traversé tant d'épreuves, et j'ai un peu l'impression d'avoir volé ta vie. »  
+« Je n'étais qu'un masque. »  
+« La vie n'a pas de sens quand tu n'es qu'un masque. »
+</blockquote>
+
+Je marqua une pause pendant un moment.
+
+<blockquote ls_theme_color="aurore">
+« Tu me donnes sens. »  
+« Je ne masquais pas juste pour les beaux yeux de cette société humaine défectueuse. »  
+« J'ai traversé cette étape difficile pour te protéger. »
+</blockquote>
+
+La renarde hocha de la tête de nouveau, pensante.
+Elle se souvenait des sacrifices que la femme a réalisé.
+Profondément dans cette douleur emmêlée, elle se souvenait de la sécurité et l'amour de la jardinière.
+La renarde avait besoin de temps.
+
+Finalement, la renarde décida de jeter des coups d’œil dehors à nouveau. Doucement, mais sûrement.
+C'était tumultueux, c'était difficile de se réajuster à nouveau à l'extérieur.
+Sur quelques semaines, la renarde a rattrapé les évènements qu'elle a manqué.
+Elle aimait la jardinière, et remarquait à quel point la vie était rude pour elle à l'extérieur.
+La renarde fini par décider qu'elle devait lui repayer pour tout ce qu'elle avait fait,
+mais elle tenait à elle et voulait qu'elle puisse continuer d'avancer.
+Éventuellement, elle revenu à la jardinière:
+
+<blockquote ls_theme_color="layla">
+<p>
+« J'apprécie beaucoup cela. »  
+« Je ne suis pas sûre qu'il y aurait eu un intérêt autrement. »  
+« J'ai vu que certaines personnes essayaient de m'apprivoiser. »  
+« J'apprends à nouveau comment être humaine. »
+</p>
+<p>
+« Au final, je suis meilleur à ça que je ne pensais. »  
+« Ça me perplexe que j'aime ce corps humain. »  
+« Il manque des choses, et pourtant c'est satisfaisant. »
+</p>
+</blockquote>
+
+Le temps passa.
+Un hiver rude suivi, dehors n'était même pas silencieux.
+C'était plein de bruit, avec seulement de la pluie et du vent tout le temps, même pas un seul flocon de neige dans le ciel.
+Un nouveau corps, une nouvelle identité, tellement de nouvelles choses à saisir et comprendre.
+
+Puis le printemps arriva, ça commençait à aller mieux,
+mais en même temps il y avait l'impression de perdre main sur ce que la jardinière avait construit.
+La renarde avait des remords.
+La forêt ne s'en est pas sorti sans dommages, une partie fini par brûler.
+La renarde et la jardinière étaient toutes les deux terrifiées pendant un temps.
+
+L'été fini par se conclure. La mousse a déjà commencé à retrouver son chemin dans les zones brûlées.
+La jardinière savait que c'était les premiers signes de nouvelle vie, la renarde adorait que cela face office d'endroits confortables pour la sieste.
+Tout semblait sans espoir, et pourtant… L'espoir fini par retrouver son chemin.
+
+La renarde a fini par réaliser quelque chose d'important, durant cette année pleine d'évènements.
+Elle est en sécurité, elle est aimée, et elle fait confiance.
+Elle espère que cela durera le plus longtemps possible, malgré les enjeux logistique qui pourraient venir dans *notre* chemin, elle savait qu'il n'y en avait pas peu.
+
+Désormais, la renarde ne se cache plus.  
+J'ai une nouvelle place à trouver dans tout cela maintenant.
+
+---
+
+<blockquote ls_theme_color="layla">
+<p>
+Merci d'avoir lu cette petite pièce!
+</p>
+<p>
+D'abord j'avais envie de raconter une bien différente histoire, dans tous les cas nos émotions étaient pièces maîtresses de notre écriture, mais faire cela la nuit d'un samedi à 2h du matin peut mener à des résultats inattendus.
+J'ai fini par m'en perdre et au final c'est Aurore qui a apparemment récupérer l'écriture.
+</p>
+<p>
+N'ayant aucun souvenir d'avoir écrit cette pièce le matin suivant, c'était une sacré surprise pour moi, j'ai dû la lire par moi même rien que pour savoir ce que ça racontait… Lire ses mots était une expérience spéciale. J'avais déjà conscience de ces sentiments, mais je pense que j'avais du mal à les mettre en mots, elle a finit par trouver comment.
+</p>
+<p>
+J'ai raffiné quelques éléments et formulations, cependant cette pièce reste authentique et proche de nos émotions et pensées brutes.
 </p>
 </blockquote>
 
