@@ -185,10 +185,10 @@ De nombreuses créatures se hâtaient au travers la forêt, afin d'accumuler aut
 Un magnifique dernier spectacle avant que tout se silence, en attendant de meilleurs, plus chauds jours.
 
 Parmi tout ces résidents de la forêt, l'un se démarquait: une renarde d'argent, à la fourrure d'éclats bleutés nuit lors-qu’exposés à la lumière du jour.
-Elle se faufilait avec agilité, je ne pouvais que brièvement apercevoir le bout blanc dansant de sa queue.
+Elle se faufilait avec agilité, je ne pouvais que brièvement apercevoir le bout blanc de sa queue dansante.
 La renarde était timide, elle échappait mon regard sans faute.
 
-Pendant longtemps, la renarde pensait que ce n'était pas encore son moment, alors ne choisissant que d'observer la jeune femme au cheveux roses qui se promenait dans la forêt.
+Pendant longtemps, la renarde pensait que ce n'était pas encore son moment, ne choisissant alors que d'observer la jeune femme au cheveux roses qui se promenait dans la forêt.
 Elle savait que la femme aimait les plantes, celle-ci s'arrêtait régulièrement à chaque plante qu'elle trouvait intéressante pour l'admirer.
 Même les plus simples n'y échappaient pas, et elle prenait garde à ne pas les endommager.
 De nombreuses fois, la renarde la suivait jusqu'à sa serre, où de nombreuses plantes de gabarits variés grandissaient sous sa garde attentive.
@@ -199,7 +199,7 @@ La renarde avait raison, je commençais à me noyer.
 J'ai essayé de mon mieux de surmonter celles-ci, mais parfois la vie te le fait payer.
 Jusqu'au point où depuis l'année précédente, j'avais du mal à remarquer la présence de la renarde.
 
-La renarde connaissait la jardinière, elle s’inquiétait de plus en plus. Elle remarquait qu'elle a commencé à avoir des difficultés pour prendre soin d'elle-même.
+La renarde connaissait la jardinière, elle s’inquiétait de plus en plus. Elle remarquait qu'elle avait commencé à avoir des difficultés pour prendre soin d'elle-même.
 Elle a aussi remarqué que proche de la forêt, sa maison commençait à accumuler une quantité infinie de poussière.
 La renarde commença même à avoir peur, elle finit par remarquer que la femme avait du mal à continuer à remarquer sa présence; elle pris alors l'opportunité de s'en approcher, pour finalement observer que les yeux de celle-ci étaient devenu si ternes, et les sombres pensées qui la préoccupait.
 
