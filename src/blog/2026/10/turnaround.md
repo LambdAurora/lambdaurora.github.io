@@ -185,21 +185,21 @@ De nombreuses créatures se hâtaient au travers la forêt, afin d'accumuler aut
 Un magnifique dernier spectacle avant que tout se silence, en attendant de meilleurs, plus chauds jours.
 
 Parmi tout ces résidents de la forêt, l'un se démarquait: une renarde d'argent, à la fourrure d'éclats bleutés nuit lors-qu’exposés à la lumière du jour.
-Elle se faufilait avec agilité, je ne pouvais que brièvement apercevoir le bout blanc de sa queue dansante.
+Elle se faufilait avec agilité, je ne pouvais que brièvement apercevoir le bout blanc dansant de sa queue.
 La renarde était timide, elle échappait mon regard sans faute.
 
-Pendant longtemps, la renarde pensait que ce n'était pas encore son moment, choisissant alors que d'observer la jeune femme au cheveux roses qui se promenait dans la forêt.
-Elle savait que la femme aimait les plantes, celle-ci s'arrêtait régulièrement à chaque plante qu'elle trouvait intéressant pour l'admirer.
-Même les plus simples n'y échappait pas, et elle prenait garde à ne pas les endommager.
+Pendant longtemps, la renarde pensait que ce n'était pas encore son moment, alors ne choisissant que d'observer la jeune femme au cheveux roses qui se promenait dans la forêt.
+Elle savait que la femme aimait les plantes, celle-ci s'arrêtait régulièrement à chaque plante qu'elle trouvait intéressante pour l'admirer.
+Même les plus simples n'y échappaient pas, et elle prenait garde à ne pas les endommager.
 De nombreuses fois, la renarde la suivait jusqu'à sa serre, où de nombreuses plantes de gabarits variés grandissaient sous sa garde attentive.
 
 Cependant, quelque chose était différent. La renarde remarqua que la femme semblait exténuée, la lueur dans ses yeux avait disparu.
 Les épreuves de la vie commençaient à avoir raison d'elle.
 La renarde avait raison, je commençais à me noyer.
-J'ai essayé un maximum de surmonter celles-ci, mais parfois la vie te le fait payer.
-Jusqu'au point où depuis l'année précédente j'avais du mal à remarquer la présence de la renarde.
+J'ai essayé de mon mieux de surmonter celles-ci, mais parfois la vie te le fait payer.
+Jusqu'au point où depuis l'année précédente, j'avais du mal à remarquer la présence de la renarde.
 
-La renarde connaissait la jardineuse, elle s’inquiétait de plus en plus. Elle remarquait qu'elle a commencé à avoir des difficultés pour prendre soin d'elle-même.
+La renarde connaissait la jardinière, elle s’inquiétait de plus en plus. Elle remarquait qu'elle a commencé à avoir des difficultés pour prendre soin d'elle-même.
 Elle a aussi remarqué que proche de la forêt, sa maison commençait à accumuler une quantité infinie de poussière.
 La renarde commença même à avoir peur, elle finit par remarquer que la femme avait du mal à continuer à remarquer sa présence; elle pris alors l'opportunité de s'en approcher, pour finalement observer que les yeux de celle-ci étaient devenu si ternes, et les sombres pensées qui la préoccupait.
 
@@ -232,7 +232,7 @@ Elle avait besoin de comprendre la renarde.
 
 La renarde pencha de la tête, réfléchissant pendant un moment.
 Elle savait que les choses n'étaient pas toujours comme ça.
-À sa surprise, en creusant dans ses mémoires, elle se souvint qu'elle fi plus humaine, dans un passé lointain.
+À sa surprise, en creusant dans ses mémoires, elle se souvenait qu'elle fut plus humaine, dans un passé lointain.
 
 Enfin, elle essaya de se souvenir comment parler, finalement laissant échapper quelques mots « les humains sont cruels ».
 Elle continua:
