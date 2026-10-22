@@ -1,6 +1,6 @@
 # Turnaround / Retour
 
-<!--description: A vent story about the inner, finding a way back to the outside.-->
+<!--description: A story about the inner, emotions, and finding a way back to the outside.-->
 <!--author: aurore -->
 <!--author: layla -->
 <!--tag: story, vent -->
