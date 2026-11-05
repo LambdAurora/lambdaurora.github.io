@@ -2,6 +2,7 @@
 
 import { debounce } from "@std/async/debounce";
 import { AsyncLock } from "@olli/async-lock";
+import { concat_path, hash_files } from "../fs.ts";
 
 export type OutputKind = "file" | "directory" | "empty_directory";
 
@@ -24,6 +25,8 @@ export abstract class Task {
 	 * Input files to watch changes for.
 	 */
 	public readonly input_files: string[];
+	private _dependencies: Task[] = [];
+	private dependents: Task[] = [];
 	private output_files: {readonly path: string; readonly kind: OutputKind}[] = [];
 
 	constructor(public readonly name: string, input_files: string[]) {
@@ -33,16 +36,69 @@ export abstract class Task {
 	protected abstract do_action(context: TaskExecutionContext): Promise<boolean>;
 
 	/**
+	 * Marks the given task as a dependency of this task.
+	 *
+	 * @param dependency this task's dependency
+	 */
+	public depends(dependency: Task) {
+		this._dependencies.push(dependency);
+		dependency.dependents.push(this);
+	}
+
+	/**
+	 * @returns the dependencies of this task
+	 */
+	public get dependencies(): readonly Task[] {
+		return this._dependencies;
+	}
+
+	private async hash_input() {
+		return await hash_files(this.input_files);
+	}
+
+	/**
 	 * Runs this task.
 	 *
 	 * @returns `true` on success, or `false` otherwise
 	 */
-	public async run(system: BuildSystem): Promise<boolean> {
-		if (this.output_files.length !== 0) {
-			await this.clean();
+	public async run(system: BuildSystem, watch: boolean, parent_changed: boolean): Promise<boolean> {
+		const hash_path = concat_path(system.build_dir, this.name + ".hash");
+		const hash = await this.hash_input();
+
+		try {
+			const old_hash = await Deno.readTextFile(hash_path);
+
+			if (old_hash === hash && !parent_changed) {
+				return true;
+			}
+		} catch (_) {
+			// Ignore.
 		}
 
-		return await this.run_action(system);
+		if (!watch) {
+			for (const dependency of this.dependencies) {
+				const result = await dependency.run(system, false, false);
+				if (!result) {
+					return false;
+				}
+			}
+		}
+
+		if (this.output_files.length !== 0) {
+			await this.clean(system);
+		}
+
+		const result = await this.run_action(system);
+		await Deno.writeTextFile(hash_path, hash);
+
+		if (result && watch) {
+			for (const dependent of this.dependents) {
+				if (!await dependent.run(system, true, true))
+					return false;
+			}
+		}
+
+		return result;
 	}
 
 	private async run_action(system: BuildSystem): Promise<boolean> {
@@ -70,7 +126,11 @@ export abstract class Task {
 	/**
 	 * Cleans the output of this task.
 	 */
-	public async clean(): Promise<void> {
+	public async clean(system: BuildSystem): Promise<void> {
+		if (system.verbose) {
+			console.log(`> Task \x1b[36;1m${this.name}\x1b[0m - \x1b[31;1mCLEANING\x1b[0m`);
+		}
+
 		const tasks: Promise<void>[] = [];
 
 		for (const file of this.output_files) {
@@ -94,6 +154,9 @@ export abstract class Task {
 					}
 				}
 			} else {
+				if (system.verbose) {
+					console.log(`  Queue ${file.path} for removal...`);
+				}
 				tasks.push(Deno.remove(file.path, { recursive: file.kind === "directory" })
 					.catch(error => {
 						if (!(error instanceof Deno.errors.NotFound)) {
@@ -132,14 +195,35 @@ export class BuildTask extends Task {
  */
 export class BuildSystem {
 	private tasks: Task[] = [];
+	public verbose: boolean = false;
+
+	constructor(public readonly build_dir: string) {
+	}
 
 	public register_task(task: Task): void {
 		this.tasks.push(task);
 	}
 
+	private create_pipeline(): Task[] {
+		const pipeline = [...this.tasks];
+		const dependencies = [];
+
+		for (const task of pipeline) {
+			dependencies.push(...task.dependencies);
+		}
+
+		for (const dependency of dependencies) {
+			const index = pipeline.indexOf(dependency);
+			if (index === -1) continue;
+			pipeline.splice(index, 1);
+		}
+
+		return pipeline;
+	}
+
 	public async run(fatal: boolean): Promise<void> {
-		for (const task of this.tasks) {
-			if (!await task.run(this)) {
+		for (const task of this.create_pipeline()) {
+			if (!await task.run(this, false, false)) {
 				if (fatal) {
 					Deno.exit(1);
 				}
@@ -148,12 +232,12 @@ export class BuildSystem {
 	}
 
 	public async run_except(tasks: Task[]): Promise<boolean> {
-		for (const task of this.tasks) {
+		for (const task of this.create_pipeline()) {
 			if (tasks.includes(task)) {
 				continue;
 			}
 
-			if (!await task.run(this)) {
+			if (!await task.run(this, false, false)) {
 				return false;
 			}
 		}
@@ -193,7 +277,7 @@ export class BuildWatcher {
 		task.input_files.forEach(input_file => console.log(`  - ` + input_file));
 
 		const action = debounce(async (_: Deno.FsEvent) => {
-			await this.lock.run(() => task.run(this.system));
+			await this.lock.run(() => task.run(this.system, true, false));
 			await Promise.all(
 				this.listeners.map(listener => listener())
 			);
@@ -219,7 +303,6 @@ export class BuildWatcher {
 	}
 
 	public shutdown(): void {
-		console.log("Yeet watchers")
 		this.watchers.forEach(watcher => watcher.close());
 	}
 }

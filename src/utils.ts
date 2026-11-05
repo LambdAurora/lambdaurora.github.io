@@ -2,6 +2,7 @@ import * as html from "@lambdaurora/libhtml";
 import * as md from "@lambdaurora/libmd";
 import katex from "@katex/katex.mjs";
 import { process_heading } from "./engine/article.ts";
+import { crypto } from "@std/crypto";
 
 export const WEBSITE = "https://lambdaurora.dev";
 export const BUILD_DIR = "./build";
@@ -122,7 +123,7 @@ export async function create_parent_directory(path: string) {
  * @returns the hash of the file
  */
 export async function get_file_hash(path: string): Promise<string> {
-	return await Deno.readFile(path).then(data => crypto.subtle.digest("SHA-1", data)).then(data => DECODER.decode(data));
+	return await Deno.open(path, { read: true }).then(file => crypto.subtle.digest("SHA-1", file.readable)).then(data => DECODER.decode(data));
 }
 
 /**
@@ -132,6 +133,6 @@ export async function get_file_hash(path: string): Promise<string> {
  * @param path the path to the file
  * @returns the text
  */
-export async function readTextFile(path: string): Promise<string> {
+export async function read_text_file(path: string): Promise<string> {
 	return await Deno.readTextFile(path).then(data => data.replaceAll(/\r?\n/g, "\n"));
 }

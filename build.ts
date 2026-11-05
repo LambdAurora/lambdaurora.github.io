@@ -32,10 +32,10 @@ const pages_context = new PagesContext(
 	"src/views",
 );
 
-const build_system = new BuildSystem();
+const build_system = new BuildSystem(BUILD_DIR);
 
 const assets_step = new CopyStaticResourcesTask(
-	"Copy Public Assets",
+	"copy_public_assets",
 	["./public"],
 	DEPLOY_DIR,
 );
@@ -43,7 +43,7 @@ build_system.register_task(assets_step);
 
 const sass_compiler = initCompiler();
 const style_step = new BuildTask(
-	"Style",
+	"style",
 	async (context) => {
 		const deployed_style_dir = DEPLOY_DIR + "/style";
 
@@ -100,7 +100,7 @@ const style_step = new BuildTask(
 build_system.register_task(style_step);
 
 const components_task = new BuildTask(
-	"Components",
+	"components",
 	async () => {
 		await COMPONENTS.load_all();
 		return true;
@@ -109,43 +109,49 @@ const components_task = new BuildTask(
 );
 build_system.register_task(components_task);
 
-const build_step = new BuildTask(
-	"Build",
+const blog_step = new BuildTask(
+	"blog",
 	async (context) => {
-		console.log("Cleaning build directory...");
-		try {
-			await Deno.remove(BUILD_DIR, { recursive: true });
-		} catch (e) {
-			if (!(e instanceof Deno.errors.NotFound)) {
-				throw e;
-			}
-		}
+		await process_all_blog_entries(pages_context);
+		context.push_output(DEPLOY_DIR + "/blog", "directory");
+		return true;
+	},
+	["./src/templates/page.html", "./src/blog"],
+);
+blog_step.depends(components_task);
+build_system.register_task(blog_step);
 
-		const result = await context.run_all_others();
+const tutorials_step = new BuildTask(
+	"tutorials",
+	async (context) => {
+		await process_all_tutorials(pages_context);
+		context.push_output(DEPLOY_DIR + "/tutorials", "directory");
+		return true;
+	},
+	["./src/templates/page.html", "./src/tutorials"],
+);
+tutorials_step.depends(components_task);
+build_system.register_task(tutorials_step);
 
-		if (!result && !(args.serve && args.debug)) {
-			return result;
-		}
-
+const build_step = new BuildTask(
+	"build",
+	async (context) => {
 		console.log("Building pages...");
 
-		await process_all_pages(
+		(await process_all_pages(
 			pages_context,
 			pages_context.views_root,
 			DEPLOY_DIR,
-		);
-		await process_all_tutorials(pages_context);
-		await process_all_blog_entries(pages_context);
+		)).forEach(({path, kind}) => context.push_output(path, kind));
 
-		console.log("Build completed.");
-
-		return result;
+		return true;
 	},
-	["./src/templates", "./src/views", "./src/tutorials", "./src/blog"],
+	["./src/templates/page.html", "./src/views"],
 );
+build_step.depends(components_task);
 build_system.register_task(build_step);
 
-await build_step.run(build_system);
+await build_system.run(!(args.serve && args.debug));
 
 if (args.serve) {
 	let watcher: BuildWatcher | undefined = undefined;

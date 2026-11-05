@@ -8,7 +8,7 @@
 
 // deno-lint-ignore-file no-explicit-any
 import * as html from "@lambdaurora/libhtml";
-import { get_file_hash, readTextFile } from "../utils.ts";
+import { get_file_hash, read_text_file } from "../utils.ts";
 import { PageData, PreloadEntrySpec } from "./page_data.ts";
 import { dirname, resolve, toFileUrl } from "@std/path";
 import { ApplicationData } from "./app.ts";
@@ -322,7 +322,7 @@ export const COMPONENTS = {
 			const dir = dirname(absolute_path);
 			const template_path = resolve(dir, component_data.template.path);
 
-			template = await readTextFile(template_path);
+			template = await read_text_file(template_path);
 		}
 
 		const template_node = html.create_element("$template");

@@ -11,8 +11,9 @@ import { Application } from "./app.ts";
 import { ComponentContext, process_nodes } from "./component.ts";
 import { PageData, PreloadEntrySpec, StyleEntrySpec } from "./page_data.ts";
 import { resolve_embed, ViewSpec } from "./view.ts";
-import { create_parent_directory, get_file_hash, readTextFile } from "../utils.ts";
+import { create_parent_directory, read_text_file } from "../utils.ts";
 import { OutputKind } from "./build_tool/build.ts";
+import { get_file_hash } from "./fs.ts";
 
 export class PagesContext {
 	constructor(
@@ -26,7 +27,7 @@ export class PagesContext {
 	}
 
 	async load_page_template(): Promise<html.Node[]> {
-		return html.parse_nodes(await readTextFile(this.template_path))
+		return html.parse_nodes(await read_text_file(this.template_path))
 			.filter((node) => {
 				if (node instanceof html.Element) {
 					node.purge_blank_children();
@@ -217,7 +218,7 @@ async function process_head(
 }
 
 async function load_view_file(view_path: string) {
-	const source = await readTextFile(view_path);
+	const source = await read_text_file(view_path);
 	return html.parse(source) as html.Element;
 }
 
