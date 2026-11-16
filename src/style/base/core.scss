@@ -41,3 +41,9 @@ a {
 		text-decoration: revert;
 	}
 }
+
+.layra_link {
+	background: var(--ls_theme_blend_al_primary);
+	background-clip: text;
+	color: transparent !important;
+}

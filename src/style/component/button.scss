@@ -53,7 +53,7 @@
 	}
 
 	&::after, &::before {
-		background-color: var(--ls_btn_hover_shade_color);
+		background: var(--ls_btn_hover_shade_color);
 	}
 
 	&:hover {
